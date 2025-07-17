@@ -1,10 +1,10 @@
 {
-  "name": "vscode-postfix-ts",
-  "displayName": "TS/JS postfix completion",
-  "description": "Postfix templates for TypeScript/Javascript",
-  "version": "1.13.2",
+  "name": "vscode-postfix-templates-python",
+  "displayName": "Python postfix templates",
+  "description": "Postfix templates for Python - extension for VS Code",
+  "version": "1.0.0",
   "license": "MIT",
-  "publisher": "ipatalas",
+  "publisher": "tzengshinfu",
   "engines": {
     "vscode": "^1.60.0"
   },
@@ -15,20 +15,13 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/ipatalas/vscode-postfix-ts"
+    "url": "https://github.com/tzengshinfu/vscode-postfix-templates-python"
   },
   "bugs": {
-    "url": "https://github.com/ipatalas/vscode-postfix-ts/issues"
+    "url": "https://github.com/tzengshinfu/vscode-postfix-templates-python/issues"
   },
   "activationEvents": [
-    "onLanguage:javascript",
-    "onLanguage:typescript",
-    "onLanguage:javascriptreact",
-    "onLanguage:typescriptreact",
-    "onLanguage:vue",
-    "onLanguage:html",
-    "onLanguage:svelte",
-    "workspaceContains:.enable-postfix"
+    "onLanguage:python"
   ],
   "main": "./out/extension",
   "contributes": {
