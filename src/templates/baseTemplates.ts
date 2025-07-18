@@ -65,19 +65,30 @@ export abstract class BaseTemplate implements IPostfixTemplate {
   }
 
   protected unwindBinaryExpression = (node: ts.Node, removeParens = true) => {
-    let binaryExpression = removeParens && ts.isParenthesizedExpression(node) && ts.isBinaryExpression(node.expression)
-      ? node.expression
-      : ts.findAncestor(node, ts.isBinaryExpression)
+    let binaryExpression: ts.BinaryExpression | undefined
 
-    while (binaryExpression && ts.isBinaryExpression(binaryExpression.parent)) {
+    if (
+      removeParens &&
+      ts.isParenthesizedExpression(node) &&
+      ts.isBinaryExpression(node.expression) &&
+      !isAssignmentBinaryExpression(node.expression)
+    ) {
+      binaryExpression = node.expression
+    } else {
+      binaryExpression = ts.findAncestor(node, (n: ts.Node): n is ts.BinaryExpression =>
+        ts.isBinaryExpression(n) && !isAssignmentBinaryExpression(n)
+      ) ?? undefined
+    }
+
+    while (
+      binaryExpression &&
+      ts.isBinaryExpression(binaryExpression.parent) &&
+      !isAssignmentBinaryExpression(binaryExpression.parent)
+    ) {
       binaryExpression = binaryExpression.parent
     }
 
-    if (binaryExpression && !isAssignmentBinaryExpression(binaryExpression)) {
-      return binaryExpression
-    }
-
-    return node
+    return binaryExpression ?? node
   }
 
   protected isAnyFunction = (node: ts.Node) => {
