@@ -36,7 +36,7 @@ export class CustomTemplate extends BaseTemplate {
   }
 
   canUse(node: ts.Node): boolean {
-    return node.parent && (this.when.length === 0 || this.when.some(w => this.condition(node, w)))
+    return this.isNotInString(node) && node.parent && (this.when.length === 0 || this.when.some(w => this.condition(node, w)))
   }
 
   condition = (node: ts.Node, when: string) => {

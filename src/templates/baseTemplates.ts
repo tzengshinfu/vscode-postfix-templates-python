@@ -122,6 +122,18 @@ export abstract class BaseTemplate implements IPostfixTemplate {
 
     return node.parent && this.inTypeReference(node.parent)
   }
+
+  protected isNotInString = (node: ts.Node) => {
+    if (ts.isStringLiteral(node)) {
+      const text = node.getFullText().trim()
+      const firstChar = text[0]
+      const lastChar = text[text.length - 1]
+
+      return firstChar === lastChar
+    }
+
+    return true
+  }
 }
 
 export abstract class BaseExpressionTemplate extends BaseTemplate {
