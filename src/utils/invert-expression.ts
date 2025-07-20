@@ -35,11 +35,12 @@ export const invertBinaryExpression = (expr: ts.BinaryExpression, addOrBrackets 
 }
 
 export const invertExpression = (expr: ts.Node, addOrBrackets = false) => {
-  // !(expr) => expr
-  if (ts.isPrefixUnaryExpression(expr) && expr.operator === ts.SyntaxKind.ExclamationToken) {
-    if (ts.isParenthesizedExpression(expr.operand) && ts.isBinaryExpression(expr.operand.expression)) {
-      return expr.operand.expression.getText()
-    }
+  const text = expr.getText()
+
+  // not (expr) => expr
+  const notWithBracketsPattern = /(not)(\s*)(\()(.*)(\))/g
+  if (notWithBracketsPattern.test(text)) {
+    return text.replace(notWithBracketsPattern, "$4");
   }
 
   // (x > y) => (x <= y)
@@ -50,17 +51,14 @@ export const invertExpression = (expr: ts.Node, addOrBrackets = false) => {
     }
   }
 
-  const text = expr.getText()
-
   if (ts.isBinaryExpression(expr)) {
     // x > y => x <= y
     const result = invertBinaryExpression(expr, addOrBrackets)
     if (result) {
       return result
     }
-
-    return text.startsWith('!') ? text.substring(1) : `!(${text})`
   }
 
-  return text.startsWith('!') ? text.substring(1) : `!${text}`
+  const notPattern = /(not)(\s*)(.*)/g
+  return notPattern.test(text) ? text.replace(notPattern, "$3") : `not ${text}`
 }
