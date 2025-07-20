@@ -1,17 +1,12 @@
 import * as vsc from 'vscode'
 import { IPostfixTemplate } from '../template'
 import { AwaitTemplate } from '../templates/awaitTemplate'
-import { CastTemplate } from '../templates/castTemplates'
-import { ConsoleTemplate } from '../templates/consoleTemplates'
 import { CustomTemplate } from '../templates/customTemplate'
 import { EqualityTemplate } from '../templates/equalityTemplates'
 import { ForTemplate, ForOfTemplate, ForEachTemplate, ForInTemplate } from '../templates/forTemplates'
 import { IfTemplate, ElseTemplate, IfEqualityTemplate } from '../templates/ifTemplates'
-import { NewTemplate } from '../templates/newTemplate'
 import { NotTemplate } from '../templates/notTemplate'
-import { PromisifyTemplate } from '../templates/promisifyTemplate'
 import { ReturnTemplate } from '../templates/returnTemplate'
-import { VarTemplate } from '../templates/varTemplates'
 import { CallTemplate } from '../templates/callTemplate'
 import { PythonTemplate } from '../templates/pythonTemplate'
 
@@ -30,12 +25,7 @@ export const loadBuiltinTemplates = () => {
   const disabledTemplates = config.get<string[]>('disabledBuiltinTemplates', [])
 
   const templates: IPostfixTemplate[] = [
-    new CastTemplate('cast'),
-    new CastTemplate('castas'),
     new CallTemplate('call'),
-    new ConsoleTemplate('log'),
-    new ConsoleTemplate('warn'),
-    new ConsoleTemplate('error'),
     new ForTemplate('for'),
     new ForOfTemplate('forof'),
     new ForInTemplate('forin'),
@@ -50,13 +40,8 @@ export const loadBuiltinTemplates = () => {
     new EqualityTemplate('notnull', '!==', 'null'),
     new EqualityTemplate('undefined', '===', 'undefined', true),
     new EqualityTemplate('notundefined', '!==', 'undefined', true),
-    new NewTemplate('new'),
     new NotTemplate('not'),
-    new PromisifyTemplate('promisify'),
     new ReturnTemplate('return'),
-    new VarTemplate('var'),
-    new VarTemplate('let'),
-    new VarTemplate('const'),
     new AwaitTemplate('await'),
     //#region Python built-in functions
     new PythonTemplate('abs'),
