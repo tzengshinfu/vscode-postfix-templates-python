@@ -123,8 +123,8 @@ export abstract class BaseTemplate implements IPostfixTemplate {
     return node.parent && this.inTypeReference(node.parent)
   }
 
-  protected isNotInString = (node: ts.Node) => {
-    if (ts.isStringLiteral(node)) {
+  protected isNotInSingleLineString = (node: ts.Node) => {
+    if (isStringLiteral(node)) {
       const text = node.getFullText().trim()
       const firstChar = text[0]
       const lastChar = text[text.length - 1]

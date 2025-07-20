@@ -15,7 +15,7 @@ export class ReturnTemplate extends BaseExpressionTemplate {
   }
 
   override canUse(node: ts.Node) {
-    return (super.canUse(node) || this.isNewExpression(node) || this.isObjectLiteral(node) || isStringLiteral(node))
+    return (super.canUse(node) || this.isNewExpression(node) || this.isObjectLiteral(node) || (isStringLiteral(node) && this.isNotInSingleLineString(node)))
       && !this.inReturnStatement(node)
       && !this.inFunctionArgument(node)
       && !this.inVariableDeclaration(node)

@@ -9,7 +9,7 @@ export class CustomTemplate extends BaseTemplate {
   private conditionsMap = new Map<string, (node: ts.Node) => boolean>([
     ['type', node => this.isTypeNode(node)],
     ['identifier', node => this.isIdentifier(node)],
-    ['string-literal', node => isStringLiteral(node)],
+    ['string-literal', node => isStringLiteral(node) && this.isNotInSingleLineString(node)],
     ['expression', node => this.isExpression(node)],
     ['binary-expression', node => this.isBinaryExpression(node)],
     ['unary-expression', node => this.isUnaryExpression(node.parent)],
@@ -36,7 +36,7 @@ export class CustomTemplate extends BaseTemplate {
   }
 
   canUse(node: ts.Node): boolean {
-    return this.isNotInString(node) && node.parent && (this.when.length === 0 || this.when.some(w => this.condition(node, w)))
+    return this.isNotInSingleLineString(node) && node.parent && (this.when.length === 0 || this.when.some(w => this.condition(node, w)))
   }
 
   condition = (node: ts.Node, when: string) => {
