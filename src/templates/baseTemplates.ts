@@ -129,7 +129,7 @@ export abstract class BaseTemplate implements IPostfixTemplate {
       const firstChar = text[0]
       const lastChar = text[text.length - 1]
 
-      return firstChar === lastChar
+      return firstChar === lastChar && text.length >= 2
     }
 
     return true

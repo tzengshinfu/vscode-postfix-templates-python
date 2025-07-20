@@ -52,6 +52,6 @@ export class ForRangeTemplate extends BaseForTemplate {
   }
 
   override canUse(node: ts.Node) {
-    return !Number.isNaN(Number.parseFloat(node.getFullText().trim())) || ts.isExpression(node)
+    return !Number.isNaN(Number.parseFloat(node.getFullText().trim())) || (ts.isExpression(node) && this.isNotInSingleLineString(node));
   }
 }
