@@ -1,7 +1,6 @@
 import ts = require("typescript")
 import { CompletionItemBuilder } from "../completionItemBuilder"
 import { IndentInfo } from "../template"
-import { getConfigValue } from "../utils"
 import { BaseTemplate } from "./baseTemplates"
 
 export class EqualityTemplate extends BaseTemplate {
@@ -21,13 +20,9 @@ export class EqualityTemplate extends BaseTemplate {
   }
 
   buildCompletionItem(node: ts.Node, indentInfo?: IndentInfo) {
-    const typeOfMode = this.isUndefinedTemplate && getConfigValue<string>('undefinedMode') == 'Typeof'
-
     return CompletionItemBuilder
       .create(this.keyword, node, indentInfo)
-      .replace(typeOfMode
-        ? `typeof {{expr}} ${this.operator} "${this.operand}"`
-        : `{{expr}} ${this.operator} ${this.operand}`)
+      .replace(`{{expr}} ${this.operator} ${this.operand}`)
       .build()
   }
 }

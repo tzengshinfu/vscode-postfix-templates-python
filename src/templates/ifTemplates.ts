@@ -1,7 +1,7 @@
 import * as ts from 'typescript'
 import { CompletionItemBuilder } from '../completionItemBuilder'
 import { BaseExpressionTemplate } from './baseTemplates'
-import { getConfigValue, getIndentCharacters } from '../utils'
+import { getIndentCharacters } from '../utils'
 import { invertExpression } from '../utils/invert-expression'
 import { IndentInfo } from '../template'
 
@@ -49,13 +49,9 @@ export class IfEqualityTemplate extends BaseIfElseTemplate {
   }
 
   buildCompletionItem(node: ts.Node, indentInfo?: IndentInfo) {
-    const typeOfMode = this.isUndefinedTemplate && getConfigValue<string>('undefinedMode') == 'Typeof'
-
     return CompletionItemBuilder
       .create(this.keyword, node, indentInfo)
-      .replace(typeOfMode
-        ? `if (typeof {{expr}} ${this.operator} "${this.operand}") {\n${getIndentCharacters()}\${0}\n}`
-        : `if ({{expr}} ${this.operator} ${this.operand}) {\n${getIndentCharacters()}\${0}\n}`)
+      .replace(`if ({{expr}} ${this.operator} ${this.operand}) {\n${getIndentCharacters()}\${0}\n}`)
       .build()
   }
 }
