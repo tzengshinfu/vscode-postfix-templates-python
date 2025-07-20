@@ -3,7 +3,7 @@ import { IPostfixTemplate } from '../template'
 import { AwaitTemplate } from '../templates/awaitTemplate'
 import { CustomTemplate } from '../templates/customTemplate'
 import { EqualityTemplate } from '../templates/equalityTemplates'
-import { ForTemplate, ForOfTemplate, ForEachTemplate, ForInTemplate } from '../templates/forTemplates'
+import { ForTemplate, ForRangeTemplate } from '../templates/forTemplates'
 import { IfTemplate, ElseTemplate, IfEqualityTemplate } from '../templates/ifTemplates'
 import { NotTemplate } from '../templates/notTemplate'
 import { ReturnTemplate } from '../templates/returnTemplate'
@@ -27,9 +27,7 @@ export const loadBuiltinTemplates = () => {
   const templates: IPostfixTemplate[] = [
     new CallTemplate('call'),
     new ForTemplate('for'),
-    new ForOfTemplate('forof'),
-    new ForInTemplate('forin'),
-    new ForEachTemplate('foreach'),
+    new ForRangeTemplate('forrange'),
     new IfTemplate('if'),
     new ElseTemplate('else'),
     new IfEqualityTemplate('null', '===', 'null'),
