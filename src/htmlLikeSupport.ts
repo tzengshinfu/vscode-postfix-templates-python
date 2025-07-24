@@ -13,6 +13,9 @@ const getHtmlLikeEmbedRange = (document: vsc.TextDocument, cursorOffset: number)
       return null
     }
     if (mostTopNode.tag === 'script') {
+      if (mostTopNode?.attributes?.type.replace(/['"]/g, '') !== 'py') {
+        return null
+      }
       const { startTagEnd, endTagStart } = mostTopNode
       return {
         start: startTagEnd,

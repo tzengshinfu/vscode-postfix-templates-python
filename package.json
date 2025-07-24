@@ -21,13 +21,22 @@
     "url": "https://github.com/tzengshinfu/vscode-postfix-templates-python/issues"
   },
   "activationEvents": [
-    "onLanguage:python"
+    "onLanguage:python",
+    "onLanguage:html"
   ],
   "main": "./out/extension",
   "contributes": {
     "configuration": {
       "title": "Postfix completion",
       "properties": {
+        "postfix.languages": {
+          "type": "array",
+          "description": "A list of languages in which the completion will be available",
+          "default": [
+            "python",
+            "html"
+          ]
+        },
         "postfix.snippetPreviewMode": {
           "type": "string",
           "enum": [
