@@ -7,6 +7,7 @@ import { loadBuiltinTemplates, loadCustomTemplates } from './utils/templates'
 import { findNodeAtPosition } from './utils/typescript'
 import { CustomTemplate } from './templates/customTemplate'
 import { getHtmlLikeEmbedText } from './htmlLikeSupport'
+import * as tree from './web-tree-sitter';
 
 let currentSuggestion = undefined
 
@@ -16,8 +17,9 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
   private templates: IPostfixTemplate[] = []
   private customTemplateNames: string[] = []
   private mergeMode: 'append' | 'override'
+  private parser: tree.Parser
 
-  constructor() {
+  constructor(parser: tree.Parser) {
     this.mergeMode = vsc.workspace.getConfiguration('postfix.customTemplate').get('mergeMode', 'append')
 
     const customTemplates = loadCustomTemplates()
@@ -27,6 +29,8 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
       ...loadBuiltinTemplates(),
       ...customTemplates
     ]
+
+    this.parser = parser;
   }
 
   provideCompletionItems(document: vsc.TextDocument, position: vsc.Position, _token: vsc.CancellationToken): vsc.CompletionItem[] | vsc.CompletionList | Thenable<vsc.CompletionItem[] | vsc.CompletionList> {
