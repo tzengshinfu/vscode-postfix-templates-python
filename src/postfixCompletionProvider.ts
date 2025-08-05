@@ -49,14 +49,32 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
     message += `cursorPosition=${nodeIndex}\n`;
     //const parsedTree = this.parser.parse(document.getText())
     //traversePythonNodesWithCursor(parsedTree.rootNode);
-    const treeNode = syntaxTree.rootNode.descendantForIndex(nodeIndex)
+    let treeNode = syntaxTree.rootNode.descendantForIndex(nodeIndex)
 
     //if (treeNode && nodeIndex + 1 === treeNode.endIndex) {
-    message += `node.text=${treeNode.text}\n`;
-    message += `node.type=${treeNode.type}\n`;
+    if (treeNode?.type === 'ERROR') {
+      treeNode = null
+    }
 
-    if (treeNode.parent) {
-      message += `node.parent.type=${treeNode.parent.type}\n`;
+    if (treeNode?.parent?.type === 'ERROR') {
+      treeNode = null
+    }
+
+    if (treeNode.type === 'module') {
+      treeNode = null
+    }
+
+    if (treeNode?.parent?.type === 'string') {
+      treeNode = treeNode.parent
+    }
+
+    if (treeNode) {
+      message += `node.text=${treeNode.text}\n`;
+      message += `node.type=${treeNode.type}\n`;
+
+      if (treeNode.parent) {
+        message += `node.parent.type=${treeNode.parent.type}\n`;
+      }
     }
     //}
 
