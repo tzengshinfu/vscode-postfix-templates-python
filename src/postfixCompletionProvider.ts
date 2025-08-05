@@ -46,26 +46,26 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
 
     let message = "";
     const nodeIndex = dotOffset - 1
-    message += `cursorPosition=${nodeIndex}\n`;
+
     //const parsedTree = this.parser.parse(document.getText())
     //traversePythonNodesWithCursor(parsedTree.rootNode);
     let treeNode = syntaxTree.rootNode.descendantForIndex(nodeIndex)
 
     //if (treeNode && nodeIndex + 1 === treeNode.endIndex) {
-    if (treeNode?.type === 'ERROR') {
-      treeNode = null
-    }
-
-    if (treeNode?.parent?.type === 'ERROR') {
-      treeNode = null
+    if (treeNode?.parent?.type === 'string') {
+      treeNode = treeNode.parent
     }
 
     if (treeNode.type === 'module') {
       treeNode = null
     }
 
-    if (treeNode?.parent?.type === 'string') {
-      treeNode = treeNode.parent
+    if (treeNode?.type === 'ERROR') {
+      treeNode = null
+    }
+
+    if (treeNode?.parent?.type === 'ERROR') {
+      treeNode = null
     }
 
     if (treeNode) {
@@ -77,8 +77,10 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
       }
     }
     //}
-
-    vsc.window.showInformationMessage(message, { modal: true });
+    if (message) {
+      message = `cursorPosition=${nodeIndex}\n` + message;
+      vsc.window.showInformationMessage(message, { modal: true });
+    }
     return;
 
 

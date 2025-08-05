@@ -5,6 +5,7 @@ import { PostfixCompletionProvider } from './postfixCompletionProvider'
 import { notCommand, NOT_COMMAND } from './notCommand'
 import * as tree from './web-tree-sitter';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { Parser, Language } = require('web-tree-sitter');
 
 let completionProvider: vsc.Disposable
@@ -52,8 +53,10 @@ function registerCompletionProvider(context: vsc.ExtensionContext) {
 
 async function initializeParser(context: vsc.ExtensionContext) {
   await Parser.init();
-  parser = new Parser();
+
   const wasmUri = vsc.Uri.joinPath(context.extensionUri, 'out', 'tree-sitter-python.wasm');
   const Python: tree.Language = await Language.load(wasmUri.fsPath);
+
+  parser = new Parser();
   parser.setLanguage(Python);
 }
