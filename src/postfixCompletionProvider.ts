@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as vsc from 'vscode'
 import * as ts from 'typescript'
 
@@ -35,15 +36,42 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
 
   provideCompletionItems(document: vsc.TextDocument, position: vsc.Position, _token: vsc.CancellationToken): vsc.CompletionItem[] | vsc.CompletionList | Thenable<vsc.CompletionItem[] | vsc.CompletionList> {
     const line = document.lineAt(position.line)
-    const dotIdx = line.text.lastIndexOf('.', position.character - 1)
-    const wordRange = document.getWordRangeAtPosition(position)
-    const isCursorOnWordAfterDot = (wordRange?.start ?? position).character === dotIdx + 1
+    const dotIndex = line.text.lastIndexOf('.', position.character - 1)
+    const dotOffset = document.offsetAt(position.with({ character: dotIndex }))
+    const text = document.getText()
+    const textBeforeDot = text.slice(0, dotOffset)
+    const textAfterDot = text.slice(dotOffset + 1)
+    const textReplaceDotWithSpace = textBeforeDot + " " + textAfterDot
+    const syntaxTree = this.parser.parse(textReplaceDotWithSpace)
 
-    if (dotIdx === -1 || !isCursorOnWordAfterDot) {
+    let message = "";
+    const nodeIndex = dotOffset - 1
+    message += `cursorPosition=${nodeIndex}\n`;
+    //const parsedTree = this.parser.parse(document.getText())
+    //traversePythonNodesWithCursor(parsedTree.rootNode);
+    const treeNode = syntaxTree.rootNode.descendantForIndex(nodeIndex)
+
+    //if (treeNode && nodeIndex + 1 === treeNode.endIndex) {
+    message += `node.text=${treeNode.text}\n`;
+    message += `node.type=${treeNode.type}\n`;
+
+    if (treeNode.parent) {
+      message += `node.parent.type=${treeNode.parent.type}\n`;
+    }
+    //}
+
+    vsc.window.showInformationMessage(message, { modal: true });
+    return;
+
+
+    const wordRange = document.getWordRangeAtPosition(position)
+    const isCursorOnWordAfterDot = (wordRange?.start ?? position).character === dotIndex + 1
+
+    if (dotIndex === -1 || !isCursorOnWordAfterDot) {
       return []
     }
 
-    const { currentNode, fullSource, fullCurrentNode } = this.getNodeBeforeTheDot(document, position, dotIdx)
+    const { currentNode, fullSource, fullCurrentNode } = this.getNodeBeforeTheDot(document, position, dotIndex)
 
     if (!currentNode || this.shouldBeIgnored(fullSource, position)) {
       return []
@@ -209,6 +237,40 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
 
       return (!!jsx || !!jsxFragment) && !jsxExpression
     }
+  }
+}
+
+function traversePythonNodesWithCursor(node: tree.Node) {
+  const cursor = node.walk();
+  let depth = 0;
+
+  // 輸出根節點
+  console.log(new Array(depth + 1).join('----'), cursor.nodeType, cursor.startIndex, cursor.endIndex, `[${cursor.nodeText}]\n`);
+
+  // 深度優先遍歷
+  if (cursor.gotoFirstChild()) {
+    depth++;
+
+    do {
+      // 輸出當前節點
+      console.log(new Array(depth + 1).join('----'), cursor.nodeType, cursor.startIndex, cursor.endIndex, `[${cursor.nodeText}]\n`);
+
+      // 如果有子節點，進入子節點
+      if (cursor.gotoFirstChild()) {
+        depth++;
+        continue;
+      }
+
+      // 沒有子節點，嘗試移動到下一個兄弟節點
+      while (!cursor.gotoNextSibling()) {
+        // 沒有兄弟節點，回到父節點
+        if (!cursor.gotoParent()) {
+          // 已經回到根節點，遍歷完成
+          return;
+        }
+        depth--;
+      }
+    } while (true);
   }
 }
 
