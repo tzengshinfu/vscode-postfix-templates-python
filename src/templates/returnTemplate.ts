@@ -1,6 +1,6 @@
 import { CompletionItemBuilder } from '../completionItemBuilder'
 import { IndentInfo } from '../template'
-import { isStringLiteral } from '../utils/typescript'
+// Removed typescript import - isStringLiteral functionality will be implemented with tree-sitter
 import { BaseExpressionTemplate } from './baseTemplates'
 import * as tree from '../web-tree-sitter'
 
@@ -15,7 +15,7 @@ export class ReturnTemplate extends BaseExpressionTemplate {
   }
 
   override canUse(node: tree.Node) {
-    return (super.canUse(node) || this.isNewExpression(node) || this.isObjectLiteral(node) || isStringLiteral(node))
+    return (super.canUse(node) || this.isObjectLiteral(node) || this.isStringLiteral(node))
       && !this.inReturnStatement(node)
       && !this.inFunctionArgument(node)
       && !this.inVariableDeclaration(node)

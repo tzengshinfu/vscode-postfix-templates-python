@@ -1,6 +1,5 @@
 'use strict'
 import * as vsc from 'vscode'
-import * as ts from 'typescript'
 import { PostfixCompletionProvider } from './postfixCompletionProvider'
 import { notCommand, NOT_COMMAND } from './notCommand'
 import * as tree from './web-tree-sitter'
@@ -15,7 +14,7 @@ export async function activate(context: vsc.ExtensionContext): Promise<void> {
   await initializeParser(context)
   registerCompletionProvider(context)
 
-  context.subscriptions.push(vsc.commands.registerTextEditorCommand(NOT_COMMAND, async (editor: vsc.TextEditor, _: vsc.TextEditorEdit, ...args: ts.BinaryExpression[]) => {
+  context.subscriptions.push(vsc.commands.registerTextEditorCommand(NOT_COMMAND, async (editor: vsc.TextEditor, _: vsc.TextEditorEdit, ...args: tree.Node[]) => {
     const [...expressions] = args
 
     await notCommand(editor, expressions)

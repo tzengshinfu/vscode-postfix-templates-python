@@ -105,10 +105,9 @@ This snippet will have the following outcome (name of the original identifier ha
 - `expression`: can be either a simple expression like `object.property.value` or `array[index]` or a combination of them
 - `binary-expression`: a binary expression, ie. `x > 3`, `x * 100`, `x && y`
 - `unary-expression`: an unary expression, ie. `!x`, `x++` or `++x`
-- `new-expression`: a new expression, ie. `new Type(arg1, arg2)`
 - `function-call`: a function call expression, ie. `func()`, `object.method()` and so on
-- `type`: type in function/variable definition, ie. `const x: string`
 - `string-literal`: string literal, ie. `'a string'` or `"string in double quotes"`
+- `type`: type in function/variable definition, ie. `const x: string`
 
 If no conditions are specified then given template will be available under all possible situations
 

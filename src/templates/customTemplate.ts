@@ -1,20 +1,18 @@
 import { BaseTemplate } from './baseTemplates'
 import { CompletionItemBuilder } from '../completionItemBuilder'
 import { IndentInfo } from '../template'
-import { isStringLiteral } from '../utils/typescript'
 import { CustomTemplateBodyType } from '../utils/templates'
 import * as tree from '../web-tree-sitter'
 
 export class CustomTemplate extends BaseTemplate {
   private conditionsMap = new Map<string, (node: tree.Node) => boolean>([
-    ['type', node => this.isTypeNode(node)],
     ['identifier', node => this.isIdentifier(node)],
-    ['string-literal', node => isStringLiteral(node)],
     ['expression', node => this.isExpression(node)],
     ['binary-expression', node => this.isBinaryExpression(node)],
     ['unary-expression', node => this.isUnaryExpression(node.parent)],
-    ['new-expression', node => this.isNewExpression(node)],
-    ['function-call', node => this.isCallExpression(node)]
+    ['function-call', node => this.isCallExpression(node)],
+    ['string-literal', node => this.isStringLiteral(node)],
+    ['type', node => this.isTypeNode(node)]
   ])
 
   constructor(name: string, private description: string, private body: CustomTemplateBodyType, private when: string[]) {

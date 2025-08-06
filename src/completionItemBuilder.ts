@@ -1,5 +1,5 @@
 import * as vsc from 'vscode'
-import ts = require('typescript')
+import * as sitter from './sitter'
 import { adjustLeadingWhitespace, adjustMultilineIndentation } from './utils/multiline-expressions'
 import { SnippetParser } from 'vscode-snippet-parser'
 import { getConfigValue } from './utils'
@@ -14,7 +14,7 @@ export class CompletionItemBuilder {
   private node: tree.Node
 
   private constructor(keyword: string, node: tree.Node, private indentInfo: IndentInfo) {
-    if (ts.isAwaitExpression(node.parent)) {
+    if (node.parent && sitter.isAwaitExpression(node.parent)) {
       node = node.parent
     }
 
@@ -38,9 +38,8 @@ export class CompletionItemBuilder {
   public replace = (replacement: string): CompletionItemBuilder => {
     this.addCodeBlockDescription(replacement, this.code.replace(/\\/g, '\\\\'))
 
-    const src = this.node.getSourceFile()
-    const nodeStart = ts.getLineAndCharacterOfPosition(src, this.node.getStart(src))
-    const nodeEnd = ts.getLineAndCharacterOfPosition(src, this.node.getEnd())
+    const nodeStart = sitter.getLineAndCharacterOfPosition(this.node, sitter.getNodeStart(this.node))
+    const nodeEnd = sitter.getLineAndCharacterOfPosition(this.node, sitter.getNodeEnd(this.node))
 
     const rangeToDelete = new vsc.Range(
       new vsc.Position(nodeStart.line, nodeStart.character),

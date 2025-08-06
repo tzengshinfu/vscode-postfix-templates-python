@@ -8,9 +8,7 @@ const CleanNameRegex = /((By|With|From).*$)|(Sync$)|.*(?=Items|Lines$)/
 const lowerFirst = (name: string) => name && _.lowerFirst(name)
 
 export const inferVarTemplateName = (node: ts.Node): string[] => {
-  if (ts.isNewExpression(node)) {
-    return [lowerFirst(inferNewExpressionVar(node))]
-  } else if (ts.isCallExpression(node)) {
+  if (ts.isCallExpression(node)) {
     const methodName = getMethodName(node)
     const name = beautifyMethodName(methodName)
     if (!name) {

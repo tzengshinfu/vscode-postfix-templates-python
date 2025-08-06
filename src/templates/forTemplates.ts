@@ -1,34 +1,23 @@
-import * as ts from 'typescript'
 import { CompletionItemBuilder } from '../completionItemBuilder'
 import { BaseTemplate } from './baseTemplates'
 import { getConfigValue, getIndentCharacters, getPlaceholderWithOptions } from '../utils'
-import { inferForVarTemplate } from '../utils/infer-names'
 import { IndentInfo } from '../template'
 import * as tree from '../web-tree-sitter'
+import * as sitter from '../sitter'
 
 abstract class BaseForTemplate extends BaseTemplate {
   canUse(node: tree.Node): boolean {
-    return !this.inReturnStatement(node) &&
-      !this.inIfStatement(node) &&
-      !this.inFunctionArgument(node) &&
-      !this.inVariableDeclaration(node) &&
-      !this.inAssignmentStatement(node) &&
-      !this.isTypeNode(node) &&
-      !this.isBinaryExpression(node) &&
-      (this.isIdentifier(node) ||
-        this.isPropertyAccessExpression(node) ||
-        this.isElementAccessExpression(node) ||
-        this.isCallExpression(node) ||
-        this.isArrayLiteral(node))
+    return this.isIdentifier(node) ||
+      this.isCallExpression(node) ||
+      this.isArrayLiteral(node)
   }
 
-  protected isArrayLiteral = (node: tree.Node) => node.kind === ts.SyntaxKind.ArrayLiteralExpression
+  protected isArrayLiteral = (node: tree.Node) => node.type === 'list'
 }
 
 const getArrayItemNames = (node: tree.Node): string[] => {
-  const inferVarNameEnabled = getConfigValue<boolean>('inferVariableName')
-  const suggestedNames = inferVarNameEnabled ? inferForVarTemplate(node) : undefined
-  return suggestedNames?.length > 0 ? suggestedNames : ['item']
+  // Simplified for Python - just use default name
+  return ['item']
 }
 
 export class ForTemplate extends BaseForTemplate {
@@ -53,6 +42,6 @@ export class ForRangeTemplate extends BaseForTemplate {
   }
 
   override canUse(node: tree.Node) {
-    return !Number.isNaN(Number.parseFloat(node.getText())) || (ts.isExpression(node) && this.isNotInSingleLineString(node));
+    return !Number.isNaN(Number.parseFloat(sitter.getNodeText(node))) || (sitter.isExpression(node) && node.type !== 'string')
   }
 }

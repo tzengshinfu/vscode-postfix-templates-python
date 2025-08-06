@@ -1,10 +1,10 @@
-import * as ts from 'typescript'
 import { CompletionItemBuilder } from '../completionItemBuilder'
 import { BaseTemplate } from './baseTemplates'
 import { NOT_COMMAND } from '../notCommand'
-import { invertExpression } from '../utils/invert-expression'
 import { IndentInfo } from '../template'
 import * as tree from '../web-tree-sitter'
+import * as sitter from '../sitter'
+import { invertExpression } from '../utils/invert-expression'
 
 export class NotTemplate extends BaseTemplate {
   buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
@@ -45,11 +45,8 @@ export class NotTemplate extends BaseTemplate {
   }
 
   private isStrictEqualityOrInstanceofBinaryExpression = (node: tree.Node) => {
-    return ts.isBinaryExpression(node) && [
-      ts.SyntaxKind.EqualsEqualsEqualsToken,
-      ts.SyntaxKind.ExclamationEqualsEqualsToken,
-      ts.SyntaxKind.InstanceOfKeyword
-    ].includes(node.operatorToken.kind)
+    return sitter.isBinaryExpression(node) &&
+           (node.type === 'comparison_operator' || node.type === 'boolean_operator')
   }
 
   private getBinaryExpressions = (node: tree.Node) => {
@@ -65,11 +62,12 @@ export class NotTemplate extends BaseTemplate {
   }
 
   private normalizeBinaryExpression = (node: tree.Node) => {
-    if (ts.isParenthesizedExpression(node.parent) && ts.isBinaryExpression(node.parent.expression)) {
+    if (node.parent && sitter.isParenthesizedExpression(node.parent) &&
+        node.parent.namedChildren.length > 0 && sitter.isBinaryExpression(node.parent.namedChildren[0])) {
       return node.parent
     }
 
-    if (ts.isPrefixUnaryExpression(node) && node.operator === ts.SyntaxKind.ExclamationToken) {
+    if (sitter.isPrefixUnaryExpression(node) && node.type === 'not_operator') {
       return node
     }
 

@@ -108,7 +108,6 @@
                     "binary-expression",
                     "unary-expression",
                     "function-call",
-                    "new-expression",
                     "string-literal",
                     "type"
                   ]

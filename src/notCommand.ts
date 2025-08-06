@@ -1,12 +1,12 @@
 import * as vsc from 'vscode'
-import * as ts from 'typescript'
-import { invertExpression } from './utils/invert-expression'
+import * as tree from './web-tree-sitter'
+import * as sitter from './sitter'
 
 export const NOT_COMMAND = 'complete.notTemplate'
 
-export function notCommand(editor: vsc.TextEditor, expressions: ts.BinaryExpression[]) {
+export function notCommand(editor: vsc.TextEditor, expressions: tree.Node[]) {
   return vsc.window.showQuickPick(expressions.map(node => ({
-    label: node.getText().replace(/\s+/g, ' '),
+    label: node.text.replace(/\s+/g, ' '),
     description: '',
     detail: 'Invert this expression',
     node
@@ -19,9 +19,8 @@ export function notCommand(editor: vsc.TextEditor, expressions: ts.BinaryExpress
       editor.edit(e => {
         const node = value.node
 
-        const src = node.getSourceFile()
-        const nodeStart = ts.getLineAndCharacterOfPosition(src, node.getStart(src))
-        const nodeEnd = ts.getLineAndCharacterOfPosition(src, node.getEnd())
+        const nodeStart = sitter.getLineAndCharacterOfPosition(node, sitter.getNodeStart(node))
+        const nodeEnd = sitter.getLineAndCharacterOfPosition(node, sitter.getNodeEnd(node))
 
         const range = new vsc.Range(
           new vsc.Position(nodeStart.line, nodeStart.character),
@@ -29,7 +28,7 @@ export function notCommand(editor: vsc.TextEditor, expressions: ts.BinaryExpress
         )
 
         e.delete(range)
-        e.insert(range.start, invertExpression(value.node))
+        e.insert(range.start, `not (${sitter.getNodeText(value.node)})`)
       })
     })
 }
