@@ -4,6 +4,7 @@ import { adjustLeadingWhitespace, adjustMultilineIndentation } from './utils/mul
 import { SnippetParser } from 'vscode-snippet-parser'
 import { getConfigValue } from './utils'
 import { IndentInfo } from './template'
+import * as tree from './web-tree-sitter'
 
 const RegexExpression = '{{expr(?::(upper|lower|capitalize))?}}'
 
@@ -22,7 +23,7 @@ export class CompletionItemBuilder {
     this.code = adjustMultilineIndentation(node.getText(), indentInfo?.indentSize)
   }
 
-  public static create = (keyword: string, node: ts.Node, indentInfo: IndentInfo) => new CompletionItemBuilder(keyword, node, indentInfo)
+  public static create = (keyword: string, node: tree.Node, indentInfo: IndentInfo) => new CompletionItemBuilder(keyword, node, indentInfo)
 
   public command = (command: vsc.Command) => {
     this.item.command = command

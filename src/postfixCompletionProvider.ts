@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as vsc from 'vscode'
-import * as ts from 'typescript'
 
 import { IndentInfo, IPostfixTemplate } from './template'
 import { AllTabs, AllSpaces } from './utils/multiline-expressions'
 import { loadBuiltinTemplates, loadCustomTemplates } from './utils/templates'
 import { CustomTemplate } from './templates/customTemplate'
 import { getHtmlLikeEmbedText } from './htmlLikeSupport'
-import * as tree from './web-tree-sitter';
+import * as tree from './web-tree-sitter'
 
 let currentSuggestion = undefined
 
@@ -52,7 +51,7 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
     try {
       return this.templates
         .filter(t => {
-          let canUseTemplate = t.canUse(ts.isNonNullExpression(fullCurrentNode) ? fullCurrentNode.expression : fullCurrentNode)
+          let canUseTemplate = t.canUse(fullCurrentNode)
 
           if (this.mergeMode === 'override') {
             canUseTemplate &&= (t instanceof CustomTemplate || !this.customTemplateNames.includes(t.templateName))

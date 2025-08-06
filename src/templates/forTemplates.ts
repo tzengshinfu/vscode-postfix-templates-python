@@ -4,9 +4,10 @@ import { BaseTemplate } from './baseTemplates'
 import { getConfigValue, getIndentCharacters, getPlaceholderWithOptions } from '../utils'
 import { inferForVarTemplate } from '../utils/infer-names'
 import { IndentInfo } from '../template'
+import * as tree from '../web-tree-sitter'
 
 abstract class BaseForTemplate extends BaseTemplate {
-  canUse(node: ts.Node): boolean {
+  canUse(node: tree.Node): boolean {
     return !this.inReturnStatement(node) &&
       !this.inIfStatement(node) &&
       !this.inFunctionArgument(node) &&
@@ -21,17 +22,17 @@ abstract class BaseForTemplate extends BaseTemplate {
         this.isArrayLiteral(node))
   }
 
-  protected isArrayLiteral = (node: ts.Node) => node.kind === ts.SyntaxKind.ArrayLiteralExpression
+  protected isArrayLiteral = (node: tree.Node) => node.kind === ts.SyntaxKind.ArrayLiteralExpression
 }
 
-const getArrayItemNames = (node: ts.Node): string[] => {
+const getArrayItemNames = (node: tree.Node): string[] => {
   const inferVarNameEnabled = getConfigValue<boolean>('inferVariableName')
   const suggestedNames = inferVarNameEnabled ? inferForVarTemplate(node) : undefined
   return suggestedNames?.length > 0 ? suggestedNames : ['item']
 }
 
 export class ForTemplate extends BaseForTemplate {
-  buildCompletionItem(node: ts.Node, indentInfo?: IndentInfo) {
+  buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
     const itemNames = getArrayItemNames(node)
 
     return CompletionItemBuilder
@@ -42,7 +43,7 @@ export class ForTemplate extends BaseForTemplate {
 }
 
 export class ForRangeTemplate extends BaseForTemplate {
-  buildCompletionItem(node: ts.Node, indentInfo?: IndentInfo) {
+  buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
     const itemNames = getArrayItemNames(node)
 
     return CompletionItemBuilder
@@ -51,7 +52,7 @@ export class ForRangeTemplate extends BaseForTemplate {
       .build()
   }
 
-  override canUse(node: ts.Node) {
+  override canUse(node: tree.Node) {
     return !Number.isNaN(Number.parseFloat(node.getText())) || (ts.isExpression(node) && this.isNotInSingleLineString(node));
   }
 }

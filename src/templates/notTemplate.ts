@@ -4,9 +4,10 @@ import { BaseTemplate } from './baseTemplates'
 import { NOT_COMMAND } from '../notCommand'
 import { invertExpression } from '../utils/invert-expression'
 import { IndentInfo } from '../template'
+import * as tree from '../web-tree-sitter'
 
 export class NotTemplate extends BaseTemplate {
-  buildCompletionItem(node: ts.Node, indentInfo?: IndentInfo) {
+  buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
     node = this.normalizeBinaryExpression(node)
 
     const completionBuilder = CompletionItemBuilder
@@ -33,7 +34,7 @@ export class NotTemplate extends BaseTemplate {
       .build()
   }
 
-  canUse(node: ts.Node) {
+  canUse(node: tree.Node) {
     return !this.isTypeNode(node) &&
       (this.isExpression(node)
         || this.isUnaryExpression(node)
@@ -43,7 +44,7 @@ export class NotTemplate extends BaseTemplate {
         || this.isIdentifier(node))
   }
 
-  private isStrictEqualityOrInstanceofBinaryExpression = (node: ts.Node) => {
+  private isStrictEqualityOrInstanceofBinaryExpression = (node: tree.Node) => {
     return ts.isBinaryExpression(node) && [
       ts.SyntaxKind.EqualsEqualsEqualsToken,
       ts.SyntaxKind.ExclamationEqualsEqualsToken,
@@ -51,7 +52,7 @@ export class NotTemplate extends BaseTemplate {
     ].includes(node.operatorToken.kind)
   }
 
-  private getBinaryExpressions = (node: ts.Node) => {
+  private getBinaryExpressions = (node: tree.Node) => {
     const possibleExpressions = [node]
 
     do {
@@ -63,7 +64,7 @@ export class NotTemplate extends BaseTemplate {
     return possibleExpressions
   }
 
-  private normalizeBinaryExpression = (node: ts.Node) => {
+  private normalizeBinaryExpression = (node: tree.Node) => {
     if (ts.isParenthesizedExpression(node.parent) && ts.isBinaryExpression(node.parent.expression)) {
       return node.parent
     }

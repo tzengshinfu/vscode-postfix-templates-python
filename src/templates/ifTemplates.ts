@@ -1,12 +1,12 @@
-import * as ts from 'typescript'
 import { CompletionItemBuilder } from '../completionItemBuilder'
 import { BaseExpressionTemplate } from './baseTemplates'
 import { getIndentCharacters } from '../utils'
 import { invertExpression } from '../utils/invert-expression'
 import { IndentInfo } from '../template'
+import * as tree from '../web-tree-sitter'
 
 abstract class BaseIfElseTemplate extends BaseExpressionTemplate {
-  override canUse(node: ts.Node) {
+  override canUse(node: tree.Node) {
     return super.canUse(node)
       && !this.inReturnStatement(node)
       && !this.inFunctionArgument(node)
@@ -16,7 +16,7 @@ abstract class BaseIfElseTemplate extends BaseExpressionTemplate {
 }
 
 export class IfTemplate extends BaseIfElseTemplate {
-  buildCompletionItem(node: ts.Node, indentInfo?: IndentInfo) {
+  buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
     node = this.unwindBinaryExpression(node, false)
     const replacement = this.unwindBinaryExpression(node, true).getText()
 
@@ -28,7 +28,7 @@ export class IfTemplate extends BaseIfElseTemplate {
 }
 
 export class ElseTemplate extends BaseIfElseTemplate {
-  buildCompletionItem(node: ts.Node, indentInfo?: IndentInfo) {
+  buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
     node = this.unwindBinaryExpression(node, false)
     const replacement = invertExpression(this.unwindBinaryExpression(node, true))
 
@@ -44,11 +44,11 @@ export class IfEqualityTemplate extends BaseIfElseTemplate {
     super(keyword)
   }
 
-  override canUse(node: ts.Node) {
+  override canUse(node: tree.Node) {
     return super.canUse(node) && !this.isBinaryExpression(node)
   }
 
-  buildCompletionItem(node: ts.Node, indentInfo?: IndentInfo) {
+  buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
     return CompletionItemBuilder
       .create(this.keyword, node, indentInfo)
       .replace(`if ({{expr}} ${this.operator} ${this.operand}) {\n${getIndentCharacters()}\${0}\n}`)

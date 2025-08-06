@@ -1,15 +1,15 @@
-import * as ts from 'typescript'
 import { BaseTemplate } from './baseTemplates'
 import { CompletionItemBuilder } from '../completionItemBuilder'
 import { IndentInfo } from '../template'
 import { isStringLiteral } from '../utils/typescript'
 import { CustomTemplateBodyType } from '../utils/templates'
+import * as tree from '../web-tree-sitter'
 
 export class CustomTemplate extends BaseTemplate {
-  private conditionsMap = new Map<string, (node: ts.Node) => boolean>([
+  private conditionsMap = new Map<string, (node: tree.Node) => boolean>([
     ['type', node => this.isTypeNode(node)],
     ['identifier', node => this.isIdentifier(node)],
-    ['string-literal', node => isStringLiteral(node) && this.isNotInSingleLineString(node)],
+    ['string-literal', node => isStringLiteral(node)],
     ['expression', node => this.isExpression(node)],
     ['binary-expression', node => this.isBinaryExpression(node)],
     ['unary-expression', node => this.isUnaryExpression(node.parent)],
@@ -21,7 +21,7 @@ export class CustomTemplate extends BaseTemplate {
     super(name)
   }
 
-  buildCompletionItem(node: ts.Node, indentInfo?: IndentInfo) {
+  buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
     if (this.when.includes('binary-expression')) {
       node = this.unwindBinaryExpression(node)
     }
@@ -35,11 +35,11 @@ export class CustomTemplate extends BaseTemplate {
       .build()
   }
 
-  canUse(node: ts.Node): boolean {
-    return this.isNotInSingleLineString(node) && node.parent && (this.when.length === 0 || this.when.some(w => this.condition(node, w)))
+  canUse(node: tree.Node): boolean {
+    return node.parent && (this.when.length === 0 || this.when.some(w => this.condition(node, w)))
   }
 
-  condition = (node: ts.Node, when: string) => {
+  condition = (node: tree.Node, when: string) => {
     const callback = this.conditionsMap.get(when)
     return callback && callback(node)
   }

@@ -1,11 +1,11 @@
-import * as ts from 'typescript'
 import { CompletionItemBuilder } from '../completionItemBuilder'
 import { IndentInfo } from '../template'
 import { isStringLiteral } from '../utils/typescript'
 import { BaseExpressionTemplate } from './baseTemplates'
+import * as tree from '../web-tree-sitter'
 
 export class ReturnTemplate extends BaseExpressionTemplate {
-  buildCompletionItem(node: ts.Node, indentInfo?: IndentInfo) {
+  buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
     node = this.unwindBinaryExpression(node)
 
     return CompletionItemBuilder
@@ -14,7 +14,7 @@ export class ReturnTemplate extends BaseExpressionTemplate {
       .build()
   }
 
-  override canUse(node: ts.Node) {
+  override canUse(node: tree.Node) {
     return (super.canUse(node) || this.isNewExpression(node) || this.isObjectLiteral(node) || (isStringLiteral(node) && this.isNotInSingleLineString(node)))
       && !this.inReturnStatement(node)
       && !this.inFunctionArgument(node)
