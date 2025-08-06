@@ -38,14 +38,14 @@ export abstract class BaseTemplate implements IPostfixTemplate {
     if (this.isAnyFunction(node)) {
       return false
     }
-    return node.kind === ts.SyntaxKind.AwaitExpression || (node.parent && this.inAwaitedExpression(node.parent))
+    return node.type === ts.SyntaxKind.AwaitExpression || (node.parent && this.inAwaitedExpression(node.parent))
   }
 
   protected inReturnStatement = (node: tree.Node) => {
     if (this.isAnyFunction(node)) {
       return false
     }
-    return node.kind === ts.SyntaxKind.ReturnStatement || (node.parent && this.inReturnStatement(node.parent))
+    return node.type === ts.SyntaxKind.ReturnStatement || (node.parent && this.inReturnStatement(node.parent))
   }
 
   protected inVariableDeclaration = (node: tree.Node) => {
@@ -53,7 +53,7 @@ export abstract class BaseTemplate implements IPostfixTemplate {
       return false
     }
 
-    return node.kind === ts.SyntaxKind.VariableDeclaration || node.parent && this.inVariableDeclaration(node.parent)
+    return node.type === ts.SyntaxKind.VariableDeclaration || node.parent && this.inVariableDeclaration(node.parent)
   }
 
   protected isBinaryExpression = (node: tree.Node) => {

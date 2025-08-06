@@ -11,16 +11,16 @@ const RegexExpression = '{{expr(?::(upper|lower|capitalize))?}}'
 export class CompletionItemBuilder {
   private item: vsc.CompletionItem
   private code: string
-  private node: ts.Node
+  private node: tree.Node
 
-  private constructor(keyword: string, node: ts.Node, private indentInfo: IndentInfo) {
+  private constructor(keyword: string, node: tree.Node, private indentInfo: IndentInfo) {
     if (ts.isAwaitExpression(node.parent)) {
       node = node.parent
     }
 
     this.node = node
     this.item = new vsc.CompletionItem({ label: keyword, description: 'POSTFIX' }, vsc.CompletionItemKind.Snippet)
-    this.code = adjustMultilineIndentation(node.getText(), indentInfo?.indentSize)
+    this.code = adjustMultilineIndentation(node.text, indentInfo?.indentSize)
   }
 
   public static create = (keyword: string, node: tree.Node, indentInfo: IndentInfo) => new CompletionItemBuilder(keyword, node, indentInfo)
