@@ -37,6 +37,13 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
   provideCompletionItems(document: vsc.TextDocument, position: vsc.Position, _token: vsc.CancellationToken): vsc.CompletionItem[] | vsc.CompletionList | Thenable<vsc.CompletionItem[] | vsc.CompletionList> {
     const line = document.lineAt(position.line)
     const dotIndex = line.text.lastIndexOf('.', position.character - 1)
+    const wordRange = document.getWordRangeAtPosition(position)
+    const isCursorOnWordAfterDot = (wordRange?.start ?? position).character === dotIndex + 1
+
+    if (dotIndex === -1 || !isCursorOnWordAfterDot) {
+      return []
+    }
+
     const dotOffset = document.offsetAt(position.with({ character: dotIndex }))
     const text = document.getText()
     const textBeforeDot = text.slice(0, dotOffset)
@@ -46,11 +53,8 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
 
     let message = "";
 
-    //const parsedTree = this.parser.parse(document.getText())
-    //traversePythonNodesWithCursor(parsedTree.rootNode);
     let treeNode = syntaxTree.rootNode.descendantForIndex(dotOffset - 1)
 
-    //if (treeNode && nodeIndex + 1 === treeNode.endIndex) {
     if (treeNode?.parent?.type === 'string') {
       treeNode = treeNode.parent
     }
@@ -82,19 +86,13 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
         message += `node.parent.type=${treeNode.parent.type}\n`
       }
     }
-    //}
+
     if (message) {
       vsc.window.showInformationMessage(message, { modal: true })
     }
+
     return []
 
-
-    const wordRange = document.getWordRangeAtPosition(position)
-    const isCursorOnWordAfterDot = (wordRange?.start ?? position).character === dotIndex + 1
-
-    if (dotIndex === -1 || !isCursorOnWordAfterDot) {
-      return []
-    }
 
     const { currentNode, fullSource, fullCurrentNode } = this.getNodeBeforeTheDot(document, position, dotIndex)
 
