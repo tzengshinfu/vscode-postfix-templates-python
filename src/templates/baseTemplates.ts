@@ -24,6 +24,8 @@ export abstract class BaseTemplate implements IPostfixTemplate {
   protected inVariableDeclaration = sitter.inVariableDeclaration
   protected inAssignmentStatement = sitter.inAssignmentStatement
   protected inIfStatement = sitter.inIfStatement
+  protected inAwaitedExpression = sitter.inAwaitedExpression
+  protected unwindBinaryExpression = sitter.unwindBinaryExpression
 }
 
 export abstract class BaseExpressionTemplate extends BaseTemplate {

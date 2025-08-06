@@ -18,7 +18,7 @@ abstract class BaseIfElseTemplate extends BaseExpressionTemplate {
 export class IfTemplate extends BaseIfElseTemplate {
   buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
     node = this.unwindBinaryExpression(node, false)
-    const replacement = this.unwindBinaryExpression(node, true).getText()
+    const replacement = this.unwindBinaryExpression(node, true).text
 
     return CompletionItemBuilder
       .create('if', node, indentInfo)

@@ -147,3 +147,46 @@ export const inIfStatement = (node: tree.Node, expressionNode?: tree.Node): bool
 
   return node.parent ? inIfStatement(node.parent, node) : false
 }
+
+export const inAwaitedExpression = (node: tree.Node): boolean => {
+  if (isAnyFunction(node)) {
+    return false
+  }
+  return node.type === 'await' || (node.parent && inAwaitedExpression(node.parent))
+}
+
+export const unwindBinaryExpression = (node: tree.Node, removeParens = true): tree.Node => {
+  let binaryExpression: tree.Node | undefined
+
+  if (
+    removeParens &&
+    node.type === 'parenthesized_expression' &&
+    node.namedChildren[0]?.type === 'binary_operator'
+  ) {
+    binaryExpression = node.namedChildren[0]
+  } else {
+    // 向上找到二元表達式
+    let current = node.parent
+    while (current) {
+      if (current.type === 'binary_operator' ||
+          current.type === 'boolean_operator' ||
+          current.type === 'comparison_operator') {
+        binaryExpression = current
+        break
+      }
+      current = current.parent
+    }
+  }
+
+  // 繼續向上展開到最頂層的二元表達式
+  while (
+    binaryExpression?.parent &&
+    (binaryExpression.parent.type === 'binary_operator' ||
+      binaryExpression.parent.type === 'boolean_operator' ||
+      binaryExpression.parent.type === 'comparison_operator')
+  ) {
+    binaryExpression = binaryExpression.parent
+  }
+
+  return binaryExpression ?? node
+}
