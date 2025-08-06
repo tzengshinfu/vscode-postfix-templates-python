@@ -115,14 +115,6 @@ export abstract class BaseTemplate implements IPostfixTemplate {
     return node.parent && this.inIfStatement(node.parent, node)
   }
 
-  protected inTypeReference = (node: ts.Node) => {
-    if (ts.isTypeReferenceNode(node)) {
-      return true
-    }
-
-    return node.parent && this.inTypeReference(node.parent)
-  }
-
   protected isNotInSingleLineString = (node: ts.Node) => {
     if (isStringLiteral(node)) {
       const text = node.getFullText().trim()

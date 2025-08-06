@@ -91,7 +91,7 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
       vsc.window.showInformationMessage(message, { modal: true })
     }
 
-    return []
+    //return []
 
 
     const { currentNode, fullSource, fullCurrentNode } = this.getNodeBeforeTheDot(document, position, dotIndex)
@@ -129,11 +129,6 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
     return item
   }
 
-  private isTypeReference = (node: ts.Node) => {
-    const typeRef = ts.findAncestor(node, ts.isTypeReferenceNode)
-    return !!typeRef
-  }
-
   private getNodeForReplacement = (node: ts.Node) => {
     if (ts.isTemplateSpan(node)) {
       return node.parent
@@ -141,16 +136,6 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
 
     if (ts.isPrefixUnaryExpression(node.parent) || ts.isPropertyAccessExpression(node.parent)) {
       return node.parent
-    }
-
-    if (ts.isQualifiedName(node.parent)) {
-      const typeRef = ts.findAncestor(node, ts.isTypeReferenceNode)
-
-      if (ts.isQualifiedName(typeRef.typeName)) {
-        return typeRef.typeName.left
-      }
-
-      return typeRef
     }
 
     return node
