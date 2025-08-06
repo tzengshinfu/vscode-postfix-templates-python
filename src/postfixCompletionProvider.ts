@@ -94,14 +94,14 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
     //return []
 
 
-    const { currentNode, fullSource, fullCurrentNode } = this.getNodeBeforeTheDot(document, position, dotIndex)
+    const { fullSource, fullCurrentNode } = this.getNodeBeforeTheDot(document, position, dotIndex)
 
-    if (!currentNode || this.shouldBeIgnored(fullSource, position)) {
+    if (!fullCurrentNode || this.shouldBeIgnored(fullSource, position)) {
       return []
     }
 
-    const indentInfo = this.getIndentInfo(document, currentNode)
-    const node = this.isTypeReference(fullCurrentNode) ? fullCurrentNode : currentNode
+    const indentInfo = this.getIndentInfo(document, fullCurrentNode)
+    const node = fullCurrentNode
     const replacementNode = this.getNodeForReplacement(node)
 
     try {
@@ -182,7 +182,7 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
       return node
     }
 
-    return { currentNode: findNormalizedNode(source), fullSource, fullCurrentNode: findNormalizedNode(fullSource) }
+    return { fullSource, fullCurrentNode: findNormalizedNode(fullSource) }
   }
 
   private convertToScriptKind(document: vsc.TextDocument) {
