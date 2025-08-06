@@ -13,7 +13,7 @@ export abstract class BaseTemplate implements IPostfixTemplate {
   protected isPropertyAccessExpression = (node: ts.Node) => ts.isPropertyAccessExpression(node)
   protected isElementAccessExpression = (node: ts.Node) => ts.isElementAccessExpression(node)
   protected isExpression = (node: ts.Node) => this.isSimpleExpression(node) || this.isPropertyAccessExpression(node) || this.isElementAccessExpression(node)
-  protected isIdentifier = (node: ts.Node) => ts.isIdentifier(node) && !this.inTypeReference(node.parent)
+  protected isIdentifier = (node: ts.Node) => ts.isIdentifier(node)
 
   protected isUnaryExpression = (node: ts.Node) => ts.isPostfixUnaryExpression(node) || ts.isPrefixUnaryExpression(node)
   protected isCallExpression = (node: ts.Node) => ts.isCallExpression(node)
@@ -30,7 +30,7 @@ export abstract class BaseTemplate implements IPostfixTemplate {
     }
 
     // Custom types (including namespaces) are encapsulated in TypeReferenceNode
-    return node.parent && this.inTypeReference(node.parent)
+    return node.parent
   }
 
   protected inAwaitedExpression = (node: ts.Node) => {

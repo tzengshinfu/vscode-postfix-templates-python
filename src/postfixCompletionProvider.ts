@@ -5,7 +5,6 @@ import * as ts from 'typescript'
 import { IndentInfo, IPostfixTemplate } from './template'
 import { AllTabs, AllSpaces } from './utils/multiline-expressions'
 import { loadBuiltinTemplates, loadCustomTemplates } from './utils/templates'
-import { findNodeAtPosition } from './utils/typescript'
 import { CustomTemplate } from './templates/customTemplate'
 import { getHtmlLikeEmbedText } from './htmlLikeSupport'
 import * as tree from './web-tree-sitter';
@@ -39,75 +38,21 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
     const dotIndex = line.text.lastIndexOf('.', position.character - 1)
     const wordRange = document.getWordRangeAtPosition(position)
     const isCursorOnWordAfterDot = (wordRange?.start ?? position).character === dotIndex + 1
-
     if (dotIndex === -1 || !isCursorOnWordAfterDot) {
       return []
     }
 
-    const dotOffset = document.offsetAt(position.with({ character: dotIndex }))
-    const text = document.getText()
-    const textBeforeDot = text.slice(0, dotOffset)
-    const textAfterDot = text.slice(dotOffset + 1)
-    const textReplaceDotWithSpace = textBeforeDot + " " + textAfterDot
-    const syntaxTree = this.parser.parse(textReplaceDotWithSpace)
-
-    let message = "";
-
-    let treeNode = syntaxTree.rootNode.descendantForIndex(dotOffset - 1)
-
-    if (treeNode?.parent?.type === 'string') {
-      treeNode = treeNode.parent
-    }
-
-    if (treeNode.type === 'module') {
-      treeNode = null
-    }
-
-    if (treeNode?.type === 'ERROR') {
-      treeNode = null
-    }
-
-    if (treeNode?.parent?.type === 'ERROR') {
-      treeNode = null
-    }
-
-    // 在Node後方而不是Node內部
-    if (treeNode.endIndex !== dotOffset) {
-      treeNode = null
-    }
-
-    if (treeNode) {
-      message += `dotOffset=${dotOffset}\n`
-      message += `node.endIndex=${treeNode.endIndex}\n`
-      message += `node.text=${treeNode.text}\n`
-      message += `node.type=${treeNode.type}\n`
-
-      if (treeNode.parent) {
-        message += `node.parent.type=${treeNode.parent.type}\n`
-      }
-    }
-
-    if (message) {
-      vsc.window.showInformationMessage(message, { modal: true })
-    }
-
-    //return []
-
-
-    const { fullSource, fullCurrentNode } = this.getNodeBeforeTheDot(document, position, dotIndex)
-
-    if (!fullCurrentNode || this.shouldBeIgnored(fullSource, position)) {
+    const fullCurrentNode = this.getNodeBeforeTheDot(document, position, dotIndex)
+    if (!fullCurrentNode) {
       return []
     }
 
     const indentInfo = this.getIndentInfo(document, fullCurrentNode)
-    const node = fullCurrentNode
-    const replacementNode = this.getNodeForReplacement(node)
 
     try {
       return this.templates
         .filter(t => {
-          let canUseTemplate = t.canUse(ts.isNonNullExpression(node) ? node.expression : node)
+          let canUseTemplate = t.canUse(ts.isNonNullExpression(fullCurrentNode) ? fullCurrentNode.expression : fullCurrentNode)
 
           if (this.mergeMode === 'override') {
             canUseTemplate &&= (t instanceof CustomTemplate || !this.customTemplateNames.includes(t.templateName))
@@ -115,7 +60,7 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
 
           return canUseTemplate
         })
-        .flatMap(t => t.buildCompletionItem(replacementNode, indentInfo))
+        .flatMap(t => t.buildCompletionItem(fullCurrentNode, indentInfo))
     } catch (err) {
       console.error('Error while building postfix autocomplete items:')
       console.error(err)
@@ -129,85 +74,86 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
     return item
   }
 
-  private getNodeForReplacement = (node: ts.Node) => {
-    if (ts.isTemplateSpan(node)) {
-      return node.parent
-    }
-
-    if (ts.isPrefixUnaryExpression(node.parent) || ts.isPropertyAccessExpression(node.parent)) {
-      return node.parent
-    }
-
-    return node
-  }
-
   private getHtmlLikeEmbeddedText(document: vsc.TextDocument, position: vsc.Position) {
     const knownHtmlLikeLangs = [
-      'html',
-      'vue',
-      'svelte'
+      'html'
     ]
 
     if (knownHtmlLikeLangs.includes(document.languageId)) {
       return getHtmlLikeEmbedText(document, document.offsetAt(position))
     }
 
-    return undefined
+    return null
   }
 
-  private getNodeBeforeTheDot(document: vsc.TextDocument, position: vsc.Position, dotIdx: number) {
-    const dotOffset = document.offsetAt(position.with({ character: dotIdx }))
+  private getNodeBeforeTheDot(document: vsc.TextDocument, position: vsc.Position, dotIndex: number) {
+    const dotOffset = document.offsetAt(position.with({ character: dotIndex }))
     const speciallyHandledText = this.getHtmlLikeEmbeddedText(document, position)
-
-    if (speciallyHandledText === null) {
-      return {}
-    }
-
     const fullText = speciallyHandledText ?? document.getText()
-    const codeBeforeTheDot = fullText.slice(0, dotOffset)
+    const textBeforeDot = fullText.slice(0, dotOffset)
+    const textAfterDot = fullText.slice(dotOffset + 1)
+    const textReplaceDotWithSpace = textBeforeDot + " " + textAfterDot
+    const syntaxTree = this.parser.parse(textReplaceDotWithSpace)
 
-    const scriptKind = this.convertToScriptKind(document)
-    const source = ts.createSourceFile('test.ts', codeBeforeTheDot, ts.ScriptTarget.ESNext, true, scriptKind)
-    const fullSource = ts.createSourceFile('test.ts', fullText, ts.ScriptTarget.ESNext, true, scriptKind)
-
-    const typedTemplate = document.getText(document.getWordRangeAtPosition(position))
-
-    const findNormalizedNode = (source: ts.SourceFile) => {
-      const beforeTheDotPosition = ts.getPositionOfLineAndCharacter(source, position.line, dotIdx - 1)
-      let node = findNodeAtPosition(source, beforeTheDotPosition)
-      if (node && ts.isIdentifier(node) && ts.isPropertyAccessExpression(node.parent)
-        && (node.parent.name.text != typedTemplate || ts.isPrefixUnaryExpression(node.parent.parent))) {
-        node = node.parent
-      }
-      return node
+    let treeNode = syntaxTree.rootNode.descendantForIndex(dotOffset - 1)
+    if (!treeNode) {
+      return null
     }
 
-    return { fullSource, fullCurrentNode: findNormalizedNode(fullSource) }
+    // for f-strings interpolation
+    if (treeNode?.parent?.type === 'interpolation') {
+      treeNode = treeNode.parent.parent
+    }
+
+    // for string_content/string_start/string_end
+    if (treeNode?.parent?.type === 'string') {
+      treeNode = treeNode.parent
+    }
+
+    // for -x
+    if (treeNode?.parent?.type === 'unary_operator') {
+      treeNode = treeNode.parent
+    }
+
+    // for not True
+    if (treeNode?.parent?.type === 'not_operator') {
+      treeNode = treeNode.parent
+    }
+
+    // for x.y
+    if (treeNode?.parent?.type === 'attribute') {
+      treeNode = treeNode.parent
+    }
+
+    // for x[0]
+    if (treeNode?.parent?.type === 'subscript') {
+      treeNode = treeNode.parent
+    }
+
+    // for def(x, y)
+    if (treeNode?.parent?.parent?.type == 'call') {
+      treeNode = treeNode.parent.parent
+    }
+
+    if (treeNode?.type === 'module'
+      || treeNode?.type === 'ERROR'
+      || treeNode?.parent?.type === 'ERROR'
+      || treeNode?.type === 'comment') {
+      return null
+    }
+
+    // 確保[.]在節點結尾位置
+    if (treeNode?.endIndex !== dotOffset) {
+      return null
+    }
+
+    return treeNode
   }
 
-  private convertToScriptKind(document: vsc.TextDocument) {
-    if (overrideTsxEnabled.value) {
-      return ts.ScriptKind.TSX
-    }
-    switch (document.languageId) {
-      case 'javascript':
-        return ts.ScriptKind.JS
-      case 'typescript':
-        return ts.ScriptKind.TS
-      case 'javascriptreact':
-        return ts.ScriptKind.JSX
-      case 'typescriptreact':
-        return ts.ScriptKind.TSX
-      default:
-        return ts.ScriptKind.Unknown
-    }
-  }
+  private getIndentInfo(document: vsc.TextDocument, node: tree.Node): IndentInfo {
+    const startPos = node.startPosition
+    const line = document.lineAt(startPos.row)
 
-  private getIndentInfo(document: vsc.TextDocument, node: ts.Node): IndentInfo {
-    const source = node.getSourceFile()
-    const position = ts.getLineAndCharacterOfPosition(source, node.getStart(source))
-
-    const line = document.lineAt(position.line)
     const whitespaces = line.text.substring(0, line.firstNonWhitespaceCharacterIndex)
     let indentSize = 0
 
@@ -221,64 +167,6 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
       indentSize,
       leadingWhitespace: whitespaces
     }
-  }
-
-  private shouldBeIgnored(fullSource: ts.SourceFile, position: vsc.Position) {
-    const pos = fullSource.getPositionOfLineAndCharacter(position.line, position.character)
-    const node = findNodeAtPosition(fullSource, pos)
-
-    return node && (isComment(node) || isJsx(node))
-
-    function isComment(node: ts.Node) {
-      return [
-        ts.SyntaxKind.JSDocComment,
-        ts.SyntaxKind.JSDoc,
-        ts.SyntaxKind.MultiLineCommentTrivia,
-        ts.SyntaxKind.SingleLineCommentTrivia
-      ].includes(node.kind)
-    }
-
-    function isJsx(node: ts.Node) {
-      const jsx = ts.findAncestor(node, ts.isJsxElement)
-      const jsxFragment = ts.findAncestor(node, ts.isJsxFragment)
-      const jsxExpression = ts.findAncestor(node, ts.isJsxExpression)
-
-      return (!!jsx || !!jsxFragment) && !jsxExpression
-    }
-  }
-}
-
-function traversePythonNodesWithCursor(node: tree.Node) {
-  const cursor = node.walk();
-  let depth = 0;
-
-  // 輸出根節點
-  console.log(new Array(depth + 1).join('----'), cursor.nodeType, cursor.startIndex, cursor.endIndex, `[${cursor.nodeText}]\n`);
-
-  // 深度優先遍歷
-  if (cursor.gotoFirstChild()) {
-    depth++;
-
-    do {
-      // 輸出當前節點
-      console.log(new Array(depth + 1).join('----'), cursor.nodeType, cursor.startIndex, cursor.endIndex, `[${cursor.nodeText}]\n`);
-
-      // 如果有子節點，進入子節點
-      if (cursor.gotoFirstChild()) {
-        depth++;
-        continue;
-      }
-
-      // 沒有子節點，嘗試移動到下一個兄弟節點
-      while (!cursor.gotoNextSibling()) {
-        // 沒有兄弟節點，回到父節點
-        if (!cursor.gotoParent()) {
-          // 已經回到根節點，遍歷完成
-          return;
-        }
-        depth--;
-      }
-    } while (true);
   }
 }
 
