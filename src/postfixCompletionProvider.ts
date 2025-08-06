@@ -45,11 +45,10 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
     const syntaxTree = this.parser.parse(textReplaceDotWithSpace)
 
     let message = "";
-    const nodeIndex = dotOffset - 1
 
     //const parsedTree = this.parser.parse(document.getText())
     //traversePythonNodesWithCursor(parsedTree.rootNode);
-    let treeNode = syntaxTree.rootNode.descendantForIndex(nodeIndex)
+    let treeNode = syntaxTree.rootNode.descendantForIndex(dotOffset - 1)
 
     //if (treeNode && nodeIndex + 1 === treeNode.endIndex) {
     if (treeNode?.parent?.type === 'string') {
@@ -68,20 +67,26 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
       treeNode = null
     }
 
+    // 在Node後方而不是Node內部
+    if (treeNode.endIndex !== dotOffset) {
+      treeNode = null
+    }
+
     if (treeNode) {
-      message += `node.text=${treeNode.text}\n`;
-      message += `node.type=${treeNode.type}\n`;
+      message += `dotOffset=${dotOffset}\n`
+      message += `node.endIndex=${treeNode.endIndex}\n`
+      message += `node.text=${treeNode.text}\n`
+      message += `node.type=${treeNode.type}\n`
 
       if (treeNode.parent) {
-        message += `node.parent.type=${treeNode.parent.type}\n`;
+        message += `node.parent.type=${treeNode.parent.type}\n`
       }
     }
     //}
     if (message) {
-      message = `cursorPosition=${nodeIndex}\n` + message;
-      vsc.window.showInformationMessage(message, { modal: true });
+      vsc.window.showInformationMessage(message, { modal: true })
     }
-    return;
+    return []
 
 
     const wordRange = document.getWordRangeAtPosition(position)
