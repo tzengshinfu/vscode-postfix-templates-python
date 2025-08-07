@@ -1,5 +1,6 @@
 import * as ts from 'typescript'
 import * as tree from '../web-tree-sitter'
+import * as py from '../utils/python'
 
 const operatorMapping = new Map<ts.SyntaxKind, ts.SyntaxKind>([
   [ts.SyntaxKind.EqualsEqualsToken, ts.SyntaxKind.ExclamationEqualsToken],
@@ -36,7 +37,7 @@ export const invertBinaryExpression = (expr: ts.BinaryExpression, addOrBrackets 
 }
 
 export const invertExpression = (expr: tree.Node, addOrBrackets = false) => {
-  const text = expr.getText()
+  const text = expr.text
 
   // not (expr) => expr
   const notWithBracketsPattern = /(not)(\s*)(\()(.*)(\))/g
@@ -45,14 +46,14 @@ export const invertExpression = (expr: tree.Node, addOrBrackets = false) => {
   }
 
   // (x > y) => (x <= y)
-  if (ts.isParenthesizedExpression(expr) && ts.isBinaryExpression(expr.expression)) {
+  if (py.isParenthesizedExpression(expr) && py.isBinaryExpression(expr.expression)) {
     const result = invertBinaryExpression(expr.expression, addOrBrackets)
     if (result) {
       return `(${result})`
     }
   }
 
-  if (ts.isBinaryExpression(expr)) {
+  if (py.isBinaryExpression(expr)) {
     // x > y => x <= y
     const result = invertBinaryExpression(expr, addOrBrackets)
     if (result) {
