@@ -40,7 +40,7 @@ export const invertExpression = (expr: ts.Node, addOrBrackets = false) => {
   // not (expr) => expr
   const notWithBracketsPattern = /(not)(\s*)(\()(.*)(\))/g
   if (notWithBracketsPattern.test(text)) {
-    return text.replace(notWithBracketsPattern, "$4");
+    return text.replace(notWithBracketsPattern, "$4")
   }
 
   // (x > y) => (x <= y)

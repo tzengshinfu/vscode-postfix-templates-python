@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as vsc from 'vscode'
 
 import { IndentInfo, IPostfixTemplate } from './template'
@@ -29,7 +28,7 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
       ...customTemplates
     ]
 
-    this.parser = parser;
+    this.parser = parser
   }
 
   provideCompletionItems(document: vsc.TextDocument, position: vsc.Position, _token: vsc.CancellationToken): vsc.CompletionItem[] | vsc.CompletionList | Thenable<vsc.CompletionItem[] | vsc.CompletionList> {

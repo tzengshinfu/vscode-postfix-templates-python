@@ -1,5 +1,5 @@
 //@ts-check
-import * as process from "node:process";
+import * as process from 'node:process'
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 
 const LANGUAGE = 'postfix'

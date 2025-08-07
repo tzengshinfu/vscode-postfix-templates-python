@@ -1,5 +1,5 @@
 import * as vsc from 'vscode'
-import * as tree from './web-tree-sitter';
+import * as tree from './web-tree-sitter'
 
 export interface IPostfixTemplate {
   readonly templateName: string
