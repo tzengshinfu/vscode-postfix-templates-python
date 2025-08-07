@@ -11,6 +11,10 @@ export const isBinaryExpression = (node: tree.Node): boolean => {
     node.type === 'comparison_operator'
 }
 
+export const isElementAccessExpression = (node: tree.Node): boolean => {
+  return node.type === 'subscript'
+}
+
 export const isExpression = (node: tree.Node): boolean => {
   const expressionTypes = [
     'identifier', 'call', 'attribute', 'subscript',
@@ -99,6 +103,10 @@ export const inReturnStatement = (node: tree.Node): boolean => {
   }
 
   return node.parent ? inReturnStatement(node.parent) : false
+}
+
+export const isSimpleExpression = (node: tree.Node): boolean => {
+  return node.type === 'expression_statement' && !isStringLiteral(node)
 }
 
 export const inFunctionArgument = (node: tree.Node): boolean => {

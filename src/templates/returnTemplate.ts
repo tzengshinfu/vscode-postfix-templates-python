@@ -1,6 +1,5 @@
 import { CompletionItemBuilder } from '../completionItemBuilder'
 import { IndentInfo } from '../template'
-// Removed typescript import - isStringLiteral functionality will be implemented with tree-sitter
 import { BaseExpressionTemplate } from './baseTemplates'
 import * as tree from '../web-tree-sitter'
 
