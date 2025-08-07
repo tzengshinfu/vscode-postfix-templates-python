@@ -1,6 +1,6 @@
 import { CompletionItemBuilder } from '../completionItemBuilder'
 import { BaseExpressionTemplate } from './baseTemplates'
-import { getIndentCharacters } from '../utils'
+import { getIndentCharacters } from '../utils/utils'
 import { invertExpression } from '../utils/invert-expression'
 import { IndentInfo } from '../template'
 import * as tree from '../web-tree-sitter'
@@ -22,19 +22,19 @@ export class IfTemplate extends BaseIfElseTemplate {
 
     return CompletionItemBuilder
       .create('if', node, indentInfo)
-      .replace(`if (${replacement}) {\n${getIndentCharacters()}\${0}\n}`)
+      .replace(`if ${replacement}:\n${getIndentCharacters()}\${0}`)
       .build()
   }
 }
 
-export class ElseTemplate extends BaseIfElseTemplate {
+export class IfElseTemplate extends BaseIfElseTemplate {
   buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
     node = this.unwindBinaryExpression(node, false)
     const replacement = invertExpression(this.unwindBinaryExpression(node, true))
 
     return CompletionItemBuilder
-      .create('else', node, indentInfo)
-      .replace(`if (${replacement}) {\n${getIndentCharacters()}\${0}\n}`)
+      .create('ifelse', node, indentInfo)
+      .replace(`if ${replacement}:\n${getIndentCharacters()}\${0}\nelse:\n`)
       .build()
   }
 }
@@ -51,7 +51,7 @@ export class IfEqualityTemplate extends BaseIfElseTemplate {
   buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
     return CompletionItemBuilder
       .create(this.keyword, node, indentInfo)
-      .replace(`if ({{expr}} ${this.operator} ${this.operand}) {\n${getIndentCharacters()}\${0}\n}`)
+      .replace(`if {{expr}} ${this.operator} ${this.operand}: \n${getIndentCharacters()}\${0}`)
       .build()
   }
 }

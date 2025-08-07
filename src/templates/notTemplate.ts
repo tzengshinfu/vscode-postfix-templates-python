@@ -1,9 +1,9 @@
 import { CompletionItemBuilder } from '../completionItemBuilder'
 import { BaseTemplate } from './baseTemplates'
-import { NOT_COMMAND } from '../notCommand'
+import { NOT_COMMAND } from '../utils/notCommand'
 import { IndentInfo } from '../template'
 import * as tree from '../web-tree-sitter'
-import * as sitter from '../sitter'
+import * as py from '../utils/python'
 import { invertExpression } from '../utils/invert-expression'
 
 export class NotTemplate extends BaseTemplate {
@@ -45,7 +45,7 @@ export class NotTemplate extends BaseTemplate {
   }
 
   private isStrictEqualityOrInstanceofBinaryExpression = (node: tree.Node) => {
-    if (sitter.isBinaryExpression(node)) {
+    if (py.isBinaryExpression(node)) {
       const operatorNode = node.namedChildren.find(child => child.type ===
         'comparison_operator')
       if (operatorNode) {
@@ -54,7 +54,7 @@ export class NotTemplate extends BaseTemplate {
       }
     }
 
-    if (sitter.isCallExpression(node) && node.namedChildren[0]?.text ===
+    if (py.isCallExpression(node) && node.namedChildren[0]?.text ===
       'isinstance') {
       return true
     }
@@ -75,12 +75,12 @@ export class NotTemplate extends BaseTemplate {
   }
 
   private normalizeBinaryExpression = (node: tree.Node) => {
-    if (node.parent && sitter.isParenthesizedExpression(node.parent) &&
-      node.parent.namedChildren.length > 0 && sitter.isBinaryExpression(node.parent.namedChildren[0])) {
+    if (node.parent && py.isParenthesizedExpression(node.parent) &&
+      node.parent.namedChildren.length > 0 && py.isBinaryExpression(node.parent.namedChildren[0])) {
       return node.parent
     }
 
-    if (sitter.isPrefixUnaryExpression(node) && node.type === 'not_operator') {
+    if (py.isPrefixUnaryExpression(node) && node.type === 'not_operator') {
       return node
     }
 

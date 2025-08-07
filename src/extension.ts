@@ -1,7 +1,7 @@
 'use strict'
 import * as vsc from 'vscode'
 import { PostfixCompletionProvider } from './postfixCompletionProvider'
-import { notCommand, NOT_COMMAND } from './notCommand'
+import { notCommand, NOT_COMMAND } from './utils/notCommand'
 import * as tree from './web-tree-sitter'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires

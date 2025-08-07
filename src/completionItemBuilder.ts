@@ -1,8 +1,8 @@
 import * as vsc from 'vscode'
-import * as sitter from './sitter'
+import * as py from './utils/python'
 import { adjustLeadingWhitespace, adjustMultilineIndentation } from './utils/multiline-expressions'
 import { SnippetParser } from 'vscode-snippet-parser'
-import { getConfigValue } from './utils'
+import { getConfigValue } from './utils/utils'
 import { IndentInfo } from './template'
 import * as tree from './web-tree-sitter'
 
@@ -14,7 +14,7 @@ export class CompletionItemBuilder {
   private node: tree.Node
 
   private constructor(keyword: string, node: tree.Node, private indentInfo: IndentInfo) {
-    if (node.parent && sitter.isAwaitExpression(node.parent)) {
+    if (node.parent && py.isAwaitExpression(node.parent)) {
       node = node.parent
     }
 
@@ -38,8 +38,8 @@ export class CompletionItemBuilder {
   public replace = (replacement: string): CompletionItemBuilder => {
     this.addCodeBlockDescription(replacement, this.code.replace(/\\/g, '\\\\'))
 
-    const nodeStart = sitter.getLineAndCharacterOfPosition(this.node, sitter.getNodeStart(this.node))
-    const nodeEnd = sitter.getLineAndCharacterOfPosition(this.node, sitter.getNodeEnd(this.node))
+    const nodeStart = py.getLineAndCharacterOfPosition(this.node, py.getNodeStart(this.node))
+    const nodeEnd = py.getLineAndCharacterOfPosition(this.node, py.getNodeEnd(this.node))
 
     const rangeToDelete = new vsc.Range(
       new vsc.Position(nodeStart.line, nodeStart.character),

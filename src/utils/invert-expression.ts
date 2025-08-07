@@ -1,4 +1,5 @@
 import * as ts from 'typescript'
+import * as tree from '../web-tree-sitter'
 
 const operatorMapping = new Map<ts.SyntaxKind, ts.SyntaxKind>([
   [ts.SyntaxKind.EqualsEqualsToken, ts.SyntaxKind.ExclamationEqualsToken],
@@ -34,7 +35,7 @@ export const invertBinaryExpression = (expr: ts.BinaryExpression, addOrBrackets 
   }
 }
 
-export const invertExpression = (expr: ts.Node, addOrBrackets = false) => {
+export const invertExpression = (expr: tree.Node, addOrBrackets = false) => {
   const text = expr.getText()
 
   // not (expr) => expr

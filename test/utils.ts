@@ -5,7 +5,7 @@ import { getCurrentSuggestion } from '../src/postfixCompletionProvider'
 import { parseDSL, ITestDSL } from './dsl'
 import { runTest } from './runner'
 import { EOL } from 'node:os'
-import { CustomTemplateBodyType } from '../src/utils/templates'
+import { CustomTemplateBodyType } from '../src/templates'
 
 const LANGUAGE = 'postfix'
 

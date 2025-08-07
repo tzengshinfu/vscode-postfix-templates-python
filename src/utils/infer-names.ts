@@ -1,14 +1,15 @@
 import _ = require("lodash")
 import pluralize = require("pluralize")
-import ts = require("typescript")
+import * as tree from '../web-tree-sitter'
+import * as py from './python'
 
 const MethodCallRegex = /^(get|read|create|retrieve|select|modify|update|use|find)(?<name>[A-Z].+?)?$/
 const CleanNameRegex = /((By|With|From).*$)|(Sync$)|.*(?=Items|Lines$)/
 
 const lowerFirst = (name: string) => name && _.lowerFirst(name)
 
-export const inferVarTemplateName = (node: ts.Node): string[] => {
-  if (ts.isCallExpression(node)) {
+export const inferVarTemplateName = (node: tree.Node): string[] => {
+  if (py.isCallExpression(node)) {
     const methodName = getMethodName(node)
     const name = beautifyMethodName(methodName)
     if (!name) {
@@ -19,13 +20,13 @@ export const inferVarTemplateName = (node: ts.Node): string[] => {
   }
 }
 
-export const inferForVarTemplate = (node: ts.Node): string[] => {
+export const inferForVarTemplate = (node: tree.Node): string[] => {
   const subjectName = getForExpressionName(node)
   if (!subjectName) {
     return
   }
 
-  const clean = ts.isCallExpression(node)
+  const clean = py.isCallExpression(node)
     ? beautifyMethodName(subjectName)
     : subjectName.replace(/^(?:all)?(.+?)(?:List)?$/, "$1")
 
@@ -45,28 +46,20 @@ function beautifyMethodName(name: string) {
   return MethodCallRegex.exec(name)?.groups?.name
 }
 
-function getForExpressionName(node: ts.Node) {
-  if (ts.isIdentifier(node)) {
+function getForExpressionName(node: tree.Node) {
+  if (py.isIdentifier(node)) {
     return node.text
-  } else if (ts.isPropertyAccessExpression(node)) {
+  } else if (py.isPropertyAccessExpression(node)) {
     return node.name.text
-  } else if (ts.isCallExpression(node)) {
+  } else if (py.isCallExpression(node)) {
     return getMethodName(node)
   }
 }
 
-function getMethodName(node: ts.CallExpression) {
-  if (ts.isIdentifier(node.expression)) {
+function getMethodName(node: tree.Node) {
+  if (py.isIdentifier(node.expression)) {
     return node.expression.text
-  } else if (ts.isPropertyAccessExpression(node.expression)) {
-    return node.expression.name.text
-  }
-}
-
-function inferNewExpressionVar(node: ts.NewExpression) {
-  if (ts.isIdentifier(node.expression)) {
-    return node.expression.text
-  } else if (ts.isPropertyAccessExpression(node.expression)) {
+  } else if (py.isPropertyAccessExpression(node.expression)) {
     return node.expression.name.text
   }
 }

@@ -2,9 +2,9 @@ import * as vsc from 'vscode'
 
 import { IndentInfo, IPostfixTemplate } from './template'
 import { AllTabs, AllSpaces } from './utils/multiline-expressions'
-import { loadBuiltinTemplates, loadCustomTemplates } from './utils/templates'
+import { loadBuiltinTemplates, loadCustomTemplates } from './templates'
 import { CustomTemplate } from './templates/customTemplate'
-import { getHtmlLikeEmbedText } from './htmlLikeSupport'
+import { getHtmlLikeEmbedText } from './utils/htmlLikeSupport'
 import * as tree from './web-tree-sitter'
 
 let currentSuggestion = undefined

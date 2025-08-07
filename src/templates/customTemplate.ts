@@ -1,7 +1,7 @@
 import { BaseTemplate } from './baseTemplates'
 import { CompletionItemBuilder } from '../completionItemBuilder'
 import { IndentInfo } from '../template'
-import { CustomTemplateBodyType } from '../utils/templates'
+import { CustomTemplateBodyType } from '../templates'
 import * as tree from '../web-tree-sitter'
 
 export class CustomTemplate extends BaseTemplate {

@@ -1,10 +1,10 @@
 import { CompletionItemBuilder } from '../completionItemBuilder'
 import { BaseTemplate } from './baseTemplates'
-import { getConfigValue, getIndentCharacters, getPlaceholderWithOptions } from '../utils'
+import { getConfigValue, getIndentCharacters, getPlaceholderWithOptions } from '../utils/utils'
 import { inferForVarTemplate } from '../utils/infer-names'
 import { IndentInfo } from '../template'
 import * as tree from '../web-tree-sitter'
-import * as sitter from '../sitter'
+import * as py from '../utils/python'
 
 abstract class BaseForTemplate extends BaseTemplate {
   canUse(node: tree.Node): boolean {
@@ -53,6 +53,6 @@ export class ForRangeTemplate extends BaseForTemplate {
   }
 
   override canUse(node: tree.Node) {
-    return !Number.isNaN(Number.parseFloat(sitter.getNodeText(node))) || (sitter.isExpression(node) && node.type !== 'string')
+    return !Number.isNaN(Number.parseFloat(py.getNodeText(node))) || (py.isExpression(node) && node.type !== 'string')
   }
 }
