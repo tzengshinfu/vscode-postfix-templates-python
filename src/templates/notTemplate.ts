@@ -45,8 +45,21 @@ export class NotTemplate extends BaseTemplate {
   }
 
   private isStrictEqualityOrInstanceofBinaryExpression = (node: tree.Node) => {
-    return sitter.isBinaryExpression(node) &&
-           (node.type === 'comparison_operator' || node.type === 'boolean_operator')
+    if (sitter.isBinaryExpression(node)) {
+      const operatorNode = node.namedChildren.find(child => child.type ===
+        'comparison_operator')
+      if (operatorNode) {
+        const operatorText = operatorNode.text
+        return operatorText === 'is' || operatorText === 'is not'
+      }
+    }
+
+    if (sitter.isCallExpression(node) && node.namedChildren[0]?.text ===
+      'isinstance') {
+      return true
+    }
+
+    return false
   }
 
   private getBinaryExpressions = (node: tree.Node) => {
@@ -63,7 +76,7 @@ export class NotTemplate extends BaseTemplate {
 
   private normalizeBinaryExpression = (node: tree.Node) => {
     if (node.parent && sitter.isParenthesizedExpression(node.parent) &&
-        node.parent.namedChildren.length > 0 && sitter.isBinaryExpression(node.parent.namedChildren[0])) {
+      node.parent.namedChildren.length > 0 && sitter.isBinaryExpression(node.parent.namedChildren[0])) {
       return node.parent
     }
 
