@@ -31,9 +31,10 @@
       "properties": {
         "postfix.languages": {
           "type": "array",
-          "items": {
-            "type": "string"
-          },
+          "enum": [
+            "python",
+            "html"
+          ],
           "description": "A list of languages in which the completion will be available",
           "default": [
             "python",
