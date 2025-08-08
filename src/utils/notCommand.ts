@@ -19,8 +19,8 @@ export function notCommand(editor: vsc.TextEditor, expressions: tree.Node[]) {
       editor.edit(e => {
         const node = value.node
 
-        const nodeStart = py.getLineAndCharacterOfPosition(node, py.getNodeStart(node))
-        const nodeEnd = py.getLineAndCharacterOfPosition(node, py.getNodeEnd(node))
+        const nodeStart = py.getLineAndCharacterOfPosition(node, node.startIndex)
+        const nodeEnd = py.getLineAndCharacterOfPosition(node, node.endIndex)
 
         const range = new vsc.Range(
           new vsc.Position(nodeStart.line, nodeStart.character),
@@ -28,7 +28,7 @@ export function notCommand(editor: vsc.TextEditor, expressions: tree.Node[]) {
         )
 
         e.delete(range)
-        e.insert(range.start, `not (${py.getNodeText(value.node)})`
+        e.insert(range.start, `not (${value.node.text})`)
       })
     })
 }

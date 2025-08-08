@@ -52,6 +52,6 @@ export class ForRangeTemplate extends BaseForTemplate {
   }
 
   override canUse(node: tree.Node) {
-    return !Number.isNaN(Number.parseFloat(py.getNodeText(node))) || (py.isExpression(node) && !py.isStringLiteral(node))
+    return !Number.isNaN(Number.parseFloat(node.text)) || (py.isExpression(node) && !py.isStringLiteral(node))
   }
 }

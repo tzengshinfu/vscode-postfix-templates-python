@@ -51,16 +51,23 @@ function getForExpressionName(node: tree.Node) {
   if (py.isIdentifier(node)) {
     return node.text
   } else if (py.isPropertyAccessExpression(node)) {
-    return node.name.text
+    return node.lastNamedChild.text
   } else if (py.isCallExpression(node)) {
     return getMethodName(node)
   }
 }
 
 function getMethodName(node: tree.Node) {
-  if (py.isIdentifier(node.expression)) {
-    return node.expression.text
-  } else if (py.isPropertyAccessExpression(node.expression)) {
-    return node.expression.name.text
+  // For Python call expressions, the function being called is the first child
+  const functionNode = node.firstNamedChild
+  if (!functionNode) {
+    return
+  }
+
+  if (py.isIdentifier(functionNode)) {
+    return functionNode.text
+  } else if (py.isPropertyAccessExpression(functionNode)) {
+    // For method calls like obj.method(), get the method name
+    return functionNode.lastNamedChild?.text
   }
 }

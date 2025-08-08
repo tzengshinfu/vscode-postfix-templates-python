@@ -51,19 +51,6 @@ export const getLineAndCharacterOfPosition = (node: tree.Node, offset: number): 
   return { line: node.startPosition.row, character: node.startPosition.column }
 }
 
-// Node text and range utilities
-export const getNodeStart = (node: tree.Node): number => {
-  return node.startIndex
-}
-
-export const getNodeEnd = (node: tree.Node): number => {
-  return node.endIndex
-}
-
-export const getNodeText = (node: tree.Node): string => {
-  return node.text
-}
-
 // Specific Python node checks
 export const isIdentifier = (node: tree.Node): boolean => {
   return node.type === 'identifier'
@@ -110,10 +97,6 @@ export const inReturnStatement = (node: tree.Node): boolean => {
   return node.parent ? inReturnStatement(node.parent) : false
 }
 
-export const isSimpleExpression = (node: tree.Node): boolean => {
-  return node.type === 'expression_statement' && !isStringLiteral(node)
-}
-
 export const inFunctionArgument = (node: tree.Node): boolean => {
   return node.parent?.type === 'argument_list'
 }
@@ -143,7 +126,7 @@ export const inAssignmentStatement = (node: tree.Node): boolean => {
 
   // Check if parent is assignment and we're on the left side
   if (node.parent?.type === 'assignment') {
-    return node.parent.namedChildren[0] === node
+    return node.parent.firstNamedChild === node
   }
 
   return node.parent ? inAssignmentStatement(node.parent) : false
@@ -156,7 +139,7 @@ export const inIfStatement = (node: tree.Node, expressionNode?: tree.Node): bool
     }
 
     // Check if expressionNode is the condition of this if statement
-    return node.namedChildren[0] === expressionNode
+    return node.firstNamedChild === expressionNode
   }
 
   return node.parent ? inIfStatement(node.parent, node) : false
@@ -176,9 +159,9 @@ export const unwindBinaryExpression = (node: tree.Node, removeParens = true): tr
   if (
     removeParens
     && node.type === 'parenthesized_expression'
-    && node.namedChildren[0]?.type === 'binary_operator'
+    && node.firstNamedChild?.type === 'binary_operator'
   ) {
-    binaryExpression = node.namedChildren[0]
+    binaryExpression = node.firstNamedChild
   } else {
     // Find the binary expression upwards
     let current = node.parent
