@@ -1,6 +1,10 @@
 import * as tree from '../web-tree-sitter'
 
 // Python tree-sitter node type checking functions
+export const isArrayLiteral = (node: tree.Node): boolean => {
+  return node.type === 'list'
+}
+
 export const isAwaitExpression = (node: tree.Node): boolean => {
   return node.type === 'await'
 }

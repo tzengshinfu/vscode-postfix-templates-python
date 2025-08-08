@@ -2,10 +2,11 @@ import { CompletionItemBuilder } from '../completionItemBuilder'
 import { IndentInfo } from '../template'
 import { BaseExpressionTemplate } from './baseTemplates'
 import * as tree from '../web-tree-sitter'
+import * as py from '../utils/python'
 
 export class ReturnTemplate extends BaseExpressionTemplate {
   buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
-    node = this.unwindBinaryExpression(node)
+    node = py.unwindBinaryExpression(node)
 
     return CompletionItemBuilder
       .create('return', node, indentInfo)
@@ -14,10 +15,12 @@ export class ReturnTemplate extends BaseExpressionTemplate {
   }
 
   override canUse(node: tree.Node) {
-    return (super.canUse(node) || this.isObjectLiteral(node) || this.isStringLiteral(node))
-      && !this.inReturnStatement(node)
-      && !this.inFunctionArgument(node)
-      && !this.inVariableDeclaration(node)
-      && !this.inAssignmentStatement(node)
+    return (super.canUse(node)
+    || py.isObjectLiteral(node)
+    || py.isStringLiteral(node))
+      && !py.inReturnStatement(node)
+      && !py.inFunctionArgument(node)
+      && !py.inVariableDeclaration(node)
+      && !py.inAssignmentStatement(node)
   }
 }

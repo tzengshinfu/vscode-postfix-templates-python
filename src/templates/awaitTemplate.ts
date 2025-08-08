@@ -2,6 +2,7 @@ import { CompletionItemBuilder } from '../completionItemBuilder'
 import { IndentInfo } from '../template'
 import { BaseExpressionTemplate } from './baseTemplates'
 import * as tree from '../web-tree-sitter'
+import * as py from '../utils/python'
 
 export class AwaitTemplate extends BaseExpressionTemplate {
   buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
@@ -12,10 +13,12 @@ export class AwaitTemplate extends BaseExpressionTemplate {
   }
 
   override canUse(node: tree.Node) {
-    return !this.isTypeNode(node) && !this.inAssignmentStatement(node)
-      && !this.isBinaryExpression(node) && !this.inAwaitedExpression(node) &&
-      (this.isIdentifier(node) ||
-        this.isExpression(node) ||
-        this.isCallExpression(node))
+    return !py.isTypeNode(node)
+      && !py.inAssignmentStatement(node)
+      && !py.isBinaryExpression(node)
+      && !py.inAwaitedExpression(node)
+      && (py.isIdentifier(node)
+        || py.isExpression(node)
+        || py.isCallExpression(node))
   }
 }

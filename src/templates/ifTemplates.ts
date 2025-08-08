@@ -4,21 +4,22 @@ import { getIndentCharacters } from '../utils/utils'
 import { invertExpression } from '../utils/invert-expression'
 import { IndentInfo } from '../template'
 import * as tree from '../web-tree-sitter'
+import * as py from '../utils/python'
 
 abstract class BaseIfElseTemplate extends BaseExpressionTemplate {
   override canUse(node: tree.Node) {
     return super.canUse(node)
-      && !this.inReturnStatement(node)
-      && !this.inFunctionArgument(node)
-      && !this.inVariableDeclaration(node)
-      && !this.inAssignmentStatement(node)
+      && !py.inReturnStatement(node)
+      && !py.inFunctionArgument(node)
+      && !py.inVariableDeclaration(node)
+      && !py.inAssignmentStatement(node)
   }
 }
 
 export class IfTemplate extends BaseIfElseTemplate {
   buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
-    node = this.unwindBinaryExpression(node, false)
-    const replacement = this.unwindBinaryExpression(node, true).text
+    node = py.unwindBinaryExpression(node, false)
+    const replacement = py.unwindBinaryExpression(node, true).text
 
     return CompletionItemBuilder
       .create('if', node, indentInfo)
@@ -29,8 +30,8 @@ export class IfTemplate extends BaseIfElseTemplate {
 
 export class IfElseTemplate extends BaseIfElseTemplate {
   buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
-    node = this.unwindBinaryExpression(node, false)
-    const replacement = invertExpression(this.unwindBinaryExpression(node, true))
+    node = py.unwindBinaryExpression(node, false)
+    const replacement = invertExpression(py.unwindBinaryExpression(node, true))
 
     return CompletionItemBuilder
       .create('ifelse', node, indentInfo)
@@ -44,14 +45,15 @@ export class IfEqualityTemplate extends BaseIfElseTemplate {
     super(keyword)
   }
 
-  override canUse(node: tree.Node) {
-    return super.canUse(node) && !this.isBinaryExpression(node)
-  }
-
   buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
     return CompletionItemBuilder
       .create(this.keyword, node, indentInfo)
       .replace(`if {{expr}} ${this.operator} ${this.operand}: \n${getIndentCharacters()}\${0}`)
       .build()
+  }
+
+  override canUse(node: tree.Node) {
+    return super.canUse(node)
+    && !py.isBinaryExpression(node)
   }
 }

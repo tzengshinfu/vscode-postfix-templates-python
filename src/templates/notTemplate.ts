@@ -13,7 +13,7 @@ export class NotTemplate extends BaseTemplate {
     const completionBuilder = CompletionItemBuilder
       .create('not', node, indentInfo)
 
-    if (this.isBinaryExpression(node)) {
+    if (py.isBinaryExpression(node)) {
       const expressions = this.getBinaryExpressions(node)
       if (expressions.length > 1) {
         return completionBuilder
@@ -35,13 +35,13 @@ export class NotTemplate extends BaseTemplate {
   }
 
   canUse(node: tree.Node) {
-    return !this.isTypeNode(node) &&
-      (this.isExpression(node)
-        || this.isUnaryExpression(node)
-        || this.isUnaryExpression(node.parent)
-        || this.isBinaryExpression(node)
-        || this.isCallExpression(node)
-        || this.isIdentifier(node))
+    return !py.isTypeNode(node)
+      && (py.isExpression(node)
+        || py.isPrefixUnaryExpression(node)
+        || py.isPrefixUnaryExpression(node.parent)
+        || py.isBinaryExpression(node)
+        || py.isCallExpression(node)
+        || py.isIdentifier(node))
   }
 
   private isStrictEqualityOrInstanceofBinaryExpression = (node: tree.Node) => {
@@ -66,7 +66,7 @@ export class NotTemplate extends BaseTemplate {
     const possibleExpressions = [node]
 
     do {
-      this.isBinaryExpression(node.parent) && possibleExpressions.push(node.parent)
+      py.isBinaryExpression(node.parent) && possibleExpressions.push(node.parent)
 
       node = node.parent
     } while (node.parent)

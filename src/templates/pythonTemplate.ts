@@ -2,6 +2,7 @@ import { IndentInfo } from "../template"
 import { BaseTemplate } from "./baseTemplates"
 import { CompletionItemBuilder } from "../completionItemBuilder"
 import * as tree from '../web-tree-sitter'
+import * as py from '../utils/python'
 
 export class PythonTemplate extends BaseTemplate {
   constructor(private keyword: string) {
@@ -16,11 +17,12 @@ export class PythonTemplate extends BaseTemplate {
   }
 
   override canUse(node: tree.Node) {
-    return !this.inIfStatement(node) && !this.isTypeNode(node) &&
-      (this.isIdentifier(node) ||
-        this.isExpression(node) ||
-        this.isUnaryExpression(node) ||
-        this.isBinaryExpression(node) ||
-        this.isCallExpression(node))
+    return !py.inIfStatement(node)
+      && !py.isTypeNode(node)
+      && (py.isIdentifier(node)
+        || py.isExpression(node)
+        || py.isPrefixUnaryExpression(node)
+        || py.isBinaryExpression(node)
+        || py.isCallExpression(node))
   }
 }

@@ -3,16 +3,17 @@ import { CompletionItemBuilder } from '../completionItemBuilder'
 import { IndentInfo } from '../template'
 import { CustomTemplateBodyType } from '../templates'
 import * as tree from '../web-tree-sitter'
+import * as py from '../utils/python'
 
 export class CustomTemplate extends BaseTemplate {
   private conditionsMap = new Map<string, (node: tree.Node) => boolean>([
-    ['identifier', node => this.isIdentifier(node)],
-    ['expression', node => this.isExpression(node)],
-    ['binary-expression', node => this.isBinaryExpression(node)],
-    ['unary-expression', node => this.isUnaryExpression(node.parent)],
-    ['function-call', node => this.isCallExpression(node)],
-    ['string-literal', node => this.isStringLiteral(node)],
-    ['type', node => this.isTypeNode(node)]
+    ['identifier', node => py.isIdentifier(node)],
+    ['expression', node => py.isExpression(node)],
+    ['binary-expression', node => py.isBinaryExpression(node)],
+    ['unary-expression', node => py.isPrefixUnaryExpression(node.parent)],
+    ['function-call', node => py.isCallExpression(node)],
+    ['string-literal', node => py.isStringLiteral(node)],
+    ['type', node => py.isTypeNode(node)]
   ])
 
   constructor(name: string, private description: string, private body: CustomTemplateBodyType, private when: string[]) {
@@ -21,7 +22,7 @@ export class CustomTemplate extends BaseTemplate {
 
   buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
     if (this.when.includes('binary-expression')) {
-      node = this.unwindBinaryExpression(node)
+      node = py.unwindBinaryExpression(node)
     }
 
     const body = Array.isArray(this.body) ? this.body.join('\n') : this.body

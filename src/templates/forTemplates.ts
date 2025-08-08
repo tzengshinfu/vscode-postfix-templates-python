@@ -8,21 +8,19 @@ import * as py from '../utils/python'
 
 abstract class BaseForTemplate extends BaseTemplate {
   canUse(node: tree.Node): boolean {
-    return !this.inReturnStatement(node) &&
-      !this.inIfStatement(node) &&
-      !this.inFunctionArgument(node) &&
-      !this.inVariableDeclaration(node) &&
-      !this.inAssignmentStatement(node) &&
-      !this.isTypeNode(node) &&
-      !this.isBinaryExpression(node) &&
-      (this.isIdentifier(node) ||
-        this.isPropertyAccessExpression(node) ||
-        this.isElementAccessExpression(node) ||
-        this.isCallExpression(node) ||
-        this.isArrayLiteral(node))
+    return !py.inReturnStatement(node)
+      && !py.inIfStatement(node)
+      && !py.inFunctionArgument(node)
+      && !py.inVariableDeclaration(node)
+      && !py.inAssignmentStatement(node)
+      && !py.isTypeNode(node)
+      && !py.isBinaryExpression(node)
+      && (py.isIdentifier(node)
+        || py.isPropertyAccessExpression(node)
+        || py.isElementAccessExpression(node)
+        || py.isCallExpression(node)
+        || py.isArrayLiteral(node))
   }
-
-  protected isArrayLiteral = (node: tree.Node) => node.type === 'list'
 }
 
 const getArrayItemNames = (node: tree.Node): string[] => {
@@ -53,6 +51,6 @@ export class ForRangeTemplate extends BaseForTemplate {
   }
 
   override canUse(node: tree.Node) {
-    return !Number.isNaN(Number.parseFloat(py.getNodeText(node))) || (py.isExpression(node) && node.type !== 'string')
+    return !Number.isNaN(Number.parseFloat(py.getNodeText(node))) || (py.isExpression(node) && !py.isStringLiteral(node))
   }
 }
