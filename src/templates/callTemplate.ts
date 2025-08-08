@@ -10,7 +10,8 @@ export class CallTemplate extends BaseTemplate {
   }
 
   override buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
-    return CompletionItemBuilder.create(this.keyword, node, indentInfo)
+    return CompletionItemBuilder
+      .create(this.keyword, node, indentInfo)
       .replace('$1({{expr}})$0')
       .build()
   }

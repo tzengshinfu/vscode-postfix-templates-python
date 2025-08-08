@@ -46,8 +46,7 @@ export class NotTemplate extends BaseTemplate {
 
   private isStrictEqualityOrInstanceofBinaryExpression = (node: tree.Node) => {
     if (py.isBinaryExpression(node)) {
-      const operatorNode = node.namedChildren.find(child => child.type ===
-        'comparison_operator')
+      const operatorNode = node.namedChildren.find(child => child.type === 'comparison_operator')
       if (operatorNode) {
         const operatorText = operatorNode.text
 
@@ -55,8 +54,7 @@ export class NotTemplate extends BaseTemplate {
       }
     }
 
-    if (py.isCallExpression(node)
-      && node.namedChildren[0]?.text === 'isinstance') {
+    if (py.isCallExpression(node) && node.namedChildren[0]?.text === 'isinstance') {
 
       return true
     }
@@ -81,6 +79,7 @@ export class NotTemplate extends BaseTemplate {
       && py.isParenthesizedExpression(node.parent)
       && node.parent.namedChildren.length > 0
       && py.isBinaryExpression(node.parent.namedChildren[0])) {
+
       return node.parent
     }
 
