@@ -50,12 +50,14 @@ export class NotTemplate extends BaseTemplate {
         'comparison_operator')
       if (operatorNode) {
         const operatorText = operatorNode.text
+
         return operatorText === 'is' || operatorText === 'is not'
       }
     }
 
     if (py.isCallExpression(node)
       && node.namedChildren[0]?.text === 'isinstance') {
+
       return true
     }
 

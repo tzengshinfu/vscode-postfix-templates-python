@@ -16,8 +16,8 @@ export class ReturnTemplate extends BaseExpressionTemplate {
 
   override canUse(node: tree.Node) {
     return (super.canUse(node)
-    || py.isObjectLiteral(node)
-    || py.isStringLiteral(node))
+      || py.isObjectLiteral(node)
+      || py.isStringLiteral(node))
       && !py.inReturnStatement(node)
       && !py.inFunctionArgument(node)
       && !py.inVariableDeclaration(node)

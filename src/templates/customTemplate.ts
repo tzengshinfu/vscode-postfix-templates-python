@@ -40,6 +40,7 @@ export class CustomTemplate extends BaseTemplate {
 
   condition = (node: tree.Node, when: string) => {
     const callback = this.conditionsMap.get(when)
+
     return callback && callback(node)
   }
 }
