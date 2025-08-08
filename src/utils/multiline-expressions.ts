@@ -10,7 +10,6 @@ export function adjustMultilineIndentation(code: string, indentSize?: number) {
 
   const reNewLine = /\r?\n/
   const lines = code.split(reNewLine)
-
   if (lines.length === 1) {
     return code
   }

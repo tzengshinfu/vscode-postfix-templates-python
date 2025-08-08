@@ -54,8 +54,8 @@ export class NotTemplate extends BaseTemplate {
       }
     }
 
-    if (py.isCallExpression(node) && node.namedChildren[0]?.text ===
-      'isinstance') {
+    if (py.isCallExpression(node)
+      && node.namedChildren[0]?.text === 'isinstance') {
       return true
     }
 
@@ -75,8 +75,10 @@ export class NotTemplate extends BaseTemplate {
   }
 
   private normalizeBinaryExpression = (node: tree.Node) => {
-    if (node.parent && py.isParenthesizedExpression(node.parent) &&
-      node.parent.namedChildren.length > 0 && py.isBinaryExpression(node.parent.namedChildren[0])) {
+    if (node.parent
+      && py.isParenthesizedExpression(node.parent)
+      && node.parent.namedChildren.length > 0
+      && py.isBinaryExpression(node.parent.namedChildren[0])) {
       return node.parent
     }
 

@@ -39,6 +39,7 @@ export const inferForVarTemplate = (node: tree.Node): string[] => {
 function getUniqueVariants(name?: string) {
   const cleanerVariant = name?.replace(CleanNameRegex, '')
   const uniqueValues = [...new Set([cleanerVariant, name])]
+
   return uniqueValues.filter(x => x)
 }
 

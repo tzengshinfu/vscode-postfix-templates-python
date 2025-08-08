@@ -27,11 +27,13 @@ export class CompletionItemBuilder {
 
   public command = (command: vsc.Command) => {
     this.item.command = command
+
     return this
   }
 
   public insertText = (insertText?: string) => {
     this.item.insertText = insertText
+
     return this
   }
 
@@ -89,6 +91,7 @@ export class CompletionItemBuilder {
     const addCodeBlock = (md: vsc.MarkdownString) => {
       const code = this.replaceExpression(replacement, inputCode)
       const snippetPreviewMode = getConfigValue<'raw' | 'inserted'>('snippetPreviewMode')
+
       return md.appendCodeblock(snippetPreviewMode === 'inserted' ? new SnippetParser().text(code) : code, 'ts')
     }
 

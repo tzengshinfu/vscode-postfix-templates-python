@@ -53,8 +53,8 @@ export const invertExpression = (expr: tree.Node, addOrBrackets = false) => {
     }
   }
 
+  // x > y => x <= y
   if (py.isBinaryExpression(expr)) {
-    // x > y => x <= y
     const result = invertBinaryExpression(expr, addOrBrackets)
     if (result) {
       return result
@@ -62,5 +62,6 @@ export const invertExpression = (expr: tree.Node, addOrBrackets = false) => {
   }
 
   const notPattern = /(not)(\s*)(.*)/g
+
   return notPattern.test(text) ? text.replace(notPattern, "$3") : `not ${text}`
 }

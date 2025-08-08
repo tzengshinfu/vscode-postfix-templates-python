@@ -10,9 +10,9 @@ export const isAwaitExpression = (node: tree.Node): boolean => {
 }
 
 export const isBinaryExpression = (node: tree.Node): boolean => {
-  return node.type === 'binary_operator' ||
-    node.type === 'boolean_operator' ||
-    node.type === 'comparison_operator'
+  return node.type === 'binary_operator'
+    || node.type === 'boolean_operator'
+    || node.type === 'comparison_operator'
 }
 
 export const isElementAccessExpression = (node: tree.Node): boolean => {
@@ -26,6 +26,7 @@ export const isExpression = (node: tree.Node): boolean => {
     'unary_operator', 'not_operator', 'string', 'integer', 'float',
     'list', 'dictionary', 'set', 'tuple'
   ]
+
   return expressionTypes.includes(node.type)
 }
 
@@ -92,9 +93,9 @@ export const isObjectLiteral = (node: tree.Node): boolean => {
 }
 
 export const isAnyFunction = (node: tree.Node): boolean => {
-  return node.type === 'function_definition' ||
-    node.type === 'lambda' ||
-    node.type === 'async_function_definition'
+  return node.type === 'function_definition'
+    || node.type === 'lambda'
+    || node.type === 'async_function_definition'
 }
 
 export const inReturnStatement = (node: tree.Node): boolean => {
@@ -153,6 +154,7 @@ export const inIfStatement = (node: tree.Node, expressionNode?: tree.Node): bool
     if (!expressionNode) {
       return true
     }
+
     // Check if expressionNode is the condition of this if statement
     return node.namedChildren[0] === expressionNode
   }
@@ -164,6 +166,7 @@ export const inAwaitedExpression = (node: tree.Node): boolean => {
   if (isAnyFunction(node)) {
     return false
   }
+
   return node.type === 'await' || (node.parent && inAwaitedExpression(node.parent))
 }
 
@@ -171,31 +174,33 @@ export const unwindBinaryExpression = (node: tree.Node, removeParens = true): tr
   let binaryExpression: tree.Node | undefined
 
   if (
-    removeParens &&
-    node.type === 'parenthesized_expression' &&
-    node.namedChildren[0]?.type === 'binary_operator'
+    removeParens
+    && node.type === 'parenthesized_expression'
+    && node.namedChildren[0]?.type === 'binary_operator'
   ) {
     binaryExpression = node.namedChildren[0]
   } else {
-    // 向上找到二元表達式
+    // Find the binary expression upwards
     let current = node.parent
     while (current) {
-      if (current.type === 'binary_operator' ||
-          current.type === 'boolean_operator' ||
-          current.type === 'comparison_operator') {
+      if (current.type === 'binary_operator'
+        || current.type === 'boolean_operator'
+        || current.type === 'comparison_operator') {
         binaryExpression = current
+
         break
       }
+
       current = current.parent
     }
   }
 
-  // 繼續向上展開到最頂層的二元表達式
+  // Continue expanding upwards to the top-level binary expression
   while (
-    binaryExpression?.parent &&
-    (binaryExpression.parent.type === 'binary_operator' ||
-      binaryExpression.parent.type === 'boolean_operator' ||
-      binaryExpression.parent.type === 'comparison_operator')
+    binaryExpression?.parent
+    && (binaryExpression.parent.type === 'binary_operator'
+      || binaryExpression.parent.type === 'boolean_operator'
+      || binaryExpression.parent.type === 'comparison_operator')
   ) {
     binaryExpression = binaryExpression.parent
   }

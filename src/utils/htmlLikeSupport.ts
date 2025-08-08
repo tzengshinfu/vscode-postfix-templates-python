@@ -8,6 +8,7 @@ const getHtmlLikeEmbedRange = (document: vsc.TextDocument, cursorOffset: number)
   const node = html.findNodeAt(cursorOffset)
 
   let mostTopNode = node
+
   while (mostTopNode?.tag) {
     if (mostTopNode.tag === 'style') {
       return null
@@ -16,15 +17,17 @@ const getHtmlLikeEmbedRange = (document: vsc.TextDocument, cursorOffset: number)
       if (mostTopNode?.attributes?.type.replace(/['"]/g, '') !== 'py') {
         return null
       }
+
       const { startTagEnd, endTagStart } = mostTopNode
+
       return {
         start: startTagEnd,
         end: endTagStart
       }
     }
+
     mostTopNode = mostTopNode.parent
   }
-  // vue: not sure of custom blocks, probably should also be ignored
 
   const validAttributeRegexps = {
     html: /^on/,
@@ -40,14 +43,20 @@ const getHtmlLikeEmbedRange = (document: vsc.TextDocument, cursorOffset: number)
   let scannedTokens = 0
   let attrName: string | undefined
   let attrValue: string | undefined
+
   while (scanner.scan() !== TokenType.EOS) {
     const tokenEnd = scanner.getTokenEnd()
     const tokenType = scanner.getTokenType()
+
     if ([TokenType.DelimiterAssign, TokenType.Whitespace].includes(tokenType)) {
       continue
     }
-    if (tokenType === TokenType.AttributeValue && cursorOffset > scanner.getTokenOffset() && cursorOffset < tokenEnd) {
+
+    if (tokenType === TokenType.AttributeValue
+      && cursorOffset > scanner.getTokenOffset()
+      && cursorOffset < tokenEnd) {
       attrValue = scanner.getTokenText()
+
       break
     } else {
       attrName = tokenType === TokenType.AttributeName ? scanner.getTokenText() : undefined
@@ -56,6 +65,7 @@ const getHtmlLikeEmbedRange = (document: vsc.TextDocument, cursorOffset: number)
     if (tokenEnd > cursorOffset) {
       break
     }
+
     if (scannedTokens++ === 3000) {
       return null
     }
@@ -78,7 +88,9 @@ export const getHtmlLikeEmbedText = (document: vsc.TextDocument, cursorOffset: n
   if (!handleRange) {
     return null
   }
+
   const { start, end } = handleRange
   const fullText = document.getText()
+
   return fullText.slice(0, start).replaceAll(/[^\n]/g, ' ') + fullText.slice(start, end) + fullText.slice(end).replaceAll(/[^\n]/g, ' ')
 }
