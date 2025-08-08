@@ -22,7 +22,6 @@ export const loadCustomTemplates = () => {
 
 export const loadBuiltinTemplates = () => {
   const config = vsc.workspace.getConfiguration('postfix')
-  const disabledTemplates = config.get<string[]>('disabledBuiltinTemplates', [])
   // Python built-in functions
   const builtinFunctionTemplates = config.get<string[]>('builtinFunctions', [])
     .map(f => new PythonTemplate(f))
@@ -41,6 +40,8 @@ export const loadBuiltinTemplates = () => {
     new ReturnTemplate('return'),
     new AwaitTemplate('await')
   ].concat(builtinFunctionTemplates)
+
+  const disabledTemplates = config.get<string[]>('disabledBuiltinTemplates', [])
 
   return templates.filter(t => !disabledTemplates.includes(t.templateName))
 }
