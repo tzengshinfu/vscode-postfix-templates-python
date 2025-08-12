@@ -4,10 +4,10 @@ import { TestFunction } from 'mocha'
 
 export type Options = Omit<TestTemplateOptions, 'preAssertAction'>
 
-export const runTest = makeTestFunction<typeof __runTest>(__runTest)
-export const runTestMultiline = makeTestFunction<typeof __runTestMultiline>(__runTestMultiline)
-export const runTestQuickPick = makeTestFunction<typeof __runTestQuickPick>(__runTestQuickPick)
-export const runTestMultilineQuickPick = makeTestFunction<typeof __runTestMultilineQuickPick>(__runTestMultilineQuickPick)
+export const runTest = (...args: Parameters<ReturnType<typeof makeTestFunction<typeof __runTest>>>) => makeTestFunction<typeof __runTest>(__runTest)(...args)
+export const runTestMultiline = (...args: Parameters<ReturnType<typeof makeTestFunction<typeof __runTestMultiline>>>) => makeTestFunction<typeof __runTestMultiline>(__runTestMultiline)(...args)
+export const runTestQuickPick = (...args: Parameters<ReturnType<typeof makeTestFunction<typeof __runTestQuickPick>>>) => makeTestFunction<typeof __runTestQuickPick>(__runTestQuickPick)(...args)
+export const runTestMultilineQuickPick = (...args: Parameters<ReturnType<typeof makeTestFunction<typeof __runTestMultilineQuickPick>>>) => makeTestFunction<typeof __runTestMultilineQuickPick>(__runTestMultilineQuickPick)(...args)
 
 function __runTest(func: TestFunction, test: string, options: Options = {}) {
   const [title, ...dsl] = test.split('|')
