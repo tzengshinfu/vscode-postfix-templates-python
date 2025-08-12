@@ -18,7 +18,7 @@ const html: Options = {
 
 const Test = (test: string, options?: Pick<Options, 'trimWhitespaces'>) => runTest(test, { ...html, ...options })
 
-describe('HTML - smoke tests', () => {
+describe('05. HTML - smoke tests', () => {
   before(setInferVarName(config, false))
   after(setInferVarName(config, true))
 

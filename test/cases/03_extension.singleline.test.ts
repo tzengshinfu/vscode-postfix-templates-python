@@ -6,7 +6,7 @@ import { runWithCustomTemplate } from '../utils'
 const config = vsc.workspace.getConfiguration('postfix')
 const withTrimWhitespaces: Options = { trimWhitespaces: true }
 
-describe('Single line template tests', () => {
+describe('03. Single line template tests', () => {
   before(setInferVarName(config, false))
   after(setInferVarName(config, true))
 

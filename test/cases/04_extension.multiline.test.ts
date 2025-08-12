@@ -4,7 +4,7 @@ import { describe } from 'mocha'
 
 const indent = (size: number) => ' '.repeat(size * TabSize)
 
-describe('Multiline template tests', () => {
+describe('04. Multiline template tests', () => {
   Test(`var template - method call
       | object.call()     >> name = object.call()
       | \t.anotherCall()  >> \t.anotherCall()

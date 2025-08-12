@@ -6,7 +6,7 @@ import { describe, it } from 'mocha'
 import { getIndentCharacters } from '../../src/utils'
 import { invertBinaryExpression, invertExpression } from '../../src/utils/invert-expression'
 
-describe('Utils tests', () => {
+describe('01. Utils tests', () => {
   it('getIndentCharacters when spaces', () => {
     vsc.window.activeTextEditor.options.insertSpaces = true
     vsc.window.activeTextEditor.options.tabSize = 4

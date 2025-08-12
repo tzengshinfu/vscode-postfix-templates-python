@@ -43,7 +43,7 @@ const BINARY_EXPRESSION_TEMPLATES = [
 const config = vsc.workspace.getConfiguration('postfix')
 const testTemplateUsage = makeTestFunction<typeof __testTemplateUsage>(__testTemplateUsage)
 
-describe('Template usage', () => {
+describe('02. Template usage', () => {
   afterEach(done => {
     vsc.commands.executeCommand('workbench.action.closeOtherEditors').then(() => done(), err => done(err))
   })
