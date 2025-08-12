@@ -1,12 +1,20 @@
 import * as assert from 'assert'
 import * as vsc from 'vscode'
-import * as tree from '../../src/web-tree-sitter'
-import { describe, it } from 'mocha'
+import { describe, it, before, after } from 'mocha'
 
-import { getIndentCharacters } from '../../src/utils'
+import { getIndentCharacters } from '../../src/utils/vscode-helpers'
 import { invertBinaryExpression, invertExpression } from '../../src/utils/invert-expression'
+import { initializeParser, cleanupParser, parsePython, findBinaryOperatorNode, findExpressionNode } from '../test-helpers'
 
 describe('01. Utils tests', () => {
+  before(async () => {
+    await initializeParser()
+  })
+
+  after(() => {
+    cleanupParser()
+  })
+
   it('getIndentCharacters when spaces', () => {
     vsc.window.activeTextEditor.options.insertSpaces = true
     vsc.window.activeTextEditor.options.tabSize = 4
@@ -64,16 +72,17 @@ function testInvertBinaryExpression(dsl: string) {
   const [input, expected] = dsl.split('>>').map(x => x.trim())
 
   it(`${input} should invert to ${expected}`, () => {
-    // Note: This is a simplified test - in practice we would use tree-sitter
-    // to parse Python code, but for now we'll mock the node structure
-    const mockNode: tree.Node = {
-      text: input,
-      type: 'binary_operator'
-    } as tree.Node
+    const pythonTree = parsePython(input)
+    const rootNode = pythonTree.rootNode
 
-    const result = invertBinaryExpression(mockNode)
+    // Find the first binary operator or comparison operator node
+    const targetNode = findBinaryOperatorNode(rootNode) || rootNode.firstChild || rootNode
+
+    const result = invertBinaryExpression(targetNode)
 
     assert.strictEqual(result, expected)
+
+    pythonTree.delete()
   })
 }
 
@@ -81,16 +90,16 @@ function testInvertExpression(dsl: string) {
   const [input, expected] = dsl.split('>>').map(x => x.trim())
 
   it(`${input} should invert to ${expected}`, () => {
-    // Note: This is a simplified test - in practice we would use tree-sitter
-    // to parse Python code, but for now we'll mock the node structure
-    const mockNode: tree.Node = {
-      text: input,
-      type: input.includes('and') || input.includes('or') ? 'boolean_operator' :
-        input.includes('>') || input.includes('<') || input.includes('==') ? 'comparison_operator' : 'identifier'
-    } as tree.Node
+    const pythonTree = parsePython(input)
+    const rootNode = pythonTree.rootNode
 
-    const result = invertExpression(mockNode)
+    // Find the appropriate node for expression inversion
+    const targetNode = findExpressionNode(rootNode) || rootNode.firstChild || rootNode
+
+    const result = invertExpression(targetNode)
 
     assert.strictEqual(result, expected)
+
+    pythonTree.delete()
   })
 }

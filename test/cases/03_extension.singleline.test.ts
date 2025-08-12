@@ -1,7 +1,7 @@
 import * as vsc from 'vscode'
 import { runTest as Test, runTestQuickPick as QuickPick, Options } from '../runner'
 import { describe, before, after } from 'mocha'
-import { runWithCustomTemplate } from '../utils'
+import { runWithCustomTemplate } from '../test-helpers'
 
 const config = vsc.workspace.getConfiguration('postfix')
 const withTrimWhitespaces: Options = { trimWhitespaces: true }

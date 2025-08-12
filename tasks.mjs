@@ -2,7 +2,7 @@
 import * as process from 'node:process'
 import * as console from 'node:console'
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { copyTreeSitterWasm } from './wasm-utils.mjs'
+import { copyTreeSitterWasm } from './utils.mjs'
 
 const LANGUAGE = 'postfix'
 

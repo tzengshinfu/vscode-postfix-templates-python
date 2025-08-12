@@ -1,6 +1,6 @@
 import { CompletionItemBuilder } from '../completionItemBuilder'
 import { BaseTemplate } from './baseTemplates'
-import { getConfigValue, getIndentCharacters, getPlaceholderWithOptions } from '../utils'
+import { getConfigValue, getIndentCharacters, getPlaceholderWithOptions } from '../utils/vscode-helpers'
 import { inferForVarTemplate } from '../utils/infer-names'
 import { IndentInfo } from '../template'
 import * as tree from '../web-tree-sitter'

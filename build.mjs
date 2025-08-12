@@ -1,7 +1,7 @@
 import esbuild from 'esbuild'
 import * as process from 'node:process'
 import * as console from 'node:console'
-import { createCopyWasmPlugin } from './wasm-utils.mjs'
+import { createCopyWasmPlugin } from './utils.mjs'
 
 const production = process.argv.includes('--production')
 const watch = process.argv.includes('--watch')

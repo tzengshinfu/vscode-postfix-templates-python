@@ -2,7 +2,7 @@ import * as vsc from 'vscode'
 import * as py from './utils/python'
 import { adjustLeadingWhitespace, adjustMultilineIndentation } from './utils/multiline-expressions'
 import { SnippetParser } from 'vscode-snippet-parser'
-import { getConfigValue } from './utils'
+import { getConfigValue } from './utils/vscode-helpers'
 import { IndentInfo } from './template'
 import * as tree from './web-tree-sitter'
 
