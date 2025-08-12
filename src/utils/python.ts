@@ -1,25 +1,29 @@
 import * as tree from '../web-tree-sitter'
 
 // Python tree-sitter node type checking functions
-export const isArrayLiteral = (node: tree.Node): boolean => {
-  return node.type === 'list'
+export const isArrayLiteral = (node: tree.Node | null | undefined): boolean => {
+  return node?.type === 'list'
 }
 
-export const isAwaitExpression = (node: tree.Node): boolean => {
-  return node.type === 'await'
+export const isAwaitExpression = (node: tree.Node | null | undefined): boolean => {
+  return node?.type === 'await'
 }
 
-export const isBinaryExpression = (node: tree.Node): boolean => {
-  return node.type === 'binary_operator'
-    || node.type === 'boolean_operator'
-    || node.type === 'comparison_operator'
+export const isBinaryExpression = (node: tree.Node | null | undefined): boolean => {
+  return node?.type === 'binary_operator'
+    || node?.type === 'boolean_operator'
+    || node?.type === 'comparison_operator'
 }
 
-export const isElementAccessExpression = (node: tree.Node): boolean => {
-  return node.type === 'subscript'
+export const isElementAccessExpression = (node: tree.Node | null | undefined): boolean => {
+  return node?.type === 'subscript'
 }
 
-export const isExpression = (node: tree.Node): boolean => {
+export const isExpression = (node: tree.Node | null | undefined): boolean => {
+  if (!node) {
+    return false
+  }
+
   const expressionTypes = [
     'identifier', 'call', 'attribute', 'subscript',
     'binary_operator', 'boolean_operator', 'comparison_operator',
@@ -30,12 +34,12 @@ export const isExpression = (node: tree.Node): boolean => {
   return expressionTypes.includes(node.type)
 }
 
-export const isParenthesizedExpression = (node: tree.Node): boolean => {
-  return node.type === 'parenthesized_expression'
+export const isParenthesizedExpression = (node: tree.Node | null | undefined): boolean => {
+  return node?.type === 'parenthesized_expression'
 }
 
-export const isPrefixUnaryExpression = (node: tree.Node): boolean => {
-  return node.type === 'unary_operator' || node.type === 'not_operator'
+export const isPrefixUnaryExpression = (node: tree.Node | null | undefined): boolean => {
+  return node?.type === 'unary_operator' || node?.type === 'not_operator'
 }
 
 // Position utility functions for tree-sitter nodes
@@ -52,41 +56,41 @@ export const getLineAndCharacterOfPosition = (node: tree.Node, offset: number): 
 }
 
 // Specific Python node checks
-export const isIdentifier = (node: tree.Node): boolean => {
-  return node.type === 'identifier'
+export const isIdentifier = (node: tree.Node | null | undefined): boolean => {
+  return node?.type === 'identifier'
 }
 
-export const isCallExpression = (node: tree.Node): boolean => {
-  return node.type === 'call'
+export const isCallExpression = (node: tree.Node | null | undefined): boolean => {
+  return node?.type === 'call'
 }
 
-export const isPropertyAccessExpression = (node: tree.Node): boolean => {
-  return node.type === 'attribute'
+export const isPropertyAccessExpression = (node: tree.Node | null | undefined): boolean => {
+  return node?.type === 'attribute'
 }
 
 // Additional helper functions for templates
-export const isStringLiteral = (node: tree.Node): boolean => {
-  return node.type === 'string'
+export const isStringLiteral = (node: tree.Node | null | undefined): boolean => {
+  return node?.type === 'string'
 }
 
-export const isTypeNode = (node: tree.Node): boolean => {
-  return node.type === 'type'
+export const isTypeNode = (node: tree.Node | null | undefined): boolean => {
+  return node?.type === 'type'
 }
 
 // Context checking functions for Python AST
-export const isObjectLiteral = (node: tree.Node): boolean => {
+export const isObjectLiteral = (node: tree.Node | null | undefined): boolean => {
   // Python equivalent would be dictionary literals
-  return node.type === 'dictionary'
+  return node?.type === 'dictionary'
 }
 
-export const isAnyFunction = (node: tree.Node): boolean => {
-  return node.type === 'function_definition'
-    || node.type === 'lambda'
-    || node.type === 'async_function_definition'
+export const isAnyFunction = (node: tree.Node | null | undefined): boolean => {
+  return node?.type === 'function_definition'
+    || node?.type === 'lambda'
+    || node?.type === 'async_function_definition'
 }
 
-export const inReturnStatement = (node: tree.Node): boolean => {
-  if (isAnyFunction(node)) {
+export const inReturnStatement = (node: tree.Node | null | undefined): boolean => {
+  if (!node || isAnyFunction(node)) {
     return false
   }
 
@@ -94,15 +98,15 @@ export const inReturnStatement = (node: tree.Node): boolean => {
     return true
   }
 
-  return node.parent ? inReturnStatement(node.parent) : false
+  return inReturnStatement(node.parent)
 }
 
-export const inFunctionArgument = (node: tree.Node): boolean => {
-  return node.parent?.type === 'argument_list'
+export const inFunctionArgument = (node: tree.Node | null | undefined): boolean => {
+  return node?.parent?.type === 'argument_list'
 }
 
-export const inVariableDeclaration = (node: tree.Node): boolean => {
-  if (isAnyFunction(node)) {
+export const inVariableDeclaration = (node: tree.Node | null | undefined): boolean => {
+  if (!node || isAnyFunction(node)) {
     return false
   }
 
@@ -111,11 +115,11 @@ export const inVariableDeclaration = (node: tree.Node): boolean => {
     return true
   }
 
-  return node.parent ? inVariableDeclaration(node.parent) : false
+  return inVariableDeclaration(node.parent)
 }
 
-export const inAssignmentStatement = (node: tree.Node): boolean => {
-  if (isAnyFunction(node)) {
+export const inAssignmentStatement = (node: tree.Node | null | undefined): boolean => {
+  if (!node || isAnyFunction(node)) {
     return false
   }
 
@@ -129,10 +133,14 @@ export const inAssignmentStatement = (node: tree.Node): boolean => {
     return node.parent.firstNamedChild === node
   }
 
-  return node.parent ? inAssignmentStatement(node.parent) : false
+  return inAssignmentStatement(node.parent)
 }
 
-export const inIfStatement = (node: tree.Node, expressionNode?: tree.Node): boolean => {
+export const inIfStatement = (node: tree.Node | null | undefined, expressionNode?: tree.Node | null | undefined): boolean => {
+  if (!node) {
+    return false
+  }
+
   if (node.type === 'if_statement') {
     if (!expressionNode) {
       return true
@@ -142,15 +150,15 @@ export const inIfStatement = (node: tree.Node, expressionNode?: tree.Node): bool
     return node.firstNamedChild === expressionNode
   }
 
-  return node.parent ? inIfStatement(node.parent, node) : false
+  return inIfStatement(node.parent, node)
 }
 
-export const inAwaitedExpression = (node: tree.Node): boolean => {
-  if (isAnyFunction(node)) {
+export const inAwaitedExpression = (node: tree.Node | null | undefined): boolean => {
+  if (!node || isAnyFunction(node)) {
     return false
   }
 
-  return node.type === 'await' || (node.parent && inAwaitedExpression(node.parent))
+  return node.type === 'await' || inAwaitedExpression(node.parent)
 }
 
 export const unwindBinaryExpression = (node: tree.Node, removeParens = true): tree.Node => {
@@ -158,17 +166,15 @@ export const unwindBinaryExpression = (node: tree.Node, removeParens = true): tr
 
   if (
     removeParens
-    && node.type === 'parenthesized_expression'
-    && node.firstNamedChild?.type === 'binary_operator'
+    && isParenthesizedExpression(node)
+    && isBinaryExpression(node.firstNamedChild)
   ) {
     binaryExpression = node.firstNamedChild
   } else {
     // Find the binary expression upwards
     let current = node.parent
     while (current) {
-      if (current.type === 'binary_operator'
-        || current.type === 'boolean_operator'
-        || current.type === 'comparison_operator') {
+      if (isBinaryExpression(current)) {
         binaryExpression = current
 
         break
@@ -180,10 +186,7 @@ export const unwindBinaryExpression = (node: tree.Node, removeParens = true): tr
 
   // Continue expanding upwards to the top-level binary expression
   while (
-    binaryExpression?.parent
-    && (binaryExpression.parent.type === 'binary_operator'
-      || binaryExpression.parent.type === 'boolean_operator'
-      || binaryExpression.parent.type === 'comparison_operator')
+    isBinaryExpression(binaryExpression.parent)
   ) {
     binaryExpression = binaryExpression.parent
   }

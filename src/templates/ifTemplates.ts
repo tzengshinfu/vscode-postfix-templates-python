@@ -1,6 +1,6 @@
 import { CompletionItemBuilder } from '../completionItemBuilder'
 import { BaseExpressionTemplate } from './baseTemplates'
-import { getIndentCharacters } from '../utils/utils'
+import { getIndentCharacters } from '../utils'
 import { invertExpression } from '../utils/invert-expression'
 import { IndentInfo } from '../template'
 import * as tree from '../web-tree-sitter'

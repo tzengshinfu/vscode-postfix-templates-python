@@ -1,6 +1,6 @@
 import { CompletionItemBuilder } from '../completionItemBuilder'
 import { BaseTemplate } from './baseTemplates'
-import { getConfigValue, getIndentCharacters, getPlaceholderWithOptions } from '../utils/utils'
+import { getConfigValue, getIndentCharacters, getPlaceholderWithOptions } from '../utils'
 import { inferForVarTemplate } from '../utils/infer-names'
 import { IndentInfo } from '../template'
 import * as tree from '../web-tree-sitter'
@@ -52,6 +52,9 @@ export class ForRangeTemplate extends BaseForTemplate {
   }
 
   override canUse(node: tree.Node) {
-    return !Number.isNaN(Number.parseFloat(node.text)) || (py.isExpression(node) && !py.isStringLiteral(node))
+    // Check if node represents a valid number
+    const isNumber = /^\s*-?\d+(\.\d+)?\s*$/.test(node.text)
+
+    return isNumber || (py.isExpression(node) && !py.isStringLiteral(node))
   }
 }

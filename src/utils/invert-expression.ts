@@ -1,53 +1,103 @@
-import * as ts from 'typescript'
 import * as tree from '../web-tree-sitter'
 import * as py from '../utils/python'
 
-const operatorMapping = new Map<ts.SyntaxKind, ts.SyntaxKind>([
-  [ts.SyntaxKind.EqualsEqualsToken, ts.SyntaxKind.ExclamationEqualsToken],
-  [ts.SyntaxKind.EqualsEqualsEqualsToken, ts.SyntaxKind.ExclamationEqualsEqualsToken],
-  [ts.SyntaxKind.GreaterThanEqualsToken, ts.SyntaxKind.LessThanToken],
-  [ts.SyntaxKind.GreaterThanToken, ts.SyntaxKind.LessThanEqualsToken]
+// Python operator mapping for inversion
+const operatorMapping = new Map<string, string>([
+  ['==', '!='],
+  ['!=', '=='],
+  ['>=', '<'],
+  ['>', '<='],
+  ['<=', '>'],
+  ['<', '>=']
 ])
 
-const reverseMapping = new Map<ts.SyntaxKind, ts.SyntaxKind>()
-operatorMapping.forEach((v, k) => reverseMapping.set(v, k))
-
-const logicalOperatorMapping = new Map<ts.SyntaxKind, ts.SyntaxKind>([
-  [ts.SyntaxKind.AmpersandAmpersandToken, ts.SyntaxKind.BarBarToken],
-  [ts.SyntaxKind.BarBarToken, ts.SyntaxKind.AmpersandAmpersandToken]
+const logicalOperatorMapping = new Map<string, string>([
+  ['and', 'or'],
+  ['or', 'and']
 ])
 
-export const invertBinaryExpression = (expr: ts.BinaryExpression, addOrBrackets = false): string => {
-  let op = operatorMapping.get(expr.operatorToken.kind) || reverseMapping.get(expr.operatorToken.kind)
-  if (op) {
-    return `${expr.left.getText()} ${ts.tokenToString(op)} ${expr.right.getText()}`
+const getBinaryOperator = (node: tree.Node): string | undefined => {
+  // For comparison_operator, binary_operator, boolean_operator nodes
+  // Find the operator child node
+  for (let i = 0; i < node.childCount; i++) {
+    const child = node.child(i)
+    if (child && ['==', '!=', '>', '<', '>=', '<=', 'and', 'or'].includes(child.text)) {
+      return child.text
+    }
   }
 
-  op = logicalOperatorMapping.get(expr.operatorToken.kind)
-  if (op) {
-    const left = invertExpression(expr.left, op !== ts.SyntaxKind.BarBarToken)
-    const right = invertExpression(expr.right, op !== ts.SyntaxKind.BarBarToken)
-    const match = /^\s+/.exec(expr.right.getFullText())
-    const leadingWhitespaces = match ? match[0] : ' '
+  return undefined
+}
 
-    const result = `${left} ${ts.tokenToString(op)}${leadingWhitespaces + right}`
+const getLeftRightNodes = (node: tree.Node): { left: tree.Node | null, right: tree.Node | null } => {
+  // For binary expressions, typically: left_expr operator right_expr
+  const children = []
 
-    return addOrBrackets && op === ts.SyntaxKind.BarBarToken ? `(${result})` : result
+  for (let i = 0; i < node.childCount; i++) {
+    const child = node.child(i)
+    if (child && py.isExpression(child)) {
+      children.push(child)
+    }
+  }
+
+  return {
+    left: children[0] || null,
+    right: children[1] || null
   }
 }
 
-export const invertExpression = (expr: tree.Node, addOrBrackets = false) => {
+export const invertBinaryExpression = (expr: tree.Node, addOrBrackets = false): string | undefined => {
+  const operator = getBinaryOperator(expr)
+  if (!operator) {
+    return undefined
+  }
+
+  const { left, right } = getLeftRightNodes(expr)
+  if (!left || !right) {
+    return undefined
+  }
+
+  let op = operatorMapping.get(operator)
+  if (op) {
+    return `${left.text} ${op} ${right.text}`
+  }
+
+  op = logicalOperatorMapping.get(operator)
+  if (op) {
+    const leftInverted = invertExpression(left, op !== 'or')
+    const rightInverted = invertExpression(right, op !== 'or')
+
+    const result = `${leftInverted} ${op} ${rightInverted}`
+
+    return addOrBrackets && op === 'or' ? `(${result})` : result
+  }
+
+  return undefined
+}
+
+export const invertExpression = (expr: tree.Node, addOrBrackets = false): string => {
   const text = expr.text
 
   // not (expr) => expr
-  const notWithBracketsPattern = /(not)(\s*)(\()(.*)(\))/g
-  if (notWithBracketsPattern.test(text)) {
-    return text.replace(notWithBracketsPattern, "$4")
+  if (py.isPrefixUnaryExpression(expr) && expr.childCount >= 2) {
+    const operator = expr.child(0)
+    const operand = expr.child(1)
+
+    if (operator?.text === 'not'
+      && operand
+      && py.isParenthesizedExpression(operand)) {
+      // Extract content from parentheses
+      const innerExpr = operand.firstNamedChild
+
+      return innerExpr ? innerExpr.text : text
+    }
   }
 
   // (x > y) => (x <= y)
-  if (py.isParenthesizedExpression(expr) && py.isBinaryExpression(expr.expression)) {
-    const result = invertBinaryExpression(expr.expression, addOrBrackets)
+  if (py.isParenthesizedExpression(expr)
+    && expr.firstNamedChild
+    && py.isBinaryExpression(expr.firstNamedChild)) {
+    const result = invertBinaryExpression(expr.firstNamedChild, addOrBrackets)
     if (result) {
       return `(${result})`
     }

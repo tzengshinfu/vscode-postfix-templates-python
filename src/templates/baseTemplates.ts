@@ -14,10 +14,13 @@ export abstract class BaseExpressionTemplate extends BaseTemplate {
   abstract override buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo)
 
   canUse(node: tree.Node) {
-    return py.isIdentifier(node)
-      || py.isExpression(node)
-      || py.isPrefixUnaryExpression(node)
-      || py.isBinaryExpression(node)
-      || py.isCallExpression(node)
+    return !py.inIfStatement(node)
+      && !py.isTypeNode(node)
+      && !py.inAssignmentStatement(node)
+      && (py.isIdentifier(node)
+        || py.isExpression(node)
+        || py.isPrefixUnaryExpression(node)
+        || py.isBinaryExpression(node)
+        || py.isCallExpression(node))
   }
 }

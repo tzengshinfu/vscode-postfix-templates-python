@@ -3,7 +3,11 @@
     "allow": [
       "Bash(rm:*)",
       "Bash(npm run compile:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(move:*)",
+      "Bash(move extension.singleline.test.ts cases )",
+      "Bash(move extension.svelte-vue-html.test.ts cases )",
+      "Bash(mv:*)"
     ],
     "deny": []
   }

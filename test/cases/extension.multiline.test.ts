@@ -1,40 +1,40 @@
-import { runTestMultiline as Test, runTestMultilineQuickPick as QuickPick } from './runner'
-import { runWithCustomTemplate, TabSize } from './utils'
+import { runTestMultiline as Test, runTestMultilineQuickPick as QuickPick } from '../runner'
+import { runWithCustomTemplate, TabSize } from '../utils'
 import { describe } from 'mocha'
 
 const indent = (size: number) => ' '.repeat(size * TabSize)
 
 describe('Multiline template tests', () => {
-  Test(`let template - method call
-      | object.call()     >> let name = object.call()
+  Test(`var template - method call
+      | object.call()     >> name = object.call()
       | \t.anotherCall()  >> \t.anotherCall()
-      | \t.lastOne(){let} >> \t.lastOne()`)
+      | \t.lastOne(){var} >> \t.lastOne()`)
 
-  Test(`let template - method call (equal indentation)
-      | \tobject.call() >> \tlet name = object.call()
+  Test(`var template - method call (equal indentation)
+      | \tobject.call() >> \tname = object.call()
       | .anotherCall()  >> \t.anotherCall()
-      | .lastOne(){let} >> \t.lastOne()`)
+      | .lastOne(){var} >> \t.lastOne()`)
 
-  Test(`let template - method call (indentation - tabs)
-      | \t\tobject.call()     >> \t\tlet name = object.call()
+  Test(`var template - method call (indentation - tabs)
+      | \t\tobject.call()     >> \t\tname = object.call()
       | \t\t\t.anotherCall()  >> \t\t\t.anotherCall()
-      | \t\t\t.lastOne(){let} >> \t\t\t.lastOne()`)
+      | \t\t\t.lastOne(){var} >> \t\t\t.lastOne()`)
 
   // first line gets to keep original indentation in VSCode
-  Test(`let template - method call (indentation - spaces)
-      | ${indent(2)}object.call()   >> ${indent(2)}let name = object.call()
+  Test(`var template - method call (indentation - spaces)
+      | ${indent(2)}object.call()   >> ${indent(2)}name = object.call()
       | ${indent(3)}.anotherCall()  >> \t\t\t.anotherCall()
-      | ${indent(3)}.lastOne(){let} >> \t\t\t.lastOne()`)
+      | ${indent(3)}.lastOne(){var} >> \t\t\t.lastOne()`)
 
-  Test(`let template - method call (indentation - mixed)
-      | \t\tobject.call()          >> \t\tlet name = object.call()
+  Test(`var template - method call (indentation - mixed)
+      | \t\tobject.call()          >> \t\tname = object.call()
       | ${indent(3)}.anotherCall() >> \t\t\t.anotherCall()
-      | \t\t\t.lastOne(){let}      >> \t\t\t.lastOne()`)
+      | \t\t\t.lastOne(){var}      >> \t\t\t.lastOne()`)
 
-  Test(`let template - method call (indentation - completely mixed)
-      | \tobject.call()     >> \tlet name = object.call()
+  Test(`var template - method call (indentation - completely mixed)
+      | \tobject.call()     >> \tname = object.call()
       | \t  .anotherCall()  >> \t\t  .anotherCall()
-      | \t  .lastOne(){let} >> \t\t  .lastOne()`)
+      | \t  .lastOne(){var} >> \t\t  .lastOne()`)
 
   Test(`return template - method call (indentation - tabs)
       | \t\tobject.call()        >> \t\treturn object.call()
@@ -57,28 +57,22 @@ describe('Multiline template tests', () => {
       | \t  .anotherCall()     >> \t\t  .anotherCall()
       | \t  .lastOne(){return} >> \t\t  .lastOne()`)
 
-  Test(`let template - property access expression
-      | object.   >> let name = object.
+  Test(`var template - property access expression
+      | object.   >> name = object.
       | \t.a      >> \t.a
       | \t.b      >> \t.b
-      | \t.c{let} >> \t.c`)
+      | \t.c{var} >> \t.c`)
 
-  Test(`let template - unary expression
-      | object.     >> let name = object.
+  Test(`var template - increment expression
+      | object.     >> name = object.
       | \t.a        >> \t.a
       | \t.b        >> \t.b
-      | \t.c++{let} >> \t.c++`)
+      | \t.c{var}   >> \t.c`)
 
   Test(`return template - method call (equal indentation)
       | \tobject.call() >> \treturn object.call()
       | .anotherCall()  >> \t.anotherCall()
       | .lastOne(){return} >> \t.lastOne()`)
-
-  Test(`return template - new expression
-      | new Type(    >> return new Type(
-      | \t1,         >> \t1,
-      | \t2,         >> \t2,
-      | \t3){return} >> \t3)`)
 
   describe('Without {{expr}}', () => {
     const run = runWithCustomTemplate('1\n\t1\n1')
