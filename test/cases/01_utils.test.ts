@@ -15,19 +15,33 @@ describe('01. Utils tests', () => {
     cleanupParser()
   })
 
-  it('getIndentCharacters when spaces', () => {
-    vsc.window.activeTextEditor.options.insertSpaces = true
-    vsc.window.activeTextEditor.options.tabSize = 4
+  it('getIndentCharacters when spaces', async () => {
+    // Create a text document and open it to ensure activeTextEditor exists
+    const doc = await vsc.workspace.openTextDocument({ content: '', language: 'python' })
+    const editor = await vsc.window.showTextDocument(doc)
+
+    editor.options.insertSpaces = true
+    editor.options.tabSize = 4
 
     const result = getIndentCharacters()
     assert.strictEqual(result, '    ')
+
+    // Clean up
+    await vsc.commands.executeCommand('workbench.action.closeActiveEditor')
   })
 
-  it('getIndentCharacters when tabs', () => {
-    vsc.window.activeTextEditor.options.insertSpaces = false
+  it('getIndentCharacters when tabs', async () => {
+    // Create a text document and open it to ensure activeTextEditor exists
+    const doc = await vsc.workspace.openTextDocument({ content: '', language: 'python' })
+    const editor = await vsc.window.showTextDocument(doc)
+
+    editor.options.insertSpaces = false
 
     const result = getIndentCharacters()
     assert.strictEqual(result, '\t')
+
+    // Clean up
+    await vsc.commands.executeCommand('workbench.action.closeActiveEditor')
   })
 
   describe('invertExpression', () => {
