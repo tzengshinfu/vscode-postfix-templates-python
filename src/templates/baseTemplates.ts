@@ -14,13 +14,9 @@ export abstract class BaseExpressionTemplate extends BaseTemplate {
   abstract override buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo)
 
   canUse(node: tree.Node) {
-    return !py.inIfStatement(node)
-      && !py.isTypeNode(node)
-      && !py.inAssignmentStatement(node)
-      && (py.isIdentifier(node)
-        || py.isExpression(node)
+    return py.isValidExpressionContext(node)
+      && (py.isBasicExpressionNode(node)
         || py.isPrefixUnaryExpression(node)
-        || py.isBinaryExpression(node)
-        || py.isCallExpression(node))
+        || py.isBinaryExpression(node))
   }
 }

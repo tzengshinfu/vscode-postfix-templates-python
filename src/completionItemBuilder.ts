@@ -40,8 +40,7 @@ export class CompletionItemBuilder {
   public replace = (replacement: string): CompletionItemBuilder => {
     this.addCodeBlockDescription(replacement, this.code.replace(/\\/g, '\\\\'))
 
-    const nodeStart = py.getLineAndCharacterOfPosition(this.node, this.node.startIndex)
-    const nodeEnd = py.getLineAndCharacterOfPosition(this.node, this.node.endIndex)
+    const { start: nodeStart, end: nodeEnd } = py.getNodePositions(this.node)
 
     const rangeToDelete = new vsc.Range(
       new vsc.Position(nodeStart.line, nodeStart.character),

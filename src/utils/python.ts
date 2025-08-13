@@ -1,5 +1,8 @@
 import * as tree from '../web-tree-sitter'
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { Parser, Language } = require('web-tree-sitter')
+
 // Python tree-sitter node type checking functions
 export const isArrayLiteral = (node: tree.Node | null | undefined): boolean => {
   return node?.type === 'list'
@@ -192,4 +195,119 @@ export const unwindBinaryExpression = (node: tree.Node, removeParens = true): tr
   }
 
   return binaryExpression ?? node
+}
+
+/**
+ * Finds the appropriate AST node before a dot position in Python code.
+ * This function traverses up the AST to find the complete expression node
+ * that should be used for postfix completion.
+ * 
+ * @param parser - The tree-sitter parser instance
+ * @param text - The full text content
+ * @param dotOffset - The offset position of the dot
+ * @returns The AST node representing the expression before the dot, or null if not found
+ */
+export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: number): tree.Node | null => {
+  const textBeforeDot = text.slice(0, dotOffset)
+  const textAfterDot = text.slice(dotOffset + 1)
+  const textReplaceDotWithSpace = textBeforeDot + " " + textAfterDot
+  const syntaxTree = parser.parse(textReplaceDotWithSpace)
+
+  let treeNode = syntaxTree.rootNode.descendantForIndex(dotOffset - 1)
+  if (!treeNode) {
+    return null
+  }
+
+  // for f-strings interpolation
+  if (treeNode?.parent?.type === 'interpolation') {
+    treeNode = treeNode.parent.parent
+  }
+
+  // for string_content/string_start/string_end
+  if (treeNode?.parent?.type === 'string') {
+    treeNode = treeNode.parent
+  }
+
+  // for -x
+  if (treeNode?.parent?.type === 'unary_operator') {
+    treeNode = treeNode.parent
+  }
+
+  // for not True
+  if (treeNode?.parent?.type === 'not_operator') {
+    treeNode = treeNode.parent
+  }
+
+  // for x.y
+  if (treeNode?.parent?.type === 'attribute') {
+    treeNode = treeNode.parent
+  }
+
+  // for x[0]
+  if (treeNode?.parent?.type === 'subscript') {
+    treeNode = treeNode.parent
+  }
+
+  // for def(x, y)
+  if (treeNode?.parent?.parent?.type == 'call') {
+    treeNode = treeNode.parent.parent
+  }
+
+  if (treeNode?.type === 'module'
+    || treeNode?.type === 'ERROR'
+    || treeNode?.parent?.type === 'ERROR'
+    || treeNode?.type === 'comment') {
+    return null
+  }
+
+  // 確保[.]在節點結尾位置
+  if (treeNode?.endIndex !== dotOffset) {
+    return null
+  }
+
+  return treeNode
+}
+
+// Common node checking patterns used across templates
+export const isBasicExpressionNode = (node: tree.Node | null | undefined): boolean => {
+  return isIdentifier(node) || isExpression(node) || isCallExpression(node)
+}
+
+export const isValidExpressionContext = (node: tree.Node): boolean => {
+  return !inIfStatement(node) && !isTypeNode(node) && !inAssignmentStatement(node)
+}
+
+export const isValidStatementContext = (node: tree.Node): boolean => {
+  return !inReturnStatement(node)
+    && !inIfStatement(node)
+    && !inFunctionArgument(node)
+    && !inVariableDeclaration(node)
+    && !inAssignmentStatement(node)
+}
+
+export const unwrapNodeForTemplate = (node: tree.Node): { node: tree.Node, text: string } => {
+  const unwrapped = unwindBinaryExpression(node, false)
+  const textNode = unwindBinaryExpression(unwrapped, true)
+  return { node: unwrapped, text: textNode.text }
+}
+
+export const getNodePositions = (node: tree.Node): { start: { line: number, character: number }, end: { line: number, character: number } } => {
+  return {
+    start: getLineAndCharacterOfPosition(node, node.startIndex),
+    end: getLineAndCharacterOfPosition(node, node.endIndex)
+  }
+}
+
+// Parser initialization utilities
+/**
+ * Initialize a tree-sitter parser for Python with the given WASM path
+ * @param wasmPath - Path to the tree-sitter-python.wasm file
+ * @returns Promise that resolves to initialized parser
+ */
+export async function createPythonParser(wasmPath: string): Promise<tree.Parser> {
+  await Parser.init()
+  const Python: tree.Language = await Language.load(wasmPath)
+  const parser = new Parser()
+  parser.setLanguage(Python)
+  return parser
 }

@@ -6,10 +6,8 @@ import { parseDSL, ITestDSL } from '../test/dsl'
 import { runTest } from '../test/runner'
 import { EOL } from 'node:os'
 import { CustomTemplateBodyType } from '../src/templates'
+import { createPythonParser } from '../src/utils/python'
 import * as tree from '../src/web-tree-sitter'
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { Parser, Language } = require('web-tree-sitter')
 
 const LANGUAGE = 'postfix'
 
@@ -189,12 +187,8 @@ export async function initializeParser(): Promise<void> {
   if (parser) {
     return
   }
-
-  await Parser.init()
   const wasmPath = require.resolve('../out/tree-sitter-python.wasm')
-  const Python: tree.Language = await Language.load(wasmPath)
-  parser = new Parser()
-  parser.setLanguage(Python)
+  parser = await createPythonParser(wasmPath)
 }
 
 /**

@@ -5,6 +5,7 @@ import { AllTabs, AllSpaces } from './utils/multiline-expressions'
 import { loadBuiltinTemplates, loadCustomTemplates } from './templates'
 import { CustomTemplate } from './templates/customTemplate'
 import { getHtmlLikeEmbedText } from './utils/htmlLikeSupport'
+import { findNodeBeforeDot } from './utils/python'
 import * as tree from './web-tree-sitter'
 
 let currentSuggestion = undefined
@@ -89,64 +90,8 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
     const dotOffset = document.offsetAt(position.with({ character: dotIndex }))
     const speciallyHandledText = this.getHtmlLikeEmbeddedText(document, position)
     const fullText = speciallyHandledText ?? document.getText()
-    const textBeforeDot = fullText.slice(0, dotOffset)
-    const textAfterDot = fullText.slice(dotOffset + 1)
-    const textReplaceDotWithSpace = textBeforeDot + " " + textAfterDot
-    const syntaxTree = this.parser.parse(textReplaceDotWithSpace)
-
-    let treeNode = syntaxTree.rootNode.descendantForIndex(dotOffset - 1)
-    if (!treeNode) {
-      return null
-    }
-
-    // for f-strings interpolation
-    if (treeNode?.parent?.type === 'interpolation') {
-      treeNode = treeNode.parent.parent
-    }
-
-    // for string_content/string_start/string_end
-    if (treeNode?.parent?.type === 'string') {
-      treeNode = treeNode.parent
-    }
-
-    // for -x
-    if (treeNode?.parent?.type === 'unary_operator') {
-      treeNode = treeNode.parent
-    }
-
-    // for not True
-    if (treeNode?.parent?.type === 'not_operator') {
-      treeNode = treeNode.parent
-    }
-
-    // for x.y
-    if (treeNode?.parent?.type === 'attribute') {
-      treeNode = treeNode.parent
-    }
-
-    // for x[0]
-    if (treeNode?.parent?.type === 'subscript') {
-      treeNode = treeNode.parent
-    }
-
-    // for def(x, y)
-    if (treeNode?.parent?.parent?.type == 'call') {
-      treeNode = treeNode.parent.parent
-    }
-
-    if (treeNode?.type === 'module'
-      || treeNode?.type === 'ERROR'
-      || treeNode?.parent?.type === 'ERROR'
-      || treeNode?.type === 'comment') {
-      return null
-    }
-
-    // 確保[.]在節點結尾位置
-    if (treeNode?.endIndex !== dotOffset) {
-      return null
-    }
-
-    return treeNode
+    
+    return findNodeBeforeDot(this.parser, fullText, dotOffset)
   }
 
   private getIndentInfo(document: vsc.TextDocument, node: tree.Node): IndentInfo {
