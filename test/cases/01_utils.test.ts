@@ -93,7 +93,7 @@ function testInvertBinaryExpression(dsl: string) {
   const [input, expected] = dsl.split('>>').map(x => x.trim())
 
   it(`${input} should invert to ${expected}`, () => {
-    const rootNode = findNodeBeforeDot(this.parser, input, input.length - 1)
+    const rootNode = findNodeBeforeDot(parser, input, input.length - 1)
     const result = invertBinaryExpression(rootNode)
 
     assert.strictEqual(result, expected)
@@ -104,7 +104,7 @@ function testInvertExpression(dsl: string) {
   const [input, expected] = dsl.split('>>').map(x => x.trim())
 
   it(`${input} should invert to ${expected}`, () => {
-    const rootNode = findNodeBeforeDot(this.parser, input, input.length - 1)
+    const rootNode = findNodeBeforeDot(parser, input, input.length - 1)
     const result = invertExpression(rootNode)
 
     assert.strictEqual(result, expected)
