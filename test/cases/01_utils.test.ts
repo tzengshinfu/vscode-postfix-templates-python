@@ -4,15 +4,22 @@ import { describe, it, before, after } from 'mocha'
 
 import { getIndentCharacters } from '../../src/utils/vscode-helpers'
 import { invertBinaryExpression, invertExpression } from '../../src/utils/invert-expression'
-import { initializeParser, cleanupParser, parsePython, findBinaryOperatorNode, findExpressionNode } from '../utils/test-helpers'
+
+import { createPythonParser, findNodeBeforeDot } from '../../src/utils/python'
+import * as tree from '../../src/web-tree-sitter'
+
+let parser: tree.Parser
 
 describe('01. Utils tests', () => {
   before(async () => {
-    await initializeParser()
+    parser = await createPythonParser(require.resolve('../../out/tree-sitter-python.wasm'))
   })
 
   after(() => {
-    cleanupParser()
+    if (parser) {
+      parser.delete()
+      parser = null
+    }
   })
 
   it('getIndentCharacters when spaces', async () => {
@@ -86,17 +93,10 @@ function testInvertBinaryExpression(dsl: string) {
   const [input, expected] = dsl.split('>>').map(x => x.trim())
 
   it(`${input} should invert to ${expected}`, () => {
-    const pythonTree = parsePython(input)
-    const rootNode = pythonTree.rootNode
-
-    // Find the first binary operator or comparison operator node
-    const targetNode = findBinaryOperatorNode(rootNode) || rootNode.firstChild || rootNode
-
-    const result = invertBinaryExpression(targetNode)
+    const rootNode = findNodeBeforeDot(this.parser, input, input.length - 1)
+    const result = invertBinaryExpression(rootNode)
 
     assert.strictEqual(result, expected)
-
-    pythonTree.delete()
   })
 }
 
@@ -104,16 +104,9 @@ function testInvertExpression(dsl: string) {
   const [input, expected] = dsl.split('>>').map(x => x.trim())
 
   it(`${input} should invert to ${expected}`, () => {
-    const pythonTree = parsePython(input)
-    const rootNode = pythonTree.rootNode
-
-    // Find the appropriate node for expression inversion
-    const targetNode = findExpressionNode(rootNode) || rootNode.firstChild || rootNode
-
-    const result = invertExpression(targetNode)
+    const rootNode = findNodeBeforeDot(this.parser, input, input.length - 1)
+    const result = invertExpression(rootNode)
 
     assert.strictEqual(result, expected)
-
-    pythonTree.delete()
   })
 }
