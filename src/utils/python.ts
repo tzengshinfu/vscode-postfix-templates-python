@@ -215,6 +215,7 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
 
   let treeNode = syntaxTree.rootNode.descendantForIndex(dotOffset - 1)
   if (!treeNode) {
+    syntaxTree.delete()
     return null
   }
 
@@ -257,14 +258,18 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
     || treeNode?.type === 'ERROR'
     || treeNode?.parent?.type === 'ERROR'
     || treeNode?.type === 'comment') {
+    syntaxTree.delete()
     return null
   }
 
   // Ensure the dot is at the end of the node
   if (treeNode?.endIndex !== dotOffset) {
+    syntaxTree.delete()
     return null
   }
 
+  // Note: We cannot delete syntaxTree here because treeNode is still referencing it
+  // The tree will be garbage collected when treeNode goes out of scope
   return treeNode
 }
 
