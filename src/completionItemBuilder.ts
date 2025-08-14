@@ -14,10 +14,6 @@ export class CompletionItemBuilder {
   private node: tree.Node
 
   private constructor(keyword: string, node: tree.Node, private indentInfo: IndentInfo) {
-    if (node.parent && py.isAwaitExpression(node.parent)) {
-      node = node.parent
-    }
-
     this.node = node
     this.item = new vsc.CompletionItem({ label: keyword, description: 'POSTFIX' }, vsc.CompletionItemKind.Snippet)
     this.code = adjustMultilineIndentation(node.text, indentInfo?.indentSize)

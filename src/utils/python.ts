@@ -218,39 +218,39 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
     return null
   }
 
-  // for f-strings interpolation
-  if (treeNode?.parent?.type === 'interpolation') {
-    treeNode = treeNode.parent.parent
-  }
+  // Traverse up the AST tree to find the appropriate parent node
+  while (treeNode?.parent) {
+    const parentType = treeNode.parent.type
+    const grandparentType = treeNode.parent.parent?.type
 
-  // for string_content/string_start/string_end
-  if (treeNode?.parent?.type === 'string') {
-    treeNode = treeNode.parent
-  }
-
-  // for -x
-  if (treeNode?.parent?.type === 'unary_operator') {
-    treeNode = treeNode.parent
-  }
-
-  // for not True
-  if (treeNode?.parent?.type === 'not_operator') {
-    treeNode = treeNode.parent
-  }
-
-  // for x.y
-  if (treeNode?.parent?.type === 'attribute') {
-    treeNode = treeNode.parent
-  }
-
-  // for x[0]
-  if (treeNode?.parent?.type === 'subscript') {
-    treeNode = treeNode.parent
-  }
-
-  // for def(x, y)
-  if (treeNode?.parent?.parent?.type == 'call') {
-    treeNode = treeNode.parent.parent
+    if (parentType === 'interpolation') {
+      // for f-strings interpolation
+      treeNode = treeNode.parent.parent
+    } else if (parentType === 'string') {
+      // for string_content/string_start/string_end
+      treeNode = treeNode.parent
+    } else if (parentType === 'unary_operator') {
+      // for -x
+      treeNode = treeNode.parent
+    } else if (parentType === 'not_operator') {
+      // for not True
+      treeNode = treeNode.parent
+    } else if (parentType === 'attribute') {
+      // for x.y
+      treeNode = treeNode.parent
+    } else if (parentType === 'subscript') {
+      // for x[0]
+      treeNode = treeNode.parent
+    } else if (grandparentType === 'call') {
+      // for def(x, y)
+      treeNode = treeNode.parent.parent
+    } else if (parentType === 'await') {
+      // for await expressions - wrap the await node
+      treeNode = treeNode.parent
+    } else {
+      // No more transformations needed, exit the loop
+      break
+    }
   }
 
   if (treeNode?.type === 'module'
