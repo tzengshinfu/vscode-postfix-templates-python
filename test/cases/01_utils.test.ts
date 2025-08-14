@@ -4,7 +4,7 @@ import { describe, it, before, after } from 'mocha'
 
 import { getIndentCharacters } from '../../src/utils/vscode-helpers'
 import { invertBinaryExpression, invertExpression } from '../../src/utils/invert-expression'
-import { initializeParser, cleanupParser, parsePython, findBinaryOperatorNode, findExpressionNode } from '../test-helpers'
+import { initializeParser, cleanupParser, parsePython, findBinaryOperatorNode, findExpressionNode } from '../utils/test-helpers'
 
 describe('01. Utils tests', () => {
   before(async () => {

@@ -201,7 +201,7 @@ export const unwindBinaryExpression = (node: tree.Node, removeParens = true): tr
  * Finds the appropriate AST node before a dot position in Python code.
  * This function traverses up the AST to find the complete expression node
  * that should be used for postfix completion.
- * 
+ *
  * @param parser - The tree-sitter parser instance
  * @param text - The full text content
  * @param dotOffset - The offset position of the dot
@@ -268,23 +268,6 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
   return treeNode
 }
 
-// Common node checking patterns used across templates
-export const isBasicExpressionNode = (node: tree.Node | null | undefined): boolean => {
-  return isIdentifier(node) || isExpression(node) || isCallExpression(node)
-}
-
-export const isValidExpressionContext = (node: tree.Node): boolean => {
-  return !inIfStatement(node) && !isTypeNode(node) && !inAssignmentStatement(node)
-}
-
-export const isValidStatementContext = (node: tree.Node): boolean => {
-  return !inReturnStatement(node)
-    && !inIfStatement(node)
-    && !inFunctionArgument(node)
-    && !inVariableDeclaration(node)
-    && !inAssignmentStatement(node)
-}
-
 export const unwrapNodeForTemplate = (node: tree.Node): { node: tree.Node, text: string } => {
   const unwrapped = unwindBinaryExpression(node, false)
   const textNode = unwindBinaryExpression(unwrapped, true)
@@ -300,7 +283,7 @@ export const getNodePositions = (node: tree.Node): { start: { line: number, char
 
 // Parser initialization utilities
 /**
- * Initialize a tree-sitter parser for Python with the given WASM path
+ * Initialize a tree-sitter parser for Python
  * @param wasmPath - Path to the tree-sitter-python.wasm file
  * @returns Promise that resolves to initialized parser
  */

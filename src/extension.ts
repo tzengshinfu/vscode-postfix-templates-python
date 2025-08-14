@@ -9,8 +9,7 @@ let completionProvider: vsc.Disposable
 let parser: tree.Parser
 
 export async function activate(context: vsc.ExtensionContext): Promise<void> {
-  const wasmUri = vsc.Uri.joinPath(context.extensionUri, 'out', 'tree-sitter-python.wasm')
-  parser = await createPythonParser(wasmUri.fsPath)
+  parser = await createPythonParser(vsc.Uri.joinPath(context.extensionUri, 'out', 'tree-sitter-python.wasm').fsPath)
   registerCompletionProvider(context)
 
   context.subscriptions.push(vsc.commands.registerTextEditorCommand(NOT_COMMAND, async (editor: vsc.TextEditor, _: vsc.TextEditorEdit, ...args: tree.Node[]) => {

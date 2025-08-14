@@ -1,4 +1,4 @@
-import { makeTestFunction, testTemplate, TestTemplateOptions, testTemplateWithQuickPick } from './test-helpers'
+import { makeTestFunction, testTemplate, TestTemplateOptions, testTemplateWithQuickPick } from './utils/test-helpers'
 import { EOL } from 'os'
 import { TestFunction } from 'mocha'
 

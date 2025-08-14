@@ -4,7 +4,7 @@ import * as vsc from 'vscode'
 import { describe, afterEach, before, after, TestFunction } from 'mocha'
 
 import { getCurrentSuggestion, resetCurrentSuggestion } from '../../src/postfixCompletionProvider'
-import { getCurrentDelay, delay, makeTestFunction } from '../test-helpers'
+import { getCurrentDelay, delay, makeTestFunction } from '../utils/test-helpers'
 
 const LANGUAGE = 'postfix'
 

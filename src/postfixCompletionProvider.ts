@@ -10,8 +10,6 @@ import * as tree from './web-tree-sitter'
 
 let currentSuggestion = undefined
 
-export const overrideTsxEnabled = { value: false }
-
 export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
   private templates: IPostfixTemplate[] = []
   private customTemplateNames: string[] = []
@@ -90,7 +88,7 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
     const dotOffset = document.offsetAt(position.with({ character: dotIndex }))
     const speciallyHandledText = this.getHtmlLikeEmbeddedText(document, position)
     const fullText = speciallyHandledText ?? document.getText()
-    
+
     return findNodeBeforeDot(this.parser, fullText, dotOffset)
   }
 

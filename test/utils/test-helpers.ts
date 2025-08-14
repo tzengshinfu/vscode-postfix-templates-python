@@ -1,13 +1,13 @@
 import * as vsc from 'vscode'
 import * as assert from 'assert'
 import { describe, before, after, TestFunction, it } from 'mocha'
-import { getCurrentSuggestion } from '../src/postfixCompletionProvider'
-import { parseDSL, ITestDSL } from '../test/dsl'
-import { runTest } from '../test/runner'
+import { getCurrentSuggestion } from '../../src/postfixCompletionProvider'
+import { parseDSL, ITestDSL } from '../dsl'
+import { runTest } from '../runner'
 import { EOL } from 'node:os'
-import { CustomTemplateBodyType } from '../src/templates'
-import { createPythonParser } from '../src/utils/python'
-import * as tree from '../src/web-tree-sitter'
+import { CustomTemplateBodyType } from '../../src/templates'
+import { createPythonParser } from '../../src/utils/python'
+import * as tree from '../../src/web-tree-sitter'
 
 const LANGUAGE = 'postfix'
 
@@ -187,7 +187,7 @@ export async function initializeParser(): Promise<void> {
   if (parser) {
     return
   }
-  const wasmPath = require.resolve('../out/tree-sitter-python.wasm')
+  const wasmPath = require.resolve('../../out/tree-sitter-python.wasm')
   parser = await createPythonParser(wasmPath)
 }
 
@@ -252,22 +252,4 @@ export function findExpressionNode(node: tree.Node): tree.Node | null {
   }
 
   return null
-}
-
-/**
- * Parse Python code and find the target expression node
- */
-export function parseAndFindExpression(code: string): tree.Node | null {
-  const pythonTree = parsePython(code)
-  const rootNode = pythonTree.rootNode
-  return findExpressionNode(rootNode) || rootNode.firstChild || rootNode
-}
-
-/**
- * Parse Python code and find the target binary operator node
- */
-export function parseAndFindBinaryOperator(code: string): tree.Node | null {
-  const pythonTree = parsePython(code)
-  const rootNode = pythonTree.rootNode
-  return findBinaryOperatorNode(rootNode) || rootNode.firstChild || rootNode
 }

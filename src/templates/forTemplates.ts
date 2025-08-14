@@ -9,7 +9,11 @@ import * as py from '../utils/python'
 
 abstract class BaseForTemplate extends BaseTemplate {
   canUse(node: tree.Node): boolean {
-    return py.isValidStatementContext(node)
+    return !py.inReturnStatement(node)
+      && !py.inIfStatement(node)
+      && !py.inFunctionArgument(node)
+      && !py.inVariableDeclaration(node)
+      && !py.inAssignmentStatement(node)
       && !py.isTypeNode(node)
       && !py.isBinaryExpression(node)
       && (py.isIdentifier(node)

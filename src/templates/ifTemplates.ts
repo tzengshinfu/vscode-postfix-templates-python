@@ -8,7 +8,11 @@ import * as py from '../utils/python'
 
 abstract class BaseIfElseTemplate extends BaseExpressionTemplate {
   override canUse(node: tree.Node) {
-    return super.canUse(node) && py.isValidStatementContext(node)
+    return super.canUse(node)
+      && !py.inReturnStatement(node)
+      && !py.inFunctionArgument(node)
+      && !py.inVariableDeclaration(node)
+      && !py.inAssignmentStatement(node)
   }
 }
 

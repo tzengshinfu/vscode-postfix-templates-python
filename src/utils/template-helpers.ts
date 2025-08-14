@@ -5,27 +5,6 @@ import { CompletionItemBuilder } from '../completionItemBuilder'
 import { getIndentCharacters } from './vscode-helpers'
 
 /**
- * Builds a simple template completion item with the given parameters
- */
-export const buildSimpleTemplate = (
-  keyword: string,
-  node: tree.Node,
-  indentInfo: IndentInfo,
-  template: string,
-  description?: string
-): vsc.CompletionItem => {
-  const builder = CompletionItemBuilder
-    .create(keyword, node, indentInfo)
-    .replace(template)
-
-  if (description) {
-    builder.description(description)
-  }
-
-  return builder.build()
-}
-
-/**
  * Creates a block template with appropriate indentation
  */
 export const createBlockTemplate = (condition: string, hasElse = false): string => {

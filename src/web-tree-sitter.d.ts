@@ -6,9 +6,9 @@
  */
 export interface Point {
   /** The zero-based row number. */
-  row: number;
+  row: number
   /** The zero-based column number. */
-  column: number;
+  column: number
 }
 /**
  * A range of positions in a multi-line text document, both in terms of bytes
@@ -16,45 +16,45 @@ export interface Point {
  */
 export interface Range {
   /** The start position of the range. */
-  startPosition: Point;
+  startPosition: Point
   /** The end position of the range. */
-  endPosition: Point;
+  endPosition: Point
   /** The start index of the range. */
-  startIndex: number;
+  startIndex: number
   /** The end index of the range. */
-  endIndex: number;
+  endIndex: number
 }
 /**
  * A summary of a change to a text document.
  */
 export interface Edit {
   /** The start position of the change. */
-  startPosition: Point;
+  startPosition: Point
   /** The end position of the change before the edit. */
-  oldEndPosition: Point;
+  oldEndPosition: Point
   /** The end position of the change after the edit. */
-  newEndPosition: Point;
+  newEndPosition: Point
   /** The start index of the change. */
-  startIndex: number;
+  startIndex: number
   /** The end index of the change before the edit. */
-  oldEndIndex: number;
+  oldEndIndex: number
   /** The end index of the change after the edit. */
-  newEndIndex: number;
+  newEndIndex: number
 }
 /**
  * A callback for parsing that takes an index and point, and should return a string.
  */
-export type ParseCallback = (index: number, position: Point) => string | undefined;
+export type ParseCallback = (index: number, position: Point) => string | undefined
 /**
 * A callback that receives the parse state during parsing.
 */
-export type ProgressCallback = (progress: ParseState) => boolean;
+export type ProgressCallback = (progress: ParseState) => boolean
 /**
  * A callback for logging messages.
  *
  * If `isLex` is `true`, the message is from the lexer, otherwise it's from the parser.
  */
-export type LogCallback = (message: string, isLex: boolean) => void;
+export type LogCallback = (message: string, isLex: boolean) => void
 /**
  * Options for parsing
  *
@@ -84,7 +84,7 @@ export interface ParseOptions {
    * ranges[i].end_byte <= ranges[i + 1].start_byte
    * ```
    */
-  includedRanges?: Range[];
+  includedRanges?: Range[]
   /**
    * A function that is called periodically during parsing to check
    * whether parsing should be cancelled. If the progress callback returns
@@ -93,7 +93,7 @@ export interface ParseOptions {
    * takes a single argument, which is a {@link ParseState} representing the current
    * state of the parser.
    */
-  progressCallback?: (state: ParseState) => void;
+  progressCallback?: (state: ParseState) => void
 }
 /**
  * A stateful object that is passed into the progress callback {@link ParseOptions#progressCallback}
@@ -101,9 +101,9 @@ export interface ParseOptions {
  */
 export interface ParseState {
   /** The byte offset in the document that the parser is at. */
-  currentOffset: number;
+  currentOffset: number
   /** Indicates whether the parser has encountered an error during parsing. */
-  hasError: boolean;
+  hasError: boolean
 }
 /**
  * The latest ABI version that is supported by the current version of the
@@ -114,21 +114,21 @@ export interface ParseState {
  * The Tree-sitter library is generally backwards-compatible with languages
  * generated using older CLI versions, but is not forwards-compatible.
  */
-export let LANGUAGE_VERSION: number;
+export let LANGUAGE_VERSION: number
 /**
  * The earliest ABI version that is supported by the current version of the
  * library.
  */
-export let MIN_COMPATIBLE_VERSION: number;
+export let MIN_COMPATIBLE_VERSION: number
 /**
  * A stateful object that is used to produce a {@link Tree} based on some
  * source code.
  */
 export interface Parser {
   /** The parser's current language. */
-  language: Language | null;
+  language: Language | null
   /** Delete the parser, freeing its resources. */
-  delete(): void;
+  delete(): void
   /**
    * Set the language that the parser should use for parsing.
    *
@@ -138,7 +138,7 @@ export interface Parser {
    * {@link Language#version} and compare it to this library's
    * {@link LANGUAGE_VERSION} and {@link MIN_COMPATIBLE_VERSION} constants.
    */
-  setLanguage(language: Language | null): this;
+  setLanguage(language: Language | null): this
   /**
    * Parse a slice of UTF8 text.
    *
@@ -155,7 +155,7 @@ export interface Parser {
    * - The parser has not yet had a language assigned with {@link Parser#setLanguage}.
    * - The progress callback returned true.
    */
-  parse(callback: string | ParseCallback, oldTree?: Tree | null, options?: ParseOptions): Tree | null;
+  parse(callback: string | ParseCallback, oldTree?: Tree | null, options?: ParseOptions): Tree | null
   /**
    * Instruct the parser to start the next parse from the beginning.
    *
@@ -165,9 +165,9 @@ export interface Parser {
    * If you don't want to resume, and instead intend to use this parser to
    * parse some other document, you must call `reset` first.
    */
-  reset(): void;
+  reset(): void
   /** Get the ranges of text that the parser will include when parsing. */
-  getIncludedRanges(): Range[];
+  getIncludedRanges(): Range[]
   /**
    * @deprecated since version 0.25.0, prefer passing a progress callback to {@link Parser#parse}
    *
@@ -175,7 +175,7 @@ export interface Parser {
    *
    * This is set via {@link Parser#setTimeoutMicros}.
    */
-  getTimeoutMicros(): number;
+  getTimeoutMicros(): number
   /**
    * @deprecated since version 0.25.0, prefer passing a progress callback to {@link Parser#parse}
    *
@@ -185,16 +185,16 @@ export interface Parser {
    * If parsing takes longer than this, it will halt early, returning `null`.
    * See {@link Parser#parse} for more information.
    */
-  setTimeoutMicros(timeout: number): void;
+  setTimeoutMicros(timeout: number): void
   /** Set the logging callback that a parser should use during parsing. */
-  setLogger(callback: LogCallback | boolean | null): this;
+  setLogger(callback: LogCallback | boolean | null): this
   /** Get the parser's current logger. */
-  getLogger(): LogCallback | null;
+  getLogger(): LogCallback | null
 }
 interface LanguageMetadata {
-  readonly major_version: number;
-  readonly minor_version: number;
-  readonly patch_version: number;
+  readonly major_version: number
+  readonly minor_version: number
+  readonly patch_version: number
 }
 /**
  * An opaque object that defines how to parse a particular language.
@@ -205,83 +205,83 @@ export interface Language {
    * A list of all node types in the language. The index of each type in this
    * array is its node type id.
    */
-  types: string[];
+  types: string[]
   /**
    * A list of all field names in the language. The index of each field name in
    * this array is its field id.
    */
-  fields: (string | null)[];
+  fields: (string | null)[]
   /**
    * Gets the name of the language.
    */
-  get name(): string | null;
+  get name(): string | null
   /**
    * @deprecated since version 0.25.0, use {@link Language#abiVersion} instead
    * Gets the version of the language.
    */
-  get version(): number;
+  get version(): number
   /**
    * Gets the ABI version of the language.
    */
-  get abiVersion(): number;
+  get abiVersion(): number
   /**
   * Get the metadata for this language. This information is generated by the
   * CLI, and relies on the language author providing the correct metadata in
   * the language's `tree-sitter.json` file.
   */
-  get metadata(): LanguageMetadata | null;
+  get metadata(): LanguageMetadata | null
   /**
    * Gets the number of fields in the language.
    */
-  get fieldCount(): number;
+  get fieldCount(): number
   /**
    * Gets the number of states in the language.
    */
-  get stateCount(): number;
+  get stateCount(): number
   /**
    * Get the field id for a field name.
    */
-  fieldIdForName(fieldName: string): number | null;
+  fieldIdForName(fieldName: string): number | null
   /**
    * Get the field name for a field id.
    */
-  fieldNameForId(fieldId: number): string | null;
+  fieldNameForId(fieldId: number): string | null
   /**
    * Get the node type id for a node type name.
    */
-  idForNodeType(type: string, named: boolean): number | null;
+  idForNodeType(type: string, named: boolean): number | null
   /**
    * Gets the number of node types in the language.
    */
-  get nodeTypeCount(): number;
+  get nodeTypeCount(): number
   /**
    * Get the node type name for a node type id.
    */
-  nodeTypeForId(typeId: number): string | null;
+  nodeTypeForId(typeId: number): string | null
   /**
    * Check if a node type is named.
    *
    * @see {@link https://tree-sitter.github.io/tree-sitter/using-parsers/2-basic-parsing.html#named-vs-anonymous-nodes}
    */
-  nodeTypeIsNamed(typeId: number): boolean;
+  nodeTypeIsNamed(typeId: number): boolean
   /**
    * Check if a node type is visible.
    */
-  nodeTypeIsVisible(typeId: number): boolean;
+  nodeTypeIsVisible(typeId: number): boolean
   /**
    * Get the supertypes ids of this language.
    *
    * @see {@link https://tree-sitter.github.io/tree-sitter/using-parsers/6-static-node-types.html?highlight=supertype#supertype-nodes}
    */
-  get supertypes(): number[];
+  get supertypes(): number[]
   /**
    * Get the subtype ids for a given supertype node id.
    */
-  subtypes(supertype: number): number[];
+  subtypes(supertype: number): number[]
   /**
    * Get the next state id for a given state id and node type id.
    */
-  nextState(stateId: number, typeId: number): number;
+  nextState(stateId: number, typeId: number): number
   /**
    * Create a new lookahead iterator for this language and parse state.
    *
@@ -297,7 +297,7 @@ export interface Language {
    * lookahead iterator created on the previous non-extra leaf node may be
    * appropriate.
    */
-  lookaheadIterator(stateId: number): LookaheadIterator | null;
+  lookaheadIterator(stateId: number): LookaheadIterator | null
   /**
    * @deprecated since version 0.25.0, call `new` on a {@link Query} instead
    *
@@ -310,23 +310,23 @@ export interface Language {
    *
    * @link {@see https://tree-sitter.github.io/tree-sitter/using-parsers/queries}
    */
-  query(source: string): Query;
+  query(source: string): Query
 }
 /** A tree that represents the syntactic structure of a source code file. */
 export interface Tree {
   /** The language that was used to parse the syntax tree. */
-  language: Language;
+  language: Language
   /** Create a shallow copy of the syntax tree. This is very fast. */
-  copy(): Tree;
+  copy(): Tree
   /** Delete the syntax tree, freeing its resources. */
-  delete(): void;
+  delete(): void
   /** Get the root node of the syntax tree. */
-  get rootNode(): Node;
+  get rootNode(): Node
   /**
    * Get the root node of the syntax tree, but with its position shifted
    * forward by the given offset.
    */
-  rootNodeWithOffset(offsetBytes: number, offsetExtent: Point): Node;
+  rootNodeWithOffset(offsetBytes: number, offsetExtent: Point): Node
   /**
    * Edit the syntax tree to keep it in sync with source code that has been
    * edited.
@@ -334,9 +334,9 @@ export interface Tree {
    * You must describe the edit both in terms of byte offsets and in terms of
    * row/column coordinates.
    */
-  edit(edit: Edit): void;
+  edit(edit: Edit): void
   /** Create a new {@link TreeCursor} starting from the root of the tree. */
-  walk(): TreeCursor;
+  walk(): TreeCursor
   /**
    * Compare this old edited syntax tree to a new syntax tree representing
    * the same document, returning a sequence of ranges whose syntactic
@@ -348,9 +348,9 @@ export interface Tree {
    * functions. Call it on the old tree that was passed to parse, and
    * pass the new tree that was returned from `parse`.
    */
-  getChangedRanges(other: Tree): Range[];
+  getChangedRanges(other: Tree): Range[]
   /** Get the included ranges that were used to parse the syntax tree. */
-  getIncludedRanges(): Range[];
+  getIncludedRanges(): Range[]
 }
 /** A single node within a syntax {@link Tree}. */
 export interface Node {
@@ -366,74 +366,74 @@ export interface Node {
    *
    * * If a node is marked as having changed in the old tree, it will not be reused.
    */
-  id: number;
+  id: number
   /** The byte index where this node starts. */
-  startIndex: number;
+  startIndex: number
   /** The position where this node starts. */
-  startPosition: Point;
+  startPosition: Point
   /** The tree that this node belongs to. */
-  tree: Tree;
+  tree: Tree
   /** Get this node's type as a numerical id. */
-  get typeId(): number;
+  get typeId(): number
   /**
    * Get the node's type as a numerical id as it appears in the grammar,
    * ignoring aliases.
    */
-  get grammarId(): number;
+  get grammarId(): number
   /** Get this node's type as a string. */
-  get type(): string;
+  get type(): string
   /**
    * Get this node's symbol name as it appears in the grammar, ignoring
    * aliases as a string.
    */
-  get grammarType(): string;
+  get grammarType(): string
   /**
    * Check if this node is *named*.
    *
    * Named nodes correspond to named rules in the grammar, whereas
    * *anonymous* nodes correspond to string literals in the grammar.
    */
-  get isNamed(): boolean;
+  get isNamed(): boolean
   /**
    * Check if this node is *extra*.
    *
    * Extra nodes represent things like comments, which are not required
    * by the grammar, but can appear anywhere.
    */
-  get isExtra(): boolean;
+  get isExtra(): boolean
   /**
    * Check if this node represents a syntax error.
    *
    * Syntax errors represent parts of the code that could not be incorporated
    * into a valid syntax tree.
    */
-  get isError(): boolean;
+  get isError(): boolean
   /**
    * Check if this node is *missing*.
    *
    * Missing nodes are inserted by the parser in order to recover from
    * certain kinds of syntax errors.
    */
-  get isMissing(): boolean;
+  get isMissing(): boolean
   /** Check if this node has been edited. */
-  get hasChanges(): boolean;
+  get hasChanges(): boolean
   /**
    * Check if this node represents a syntax error or contains any syntax
    * errors anywhere within it.
    */
-  get hasError(): boolean;
+  get hasError(): boolean
   /** Get the byte index where this node ends. */
-  get endIndex(): number;
+  get endIndex(): number
   /** Get the position where this node ends. */
-  get endPosition(): Point;
+  get endPosition(): Point
   /** Get the string content of this node. */
-  get text(): string;
+  get text(): string
   /** Get this node's parse state. */
-  get parseState(): number;
+  get parseState(): number
   /** Get the parse state after this node. */
-  get nextParseState(): number;
+  get nextParseState(): number
   /** Check if this node is equal to another node. */
-  equals(other: Node): boolean;
+  equals(other: Node): boolean
   /**
    * Get the node's child at the given index, where zero represents the first child.
    *
@@ -441,7 +441,7 @@ export interface Node {
    * you might be iterating over a long list of children, you should use
    * {@link Node#children} instead.
    */
-  child(index: number): Node | null;
+  child(index: number): Node | null
   /**
    * Get this node's *named* child at the given index.
    *
@@ -450,78 +450,78 @@ export interface Node {
    * you might be iterating over a long list of children, you should use
    * {@link Node#namedChildren} instead.
    */
-  namedChild(index: number): Node | null;
+  namedChild(index: number): Node | null
   /**
    * Get this node's child with the given numerical field id.
    *
    * See also {@link Node#childForFieldName}. You can
    * convert a field name to an id using {@link Language#fieldIdForName}.
    */
-  childForFieldId(fieldId: number): Node | null;
+  childForFieldId(fieldId: number): Node | null
   /**
    * Get the first child with the given field name.
    *
    * If multiple children may have the same field name, access them using
    * {@link Node#childrenForFieldName}.
    */
-  childForFieldName(fieldName: string): Node | null;
+  childForFieldName(fieldName: string): Node | null
   /** Get the field name of this node's child at the given index. */
-  fieldNameForChild(index: number): string | null;
+  fieldNameForChild(index: number): string | null
   /** Get the field name of this node's named child at the given index. */
-  fieldNameForNamedChild(index: number): string | null;
+  fieldNameForNamedChild(index: number): string | null
   /**
    * Get an array of this node's children with a given field name.
    *
    * See also {@link Node#children}.
    */
-  childrenForFieldName(fieldName: string): (Node | null)[];
+  childrenForFieldName(fieldName: string): (Node | null)[]
   /**
     * Get an array of this node's children with a given field id.
     *
     * See also {@link Node#childrenForFieldName}.
     */
-  childrenForFieldId(fieldId: number): (Node | null)[];
+  childrenForFieldId(fieldId: number): (Node | null)[]
   /** Get the node's first child that contains or starts after the given byte offset. */
-  firstChildForIndex(index: number): Node | null;
+  firstChildForIndex(index: number): Node | null
   /** Get the node's first named child that contains or starts after the given byte offset. */
-  firstNamedChildForIndex(index: number): Node | null;
+  firstNamedChildForIndex(index: number): Node | null
   /** Get this node's number of children. */
-  get childCount(): number;
+  get childCount(): number
   /**
    * Get this node's number of *named* children.
    *
    * See also {@link Node#isNamed}.
    */
-  get namedChildCount(): number;
+  get namedChildCount(): number
   /** Get this node's first child. */
-  get firstChild(): Node | null;
+  get firstChild(): Node | null
   /**
    * Get this node's first named child.
    *
    * See also {@link Node#isNamed}.
    */
-  get firstNamedChild(): Node | null;
+  get firstNamedChild(): Node | null
   /** Get this node's last child. */
-  get lastChild(): Node | null;
+  get lastChild(): Node | null
   /**
    * Get this node's last named child.
    *
    * See also {@link Node#isNamed}.
    */
-  get lastNamedChild(): Node | null;
+  get lastNamedChild(): Node | null
   /**
    * Iterate over this node's children.
    *
    * If you're walking the tree recursively, you may want to use the
    * {@link TreeCursor} APIs directly instead.
    */
-  get children(): (Node | null)[];
+  get children(): (Node | null)[]
   /**
    * Iterate over this node's named children.
    *
    * See also {@link Node#children}.
    */
-  get namedChildren(): (Node | null)[];
+  get namedChildren(): (Node | null)[]
   /**
    * Get the descendants of this node that are the given type, or in the given types array.
    *
@@ -529,51 +529,51 @@ export interface Node {
    *
    * Additionally, a `startPosition` and `endPosition` can be passed in to restrict the search to a byte range.
    */
-  descendantsOfType(types: string | string[], startPosition?: Point, endPosition?: Point): (Node | null)[];
+  descendantsOfType(types: string | string[], startPosition?: Point, endPosition?: Point): (Node | null)[]
   /** Get this node's next sibling. */
-  get nextSibling(): Node | null;
+  get nextSibling(): Node | null
   /** Get this node's previous sibling. */
-  get previousSibling(): Node | null;
+  get previousSibling(): Node | null
   /**
    * Get this node's next *named* sibling.
    *
    * See also {@link Node#isNamed}.
    */
-  get nextNamedSibling(): Node | null;
+  get nextNamedSibling(): Node | null
   /**
    * Get this node's previous *named* sibling.
    *
    * See also {@link Node#isNamed}.
    */
-  get previousNamedSibling(): Node | null;
+  get previousNamedSibling(): Node | null
   /** Get the node's number of descendants, including one for the node itself. */
-  get descendantCount(): number;
+  get descendantCount(): number
   /**
    * Get this node's immediate parent.
    * Prefer {@link Node#childWithDescendant} for iterating over this node's ancestors.
    */
-  get parent(): Node | null;
+  get parent(): Node | null
   /**
    * Get the node that contains `descendant`.
    *
    * Note that this can return `descendant` itself.
    */
-  childWithDescendant(descendant: Node): Node | null;
+  childWithDescendant(descendant: Node): Node | null
   /** Get the smallest node within this node that spans the given byte range. */
-  descendantForIndex(start: number, end?: number): Node | null;
+  descendantForIndex(start: number, end?: number): Node | null
   /** Get the smallest named node within this node that spans the given byte range. */
-  namedDescendantForIndex(start: number, end?: number): Node | null;
+  namedDescendantForIndex(start: number, end?: number): Node | null
   /** Get the smallest node within this node that spans the given point range. */
-  descendantForPosition(start: Point, end?: Point): Node | null;
+  descendantForPosition(start: Point, end?: Point): Node | null
   /** Get the smallest named node within this node that spans the given point range. */
-  namedDescendantForPosition(start: Point, end?: Point): Node | null;
+  namedDescendantForPosition(start: Point, end?: Point): Node | null
   /**
    * Create a new {@link TreeCursor} starting from this node.
    *
    * Note that the given node is considered the root of the cursor,
    * and the cursor cannot walk outside this node.
    */
-  walk(): TreeCursor;
+  walk(): TreeCursor
   /**
    * Edit this node to keep it in-sync with source code that has been edited.
    *
@@ -583,75 +583,75 @@ export interface Node {
    * use {@link Node#edit} when you have a specific {@link Node} instance that
    * you want to keep and continue to use after an edit.
    */
-  edit(edit: Edit): void;
+  edit(edit: Edit): void
   /** Get the S-expression representation of this node. */
-  toString(): string;
+  toString(): string
 }
 /** A stateful object for walking a syntax {@link Tree} efficiently. */
 export interface TreeCursor {
   /** Creates a deep copy of the tree cursor. This allocates new memory. */
-  copy(): TreeCursor;
+  copy(): TreeCursor
   /** Delete the tree cursor, freeing its resources. */
-  delete(): void;
+  delete(): void
   /** Get the tree cursor's current {@link Node}. */
-  get currentNode(): Node;
+  get currentNode(): Node
   /**
    * Get the numerical field id of this tree cursor's current node.
    *
    * See also {@link TreeCursor#currentFieldName}.
    */
-  get currentFieldId(): number;
+  get currentFieldId(): number
   /** Get the field name of this tree cursor's current node. */
-  get currentFieldName(): string | null;
+  get currentFieldName(): string | null
   /**
    * Get the depth of the cursor's current node relative to the original
    * node that the cursor was constructed with.
    */
-  get currentDepth(): number;
+  get currentDepth(): number
   /**
    * Get the index of the cursor's current node out of all of the
    * descendants of the original node that the cursor was constructed with.
    */
-  get currentDescendantIndex(): number;
+  get currentDescendantIndex(): number
   /** Get the type of the cursor's current node. */
-  get nodeType(): string;
+  get nodeType(): string
   /** Get the type id of the cursor's current node. */
-  get nodeTypeId(): number;
+  get nodeTypeId(): number
   /** Get the state id of the cursor's current node. */
-  get nodeStateId(): number;
+  get nodeStateId(): number
   /** Get the id of the cursor's current node. */
-  get nodeId(): number;
+  get nodeId(): number
   /**
    * Check if the cursor's current node is *named*.
    *
    * Named nodes correspond to named rules in the grammar, whereas
    * *anonymous* nodes correspond to string literals in the grammar.
    */
-  get nodeIsNamed(): boolean;
+  get nodeIsNamed(): boolean
   /**
    * Check if the cursor's current node is *missing*.
    *
    * Missing nodes are inserted by the parser in order to recover from
    * certain kinds of syntax errors.
    */
-  get nodeIsMissing(): boolean;
+  get nodeIsMissing(): boolean
   /** Get the string content of the cursor's current node. */
-  get nodeText(): string;
+  get nodeText(): string
   /** Get the start position of the cursor's current node. */
-  get startPosition(): Point;
+  get startPosition(): Point
   /** Get the end position of the cursor's current node. */
-  get endPosition(): Point;
+  get endPosition(): Point
   /** Get the start index of the cursor's current node. */
-  get startIndex(): number;
+  get startIndex(): number
   /** Get the end index of the cursor's current node. */
-  get endIndex(): number;
+  get endIndex(): number
   /**
    * Move this cursor to the first child of its current node.
    *
    * This returns `true` if the cursor successfully moved, and returns
    * `false` if there were no children.
    */
-  gotoFirstChild(): boolean;
+  gotoFirstChild(): boolean
   /**
    * Move this cursor to the last child of its current node.
    *
@@ -662,7 +662,7 @@ export interface TreeCursor {
    * {@link TreeCursor#gotoFirstChild} because it needs to
    * iterate through all the children to compute the child's position.
    */
-  gotoLastChild(): boolean;
+  gotoLastChild(): boolean
   /**
    * Move this cursor to the parent of its current node.
    *
@@ -673,7 +673,7 @@ export interface TreeCursor {
    * Note that the node the cursor was constructed with is considered the root
    * of the cursor, and the cursor cannot walk outside this node.
    */
-  gotoParent(): boolean;
+  gotoParent(): boolean
   /**
    * Move this cursor to the next sibling of its current node.
    *
@@ -683,7 +683,7 @@ export interface TreeCursor {
    * Note that the node the cursor was constructed with is considered the root
    * of the cursor, and the cursor cannot walk outside this node.
    */
-  gotoNextSibling(): boolean;
+  gotoNextSibling(): boolean
   /**
    * Move this cursor to the previous sibling of its current node.
    *
@@ -697,13 +697,13 @@ export interface TreeCursor {
    * its position. Also note that the node the cursor was constructed with is
    * considered the root of the cursor, and the cursor cannot walk outside this node.
    */
-  gotoPreviousSibling(): boolean;
+  gotoPreviousSibling(): boolean
   /**
    * Move the cursor to the node that is the nth descendant of
    * the original node that the cursor was constructed with, where
    * zero represents the original node itself.
    */
-  gotoDescendant(goalDescendantIndex: number): void;
+  gotoDescendant(goalDescendantIndex: number): void
   /**
    * Move this cursor to the first child of its current node that contains or
    * starts after the given byte offset.
@@ -711,7 +711,7 @@ export interface TreeCursor {
    * This returns `true` if the cursor successfully moved to a child node, and returns
    * `false` if no such child was found.
    */
-  gotoFirstChildForIndex(goalIndex: number): boolean;
+  gotoFirstChildForIndex(goalIndex: number): boolean
   /**
    * Move this cursor to the first child of its current node that contains or
    * starts after the given byte offset.
@@ -719,37 +719,37 @@ export interface TreeCursor {
    * This returns the index of the child node if one was found, and returns
    * `null` if no such child was found.
    */
-  gotoFirstChildForPosition(goalPosition: Point): boolean;
+  gotoFirstChildForPosition(goalPosition: Point): boolean
   /**
    * Re-initialize this tree cursor to start at the original node that the
    * cursor was constructed with.
    */
-  reset(node: Node): void;
+  reset(node: Node): void
   /**
    * Re-initialize a tree cursor to the same position as another cursor.
    *
    * Unlike {@link TreeCursor#reset}, this will not lose parent
    * information and allows reusing already created cursors.
    */
-  resetTo(cursor: TreeCursor): void;
+  resetTo(cursor: TreeCursor): void
 }
 /**
  * Options for query execution
  */
 export interface QueryOptions {
   /** The start position of the range to query */
-  startPosition?: Point;
+  startPosition?: Point
   /** The end position of the range to query */
-  endPosition?: Point;
+  endPosition?: Point
   /** The start index of the range to query */
-  startIndex?: number;
+  startIndex?: number
   /** The end index of the range to query */
-  endIndex?: number;
+  endIndex?: number
   /**
    * The maximum number of in-progress matches for this query.
    * The limit must be > 0 and <= 65536.
    */
-  matchLimit?: number;
+  matchLimit?: number
   /**
    * The maximum start depth for a query cursor.
    *
@@ -766,21 +766,21 @@ export interface QueryOptions {
    *
    * Set to `null` to remove the maximum start depth.
    */
-  maxStartDepth?: number;
+  maxStartDepth?: number
   /**
    * The maximum duration in microseconds that query execution should be allowed to
    * take before halting.
    *
    * If query execution takes longer than this, it will halt early, returning an empty array.
    */
-  timeoutMicros?: number;
+  timeoutMicros?: number
   /**
    * A function that will be called periodically during the execution of the query to check
    * if query execution should be cancelled. You can also use this to instrument query execution
    * and check where the query is at in the document. The progress callback takes a single argument,
    * which is a {@link QueryState} representing the current state of the query.
    */
-  progressCallback?: (state: QueryState) => void;
+  progressCallback?: (state: QueryState) => void
 }
 /**
  * A stateful object that is passed into the progress callback {@link QueryOptions#progressCallback}
@@ -788,18 +788,18 @@ export interface QueryOptions {
  */
 export interface QueryState {
   /** The byte offset in the document that the query is at. */
-  currentOffset: number;
+  currentOffset: number
 }
 /** A record of key-value pairs associated with a particular pattern in a {@link Query}. */
-export type QueryProperties = Record<string, string | null>;
+export type QueryProperties = Record<string, string | null>
 /**
  * A predicate that contains an operator and list of operands.
  */
 export interface QueryPredicate {
   /** The operator of the predicate, like `match?`, `eq?`, `set!`, etc. */
-  operator: string;
+  operator: string
   /** The operands of the predicate, which are either captures or strings. */
-  operands: PredicateStep[];
+  operands: PredicateStep[]
 }
 /**
  * A particular {@link Node} that has been captured with a particular name within a
@@ -807,43 +807,43 @@ export interface QueryPredicate {
  */
 export interface QueryCapture {
   /** The index of the pattern that matched. */
-  patternIndex: number;
+  patternIndex: number
   /** The name of the capture */
-  name: string;
+  name: string
   /** The captured node */
-  node: Node;
+  node: Node
   /** The properties for predicates declared with the operator `set!`. */
-  setProperties?: QueryProperties;
+  setProperties?: QueryProperties
   /** The properties for predicates declared with the operator `is?`. */
-  assertedProperties?: QueryProperties;
+  assertedProperties?: QueryProperties
   /** The properties for predicates declared with the operator `is-not?`. */
-  refutedProperties?: QueryProperties;
+  refutedProperties?: QueryProperties
 }
 /** A match of a {@link Query} to a particular set of {@link Node}s. */
 export interface QueryMatch {
   /** @deprecated since version 0.25.0, use `patternIndex` instead. */
-  pattern: number;
+  pattern: number
   /** The index of the pattern that matched. */
-  patternIndex: number;
+  patternIndex: number
   /** The captures associated with the match. */
-  captures: QueryCapture[];
+  captures: QueryCapture[]
   /** The properties for predicates declared with the operator `set!`. */
-  setProperties?: QueryProperties;
+  setProperties?: QueryProperties
   /** The properties for predicates declared with the operator `is?`. */
-  assertedProperties?: QueryProperties;
+  assertedProperties?: QueryProperties
   /** The properties for predicates declared with the operator `is-not?`. */
-  refutedProperties?: QueryProperties;
+  refutedProperties?: QueryProperties
 }
 /** A quantifier for captures */
 export const CaptureQuantifier: {
-  readonly Zero: 0;
-  readonly ZeroOrOne: 1;
-  readonly ZeroOrMore: 2;
-  readonly One: 3;
-  readonly OneOrMore: 4;
-};
+  readonly Zero: 0
+  readonly ZeroOrOne: 1
+  readonly ZeroOrMore: 2
+  readonly One: 3
+  readonly OneOrMore: 4
+}
 /** A quantifier for captures */
-export type CaptureQuantifier = typeof CaptureQuantifier[keyof typeof CaptureQuantifier];
+export type CaptureQuantifier = typeof CaptureQuantifier[keyof typeof CaptureQuantifier]
 /**
  * Predicates are represented as a single array of steps. There are two
  * types of steps, which correspond to the two legal values for
@@ -855,15 +855,15 @@ export type CaptureQuantifier = typeof CaptureQuantifier[keyof typeof CaptureQua
  * - `StringPredicateStep` - Steps with this type represent literal
  * strings.
  */
-export type PredicateStep = CapturePredicateStep | StringPredicateStep;
+export type PredicateStep = CapturePredicateStep | StringPredicateStep
 /**
  * A step in a predicate that refers to a capture.
  *
  * The `name` field is the name of the capture.
  */
 interface CapturePredicateStep {
-  type: 'capture';
-  name: string;
+  type: 'capture'
+  name: string
 }
 /**
  * A step in a predicate that refers to a string.
@@ -871,14 +871,14 @@ interface CapturePredicateStep {
  * The `value` field is the string value.
  */
 interface StringPredicateStep {
-  type: 'string';
-  value: string;
+  type: 'string'
+  value: string
 }
 export interface Query {
   /** The names of the captures used in the query. */
-  readonly captureNames: string[];
+  readonly captureNames: string[]
   /** The quantifiers of the captures used in the query. */
-  readonly captureQuantifiers: CaptureQuantifier[][];
+  readonly captureQuantifiers: CaptureQuantifier[][]
   /**
    * The other user-defined predicates associated with the given index.
    *
@@ -889,17 +889,17 @@ export interface Query {
    * - `is?` and `is-not?`
    * - `set!`
    */
-  readonly predicates: QueryPredicate[][];
+  readonly predicates: QueryPredicate[][]
   /** The properties for predicates with the operator `set!`. */
-  readonly setProperties: QueryProperties[];
+  readonly setProperties: QueryProperties[]
   /** The properties for predicates with the operator `is?`. */
-  readonly assertedProperties: QueryProperties[];
+  readonly assertedProperties: QueryProperties[]
   /** The properties for predicates with the operator `is-not?`. */
-  readonly refutedProperties: QueryProperties[];
+  readonly refutedProperties: QueryProperties[]
   /** The maximum number of in-progress matches for this cursor. */
-  matchLimit?: number;
+  matchLimit?: number
   /** Delete the query, freeing its resources. */
-  delete(): void;
+  delete(): void
   /**
    * Iterate over all of the matches in the order that they were found.
    *
@@ -912,7 +912,7 @@ export interface Query {
    *
    * @param options - Options for query execution.
    */
-  matches(node: Node, options?: QueryOptions): QueryMatch[];
+  matches(node: Node, options?: QueryOptions): QueryMatch[]
   /**
    * Iterate over all of the individual captures in the order that they
    * appear.
@@ -924,16 +924,16 @@ export interface Query {
    *
    * @param options - Options for query execution.
    */
-  captures(node: Node, options?: QueryOptions): QueryCapture[];
+  captures(node: Node, options?: QueryOptions): QueryCapture[]
   /** Get the predicates for a given pattern. */
-  predicatesForPattern(patternIndex: number): QueryPredicate[];
+  predicatesForPattern(patternIndex: number): QueryPredicate[]
   /**
    * Disable a certain capture within a query.
    *
    * This prevents the capture from being returned in matches, and also
    * avoids any resource usage associated with recording the capture.
    */
-  disableCapture(captureName: string): void;
+  disableCapture(captureName: string): void
   /**
    * Disable a certain pattern within a query.
    *
@@ -941,58 +941,58 @@ export interface Query {
    * usage associated with the pattern. This throws an error if the pattern
    * index is out of bounds.
    */
-  disablePattern(patternIndex: number): void;
+  disablePattern(patternIndex: number): void
   /**
    * Check if, on its last execution, this cursor exceeded its maximum number
    * of in-progress matches.
    */
-  didExceedMatchLimit(): boolean;
+  didExceedMatchLimit(): boolean
   /** Get the byte offset where the given pattern starts in the query's source. */
-  startIndexForPattern(patternIndex: number): number;
+  startIndexForPattern(patternIndex: number): number
   /** Get the byte offset where the given pattern ends in the query's source. */
-  endIndexForPattern(patternIndex: number): number;
+  endIndexForPattern(patternIndex: number): number
   /** Get the number of patterns in the query. */
-  patternCount(): number;
+  patternCount(): number
   /** Get the index for a given capture name. */
-  captureIndexForName(captureName: string): number;
+  captureIndexForName(captureName: string): number
   /** Check if a given pattern within a query has a single root node. */
-  isPatternRooted(patternIndex: number): boolean;
+  isPatternRooted(patternIndex: number): boolean
   /** Check if a given pattern within a query has a single root node. */
-  isPatternNonLocal(patternIndex: number): boolean;
+  isPatternNonLocal(patternIndex: number): boolean
   /**
    * Check if a given step in a query is 'definite'.
    *
    * A query step is 'definite' if its parent pattern will be guaranteed to
    * match successfully once it reaches the step.
    */
-  isPatternGuaranteedAtStep(byteIndex: number): boolean;
+  isPatternGuaranteedAtStep(byteIndex: number): boolean
 }
 export interface LookaheadIterator extends Iterable<string> {
   /** Get the current symbol of the lookahead iterator. */
-  get currentTypeId(): number;
+  get currentTypeId(): number
   /** Get the current symbol name of the lookahead iterator. */
-  get currentType(): string;
+  get currentType(): string
   /** Delete the lookahead iterator, freeing its resources. */
-  delete(): void;
+  delete(): void
   /**
    * Reset the lookahead iterator.
    *
    * This returns `true` if the language was set successfully and `false`
    * otherwise.
    */
-  reset(language: Language, stateId: number): boolean;
+  reset(language: Language, stateId: number): boolean
   /**
    * Reset the lookahead iterator to another state.
    *
    * This returns `true` if the iterator was reset to the given state and
    * `false` otherwise.
    */
-  resetState(stateId: number): boolean;
+  resetState(stateId: number): boolean
   /**
    * Returns an iterator that iterates over the symbols of the lookahead iterator.
    *
    * The iterator will yield the current symbol name as a string for each step
    * until there are no more symbols to iterate over.
    */
-  [Symbol.iterator](): Iterator<string>;
+  [Symbol.iterator](): Iterator<string>
 }
