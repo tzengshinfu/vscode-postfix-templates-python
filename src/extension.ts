@@ -33,8 +33,11 @@ export async function activate(context: vsc.ExtensionContext): Promise<void> {
   }))
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 export function deactivate(): void {
+  if (parser) {
+    parser.delete()
+    parser = null
+  }
 }
 
 function registerCompletionProvider(context: vsc.ExtensionContext) {
