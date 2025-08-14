@@ -9,7 +9,9 @@
       "Bash(move extension.svelte-vue-html.test.ts cases )",
       "Bash(mv:*)",
       "Bash(find:*)",
-      "Bash(npm test)"
+      "Bash(npm test)",
+      "Bash(grep:*)",
+      "Bash(rg:*)"
     ],
     "deny": []
   }

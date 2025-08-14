@@ -260,7 +260,7 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
     return null
   }
 
-  // 確保[.]在節點結尾位置
+  // Ensure the dot is at the end of the node
   if (treeNode?.endIndex !== dotOffset) {
     return null
   }
