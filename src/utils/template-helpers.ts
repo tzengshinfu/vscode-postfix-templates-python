@@ -1,7 +1,3 @@
-import * as vsc from 'vscode'
-import * as tree from '../web-tree-sitter'
-import { IndentInfo } from '../template'
-import { CompletionItemBuilder } from '../completionItemBuilder'
 import { getIndentCharacters } from './vscode-helpers'
 
 /**
@@ -26,11 +22,4 @@ export const createForLoopTemplate = (iterable: string, itemName: string): strin
  */
 export const createIfTemplate = (condition: string, hasElse = false): string => {
   return createBlockTemplate(`if ${condition}`, hasElse)
-}
-
-/**
- * Creates a while loop template with proper indentation
- */
-export const createWhileTemplate = (condition: string): string => {
-  return createBlockTemplate(`while ${condition}`)
 }
