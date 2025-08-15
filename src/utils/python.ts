@@ -253,6 +253,9 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
       || parentType === 'comparison_operator') {
       // for x + y / x and y / x > y
       treeNode = treeNode.parent
+    } else if (parentType === 'parenthesized_expression') {
+      // for (x)
+      treeNode = treeNode.parent
     } else {
       // No more transformations needed, exit the loop
       break

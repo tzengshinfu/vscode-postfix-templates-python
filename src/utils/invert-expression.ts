@@ -78,7 +78,7 @@ export const invertBinaryExpression = (expr: tree.Node, addOrBrackets = false): 
 export const invertExpression = (expr: tree.Node, addOrBrackets = false): string => {
   const text = expr.text
 
-  // not (expr) => expr
+  // not (x) => x
   if (py.isPrefixUnaryExpression(expr) && expr.childCount >= 2) {
     const operator = expr.child(0)
     const operand = expr.child(1)
@@ -92,6 +92,13 @@ export const invertExpression = (expr: tree.Node, addOrBrackets = false): string
         // Handle unparenthesized expressions: not x => x
         return operand.text
       }
+    }
+  }
+
+  // (x) => not (x)
+  if (py.isParenthesizedExpression(expr)) {
+    if (py.isIdentifier(expr.child(1))) {
+      return `not ${text}`
     }
   }
 
@@ -113,7 +120,13 @@ export const invertExpression = (expr: tree.Node, addOrBrackets = false): string
     }
   }
 
-  const notPattern = /(not)(\s*)(.*)/g
+  const notPattern = /(not)(\s*)(.*)/
 
-  return notPattern.test(text) ? text.replace(notPattern, "$3") : `not ${text}`
+  if (notPattern.test(text)) {
+    return text.replace(notPattern, "$3")
+  } else if (py.isBinaryExpression(expr)) {
+    return `not (${text})`
+  } else {
+    return `not ${text}`
+  }
 }
