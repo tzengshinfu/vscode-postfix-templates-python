@@ -83,13 +83,15 @@ export const invertExpression = (expr: tree.Node, addOrBrackets = false): string
     const operator = expr.child(0)
     const operand = expr.child(1)
 
-    if (operator?.text === 'not'
-      && operand
-      && py.isParenthesizedExpression(operand)) {
-      // Extract content from parentheses
-      const innerExpr = operand.firstNamedChild
-
-      return innerExpr ? innerExpr.text : text
+    if (operator?.text === 'not') {
+      if (operand && py.isParenthesizedExpression(operand)) {
+        // Extract content from parentheses: not (x) => x
+        const innerExpr = operand.firstNamedChild
+        return innerExpr ? innerExpr.text : text
+      } else if (operand) {
+        // Handle unparenthesized expressions: not x => x
+        return operand.text
+      }
     }
   }
 
