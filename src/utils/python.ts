@@ -248,6 +248,11 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
     } else if (parentType === 'await') {
       // for await expressions - wrap the await node
       treeNode = treeNode.parent
+    } else if (parentType === 'binary_operator'
+      || parentType === 'boolean_operator'
+      || parentType === 'comparison_operator') {
+      // for x + y / x and y / x > y
+      treeNode = treeNode.parent
     } else {
       // No more transformations needed, exit the loop
       break
