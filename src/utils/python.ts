@@ -234,7 +234,7 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
       // for -x
       treeNode = treeNode.parent
     } else if (parentType === 'not_operator') {
-      // for not True
+      // for not x
       treeNode = treeNode.parent
     } else if (parentType === 'attribute') {
       // for x.y
