@@ -101,7 +101,7 @@ export const inReturnStatement = (node: tree.Node | null | undefined): boolean =
     return true
   }
 
-  return inReturnStatement(node.parent)
+  return node.parent ? inReturnStatement(node.parent) : false
 }
 
 export const inFunctionArgument = (node: tree.Node | null | undefined): boolean => {
@@ -118,7 +118,7 @@ export const inVariableDeclaration = (node: tree.Node | null | undefined): boole
     return true
   }
 
-  return inVariableDeclaration(node.parent)
+  return node.parent ? inVariableDeclaration(node.parent) : false
 }
 
 export const inAssignmentStatement = (node: tree.Node | null | undefined): boolean => {
@@ -136,7 +136,7 @@ export const inAssignmentStatement = (node: tree.Node | null | undefined): boole
     return node.parent.firstNamedChild === node
   }
 
-  return inAssignmentStatement(node.parent)
+  return node.parent ? inAssignmentStatement(node.parent) : false
 }
 
 export const inIfStatement = (node: tree.Node | null | undefined, expressionNode?: tree.Node | null | undefined): boolean => {
@@ -153,7 +153,7 @@ export const inIfStatement = (node: tree.Node | null | undefined, expressionNode
     return node.firstNamedChild === expressionNode
   }
 
-  return inIfStatement(node.parent, node)
+  return node.parent ? inIfStatement(node.parent, node) : false
 }
 
 export const inAwaitedExpression = (node: tree.Node | null | undefined): boolean => {
@@ -161,7 +161,7 @@ export const inAwaitedExpression = (node: tree.Node | null | undefined): boolean
     return false
   }
 
-  return node.type === 'await' || inAwaitedExpression(node.parent)
+  return node.type === 'await' || (node.parent ? inAwaitedExpression(node.parent) : false)
 }
 
 export const unwindBinaryExpression = (node: tree.Node, removeParens = true): tree.Node => {
@@ -189,7 +189,7 @@ export const unwindBinaryExpression = (node: tree.Node, removeParens = true): tr
 
   // Continue expanding upwards to the top-level binary expression
   while (
-    isBinaryExpression(binaryExpression.parent)
+    binaryExpression?.parent && isBinaryExpression(binaryExpression.parent)
   ) {
     binaryExpression = binaryExpression.parent
   }
@@ -220,13 +220,13 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
   }
 
   // Traverse up the AST tree to find the appropriate parent node
-  while (treeNode?.parent) {
+  while (treeNode && treeNode.parent) {
     const parentType = treeNode.parent.type
     const grandparentType = treeNode.parent.parent?.type
 
     if (parentType === 'interpolation') {
       // for f-strings interpolation
-      treeNode = treeNode.parent.parent
+      treeNode = treeNode.parent?.parent || null
     } else if (parentType === 'string') {
       // for string_content/string_start/string_end
       treeNode = treeNode.parent
@@ -244,7 +244,7 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
       treeNode = treeNode.parent
     } else if (grandparentType === 'call') {
       // for def(x, y)
-      treeNode = treeNode.parent.parent
+      treeNode = treeNode.parent?.parent || null
     } else if (parentType === 'await') {
       // for await expressions - wrap the await node
       treeNode = treeNode.parent
@@ -258,6 +258,11 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
       treeNode = treeNode.parent
     } else {
       // No more transformations needed, exit the loop
+      break
+    }
+
+    // If treeNode became null during traversal, break the loop
+    if (!treeNode) {
       break
     }
   }

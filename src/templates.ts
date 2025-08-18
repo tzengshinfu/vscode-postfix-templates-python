@@ -31,7 +31,7 @@ export const loadBuiltinTemplates = () => {
     new ForTemplate('for'),
     new ForRangeTemplate('forrange'),
     new IfTemplate('if'),
-    new IfElseTemplate('else'),
+    new IfElseTemplate('ifelse'),
     new IfEqualityTemplate('none', 'is', 'None'),
     new IfEqualityTemplate('notnone', 'is not', 'None'),
     new EqualityTemplate('none', 'is', 'None'),

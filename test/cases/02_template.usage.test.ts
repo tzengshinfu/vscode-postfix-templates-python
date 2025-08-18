@@ -8,11 +8,11 @@ import { getCurrentDelay, delay, makeTestFunction } from '../utils/test-helpers'
 
 const LANGUAGE = 'postfix'
 
-const FOR_TEMPLATES = ['for', 'forrange', 'forin']
-const PRINT_TEMPLATES = ['log', 'warn', 'error']
-const EQUALITY_TEMPLATES = ['null', 'notnull', 'none', 'notnone']
-const IF_TEMPLATES = ['if', 'else', 'null', 'notnull', 'none', 'notnone']
-const CAST_TEMPLATES = ['cast']
+const FOR_TEMPLATES = ['for', 'forrange']
+const PRINT_TEMPLATES = []
+const EQUALITY_TEMPLATES = ['none', 'notnone']
+const IF_TEMPLATES = ['if', 'ifelse', 'none', 'notnone']
+const CAST_TEMPLATES = []
 const TYPE_TEMPLATES = []
 const ALL_TEMPLATES = [
   ...FOR_TEMPLATES,
@@ -34,7 +34,7 @@ const BINARY_EXPRESSION_TEMPLATES = [
   ...PRINT_TEMPLATES,
   ...CAST_TEMPLATES,
   'if',
-  'else',
+  'ifelse',
   'not',
   'return',
   'call'

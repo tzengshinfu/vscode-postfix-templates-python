@@ -29,7 +29,7 @@ export class IfTemplate extends BaseIfElseTemplate {
 
 export class IfElseTemplate extends BaseIfElseTemplate {
   buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
-    const { node: unwrappedNode, text } = py.unwrapNodeForTemplate(node)
+    const { node: unwrappedNode } = py.unwrapNodeForTemplate(node)
     const replacement = invertExpression(py.unwindBinaryExpression(unwrappedNode, true))
 
     return CompletionItemBuilder

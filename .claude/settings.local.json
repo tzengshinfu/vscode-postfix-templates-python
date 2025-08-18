@@ -15,7 +15,8 @@
       "Bash(npm test:*)",
       "Bash(node:*)",
       "Bash(touch:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(del test-fix.js)"
     ],
     "deny": []
   }
