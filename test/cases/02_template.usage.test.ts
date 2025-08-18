@@ -9,29 +9,29 @@ import { getCurrentDelay, delay, makeTestFunction } from '../utils/test-helpers'
 const LANGUAGE = 'postfix'
 
 const FOR_TEMPLATES = ['for', 'forrange']
-const PRINT_TEMPLATES = []
+const PYTHON_TEMPLATES = vsc.workspace.getConfiguration('postfix').get<string[]>('builtinFunctions', [])
 const EQUALITY_TEMPLATES = ['none', 'notnone']
 const IF_TEMPLATES = ['if', 'ifelse', 'none', 'notnone']
-const CAST_TEMPLATES = []
-const TYPE_TEMPLATES = []
+const CAST_TEMPLATES = []  // Python doesn't have TypeScript-style cast templates
+const TYPE_TEMPLATES = []  // Python doesn't need type templates like TypeScript
 const ALL_TEMPLATES = [
   ...FOR_TEMPLATES,
-  ...PRINT_TEMPLATES,
+  ...PYTHON_TEMPLATES,
   ...IF_TEMPLATES,
   ...CAST_TEMPLATES,
   'not',
   'return',
-  'new',
   'await',
   'call'
 ]
+
 const STRING_LITERAL_TEMPLATES = [
-  ...PRINT_TEMPLATES,
+  ...PYTHON_TEMPLATES,
   'return'
 ]
 
 const BINARY_EXPRESSION_TEMPLATES = [
-  ...PRINT_TEMPLATES,
+  ...PYTHON_TEMPLATES,
   ...CAST_TEMPLATES,
   'if',
   'ifelse',
@@ -43,13 +43,19 @@ const BINARY_EXPRESSION_TEMPLATES = [
 const config = vsc.workspace.getConfiguration('postfix')
 const testTemplateUsage = makeTestFunction<typeof __testTemplateUsage>(__testTemplateUsage)
 
+// Debug: Show loaded Python templates
+console.log(`\n=== DEBUG: Loaded Python Templates ===`)
+console.log(`PYTHON_TEMPLATES: [${PYTHON_TEMPLATES.join(', ')}]`)
+console.log(`ALL_TEMPLATES: [${ALL_TEMPLATES.join(', ')}]`)
+console.log(`==========================================\n`)
+
 describe('02. Template usage', () => {
   afterEach(done => {
     vsc.commands.executeCommand('workbench.action.closeOtherEditors').then(() => done(), err => done(err))
   })
 
   testTemplateUsage('identifier expression', 'expr', ALL_TEMPLATES)
-  testTemplateUsage('awaited expression', 'await expr', _.difference(ALL_TEMPLATES, ['await', 'forin']))
+  testTemplateUsage('awaited expression', 'await expr', _.difference(ALL_TEMPLATES, ['await', 'forrange']))
   testTemplateUsage('method call expression', 'expr.call()', _.difference(ALL_TEMPLATES, ['for']))
   testTemplateUsage('property access expression', 'expr.a.b.c', ALL_TEMPLATES)
   testTemplateUsage('element access expression', 'expr.a.b[c]', ALL_TEMPLATES)
@@ -58,8 +64,8 @@ describe('02. Template usage', () => {
   testTemplateUsage('unary expression', 'not expr', _.difference(ALL_TEMPLATES, [...FOR_TEMPLATES, 'await']))
   testTemplateUsage('conditional expression', 'if x * 100{cursor}:', ['not'])
   testTemplateUsage('return expression', 'return x * 100', [...CAST_TEMPLATES, 'not'])
-  testTemplateUsage('dict literal expression', '{}', [...PRINT_TEMPLATES, 'return'])
-  testTemplateUsage('dict literal expression', '{"foo":"foo"}', [...PRINT_TEMPLATES, 'return'])
+  testTemplateUsage('dict literal expression', '{}', [...PYTHON_TEMPLATES, 'return'])
+  testTemplateUsage('dict literal expression', '{"foo":"foo"}', [...PYTHON_TEMPLATES, 'return'])
   testTemplateUsage('expression as argument', 'function("arg", expr{cursor})', [...CAST_TEMPLATES, 'not', 'await'])
 
   testTemplateUsage('string literal - single quote', '\'a string\'', STRING_LITERAL_TEMPLATES)
@@ -83,19 +89,20 @@ describe('02. Template usage', () => {
   testTemplateUsage('inside single line comment', '# expr', [])
   testTemplateUsage('inside multi line comment', '""" expr{cursor} """', [])
 
+
   testTemplateUsage('inside var declaration - function', 'f1 = lambda: expr{cursor}', ALL_TEMPLATES)
   testTemplateUsage('inside var declaration - lambda', 'f3 = lambda: expr{cursor}', ALL_TEMPLATES)
   testTemplateUsage('inside function', 'def f2(): expr{cursor}', ALL_TEMPLATES)
   testTemplateUsage('inside lambda function', 'lambda: expr{cursor}', ALL_TEMPLATES)
 
   testTemplateUsage('cursor in wrong place #1', 'test.something = {cursor-no-dot}', [])
-  testTemplateUsage('cursor in wrong place #2', 'test.something = new{cursor-no-dot}', [])
+  testTemplateUsage('cursor in wrong place #2', 'test.something = func{cursor-no-dot}', [])
 
   describe('when some templates are disabled', () => {
-    before(setDisabledTemplates(config, ['var', 'forof']))
+    before(setDisabledTemplates(config, ['none', 'forrange']))
     after(setDisabledTemplates(config, []))
 
-    testTemplateUsage('identifier expression', 'expr', _.difference(ALL_TEMPLATES, ['var', 'forof']))
+    testTemplateUsage('identifier expression', 'expr', _.difference(ALL_TEMPLATES, ['none', 'forrange']))
   })
 })
 
@@ -109,9 +116,21 @@ function __testTemplateUsage(func: TestFunction, testDescription: string, initia
   func(testDescription, (done: Mocha.Done) => {
     vsc.workspace.openTextDocument({ language: LANGUAGE }).then((doc) => {
       return getAvailableSuggestions(doc, initialText).then(templates => {
-        assert.deepStrictEqual(_.sortBy(templates), _.sortBy(expectedTemplates))
+        const actualSorted = _.sortBy(templates)
+        const expectedSorted = _.sortBy(expectedTemplates)
+
+        console.log(`\n=== Test: ${testDescription} ===`)
+        console.log(`Input: ${initialText}`)
+        console.log(`Expected: [${expectedSorted.join(', ')}]`)
+        console.log(`Actual:   [${actualSorted.join(', ')}]`)
+        console.log(`Match: ${JSON.stringify(actualSorted) === JSON.stringify(expectedSorted)}`)
+
+        assert.deepStrictEqual(actualSorted, expectedSorted)
         done()
       }).then(undefined, (reason) => {
+        console.log(`\n=== Test FAILED: ${testDescription} ===`)
+        console.log(`Input: ${initialText}`)
+        console.log(`Error: ${reason}`)
         done(reason)
       })
     })
