@@ -21,6 +21,7 @@ const ALL_TEMPLATES = [
   ...CAST_TEMPLATES,
   'not',
   'return',
+  'var',
   'await',
   'call'
 ]
@@ -37,17 +38,12 @@ const BINARY_EXPRESSION_TEMPLATES = [
   'ifelse',
   'not',
   'return',
+  'var',
   'call'
 ]
 
 const config = vsc.workspace.getConfiguration('postfix')
 const testTemplateUsage = makeTestFunction<typeof __testTemplateUsage>(__testTemplateUsage)
-
-// Debug: Show loaded Python templates
-console.log(`\n=== DEBUG: Loaded Python Templates ===`)
-console.log(`PYTHON_TEMPLATES: [${PYTHON_TEMPLATES.join(', ')}]`)
-console.log(`ALL_TEMPLATES: [${ALL_TEMPLATES.join(', ')}]`)
-console.log(`==========================================\n`)
 
 describe('02. Template usage', () => {
   afterEach(done => {
@@ -114,22 +110,21 @@ function setDisabledTemplates(config: vsc.WorkspaceConfiguration, value: string[
 
 function __testTemplateUsage(func: TestFunction, testDescription: string, initialText: string, expectedTemplates: string[]) {
   func(testDescription, (done: Mocha.Done) => {
+    // Pre-sort expected templates for comparison
+    const expectedSorted = _.sortBy(expectedTemplates)
+    let actualSorted: string[] = []
+
     vsc.workspace.openTextDocument({ language: LANGUAGE }).then((doc) => {
       return getAvailableSuggestions(doc, initialText).then(templates => {
-        const actualSorted = _.sortBy(templates)
-        const expectedSorted = _.sortBy(expectedTemplates)
-
-        console.log(`\n=== Test: ${testDescription} ===`)
-        console.log(`Input: ${initialText}`)
-        console.log(`Expected: [${expectedSorted.join(', ')}]`)
-        console.log(`Actual:   [${actualSorted.join(', ')}]`)
-        console.log(`Match: ${JSON.stringify(actualSorted) === JSON.stringify(expectedSorted)}`)
+        actualSorted = _.sortBy(templates)
 
         assert.deepStrictEqual(actualSorted, expectedSorted)
         done()
       }).then(undefined, (reason) => {
         console.log(`\n=== Test FAILED: ${testDescription} ===`)
         console.log(`Input: ${initialText}`)
+        console.log(`Expected: [${expectedSorted.join(', ')}]`)
+        console.log(`Actual:   [${actualSorted.join(', ')}]`)
         console.log(`Error: ${reason}`)
         done(reason)
       })

@@ -71,6 +71,42 @@ export const isPropertyAccessExpression = (node: tree.Node | null | undefined): 
   return node?.type === 'attribute'
 }
 
+// New helper functions to distinguish different call patterns
+export const isConstructorCall = (node: tree.Node | null | undefined): boolean => {
+  if (!node || node.type !== 'call') {
+    return false
+  }
+
+  // Check if the function being called is a direct identifier (not an attribute)
+  const functionNode = node.firstNamedChild
+  return functionNode?.type === 'identifier'
+}
+
+export const isMethodCall = (node: tree.Node | null | undefined): boolean => {
+  if (!node || node.type !== 'call') {
+    return false
+  }
+
+  // Check if the function being called is an attribute (object.method)
+  const functionNode = node.firstNamedChild
+  return functionNode?.type === 'attribute'
+}
+
+export const isFunctionCall = (node: tree.Node | null | undefined): boolean => {
+  return isConstructorCall(node) // In Python, function calls and constructor calls have the same structure
+}
+
+export const isChainedMethodCall = (node: tree.Node | null | undefined): boolean => {
+  if (!isMethodCall(node)) {
+    return false
+  }
+
+  // Check if the object being called is itself a method call
+  const attributeNode = node.firstNamedChild  // should be 'attribute'
+  const objectNode = attributeNode?.firstNamedChild  // the object part
+  return objectNode?.type === 'call'
+}
+
 // Additional helper functions for templates
 export const isStringLiteral = (node: tree.Node | null | undefined): boolean => {
   return node?.type === 'string'

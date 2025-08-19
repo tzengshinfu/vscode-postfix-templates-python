@@ -9,6 +9,7 @@ import { NotTemplate } from './templates/notTemplate'
 import { ReturnTemplate } from './templates/returnTemplate'
 import { CallTemplate } from './templates/callTemplate'
 import { PythonTemplate } from './templates/pythonTemplate'
+import { VarTemplate } from './templates/varTemplate'
 
 export const loadCustomTemplates = () => {
   const config = vsc.workspace.getConfiguration('postfix')
@@ -38,6 +39,7 @@ export const loadBuiltinTemplates = () => {
     new EqualityTemplate('notnone', 'is not', 'None'),
     new NotTemplate('not'),
     new ReturnTemplate('return'),
+    new VarTemplate('var'),
     new AwaitTemplate('await')
   ].concat(builtinFunctionTemplates)
 

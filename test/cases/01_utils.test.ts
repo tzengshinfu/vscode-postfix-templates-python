@@ -93,10 +93,19 @@ function testInvertBinaryExpression(dsl: string) {
   const [input, expected] = dsl.split('>>').map(x => x.trim())
 
   it(`${input} should invert to ${expected}`, () => {
-    const rootNode = findNodeBeforeDot(parser, input + '.', input.length)
-    const result = invertBinaryExpression(rootNode)
+    try {
+      const rootNode = findNodeBeforeDot(parser, input + '.', input.length)
+      const result = invertBinaryExpression(rootNode)
 
-    assert.strictEqual(result, expected)
+      assert.strictEqual(result, expected)
+    } catch (error) {
+      console.log(`\n=== Test FAILED: invertBinaryExpression ===`)
+      console.log(`Input: ${input}`)
+      console.log(`Expected: ${expected}`)
+      console.log(`Actual:   ${(error as any).actual || 'undefined'}`)
+      console.log(`Error: ${error}`)
+      throw error
+    }
   })
 }
 
@@ -104,9 +113,18 @@ function testInvertExpression(dsl: string) {
   const [input, expected] = dsl.split('>>').map(x => x.trim())
 
   it(`${input} should invert to ${expected}`, () => {
-    const rootNode = findNodeBeforeDot(parser, input + '.', input.length)
-    const result = invertExpression(rootNode)
+    try {
+      const rootNode = findNodeBeforeDot(parser, input + '.', input.length)
+      const result = invertExpression(rootNode)
 
-    assert.strictEqual(result, expected)
+      assert.strictEqual(result, expected)
+    } catch (error) {
+      console.log(`\n=== Test FAILED: invertExpression ===`)
+      console.log(`Input: ${input}`)
+      console.log(`Expected: ${expected}`)
+      console.log(`Actual:   ${(error as any).actual || 'undefined'}`)
+      console.log(`Error: ${error}`)
+      throw error
+    }
   })
 }

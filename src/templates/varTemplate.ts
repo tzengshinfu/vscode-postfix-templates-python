@@ -6,8 +6,8 @@ import { IndentInfo } from '../template'
 import * as tree from '../web-tree-sitter'
 import * as py from '../utils/python'
 
-export class NewTemplate extends BaseExpressionTemplate {
-  constructor(private keyword: 'new') {
+export class VarTemplate extends BaseExpressionTemplate {
+  constructor(private keyword: 'var') {
     super(keyword)
   }
 
@@ -19,7 +19,7 @@ export class NewTemplate extends BaseExpressionTemplate {
 
     return CompletionItemBuilder
       .create(this.keyword, node, indentInfo)
-      .replace(`${this.keyword} ${getPlaceholderWithOptions(suggestedVarNames)} = {{expr}}$0`)
+      .replace(`${getPlaceholderWithOptions(suggestedVarNames)} = {{expr}}$0`)
       .build()
   }
 
