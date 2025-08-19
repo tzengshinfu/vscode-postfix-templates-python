@@ -22,7 +22,8 @@ export function delay(timeout: number) {
 
 // for some reason editor.action.triggerSuggest needs more delay at the beginning when the process is not yet "warmed up"
 // let's start from high delays and then slowly go to lower delays
-const delaySteps = [2000, 1200, 700, 400, 300, 250]
+// 增加初始延遲時間確保配置系統完全載入
+const delaySteps = [3000, 2000, 1500, 1000, 800, 600, 400, 300, 250]
 
 export const getCurrentDelay = () => (delaySteps.length > 1) ? <number>delaySteps.shift() : delaySteps[0]
 
