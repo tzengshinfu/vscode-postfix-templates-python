@@ -77,7 +77,7 @@ export const inferVarTemplateName = (node: tree.Node): string[] => {
   }
 
   if (!name) {
-    return []
+    return ['item']
   }
 
   return getUniqueVariants(name).map(snakeCase)
@@ -106,7 +106,7 @@ export const inferForVarTemplate = (node: tree.Node): string[] => {
     // Fallback: original logic for backward compatibility
     const subjectName = getForExpressionName(node)
     if (!subjectName) {
-      return []
+      return ['item']
     }
 
     const clean = py.isCallExpression(node)
@@ -120,7 +120,7 @@ export const inferForVarTemplate = (node: tree.Node): string[] => {
   }
 
   if (!name) {
-    return []
+    return ['item']
   }
 
   // Apply plural to singular conversion and filtering

@@ -12,7 +12,7 @@ export class PythonTemplate extends BaseTemplate {
   override buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
     return CompletionItemBuilder
       .create(this.keyword, node, indentInfo)
-      .description('Built-in Functions')
+      .description('Python built-in functions')
       .replace(`${this.keyword}({{expr}})$0`)
       .build()
   }
