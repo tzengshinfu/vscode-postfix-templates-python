@@ -3,8 +3,7 @@ import * as _ from 'lodash'
 import * as vsc from 'vscode'
 import { describe, afterEach, before, after, TestFunction } from 'mocha'
 
-import { getCurrentSuggestion, resetCurrentSuggestion } from '../../src/postfixCompletionProvider'
-import { getCurrentDelay, delay, makeTestFunction } from '../utils/test-helpers'
+import { makeTestFunction } from '../utils/test-helpers'
 
 const LANGUAGE = 'postfix'
 
@@ -168,25 +167,21 @@ async function getAvailableSuggestions(doc: vsc.TextDocument, initialText: strin
     const pos = new vsc.Position(0, cursorIdx + 1)
     editor.selection = new vsc.Selection(pos, pos)
 
-    resetCurrentSuggestion()
-    await vsc.commands.executeCommand('editor.action.triggerSuggest')
-    await delay(getCurrentDelay())
+    // 使用 executeCommand 直接獲取 completion items
+    const completionList = await vsc.commands.executeCommand<vsc.CompletionList>(
+      'vscode.executeCompletionItemProvider',
+      doc.uri,
+      pos
+    )
 
-    const firstSuggestion = getCurrentSuggestion()
-    const suggestions = firstSuggestion ? [firstSuggestion] : []
-
-    while (true) {
-      await vsc.commands.executeCommand('selectNextSuggestion')
-
-      const current = getCurrentSuggestion()
-
-      if (current === undefined || suggestions.indexOf(current) > -1) {
-        break
-      }
-
-      suggestions.push(current)
+    if (completionList && completionList.items) {
+      return completionList.items.map(item =>
+        typeof item.label === 'string' ? item.label : item.label.label
+      )
     }
 
-    return suggestions
+    return []
   }
+
+  return []
 }
