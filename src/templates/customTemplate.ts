@@ -26,7 +26,11 @@ export class CustomTemplate extends BaseTemplate {
     }
 
     const body = Array.isArray(this.body) ? this.body.join('\n') : this.body
-
+    console.log(`${this.templateName}=this.templateName`)
+    console.log(`${node}=node`)
+    console.log(`${indentInfo}=indentInfo`)
+    console.log(`${this.body}=this.body`)
+    console.log(`${this.description}=this.description`)
     return CompletionItemBuilder
       .create(this.templateName, node, indentInfo)
       .description(this.description)
@@ -35,6 +39,8 @@ export class CustomTemplate extends BaseTemplate {
   }
 
   canUse(node: tree.Node): boolean {
+    console.log(`${node.parent && (this.when.length === 0 || this.when.some(w => this.condition(node, w)))}=node.parent && (this.when.length === 0 || this.when.some(w => this.condition(node, w)))`)
+    console.log(`${node.text}=node.text`)
     return node.parent && (this.when.length === 0 || this.when.some(w => this.condition(node, w)))
   }
 

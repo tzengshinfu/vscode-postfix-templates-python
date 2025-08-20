@@ -20,7 +20,6 @@ abstract class BaseForTemplate extends BaseTemplate {
         || py.isPropertyAccessExpression(node)
         || py.isElementAccessExpression(node)
         || py.isCallExpression(node)
-        || py.isAwaitExpression(node)
         || py.isArrayLiteral(node))
   }
 }
@@ -57,6 +56,9 @@ export class ForRangeTemplate extends BaseForTemplate {
     // Check if node represents a valid number
     const isNumber = /^\s*-?\d+(\.\d+)?\s*$/.test(node.text)
 
-    return isNumber || (py.isExpression(node) && !py.isStringLiteral(node))
+    return (isNumber
+      || py.isIdentifier(node)
+      || py.isExpression(node))
+      && !py.isStringLiteral(node)
   }
 }
