@@ -19,7 +19,8 @@ export class EqualityTemplate extends BaseTemplate {
   override canUse(node: tree.Node) {
     return (py.isIdentifier(node)
       || py.isExpression(node)
-      || py.isCallExpression(node))
+      || py.isCallExpression(node)
+      || py.isAwaitExpression(node))
       && (py.inReturnStatement(node)
         || py.inIfStatement(node)
         || py.inVariableDeclaration(node)

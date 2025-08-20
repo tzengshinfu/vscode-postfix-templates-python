@@ -21,6 +21,7 @@ export abstract class BaseExpressionTemplate extends BaseTemplate {
         || py.isExpression(node)
         || py.isPrefixUnaryExpression(node)
         || py.isBinaryExpression(node)
-        || py.isCallExpression(node))
+        || py.isCallExpression(node)
+        || py.isAwaitExpression(node))
   }
 }

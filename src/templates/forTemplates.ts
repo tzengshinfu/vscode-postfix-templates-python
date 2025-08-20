@@ -20,6 +20,7 @@ abstract class BaseForTemplate extends BaseTemplate {
         || py.isPropertyAccessExpression(node)
         || py.isElementAccessExpression(node)
         || py.isCallExpression(node)
+        || py.isAwaitExpression(node)
         || py.isArrayLiteral(node))
   }
 }

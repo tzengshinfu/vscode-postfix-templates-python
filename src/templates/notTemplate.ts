@@ -41,7 +41,8 @@ export class NotTemplate extends BaseTemplate {
         || py.isPrefixUnaryExpression(node.parent)
         || py.isBinaryExpression(node)
         || py.isCallExpression(node)
-        || py.isIdentifier(node))
+        || py.isIdentifier(node)
+        || py.isAwaitExpression(node))
   }
 
   private isStrictEqualityOrInstanceofBinaryExpression = (node: tree.Node) => {
