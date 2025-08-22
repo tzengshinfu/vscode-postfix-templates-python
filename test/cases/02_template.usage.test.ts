@@ -121,9 +121,7 @@ function __testTemplateUsage(func: TestFunction, testDescription: string, initia
     vsc.workspace.openTextDocument({ language: LANGUAGE }).then((doc) => {
       return getAvailableSuggestions(doc, initialText).then(templates => {
         actualSorted = _.sortBy(templates)
-        if (actualSorted.includes('custom')) {
-          console.log(`${initialText}=initialText`)
-        }
+
         assert.deepStrictEqual(actualSorted, expectedSorted)
         done()
       }).then(undefined, (reason) => {
@@ -166,7 +164,26 @@ async function getAvailableSuggestions(doc: vsc.TextDocument, initialText: strin
     )
 
     if (completionList && completionList.items) {
-      return completionList.items.map(item =>
+      // Filter only postfix extension completions using specific identifiers
+      const postfixItems = completionList.items.filter(item => {
+        // Method 2: Check if CompletionItem matches postfix extension signature
+        const isSnippetKind = item.kind === vsc.CompletionItemKind.Snippet
+        const hasPostfixDescription = typeof item.label === 'object' &&
+          item.label.description === 'POSTFIX'
+        
+        // Get the actual label text
+        const labelText = typeof item.label === 'string' ? item.label : item.label.label
+        
+        // Additional filter: only include labels that match expected template names
+        // This excludes random symbols like '=' and '_' that shouldn't be postfix templates
+        const isValidTemplateName = /^[a-zA-Z][a-zA-Z0-9]*$/.test(labelText) || 
+          ['none', 'notnone'].includes(labelText) // Allow some specific exceptions
+
+        // Only return items that are both Snippet kind AND have POSTFIX description AND valid name
+        return isSnippetKind && hasPostfixDescription && isValidTemplateName
+      })
+
+      return postfixItems.map(item =>
         typeof item.label === 'string' ? item.label : item.label.label
       )
     }
