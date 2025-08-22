@@ -7,11 +7,11 @@ import * as py from '../utils/python'
 
 export class CustomTemplate extends BaseTemplate {
   private conditionsMap = new Map<string, (node: tree.Node) => boolean>([
-    ['identifier', node => py.isIdentifier(node) || py.isAwaitExpression(node)],
+    ['identifier', node => py.isIdentifier(node)],
     ['expression', node => py.isExpression(node)],
     ['binary-expression', node => py.isBinaryExpression(node)],
     ['unary-expression', node => py.isPrefixUnaryExpression(node.parent)],
-    ['function-call', node => py.isCallExpression(node) || py.isAwaitExpression(node)],
+    ['function-call', node => py.isCallExpression(node)],
     ['string-literal', node => py.isStringLiteral(node)],
     ['type', node => py.isTypeNode(node)]
   ])
