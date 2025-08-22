@@ -28,10 +28,25 @@ export const isExpression = (node: tree.Node | null | undefined): boolean => {
   }
 
   const expressionTypes = [
+    // Basic expressions
     'identifier', 'call', 'attribute', 'subscript',
+    'await', 'parenthesized_expression', 'lambda', 'conditional_expression',
+    'named_expression',
+
+    // Operators
     'binary_operator', 'boolean_operator', 'comparison_operator',
-    'unary_operator', 'not_operator', 'string', 'integer', 'float',
-    'list', 'dictionary', 'set', 'tuple'
+    'unary_operator', 'not_operator',
+
+    // Literals
+    'string', 'integer', 'float', 'true', 'false', 'none', 'ellipsis',
+    'concatenated_string',
+
+    // Collections
+    'list', 'dictionary', 'set', 'tuple',
+
+    // Comprehensions and generators
+    'list_comprehension', 'dictionary_comprehension', 'set_comprehension',
+    'generator_expression'
   ]
 
   return expressionTypes.includes(node.type)

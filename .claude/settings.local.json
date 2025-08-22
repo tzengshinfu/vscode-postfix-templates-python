@@ -16,7 +16,9 @@
       "Bash(node:*)",
       "Bash(touch:*)",
       "Bash(npx tsc:*)",
-      "Bash(del test-fix.js)"
+      "Bash(del test-fix.js)",
+      "WebSearch",
+      "WebFetch(domain:github.com)"
     ],
     "deny": []
   }
