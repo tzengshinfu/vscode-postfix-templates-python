@@ -255,52 +255,51 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
     return null
   }
 
-  // Traverse up the AST tree to find the appropriate parent node
-  while (treeNode && treeNode.parent) {
-    const parentType = treeNode.parent.type
-    const grandparentType = treeNode.parent.parent?.type
+  // for f-strings interpolation
+  if (treeNode.parent.type === 'interpolation' && ['{', '}'].includes(treeNode.type)) {
+    return treeNode.parent.parent
+  }
 
-    if (parentType === 'interpolation') {
-      // for f-strings interpolation
-      treeNode = treeNode.parent?.parent || null
-    } else if (parentType === 'string') {
-      // for string_content/string_start/string_end
-      treeNode = treeNode.parent
-    } else if (parentType === 'unary_operator') {
-      // for -x
-      treeNode = treeNode.parent
-    } else if (parentType === 'not_operator') {
-      // for not x
-      treeNode = treeNode.parent
-    } else if (parentType === 'attribute') {
-      // for x.y
-      treeNode = treeNode.parent
-    } else if (parentType === 'subscript') {
-      // for x[0]
-      treeNode = treeNode.parent
-    } else if (grandparentType === 'call') {
-      // for def(x, y)
-      treeNode = treeNode.parent?.parent || null
-    } else if (parentType === 'await') {
-      // for await expressions - wrap the await node
-      treeNode = treeNode.parent
-    } else if (parentType === 'binary_operator'
-      || parentType === 'boolean_operator'
-      || parentType === 'comparison_operator') {
-      // for x + y / x and y / x > y
-      treeNode = treeNode.parent
-    } else if (parentType === 'parenthesized_expression') {
-      // for (x)
-      treeNode = treeNode.parent
-    } else {
-      // No more transformations needed, exit the loop
-      break
-    }
+  // for string_content/string_start/string_end
+  if (treeNode.parent.type === 'string') {
+    return treeNode.parent
+  }
 
-    // If treeNode became null during traversal, break the loop
-    if (!treeNode) {
-      break
-    }
+  // for -x
+  if (treeNode.parent.type === 'unary_operator') {
+    return treeNode.parent
+  }
+
+  // for not x
+  if (treeNode.parent.type === 'not_operator') {
+    return treeNode.parent
+  }
+
+  // for x + y / x and y / x > y
+  if (treeNode.parent.type === 'binary_operator'
+    || treeNode.parent.type === 'boolean_operator'
+    || treeNode.parent.type === 'comparison_operator') {
+    return treeNode.parent
+  }
+
+  // for x.y
+  if (treeNode.parent.type === 'attribute') {
+    treeNode = treeNode.parent
+  }
+
+  // for x[y]
+  if (treeNode.parent.type === 'subscript' && ['[', ']'].includes(treeNode.type)) {
+    treeNode = treeNode.parent
+  }
+
+  // for x(y, z)
+  if (treeNode.parent.parent.type === 'call' && ['(', ',', ')'].includes(treeNode.type)) {
+    treeNode = treeNode.parent.parent
+  }
+
+  // for await expressions - wrap the await node
+  if (treeNode.parent.type === 'await') {
+    return treeNode.parent
   }
 
   if (treeNode?.type === 'module'
