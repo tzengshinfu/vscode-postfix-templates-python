@@ -48,6 +48,21 @@ const config = vsc.workspace.getConfiguration('postfix')
 const testTemplateUsage = makeTestFunction<typeof __testTemplateUsage>(__testTemplateUsage)
 
 describe('02. Template usage', () => {
+  before(setCustomTemplates(config, [{
+    name: "custom",
+    body: "custom({{expr}})",
+    when: [
+      "identifier",
+      "binary-expression",
+      "unary-expression",
+      "function-call",
+      "string-literal",
+      "type"
+    ]
+  }]))
+
+  after(setCustomTemplates(config, []))
+
   afterEach(done => {
     vsc.commands.executeCommand('workbench.action.closeOtherEditors').then(() => done(), err => done(err))
   })
@@ -96,6 +111,16 @@ describe('02. Template usage', () => {
   testTemplateUsage.skip('cursor in wrong place #1', 'test.something = {cursor-no-dot}', [])
   testTemplateUsage.skip('cursor in wrong place #2', 'test.something = func{cursor-no-dot}', [])
 
+  describe('custom template tests', () => {
+    testTemplateUsage('custom template - identifier', 'expr', ['custom'])
+    testTemplateUsage('custom template - expression', 'x + y', ['custom'])
+    testTemplateUsage('custom template - binary-expression', 'a > b', ['custom'])
+    testTemplateUsage('custom template - unary-expression', 'not expr', ['custom'])
+    testTemplateUsage('custom template - function-call', 'func()', ['custom'])
+    testTemplateUsage('custom template - string-literal', '"hello"', ['custom'])
+    testTemplateUsage('custom template - type', 'int', ['custom'])
+  })
+
   describe('when some templates are disabled', () => {
     before(setDisabledTemplates(config, ['none', 'for', 'forrange']))
     after(setDisabledTemplates(config, []))
@@ -107,6 +132,12 @@ describe('02. Template usage', () => {
 function setDisabledTemplates(config: vsc.WorkspaceConfiguration, value: string[]) {
   return (done: Mocha.Done) => {
     config.update('disabledBuiltinTemplates', value, true).then(done, done)
+  }
+}
+
+function setCustomTemplates(config: vsc.WorkspaceConfiguration, value: any[]) {
+  return (done: Mocha.Done) => {
+    config.update('customTemplates', value, true).then(done, done)
   }
 }
 
@@ -170,13 +201,13 @@ async function getAvailableSuggestions(doc: vsc.TextDocument, initialText: strin
         const isSnippetKind = item.kind === vsc.CompletionItemKind.Snippet
         const hasPostfixDescription = typeof item.label === 'object' &&
           item.label.description === 'POSTFIX'
-        
+
         // Get the actual label text
         const labelText = typeof item.label === 'string' ? item.label : item.label.label
-        
+
         // Additional filter: only include labels that match expected template names
         // This excludes random symbols like '=' and '_' that shouldn't be postfix templates
-        const isValidTemplateName = /^[a-zA-Z][a-zA-Z0-9]*$/.test(labelText) || 
+        const isValidTemplateName = /^[a-zA-Z][a-zA-Z0-9]*$/.test(labelText) ||
           ['none', 'notnone'].includes(labelText) // Allow some specific exceptions
 
         // Only return items that are both Snippet kind AND have POSTFIX description AND valid name
