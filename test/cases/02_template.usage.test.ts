@@ -22,14 +22,12 @@ const ALL_TEMPLATES = [
   'return',
   'var',
   'await',
-  'call',
-  'custom'
+  'call'
 ]
 
 const STRING_LITERAL_TEMPLATES = [
   ...PYTHON_TEMPLATES,
-  'return',
-  'custom'
+  'return'
 ]
 
 const BINARY_EXPRESSION_TEMPLATES = [
@@ -40,35 +38,22 @@ const BINARY_EXPRESSION_TEMPLATES = [
   'not',
   'return',
   'var',
-  'call',
-  'custom'
+  'call'
 ]
 
 const config = vsc.workspace.getConfiguration('postfix')
 const testTemplateUsage = makeTestFunction<typeof __testTemplateUsage>(__testTemplateUsage)
 
 describe('02. Template usage', () => {
-  before(setCustomTemplates(config, [{
-    name: "custom",
-    body: "custom({{expr}})",
-    when: [
-      "identifier",
-      "binary-expression",
-      "unary-expression",
-      "function-call",
-      "string-literal",
-      "type"
-    ]
-  }]))
-
-  after(setCustomTemplates(config, []))
+  // Clear custom templates by default for all tests
+  before(setCustomTemplates(config, []))
 
   afterEach(done => {
     vsc.commands.executeCommand('workbench.action.closeOtherEditors').then(() => done(), err => done(err))
   })
 
   testTemplateUsage('identifier expression', 'expr', ALL_TEMPLATES)
-  testTemplateUsage.skip('awaited expression', 'await expr', () => _.difference(ALL_TEMPLATES, ['await', 'for', 'forrange']))
+  testTemplateUsage('awaited expression', 'await expr', () => _.difference(ALL_TEMPLATES, ['await']))
   testTemplateUsage.skip('method call expression', 'expr.call()', () => _.difference(ALL_TEMPLATES, ['for', 'forrange']))
   testTemplateUsage.skip('property access expression', 'expr.a.b.c', ALL_TEMPLATES)
   testTemplateUsage.skip('element access expression', 'expr.a.b[c]', ALL_TEMPLATES)
@@ -112,6 +97,21 @@ describe('02. Template usage', () => {
   testTemplateUsage.skip('cursor in wrong place #2', 'test.something = func{cursor-no-dot}', [])
 
   describe('custom template tests', () => {
+    before(setCustomTemplates(config, [{
+      name: "custom",
+      body: "custom({{expr}})",
+      when: [
+        "identifier",
+        "binary-expression",
+        "unary-expression",
+        "function-call",
+        "string-literal",
+        "type"
+      ]
+    }]))
+
+    after(setCustomTemplates(config, []))
+
     testTemplateUsage('custom template - identifier', 'expr', ['custom'])
     testTemplateUsage('custom template - expression', 'x + y', ['custom'])
     testTemplateUsage('custom template - binary-expression', 'a > b', ['custom'])
@@ -195,26 +195,7 @@ async function getAvailableSuggestions(doc: vsc.TextDocument, initialText: strin
     )
 
     if (completionList && completionList.items) {
-      // Filter only postfix extension completions using specific identifiers
-      const postfixItems = completionList.items.filter(item => {
-        // Method 2: Check if CompletionItem matches postfix extension signature
-        const isSnippetKind = item.kind === vsc.CompletionItemKind.Snippet
-        const hasPostfixDescription = typeof item.label === 'object' &&
-          item.label.description === 'POSTFIX'
-
-        // Get the actual label text
-        const labelText = typeof item.label === 'string' ? item.label : item.label.label
-
-        // Additional filter: only include labels that match expected template names
-        // This excludes random symbols like '=' and '_' that shouldn't be postfix templates
-        const isValidTemplateName = /^[a-zA-Z][a-zA-Z0-9]*$/.test(labelText) ||
-          ['none', 'notnone'].includes(labelText) // Allow some specific exceptions
-
-        // Only return items that are both Snippet kind AND have POSTFIX description AND valid name
-        return isSnippetKind && hasPostfixDescription && isValidTemplateName
-      })
-
-      return postfixItems.map(item =>
+      return completionList.items.map(item =>
         typeof item.label === 'string' ? item.label : item.label.label
       )
     }
