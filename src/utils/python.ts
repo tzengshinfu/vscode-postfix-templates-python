@@ -49,7 +49,7 @@ export const isExpression = (node: tree.Node | null | undefined): boolean => {
 }
 
 export const isParenthesizedExpression = (node: tree.Node | null | undefined): boolean => {
-  // There is no need to call getUnwrappedNode because the bottom node cannot be a parenthesized_expression
+  // There is no need to call `getUnwrappedNode` because the bottom node cannot be a parenthesized_expression
   return node?.type === 'parenthesized_expression'
 }
 
