@@ -5,28 +5,24 @@ const { Parser, Language } = require('web-tree-sitter')
 
 // Python tree-sitter node type checking functions
 export const isArrayLiteral = (node: tree.Node | null | undefined): boolean => {
-  return node?.type === 'list'
+  return node?.type === 'list' || getUnwrappedNode(node)?.type === 'list'
 }
 
 export const isAwaitExpression = (node: tree.Node | null | undefined): boolean => {
-  return node?.type === 'await'
+  return node?.type === 'await' || getUnwrappedNode(node)?.type === 'await'
 }
 
 export const isBinaryExpression = (node: tree.Node | null | undefined): boolean => {
-  return node?.type === 'binary_operator'
-    || node?.type === 'boolean_operator'
-    || node?.type === 'comparison_operator'
+  const binaryTypes = ['binary_operator', 'boolean_operator', 'comparison_operator']
+
+  return binaryTypes.includes(node?.type) || binaryTypes.includes(getUnwrappedNode(node)?.type)
 }
 
 export const isElementAccessExpression = (node: tree.Node | null | undefined): boolean => {
-  return node?.type === 'subscript'
+  return node?.type === 'subscript' || getUnwrappedNode(node)?.type === 'subscript'
 }
 
 export const isExpression = (node: tree.Node | null | undefined): boolean => {
-  if (!node) {
-    return false
-  }
-
   const expressionTypes = [
     // Basic expressions
     'identifier', 'call', 'attribute', 'subscript',
@@ -49,15 +45,31 @@ export const isExpression = (node: tree.Node | null | undefined): boolean => {
     'generator_expression'
   ]
 
-  return expressionTypes.includes(node.type)
+  return expressionTypes.includes(node?.type)
 }
 
 export const isParenthesizedExpression = (node: tree.Node | null | undefined): boolean => {
-  return node?.type === 'parenthesized_expression'
+  return node?.type === 'parenthesized_expression' // 無須調用getUnwrappedNode 因為最底層的節點不可能是parenthesized_expression
 }
 
 export const isPrefixUnaryExpression = (node: tree.Node | null | undefined): boolean => {
-  return node?.type === 'unary_operator' || node?.type === 'not_operator'
+  const unaryTypes = ['unary_operator', 'not_operator']
+
+  return unaryTypes.includes(node?.type) || unaryTypes.includes(getUnwrappedNode(node)?.type)
+}
+
+// Utility function to get the unwrapped node (inner node without parentheses)
+export const getUnwrappedNode = (node: tree.Node | null | undefined): tree.Node | null => {
+  if (!node) {
+    return null
+  }
+
+  let current = node
+  while (current && current.type === 'parenthesized_expression') {
+    current = current.firstNamedChild
+  }
+
+  return current
 }
 
 // Position utility functions for tree-sitter nodes
@@ -75,35 +87,53 @@ export const getLineAndCharacterOfPosition = (node: tree.Node, offset: number): 
 
 // Specific Python node checks
 export const isIdentifier = (node: tree.Node | null | undefined): boolean => {
-  return node?.type === 'identifier'
+  return node?.type === 'identifier' || getUnwrappedNode(node)?.type === 'identifier'
 }
 
 export const isCallExpression = (node: tree.Node | null | undefined): boolean => {
-  return node?.type === 'call'
+  return node?.type === 'call' || getUnwrappedNode(node)?.type === 'call'
 }
 
 export const isPropertyAccessExpression = (node: tree.Node | null | undefined): boolean => {
-  return node?.type === 'attribute'
+  return node?.type === 'attribute' || getUnwrappedNode(node)?.type === 'attribute'
 }
 
 // New helper functions to distinguish different call patterns
 export const isConstructorCall = (node: tree.Node | null | undefined): boolean => {
-  if (!node || node.type !== 'call') {
+  if (!node || (node.type !== 'call' && getUnwrappedNode(node)?.type !== 'call')) {
+    return false
+  }
+
+  // Get the actual call node (unwrap if parenthesized)
+  const callNode = node.type === 'call' ? node :
+    (getUnwrappedNode(node)?.type === 'call' ? getUnwrappedNode(node) : null)
+
+  if (!callNode) {
     return false
   }
 
   // Check if the function being called is a direct identifier (not an attribute)
-  const functionNode = node.firstNamedChild
+  const functionNode = callNode.firstNamedChild
+
   return functionNode?.type === 'identifier'
 }
 
 export const isMethodCall = (node: tree.Node | null | undefined): boolean => {
-  if (!node || node.type !== 'call') {
+  if (!node || (node.type !== 'call' && getUnwrappedNode(node)?.type !== 'call')) {
+    return false
+  }
+
+  // Get the actual call node (unwrap if parenthesized)
+  const callNode = node.type === 'call' ? node :
+    (getUnwrappedNode(node)?.type === 'call' ? getUnwrappedNode(node) : null)
+
+  if (!callNode) {
     return false
   }
 
   // Check if the function being called is an attribute (object.method)
-  const functionNode = node.firstNamedChild
+  const functionNode = callNode.firstNamedChild
+
   return functionNode?.type === 'attribute'
 }
 
@@ -116,31 +146,38 @@ export const isChainedMethodCall = (node: tree.Node | null | undefined): boolean
     return false
   }
 
+  // Get the actual call node (unwrap if parenthesized)
+  const callNode = node?.type === 'call' ? node : getUnwrappedNode(node)
+  if (!callNode) {
+    return false
+  }
+
   // Check if the object being called is itself a method call
-  const attributeNode = node.firstNamedChild  // should be 'attribute'
+  const attributeNode = callNode.firstNamedChild  // should be 'attribute'
   const objectNode = attributeNode?.firstNamedChild  // the object part
-  return objectNode?.type === 'call'
+
+  return objectNode?.type === 'call' || getUnwrappedNode(objectNode)?.type === 'call'
 }
 
 // Additional helper functions for templates
 export const isStringLiteral = (node: tree.Node | null | undefined): boolean => {
-  return node?.type === 'string'
+  return node?.type === 'string' || getUnwrappedNode(node)?.type === 'string'
 }
 
 export const isTypeNode = (node: tree.Node | null | undefined): boolean => {
-  return node?.type === 'type'
+  return node?.type === 'type' || getUnwrappedNode(node)?.type === 'type'
 }
 
 // Context checking functions for Python AST
 export const isObjectLiteral = (node: tree.Node | null | undefined): boolean => {
   // Python equivalent would be dictionary literals
-  return node?.type === 'dictionary'
+  return node?.type === 'dictionary' || getUnwrappedNode(node)?.type === 'dictionary'
 }
 
 export const isAnyFunction = (node: tree.Node | null | undefined): boolean => {
-  return node?.type === 'function_definition'
-    || node?.type === 'lambda'
-    || node?.type === 'async_function_definition'
+  const functionTypes = ['function_definition', 'lambda', 'async_function_definition']
+
+  return functionTypes.includes(node?.type) || functionTypes.includes(getUnwrappedNode(node)?.type)
 }
 
 export const inReturnStatement = (node: tree.Node | null | undefined): boolean => {
