@@ -54,9 +54,9 @@ describe('02. Template usage', () => {
 
   testTemplateUsage('identifier expression', 'expr', ALL_TEMPLATES)
   testTemplateUsage('awaited expression', 'await expr', () => _.difference(ALL_TEMPLATES, ['await']))
-  testTemplateUsage.skip('method call expression', 'expr.call()', () => _.difference(ALL_TEMPLATES, ['for', 'forrange']))
-  testTemplateUsage.skip('property access expression', 'expr.a.b.c', ALL_TEMPLATES)
-  testTemplateUsage.skip('element access expression', 'expr.a.b[c]', ALL_TEMPLATES)
+  testTemplateUsage('method call expression', 'expr.call()', ALL_TEMPLATES)
+  testTemplateUsage('property access expression', 'expr.a.b.c', ALL_TEMPLATES)
+  testTemplateUsage('element access expression', 'expr.a.b[c]', ALL_TEMPLATES)
   testTemplateUsage.skip('binary expression', 'x > y', BINARY_EXPRESSION_TEMPLATES)
   testTemplateUsage.skip('binary expression', '(x > y)', BINARY_EXPRESSION_TEMPLATES)
   testTemplateUsage.skip('unary expression', 'not expr', () => _.difference(ALL_TEMPLATES, [...FOR_TEMPLATES, 'await']))
