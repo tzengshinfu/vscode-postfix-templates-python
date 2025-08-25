@@ -307,31 +307,49 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
     return null
   }
 
+  const validateAndCleanup = (node: tree.Node | null): tree.Node | null => {
+    if (node?.type === 'module'
+      || node?.type === 'ERROR'
+      || node?.parent?.type === 'ERROR'
+      || node?.type === 'comment') {
+      syntaxTree.delete()
+      return null
+    }
+
+    // Ensure the dot is at the end of the node
+    if (node?.endIndex !== dotOffset) {
+      syntaxTree.delete()
+      return null
+    }
+
+    // Note: We cannot delete syntaxTree here because treeNode is still referencing it
+    // The tree will be garbage collected when treeNode goes out of scope
+    return node
+  }
+
   // for f-strings interpolation
   if (treeNode.parent.type === 'interpolation' && ['{', '}'].includes(treeNode.type)) {
-    return treeNode.parent.parent
+    return validateAndCleanup(treeNode.parent.parent)
   }
 
   // for string_content/string_start/string_end
   if (treeNode.parent.type === 'string') {
-    return treeNode.parent
+    return validateAndCleanup(treeNode.parent)
   }
 
   // for -x
   if (treeNode.parent.type === 'unary_operator') {
-    return treeNode.parent
+    return validateAndCleanup(treeNode.parent)
   }
 
   // for not x
   if (treeNode.parent.type === 'not_operator') {
-    return treeNode.parent
+    return validateAndCleanup(treeNode.parent)
   }
 
   // for x + y / x and y / x > y
-  if (treeNode.parent.type === 'binary_operator'
-    || treeNode.parent.type === 'boolean_operator'
-    || treeNode.parent.type === 'comparison_operator') {
-    return treeNode.parent
+  if (['binary_operator', 'boolean_operator', 'comparison_operator'].includes(treeNode.parent.type)) {
+    return validateAndCleanup(treeNode.parent)
   }
 
   // for x.y
@@ -351,26 +369,14 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
 
   // for await expressions - wrap the await node
   if (treeNode.parent.type === 'await') {
-    return treeNode.parent
+    return validateAndCleanup(treeNode.parent)
   }
 
-  if (treeNode?.type === 'module'
-    || treeNode?.type === 'ERROR'
-    || treeNode?.parent?.type === 'ERROR'
-    || treeNode?.type === 'comment') {
-    syntaxTree.delete()
-    return null
+  if (treeNode.parent.type === 'parenthesized_expression') {
+    return validateAndCleanup(treeNode.parent)
   }
 
-  // Ensure the dot is at the end of the node
-  if (treeNode?.endIndex !== dotOffset) {
-    syntaxTree.delete()
-    return null
-  }
-
-  // Note: We cannot delete syntaxTree here because treeNode is still referencing it
-  // The tree will be garbage collected when treeNode goes out of scope
-  return treeNode
+  return validateAndCleanup(treeNode)
 }
 
 export const unwrapNodeForTemplate = (node: tree.Node): { node: tree.Node, text: string } => {
