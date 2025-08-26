@@ -337,7 +337,8 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
 
   // for f-strings interpolation
   if (treeNode.parent.type === 'interpolation' && ['{', '}'].includes(treeNode.type)) {
-    return validateAndCleanup(treeNode.parent.parent)
+    syntaxTree.delete()
+    return null
   }
 
   // for string_content/string_start/string_end
@@ -358,6 +359,37 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
   // for x(y, z)
   if (treeNode.parent.parent.type === 'call' && ['(', ',', ')'].includes(treeNode.type)) {
     return validateAndCleanup(treeNode.parent.parent)
+  }
+
+  // for dictionary key-value separator
+  if (treeNode.parent.type === 'pair' &&  treeNode.type === ':') {
+    return validateAndCleanup(treeNode.parent.parent)
+  }
+
+  // for dictionary
+  if (treeNode.parent.type === 'dictionary' &&  ['{', '}'].includes(treeNode.type)) {
+    return validateAndCleanup(treeNode.parent)
+  }
+
+  // for tuple
+  if (treeNode.parent.type === 'tuple' &&  ['(', ',', ')'].includes(treeNode.type)) {
+    return validateAndCleanup(treeNode.parent)
+  }
+
+  // for list
+  if (treeNode.parent.type === 'list' &&  ['[', ',', ']'].includes(treeNode.type)) {
+    return validateAndCleanup(treeNode.parent)
+  }
+
+  // for set
+  if (treeNode.parent.type === 'set' &&  ['{', ',', '}'].includes(treeNode.type)) {
+    return validateAndCleanup(treeNode.parent)
+  }
+
+  // for @x
+  if (treeNode.parent.type === 'decorator') {
+    syntaxTree.delete()
+    return null
   }
 
   return validateAndCleanup(treeNode)
