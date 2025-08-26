@@ -5,7 +5,10 @@ const { Parser, Language } = require('web-tree-sitter')
 
 // Python tree-sitter node type checking functions
 export const isArrayLiteral = (node: tree.Node | null | undefined): boolean => {
-  return node?.type === 'list' || getUnwrappedNode(node)?.type === 'list'
+  const unwrappedNode = getUnwrappedNode(node)
+  const parentNode = node.parent
+
+  return node?.type === 'list' || parentNode?.type === 'list' || unwrappedNode?.type === 'list'
 }
 
 export const isAwaitExpression = (node: tree.Node | null | undefined): boolean => {
@@ -88,7 +91,9 @@ export const getLineAndCharacterOfPosition = (node: tree.Node, offset: number): 
 
 // Specific Python node checks
 export const isIdentifier = (node: tree.Node | null | undefined): boolean => {
-  return node?.type === 'identifier' || getUnwrappedNode(node)?.type === 'identifier'
+  const unwrappedNode = getUnwrappedNode(node)
+
+  return node?.type === 'identifier' || unwrappedNode?.type === 'identifier'
 }
 
 export const isCallExpression = (node: tree.Node | null | undefined): boolean => {
@@ -302,17 +307,14 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
   const textReplaceDotWithSpace = textBeforeDot + " " + textAfterDot
   const syntaxTree = parser.parse(textReplaceDotWithSpace)
 
-  let treeNode = syntaxTree.rootNode.descendantForIndex(dotOffset - 1)
+  const treeNode = syntaxTree.rootNode.descendantForIndex(dotOffset - 1)
   if (!treeNode) {
     syntaxTree.delete()
     return null
   }
 
   const validateAndCleanup = (node: tree.Node | null): tree.Node | null => {
-    if (node?.type === 'module'
-      || node?.type === 'ERROR'
-      || node?.parent?.type === 'ERROR'
-      || node?.type === 'comment') {
+    if (['module', 'ERROR', 'comment'].includes(node?.type)) {
       syntaxTree.delete()
       return null
     }
@@ -328,6 +330,11 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
     return node
   }
 
+  // for (x)
+  if (treeNode.parent.type === 'parenthesized_expression' && ['(', ')'].includes(treeNode.type)) {
+    return validateAndCleanup(treeNode.parent)
+  }
+
   // for f-strings interpolation
   if (treeNode.parent.type === 'interpolation' && ['{', '}'].includes(treeNode.type)) {
     return validateAndCleanup(treeNode.parent.parent)
@@ -338,43 +345,19 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
     return validateAndCleanup(treeNode.parent)
   }
 
-  // for -x
-  if (treeNode.parent.type === 'unary_operator') {
-    return validateAndCleanup(treeNode.parent)
-  }
-
-  // for not x
-  if (treeNode.parent.type === 'not_operator') {
-    return validateAndCleanup(treeNode.parent)
-  }
-
-  // for x + y / x and y / x > y
-  if (['binary_operator', 'boolean_operator', 'comparison_operator'].includes(treeNode.parent.type)) {
-    return validateAndCleanup(treeNode.parent)
-  }
-
   // for x.y
   if (treeNode.parent.type === 'attribute') {
-    treeNode = treeNode.parent
+    return validateAndCleanup(treeNode.parent)
   }
 
   // for x[y]
   if (treeNode.parent.type === 'subscript' && ['[', ']'].includes(treeNode.type)) {
-    treeNode = treeNode.parent
+    return validateAndCleanup(treeNode.parent)
   }
 
   // for x(y, z)
   if (treeNode.parent.parent.type === 'call' && ['(', ',', ')'].includes(treeNode.type)) {
-    treeNode = treeNode.parent.parent
-  }
-
-  // for await expressions - wrap the await node
-  if (treeNode.parent.type === 'await') {
-    return validateAndCleanup(treeNode.parent)
-  }
-
-  if (treeNode.parent.type === 'parenthesized_expression') {
-    return validateAndCleanup(treeNode.parent)
+    return validateAndCleanup(treeNode.parent.parent)
   }
 
   return validateAndCleanup(treeNode)
