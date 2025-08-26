@@ -27,7 +27,7 @@ export const isExpression = (node: tree.Node | null | undefined): boolean => {
     // Basic expressions
     'identifier', 'call', 'attribute', 'subscript',
     'await', 'parenthesized_expression', 'lambda', 'conditional_expression',
-    'named_expression',
+    'named_expression', 'yield',
 
     // Operators
     'binary_operator', 'boolean_operator', 'comparison_operator',
@@ -88,9 +88,7 @@ export const getLineAndCharacterOfPosition = (node: tree.Node, offset: number): 
 
 // Specific Python node checks
 export const isIdentifier = (node: tree.Node | null | undefined): boolean => {
-  const unwrappedNode = getUnwrappedNode(node)
-
-  return node?.type === 'identifier' || unwrappedNode?.type === 'identifier'
+  return node?.type === 'identifier' || getUnwrappedNode(node)?.type === 'identifier'
 }
 
 export const isCallExpression = (node: tree.Node | null | undefined): boolean => {
