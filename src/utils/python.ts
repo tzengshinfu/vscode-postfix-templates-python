@@ -336,9 +336,23 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
     return node
   }
 
+  // for yield expressions
+  const findYieldExpression = (node: tree.Node | null): tree.Node | null => {
+    if (treeNode.parent?.type === 'yield') {
+      return node.parent
+    }
+
+    return node
+  }
+
   // for (x)
   if (treeNode.parent?.type === 'parenthesized_expression' && ['(', ')'].includes(treeNode.type)) {
-    return findAwaitExpression(filterNode(treeNode.parent))
+    let node = treeNode.parent
+    node = findYieldExpression(node)
+    node = findAwaitExpression(node)
+    node = filterNode(node)
+
+    return node
   }
 
   // for f-strings interpolation
@@ -352,48 +366,73 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
     return filterNode(treeNode.parent)
   }
 
+  // for x + y / x and y / x > y
+  if (['binary_operator', 'boolean_operator', 'comparison_operator'].includes(treeNode.parent?.type)) {
+    return filterNode(treeNode.parent)
+  }
+
   // for -x
   if (treeNode.parent?.type === 'unary_operator') {
     return filterNode(treeNode.parent)
   }
 
+  // for not x
+  if (treeNode.parent?.type === 'not_operator') {
+    return filterNode(treeNode.parent)
+  }
+
   // for x.y
   if (treeNode.parent?.type === 'attribute') {
-    return findAwaitExpression(filterNode(treeNode.parent))
+    let node = treeNode.parent
+    node = findYieldExpression(node)
+    node = findAwaitExpression(node)
+    node = filterNode(node)
+
+    return node
   }
 
   // for x[y]
-  if (treeNode.parent?.type === 'subscript' && ['[', ']'].includes(treeNode.type)) {
-    return findAwaitExpression(filterNode(treeNode.parent))
+  if (treeNode.parent?.type === 'subscript' && ['[', ':', ']'].includes(treeNode.type)) {
+    let node = treeNode.parent
+    node = findYieldExpression(node)
+    node = findAwaitExpression(node)
+    node = filterNode(node)
+
+    return node
   }
 
   // for x(y, z)
   if (treeNode.parent?.parent?.type === 'call' && ['(', ',', ')'].includes(treeNode.type)) {
-    return findAwaitExpression(filterNode(treeNode.parent.parent))
+    let node = treeNode.parent.parent
+    node = findYieldExpression(node)
+    node = findAwaitExpression(node)
+    node = filterNode(node)
+
+    return node
   }
 
   // for dictionary key-value separator
-  if (treeNode.parent?.type === 'pair' &&  treeNode.type === ':') {
+  if (treeNode.parent?.type === 'pair' && treeNode.type === ':') {
     return filterNode(treeNode.parent.parent)
   }
 
   // for dictionary
-  if (treeNode.parent?.type === 'dictionary' &&  ['{', ',', '}'].includes(treeNode.type)) {
+  if (treeNode.parent?.type === 'dictionary' && ['{', ',', '}'].includes(treeNode.type)) {
     return filterNode(treeNode.parent)
   }
 
   // for tuple
-  if (treeNode.parent?.type === 'tuple' &&  ['(', ',', ')'].includes(treeNode.type)) {
+  if (treeNode.parent?.type === 'tuple' && ['(', ',', ')'].includes(treeNode.type)) {
     return filterNode(treeNode.parent)
   }
 
   // for list
-  if (treeNode.parent?.type === 'list' &&  ['[', ',', ']'].includes(treeNode.type)) {
+  if (treeNode.parent?.type === 'list' && ['[', ',', ']'].includes(treeNode.type)) {
     return filterNode(treeNode.parent)
   }
 
   // for set
-  if (treeNode.parent?.type === 'set' &&  ['{', ',', '}'].includes(treeNode.type)) {
+  if (treeNode.parent?.type === 'set' && ['{', ',', '}'].includes(treeNode.type)) {
     return filterNode(treeNode.parent)
   }
 
@@ -403,7 +442,12 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
     return null
   }
 
-  return filterNode(treeNode)
+  let node = treeNode
+  node = findYieldExpression(node)
+  node = findAwaitExpression(node)
+  node = filterNode(node)
+
+  return node
 }
 
 export const unwrapNodeForTemplate = (node: tree.Node): { node: tree.Node, text: string } => {
