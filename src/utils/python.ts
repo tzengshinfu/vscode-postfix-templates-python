@@ -302,150 +302,125 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
   const textReplaceDotWithSpace = textBeforeDot + " " + textAfterDot
   const syntaxTree = parser.parse(textReplaceDotWithSpace)
 
-  const treeNode = syntaxTree.rootNode.descendantForIndex(dotOffset - 1)
-  if (!treeNode) {
-    syntaxTree.delete()
-    return null
-  }
-
-  const filterNode = (node: tree.Node | null): tree.Node | null => {
-    if (['module', 'ERROR', 'comment'].includes(node?.type)) {
-      syntaxTree.delete()
+  try {
+    const treeNode = syntaxTree.rootNode.descendantForIndex(dotOffset - 1)
+    if (!treeNode) {
       return null
     }
 
-    // Ensure the dot is at the end of the node
-    if (node?.endIndex !== dotOffset) {
-      syntaxTree.delete()
+    const isValidNode = (node: tree.Node | null): boolean => {
+      if (['module', 'ERROR', 'comment'].includes(node?.type)) {
+        return false
+      }
+      // Ensure the dot is at the end of the node
+      return node?.endIndex === dotOffset
+    }
+
+    // for await expressions
+    const findAwaitExpression = (node: tree.Node | null): tree.Node | null => {
+      if (treeNode.parent?.type === 'await') {
+        return node?.parent || node
+      }
+      return node
+    }
+
+    // for yield expressions
+    const findYieldExpression = (node: tree.Node | null): tree.Node | null => {
+      if (treeNode.parent?.type === 'yield') {
+        return node?.parent || node
+      }
+      return node
+    }
+
+    const processNode = (node: tree.Node): tree.Node | null => {
+      let processedNode: tree.Node | null = node
+      processedNode = findYieldExpression(processedNode)
+      processedNode = findAwaitExpression(processedNode)
+      return isValidNode(processedNode) ? processedNode : null
+    }
+
+    // for (x)
+    if (treeNode.parent?.type === 'parenthesized_expression' && ['(', ')'].includes(treeNode.type)) {
+      return processNode(treeNode.parent)
+    }
+
+    // for f-strings interpolation
+    if (treeNode.parent?.type === 'interpolation' && ['{', '}'].includes(treeNode.type)) {
       return null
     }
 
-    // Note: We cannot delete syntaxTree here because treeNode is still referencing it
-    // The tree will be garbage collected when treeNode goes out of scope
-    return node
-  }
-
-  // for await expressions
-  const findAwaitExpression = (node: tree.Node | null): tree.Node | null => {
-    if (treeNode.parent?.type === 'await') {
-      return node.parent
+    // for string_content/string_start/string_end
+    if (treeNode.parent?.type === 'string') {
+      return isValidNode(treeNode.parent) ? treeNode.parent : null
     }
 
-    return node
-  }
-
-  // for yield expressions
-  const findYieldExpression = (node: tree.Node | null): tree.Node | null => {
-    if (treeNode.parent?.type === 'yield') {
-      return node.parent
+    // for x + y / x and y / x > y
+    if (['binary_operator', 'boolean_operator', 'comparison_operator'].includes(treeNode.parent?.type)) {
+      return isValidNode(treeNode.parent) ? treeNode.parent : null
     }
 
-    return node
-  }
+    // for -x
+    if (treeNode.parent?.type === 'unary_operator') {
+      return isValidNode(treeNode.parent) ? treeNode.parent : null
+    }
 
-  // for (x)
-  if (treeNode.parent?.type === 'parenthesized_expression' && ['(', ')'].includes(treeNode.type)) {
-    let node = treeNode.parent
-    node = findYieldExpression(node)
-    node = findAwaitExpression(node)
-    node = filterNode(node)
+    // for not x
+    if (treeNode.parent?.type === 'not_operator') {
+      return isValidNode(treeNode.parent) ? treeNode.parent : null
+    }
 
-    return node
-  }
+    // for x.y
+    if (treeNode.parent?.type === 'attribute') {
+      return processNode(treeNode.parent)
+    }
 
-  // for f-strings interpolation
-  if (treeNode.parent?.type === 'interpolation' && ['{', '}'].includes(treeNode.type)) {
+    // for x[y]
+    if (treeNode.parent?.type === 'subscript' && ['[', ':', ']'].includes(treeNode.type)) {
+      return processNode(treeNode.parent)
+    }
+
+    // for x(y, z)
+    if (treeNode.parent?.parent?.type === 'call' && ['(', ',', ')'].includes(treeNode.type)) {
+      return processNode(treeNode.parent.parent)
+    }
+
+    // for dictionary key-value separator
+    if (treeNode.parent?.type === 'pair' && treeNode.type === ':') {
+      return isValidNode(treeNode.parent.parent) ? treeNode.parent.parent : null
+    }
+
+    // for dictionary
+    if (treeNode.parent?.type === 'dictionary' && ['{', ',', '}'].includes(treeNode.type)) {
+      return isValidNode(treeNode.parent) ? treeNode.parent : null
+    }
+
+    // for tuple
+    if (treeNode.parent?.type === 'tuple' && ['(', ',', ')'].includes(treeNode.type)) {
+      return isValidNode(treeNode.parent) ? treeNode.parent : null
+    }
+
+    // for list
+    if (treeNode.parent?.type === 'list' && ['[', ',', ']'].includes(treeNode.type)) {
+      return isValidNode(treeNode.parent) ? treeNode.parent : null
+    }
+
+    // for set
+    if (treeNode.parent?.type === 'set' && ['{', ',', '}'].includes(treeNode.type)) {
+      return isValidNode(treeNode.parent) ? treeNode.parent : null
+    }
+
+    // for @x
+    if (treeNode.parent?.type === 'decorator') {
+      return null
+    }
+
+    // default path
+    return processNode(treeNode)
+
+  } finally {
+    // Always clean up the syntax tree
     syntaxTree.delete()
-    return null
   }
-
-  // for string_content/string_start/string_end
-  if (treeNode.parent?.type === 'string') {
-    return filterNode(treeNode.parent)
-  }
-
-  // for x + y / x and y / x > y
-  if (['binary_operator', 'boolean_operator', 'comparison_operator'].includes(treeNode.parent?.type)) {
-    return filterNode(treeNode.parent)
-  }
-
-  // for -x
-  if (treeNode.parent?.type === 'unary_operator') {
-    return filterNode(treeNode.parent)
-  }
-
-  // for not x
-  if (treeNode.parent?.type === 'not_operator') {
-    return filterNode(treeNode.parent)
-  }
-
-  // for x.y
-  if (treeNode.parent?.type === 'attribute') {
-    let node = treeNode.parent
-    node = findYieldExpression(node)
-    node = findAwaitExpression(node)
-    node = filterNode(node)
-
-    return node
-  }
-
-  // for x[y]
-  if (treeNode.parent?.type === 'subscript' && ['[', ':', ']'].includes(treeNode.type)) {
-    let node = treeNode.parent
-    node = findYieldExpression(node)
-    node = findAwaitExpression(node)
-    node = filterNode(node)
-
-    return node
-  }
-
-  // for x(y, z)
-  if (treeNode.parent?.parent?.type === 'call' && ['(', ',', ')'].includes(treeNode.type)) {
-    let node = treeNode.parent.parent
-    node = findYieldExpression(node)
-    node = findAwaitExpression(node)
-    node = filterNode(node)
-
-    return node
-  }
-
-  // for dictionary key-value separator
-  if (treeNode.parent?.type === 'pair' && treeNode.type === ':') {
-    return filterNode(treeNode.parent.parent)
-  }
-
-  // for dictionary
-  if (treeNode.parent?.type === 'dictionary' && ['{', ',', '}'].includes(treeNode.type)) {
-    return filterNode(treeNode.parent)
-  }
-
-  // for tuple
-  if (treeNode.parent?.type === 'tuple' && ['(', ',', ')'].includes(treeNode.type)) {
-    return filterNode(treeNode.parent)
-  }
-
-  // for list
-  if (treeNode.parent?.type === 'list' && ['[', ',', ']'].includes(treeNode.type)) {
-    return filterNode(treeNode.parent)
-  }
-
-  // for set
-  if (treeNode.parent?.type === 'set' && ['{', ',', '}'].includes(treeNode.type)) {
-    return filterNode(treeNode.parent)
-  }
-
-  // for @x
-  if (treeNode.parent?.type === 'decorator') {
-    syntaxTree.delete()
-    return null
-  }
-
-  let node = treeNode
-  node = findYieldExpression(node)
-  node = findAwaitExpression(node)
-  node = filterNode(node)
-
-  return node
 }
 
 export const unwrapNodeForTemplate = (node: tree.Node): { node: tree.Node, text: string } => {

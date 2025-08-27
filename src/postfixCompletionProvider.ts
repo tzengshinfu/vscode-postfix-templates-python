@@ -31,37 +31,47 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
   }
 
   provideCompletionItems(document: vsc.TextDocument, position: vsc.Position, _token: vsc.CancellationToken): vsc.CompletionItem[] | vsc.CompletionList | Thenable<vsc.CompletionItem[] | vsc.CompletionList> {
-    const line = document.lineAt(position.line)
-    const dotIndex = line.text.lastIndexOf('.', position.character - 1)
-    const wordRange = document.getWordRangeAtPosition(position)
-    const isCursorOnWordAfterDot = (wordRange?.start ?? position).character === dotIndex + 1
-    if (dotIndex === -1 || !isCursorOnWordAfterDot) {
-      return []
-    }
-
-    const fullCurrentNode = this.getNodeBeforeTheDot(document, position, dotIndex)
-    if (!fullCurrentNode) {
-      return []
-    }
-
-    const indentInfo = this.getIndentInfo(document, fullCurrentNode)
-
     try {
+      const line = document.lineAt(position.line)
+      const dotIndex = line.text.lastIndexOf('.', position.character - 1)
+      const wordRange = document.getWordRangeAtPosition(position)
+      const isCursorOnWordAfterDot = (wordRange?.start ?? position).character === dotIndex + 1
+      if (dotIndex === -1 || !isCursorOnWordAfterDot) {
+        return []
+      }
+
+      const fullCurrentNode = this.getNodeBeforeTheDot(document, position, dotIndex)
+      if (!fullCurrentNode) {
+        return []
+      }
+
+      const indentInfo = this.getIndentInfo(document, fullCurrentNode)
+
       return this.templates
         .filter(t => {
-          let canUseTemplate = t.canUse(fullCurrentNode)
+          try {
+            let canUseTemplate = t.canUse(fullCurrentNode)
 
-          if (this.mergeMode === 'override') {
-            canUseTemplate &&= (t instanceof CustomTemplate || !this.customTemplateNames.includes(t.templateName))
+            if (this.mergeMode === 'override') {
+              canUseTemplate &&= (t instanceof CustomTemplate || !this.customTemplateNames.includes(t.templateName))
+            }
+
+            return canUseTemplate
+          } catch (filterErr) {
+            console.error(`Error checking template '${t.templateName}':`, filterErr)
+            return false
           }
-
-          return canUseTemplate
         })
-        .flatMap(t => t.buildCompletionItem(fullCurrentNode, indentInfo))
+        .flatMap(t => {
+          try {
+            return t.buildCompletionItem(fullCurrentNode, indentInfo)
+          } catch (buildErr) {
+            console.error(`Error building completion item for template '${t.templateName}':`, buildErr)
+            return []
+          }
+        })
     } catch (err) {
-      console.error('Error while building postfix autocomplete items:')
-      console.error(err)
-
+      console.error('Error in provideCompletionItems:', err)
       return []
     }
   }
@@ -85,11 +95,16 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
   }
 
   private getNodeBeforeTheDot(document: vsc.TextDocument, position: vsc.Position, dotIndex: number) {
-    const dotOffset = document.offsetAt(position.with({ character: dotIndex }))
-    const speciallyHandledText = this.getHtmlLikeEmbeddedText(document, position)
-    const fullText = speciallyHandledText ?? document.getText()
+    try {
+      const dotOffset = document.offsetAt(position.with({ character: dotIndex }))
+      const speciallyHandledText = this.getHtmlLikeEmbeddedText(document, position)
+      const fullText = speciallyHandledText ?? document.getText()
 
-    return findNodeBeforeDot(this.parser, fullText, dotOffset)
+      return findNodeBeforeDot(this.parser, fullText, dotOffset)
+    } catch (err) {
+      console.error('Error in getNodeBeforeTheDot:', err)
+      return null
+    }
   }
 
   private getIndentInfo(document: vsc.TextDocument, node: tree.Node): IndentInfo {
