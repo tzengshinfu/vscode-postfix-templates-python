@@ -26,23 +26,17 @@ export const isExpression = (node: tree.Node | null | undefined): boolean => {
   const expressionTypes = [
     // Basic expressions
     'identifier', 'call', 'attribute', 'subscript',
-    'await', 'parenthesized_expression', 'lambda', 'conditional_expression',
-    'named_expression', 'yield',
+    'await', 'parenthesized_expression',
 
     // Operators
     'binary_operator', 'boolean_operator', 'comparison_operator',
     'unary_operator', 'not_operator',
 
     // Literals
-    'string', 'integer', 'float', 'true', 'false', 'none', 'ellipsis',
-    'concatenated_string',
+    'string', 'integer', 'float', 'true', 'false', 'none',
 
     // Collections
-    'list', 'dictionary', 'set', 'tuple',
-
-    // Comprehensions and generators
-    'list_comprehension', 'dictionary_comprehension', 'set_comprehension',
-    'generator_expression'
+    'list', 'dictionary', 'set', 'tuple'
   ]
 
   return expressionTypes.includes(node?.type)
@@ -301,108 +295,62 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
   const textAfterDot = text.slice(dotOffset + 1)
   const textReplaceDotWithSpace = textBeforeDot + " " + textAfterDot
   const syntaxTree = parser.parse(textReplaceDotWithSpace)
-  const isValidNode = (node: tree.Node | null): boolean => {
-    if (['module', 'ERROR', 'comment'].includes(node?.type)) {
-      return false
+  const findNamedNode = (node: tree.Node | null): tree.Node | null => {
+    if (!node) {
+      return null
     }
+
+    // 如果當前節點是 unnamed token（如標點符號），向上查找到有意義的 named 節點
+    let currentNode = node
+
+    if (!currentNode.isNamed) {
+      // 向上查找直到找到 named 節點
+      while (currentNode.parent) {
+        currentNode = currentNode.parent
+        if (currentNode.isNamed) {
+          break
+        }
+      }
+    }
+
+    if (['module', 'ERROR', 'comment'].includes(currentNode?.type)) {
+      return null
+    }
+
     // Ensure the dot is at the end of the node
-    return node?.endIndex === dotOffset
-  }
-  // for await expressions
-  const findAwaitExpression = (node: tree.Node | null): tree.Node | null => {
-    if (node.parent?.type === 'await') {
-      return node?.parent || node
+    if (currentNode?.endIndex !== dotOffset) {
+      return null
     }
-    return node
-  }
-  // for yield expressions
-  const findYieldExpression = (node: tree.Node | null): tree.Node | null => {
-    if (node.parent?.type === 'yield') {
-      return node?.parent || node
-    }
-    return node
-  }
-  const processNode = (node: tree.Node): tree.Node | null => {
-    let processedNode: tree.Node | null = node
-    processedNode = findYieldExpression(processedNode)
-    processedNode = findAwaitExpression(processedNode)
-    return isValidNode(processedNode) ? processedNode : null
+
+    return currentNode
   }
 
   try {
-    const treeNode = syntaxTree.rootNode.descendantForIndex(dotOffset - 1)
+    let treeNode = syntaxTree.rootNode.descendantForIndex(dotOffset - 1)
     if (!treeNode) {
       return null
     }
 
-    // for (x)
-    if (treeNode.parent?.type === 'parenthesized_expression' && ['(', ')'].includes(treeNode.type)) {
-      return processNode(treeNode.parent)
-    }
+    treeNode = findNamedNode(treeNode)
 
     // for f-strings interpolation
-    if (treeNode.parent?.type === 'interpolation' && ['{', '}'].includes(treeNode.type)) {
+    if (treeNode.type === 'interpolation') {
       return null
     }
 
-    // for string_content/string_start/string_end
-    if (treeNode.parent?.type === 'string') {
-      return isValidNode(treeNode.parent) ? treeNode.parent : null
-    }
-
-    // for x + y / x and y / x > y
-    if (['binary_operator', 'boolean_operator', 'comparison_operator'].includes(treeNode.parent?.type)) {
-      return isValidNode(treeNode.parent) ? treeNode.parent : null
-    }
-
-    // for -x
-    if (treeNode.parent?.type === 'unary_operator') {
-      return isValidNode(treeNode.parent) ? treeNode.parent : null
-    }
-
-    // for not x
-    if (treeNode.parent?.type === 'not_operator') {
-      return isValidNode(treeNode.parent) ? treeNode.parent : null
+    // for string
+    if (treeNode.type === 'string_end') {
+      return treeNode.parent
     }
 
     // for x.y
     if (treeNode.parent?.type === 'attribute') {
-      return processNode(treeNode.parent)
-    }
-
-    // for x[y]
-    if (treeNode.parent?.type === 'subscript' && ['[', ':', ']'].includes(treeNode.type)) {
-      return processNode(treeNode.parent)
+      return treeNode.parent
     }
 
     // for x(y, z)
-    if (treeNode.parent?.parent?.type === 'call' && ['(', ',', ')'].includes(treeNode.type)) {
-      return processNode(treeNode.parent.parent)
-    }
-
-    // for dictionary key-value separator
-    if (treeNode.parent?.type === 'pair' && treeNode.type === ':') {
-      return isValidNode(treeNode.parent.parent) ? treeNode.parent.parent : null
-    }
-
-    // for dictionary
-    if (treeNode.parent?.type === 'dictionary' && ['{', ',', '}'].includes(treeNode.type)) {
-      return isValidNode(treeNode.parent) ? treeNode.parent : null
-    }
-
-    // for tuple
-    if (treeNode.parent?.type === 'tuple' && ['(', ',', ')'].includes(treeNode.type)) {
-      return isValidNode(treeNode.parent) ? treeNode.parent : null
-    }
-
-    // for list
-    if (treeNode.parent?.type === 'list' && ['[', ',', ']'].includes(treeNode.type)) {
-      return isValidNode(treeNode.parent) ? treeNode.parent : null
-    }
-
-    // for set
-    if (treeNode.parent?.type === 'set' && ['{', ',', '}'].includes(treeNode.type)) {
-      return isValidNode(treeNode.parent) ? treeNode.parent : null
+    if (treeNode.parent?.type === 'call') {
+      return treeNode.parent
     }
 
     // for @x
@@ -411,7 +359,7 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
     }
 
     // default path
-    return processNode(treeNode)
+    return treeNode
 
   } finally {
     // Always clean up the syntax tree
