@@ -7,7 +7,6 @@ import { ForTemplate, ForRangeTemplate } from './templates/forTemplates'
 import { IfTemplate, IfElseTemplate, IfEqualityTemplate } from './templates/ifTemplates'
 import { NotTemplate } from './templates/notTemplate'
 import { ReturnTemplate } from './templates/returnTemplate'
-import { CallTemplate } from './templates/callTemplate'
 import { PythonTemplate } from './templates/pythonTemplate'
 import { VarTemplate } from './templates/varTemplate'
 
@@ -28,7 +27,6 @@ export const loadBuiltinTemplates = () => {
     .map(f => new PythonTemplate(f))
 
   const templates: IPostfixTemplate[] = [
-    new CallTemplate('call'),
     new ForTemplate('for'),
     new ForRangeTemplate('forrange'),
     new IfTemplate('if'),

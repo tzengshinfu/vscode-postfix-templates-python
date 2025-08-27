@@ -21,8 +21,7 @@ const ALL_TEMPLATES = [
   'not',
   'return',
   'var',
-  'await',
-  'call'
+  'await'
 ]
 
 const STRING_LITERAL_TEMPLATES = [
@@ -37,8 +36,7 @@ const BINARY_EXPRESSION_TEMPLATES = [
   'ifelse',
   'not',
   'return',
-  'var',
-  'call'
+  'var'
 ]
 
 const config = vsc.workspace.getConfiguration('postfix')
