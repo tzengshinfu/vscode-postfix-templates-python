@@ -301,42 +301,38 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
   const textAfterDot = text.slice(dotOffset + 1)
   const textReplaceDotWithSpace = textBeforeDot + " " + textAfterDot
   const syntaxTree = parser.parse(textReplaceDotWithSpace)
+  const isValidNode = (node: tree.Node | null): boolean => {
+    if (['module', 'ERROR', 'comment'].includes(node?.type)) {
+      return false
+    }
+    // Ensure the dot is at the end of the node
+    return node?.endIndex === dotOffset
+  }
+  // for await expressions
+  const findAwaitExpression = (node: tree.Node | null): tree.Node | null => {
+    if (node.parent?.type === 'await') {
+      return node?.parent || node
+    }
+    return node
+  }
+  // for yield expressions
+  const findYieldExpression = (node: tree.Node | null): tree.Node | null => {
+    if (node.parent?.type === 'yield') {
+      return node?.parent || node
+    }
+    return node
+  }
+  const processNode = (node: tree.Node): tree.Node | null => {
+    let processedNode: tree.Node | null = node
+    processedNode = findYieldExpression(processedNode)
+    processedNode = findAwaitExpression(processedNode)
+    return isValidNode(processedNode) ? processedNode : null
+  }
 
   try {
     const treeNode = syntaxTree.rootNode.descendantForIndex(dotOffset - 1)
     if (!treeNode) {
       return null
-    }
-
-    const isValidNode = (node: tree.Node | null): boolean => {
-      if (['module', 'ERROR', 'comment'].includes(node?.type)) {
-        return false
-      }
-      // Ensure the dot is at the end of the node
-      return node?.endIndex === dotOffset
-    }
-
-    // for await expressions
-    const findAwaitExpression = (node: tree.Node | null): tree.Node | null => {
-      if (treeNode.parent?.type === 'await') {
-        return node?.parent || node
-      }
-      return node
-    }
-
-    // for yield expressions
-    const findYieldExpression = (node: tree.Node | null): tree.Node | null => {
-      if (treeNode.parent?.type === 'yield') {
-        return node?.parent || node
-      }
-      return node
-    }
-
-    const processNode = (node: tree.Node): tree.Node | null => {
-      let processedNode: tree.Node | null = node
-      processedNode = findYieldExpression(processedNode)
-      processedNode = findAwaitExpression(processedNode)
-      return isValidNode(processedNode) ? processedNode : null
     }
 
     // for (x)
