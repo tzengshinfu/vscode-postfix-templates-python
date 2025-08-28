@@ -325,46 +325,49 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
     return currentNode
   }
 
-  try {
-    let treeNode = syntaxTree.rootNode.descendantForIndex(dotOffset - 1)
-    if (!treeNode) {
-      return null
-    }
-
-    treeNode = findNamedNode(treeNode)
-
-    // for f-strings interpolation
-    if (treeNode.type === 'interpolation') {
-      return null
-    }
-
-    // for string
-    if (treeNode.type === 'string_end') {
-      return treeNode.parent
-    }
-
-    // for x.y
-    if (treeNode.parent?.type === 'attribute') {
-      return treeNode.parent
-    }
-
-    // for x(y, z)
-    if (treeNode.parent?.type === 'call') {
-      return treeNode.parent
-    }
-
-    // for @x
-    if (treeNode.parent?.type === 'decorator') {
-      return null
-    }
-
-    // default path
-    return treeNode
-
-  } finally {
-    // Always clean up the syntax tree
+  let treeNode = syntaxTree.rootNode.descendantForIndex(dotOffset - 1)
+  if (!treeNode) {
     syntaxTree.delete()
+    return null
   }
+
+  treeNode = findNamedNode(treeNode)
+  if (!treeNode) {
+    syntaxTree.delete()
+    return null
+  }
+
+  // for @x
+  if (treeNode.parent?.type === 'decorator') {
+    syntaxTree.delete()
+    return null
+  }
+
+  // for f-strings interpolation
+  if (treeNode.type === 'interpolation') {
+    syntaxTree.delete()
+    return null
+  }
+
+  // for string
+  if (treeNode.type === 'string_end') {
+    return treeNode.parent
+  }
+
+  // for x.y
+  if (treeNode.parent?.type === 'attribute') {
+    return treeNode.parent
+  }
+
+  // for x(y, z)
+  if (treeNode.parent?.type === 'call') {
+    return treeNode.parent
+  }
+
+  // NOTE: syntaxTree is intentionally not deleted here
+  // The returned node depends on this tree remaining alive
+  // The caller is responsible for cleaning up by calling node.tree.delete()
+  return treeNode
 }
 
 export const unwrapNodeForTemplate = (node: tree.Node): { node: tree.Node, text: string } => {

@@ -69,6 +69,11 @@ export class CompletionItemBuilder {
       ]
     }
 
+    // Clean up the syntax tree after we're done using the node
+    if (this.node.tree) {
+      this.node.tree.delete()
+    }
+
     return this
   }
 
