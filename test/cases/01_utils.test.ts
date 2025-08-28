@@ -7,6 +7,7 @@ import { invertBinaryExpression, invertExpression } from '../../src/utils/invert
 
 import { createPythonParser, findNodeBeforeDot } from '../../src/utils/python'
 import * as tree from '../../src/web-tree-sitter'
+import * as py from '../../src/utils/python'
 
 let parser: tree.Parser
 
@@ -22,7 +23,7 @@ describe('01. Utils tests', () => {
     }
   })
 
-  it.skip('getIndentCharacters when spaces', async () => {
+  it('getIndentCharacters when spaces', async () => {
     // Create a text document and open it to ensure activeTextEditor exists
     const doc = await vsc.workspace.openTextDocument({ content: '', language: 'python' })
     const editor = await vsc.window.showTextDocument(doc)
@@ -37,7 +38,7 @@ describe('01. Utils tests', () => {
     await vsc.commands.executeCommand('workbench.action.closeActiveEditor')
   })
 
-  it.skip('getIndentCharacters when tabs', async () => {
+  it('getIndentCharacters when tabs', async () => {
     // Create a text document and open it to ensure activeTextEditor exists
     const doc = await vsc.workspace.openTextDocument({ content: '', language: 'python' })
     const editor = await vsc.window.showTextDocument(doc)
@@ -52,15 +53,15 @@ describe('01. Utils tests', () => {
   })
 
   describe('invertExpression', () => {
-    //testInvertExpression('x             >>  not x')
+    testInvertExpression('x             >>  not x')
     testInvertExpression('not x         >>  x')
-    //testInvertExpression('x * 100       >>  not (x * 100)')
-    //testInvertExpression('not (x * 100) >>  x * 100')
-    //testInvertExpression('x and y * 100 >>  not x or not (y * 100)')
-    //testInvertExpression('(x > y)       >>  (x <= y)')
+    testInvertExpression('x * 100       >>  not (x * 100)')
+    testInvertExpression('not (x * 100) >>  x * 100')
+    testInvertExpression('x and y * 100 >>  not x or not (y * 100)')
+    testInvertExpression('(x > y)       >>  (x <= y)')
   })
 
-  describe.skip('invertBinaryExpression', () => {
+  describe('invertBinaryExpression', () => {
 
     describe('operators', () => {
       testInvertBinaryExpression('x > y   >>  x <= y')
@@ -94,7 +95,8 @@ function testInvertBinaryExpression(dsl: string) {
 
   it(`${input} should invert to ${expected}`, () => {
     try {
-      const rootNode = findNodeBeforeDot(parser, input + '.', input.length)
+      let rootNode = findNodeBeforeDot(parser, input + '.', input.length)
+      rootNode = py.isBinaryExpression(rootNode.parent) ? rootNode.parent: rootNode
       const result = invertBinaryExpression(rootNode)
 
       assert.strictEqual(result, expected)
@@ -114,7 +116,8 @@ function testInvertExpression(dsl: string) {
 
   it(`${input} should invert to ${expected}`, () => {
     try {
-      const rootNode = findNodeBeforeDot(parser, input + '.', input.length)
+      let rootNode = findNodeBeforeDot(parser, input + '.', input.length)
+      rootNode = py.isExpression(rootNode.parent) ? rootNode.parent: rootNode
       const result = invertExpression(rootNode)
 
       assert.strictEqual(result, expected)
