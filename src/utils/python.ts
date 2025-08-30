@@ -13,9 +13,24 @@ export const isAwaitExpression = (node: tree.Node | null | undefined): boolean =
 }
 
 export const isBinaryExpression = (node: tree.Node | null | undefined): boolean => {
+  if (!node) {
+    return false
+  }
+
   const binaryTypes = ['binary_operator', 'boolean_operator', 'comparison_operator']
 
-  return binaryTypes.includes(node?.type) || binaryTypes.includes(getUnwrappedNode(node)?.type)
+  // Check if the node itself is a binary expression
+  if (binaryTypes.includes(node.type) || binaryTypes.includes(getUnwrappedNode(node)?.type)) {
+    return true
+  }
+
+  // Check if it's a parenthesized binary expression
+  if (isParenthesizedExpression(node) && node.firstNamedChild && binaryTypes.includes(node.firstNamedChild.type)) {
+    return true
+  }
+
+  // Check if parent is a binary expression (similar to TypeScript version logic)
+  return node.parent ? isBinaryExpression(node.parent) : false
 }
 
 export const isElementAccessExpression = (node: tree.Node | null | undefined): boolean => {
