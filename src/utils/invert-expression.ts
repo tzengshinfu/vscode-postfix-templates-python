@@ -78,7 +78,7 @@ export const invertBinaryExpression = (expr: tree.Node, addOrBrackets = false): 
 export const invertExpression = (expr: tree.Node, addOrBrackets = false): string => {
   const text = expr.text
 
-  // not (x) => x
+  // not (x) => x or not x => x
   if (py.isPrefixUnaryExpression(expr) && expr.childCount >= 2) {
     const operator = expr.child(0)
     const operand = expr.child(1)
@@ -87,18 +87,11 @@ export const invertExpression = (expr: tree.Node, addOrBrackets = false): string
       if (operand && py.isParenthesizedExpression(operand)) {
         // Extract content from parentheses: not (x) => x
         const innerExpr = operand.firstNamedChild
-        return innerExpr ? innerExpr.text : text
+        return innerExpr ? innerExpr.text : operand.text.slice(1, -1) // Remove parentheses
       } else if (operand) {
         // Handle unparenthesized expressions: not x => x
         return operand.text
       }
-    }
-  }
-
-  // (x) => not (x)
-  if (py.isParenthesizedExpression(expr)) {
-    if (py.isIdentifier(expr.child(1))) {
-      return `not ${text}`
     }
   }
 
@@ -112,11 +105,18 @@ export const invertExpression = (expr: tree.Node, addOrBrackets = false): string
     }
   }
 
-  // x > y => x <= y
+  // x > y => x <= y or x and y => not x or not y
   if (py.isBinaryExpression(expr)) {
     const result = invertBinaryExpression(expr, addOrBrackets)
     if (result) {
       return result
+    }
+  }
+
+  // (x) => not (x)
+  if (py.isParenthesizedExpression(expr)) {
+    if (py.isIdentifier(expr.child(1))) {
+      return `not ${text}`
     }
   }
 

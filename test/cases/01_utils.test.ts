@@ -96,7 +96,14 @@ function testInvertBinaryExpression(dsl: string) {
   it(`${input} should invert to ${expected}`, () => {
     try {
       let rootNode = findNodeBeforeDot(parser, input + '.', input.length)
-      rootNode = py.isBinaryExpression(rootNode.parent) ? rootNode.parent: rootNode
+      
+      // Navigate up to find the complete expression
+      // Keep going up while the parent contains expressions
+      while (rootNode && rootNode.parent && 
+             (py.isExpression(rootNode.parent) || py.isBinaryExpression(rootNode.parent))) {
+        rootNode = rootNode.parent
+      }
+      
       const result = invertBinaryExpression(rootNode)
 
       assert.strictEqual(result, expected)
@@ -117,7 +124,14 @@ function testInvertExpression(dsl: string) {
   it(`${input} should invert to ${expected}`, () => {
     try {
       let rootNode = findNodeBeforeDot(parser, input + '.', input.length)
-      rootNode = py.isExpression(rootNode.parent) ? rootNode.parent: rootNode
+      
+      // Navigate up to find the complete expression
+      // Keep going up while the parent contains expressions
+      while (rootNode && rootNode.parent && 
+             (py.isExpression(rootNode.parent) || py.isBinaryExpression(rootNode.parent))) {
+        rootNode = rootNode.parent
+      }
+      
       const result = invertExpression(rootNode)
 
       assert.strictEqual(result, expected)
