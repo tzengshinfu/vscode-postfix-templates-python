@@ -17,6 +17,8 @@ export class AwaitTemplate extends BaseExpressionTemplate {
       && !py.inAssignmentStatement(node)
       && !py.isBinaryExpression(node)
       && !py.inAwaitedExpression(node)
+      && !py.isPrefixUnaryExpression(node)
+      && !py.isPrefixUnaryExpression(node.parent)
       && (py.isIdentifier(node)
         || py.isExpression(node)
         || py.isCallExpression(node))

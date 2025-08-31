@@ -16,6 +16,8 @@ abstract class BaseForTemplate extends BaseTemplate {
       && !py.inAssignmentStatement(node)
       && !py.isTypeNode(node)
       && !py.isBinaryExpression(node)
+      && !py.isPrefixUnaryExpression(node)
+      && !py.isPrefixUnaryExpression(node.parent)
       && (py.isIdentifier(node)
         || py.isPropertyAccessExpression(node)
         || py.isElementAccessExpression(node)
