@@ -38,23 +38,7 @@ export const isElementAccessExpression = (node: tree.Node | null | undefined): b
 }
 
 export const isExpression = (node: tree.Node | null | undefined): boolean => {
-  const expressionTypes = [
-    // Basic expressions
-    'identifier', 'call', 'attribute', 'subscript',
-    'await', 'parenthesized_expression',
-
-    // Operators
-    'binary_operator', 'boolean_operator', 'comparison_operator',
-    'unary_operator', 'not_operator',
-
-    // Literals
-    'string', 'integer', 'float', 'true', 'false', 'none',
-
-    // Collections
-    'list', 'dictionary', 'set', 'tuple'
-  ]
-
-  return expressionTypes.includes(node?.type)
+  return node?.type === 'expression_statement' || getUnwrappedNode(node)?.type === 'expression_statement'
 }
 
 export const isParenthesizedExpression = (node: tree.Node | null | undefined): boolean => {
