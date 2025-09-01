@@ -34,7 +34,7 @@
         "${workspaceRoot}/out/test/**/*.js",
         "${workspaceRoot}/out/src/**/*.js"
       ],
-      "preLaunchTask": "npm: pretest"
+      "preLaunchTask": "npm: pretest-clean"
     }
   ]
 }

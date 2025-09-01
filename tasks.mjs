@@ -1,10 +1,22 @@
 //@ts-check
 import * as process from 'node:process'
 import * as console from 'node:console'
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { mkdirSync, readFileSync, writeFileSync, rmSync } from 'node:fs'
 import { copyTreeSitterWasm } from './utils.mjs'
 
 const LANGUAGE = 'postfix'
+
+async function clean() {
+  try {
+    rmSync('./out', { recursive: true, force: true })
+    console.log('Cleaned out directory')
+  } catch (error) {
+    // Ignore if directory doesn't exist
+    if (error.code !== 'ENOENT') {
+      throw error
+    }
+  }
+}
 
 async function pretest() {
   const pkg = readPackageJson()
@@ -26,7 +38,7 @@ const writePackageJson = (content) => {
 }
 const readPackageJson = () => JSON.parse(readFileSync('package.json', 'utf8'))
 
-const taskToExecute = { pretest }[process.argv[2] ?? '']
+const taskToExecute = { pretest, clean }[process.argv[2] ?? '']
 if (taskToExecute) {
   taskToExecute().catch(console.error)
 }
