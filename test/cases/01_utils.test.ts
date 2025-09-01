@@ -98,9 +98,18 @@ function testInvertBinaryExpression(dsl: string) {
       let rootNode = findNodeBeforeDot(parser, input + '.', input.length)
       
       // Navigate up to find the complete expression
-      // Keep going up while the parent contains expressions
+      // First, if current node is not a binary expression but parent is, go to parent
+      if (!py.isBinaryExpression(rootNode) && py.isBinaryExpression(rootNode.parent)) {
+        rootNode = rootNode.parent
+      }
+      
+      // Keep going up while the parent contains expressions, but stop if we're at a binary expression and parent is expression_statement
       while (rootNode && rootNode.parent && 
              (py.isExpression(rootNode.parent) || py.isBinaryExpression(rootNode.parent) || py.isPrefixUnaryExpression(rootNode.parent))) {
+        // Don't navigate past binary expressions or prefix unary expressions to expression statements
+        if ((py.isBinaryExpression(rootNode) || py.isPrefixUnaryExpression(rootNode)) && rootNode.parent.type === 'expression_statement') {
+          break
+        }
         rootNode = rootNode.parent
       }
       
@@ -126,9 +135,18 @@ function testInvertExpression(dsl: string) {
       let rootNode = findNodeBeforeDot(parser, input + '.', input.length)
       
       // Navigate up to find the complete expression
-      // Keep going up while the parent contains expressions
+      // First, if current node is not a binary expression but parent is, go to parent
+      if (!py.isBinaryExpression(rootNode) && py.isBinaryExpression(rootNode.parent)) {
+        rootNode = rootNode.parent
+      }
+      
+      // Keep going up while the parent contains expressions, but stop if we're at a binary expression and parent is expression_statement
       while (rootNode && rootNode.parent && 
              (py.isExpression(rootNode.parent) || py.isBinaryExpression(rootNode.parent) || py.isPrefixUnaryExpression(rootNode.parent))) {
+        // Don't navigate past binary expressions or prefix unary expressions to expression statements
+        if ((py.isBinaryExpression(rootNode) || py.isPrefixUnaryExpression(rootNode)) && rootNode.parent.type === 'expression_statement') {
+          break
+        }
         rootNode = rootNode.parent
       }
       

@@ -21,7 +21,7 @@ const getBinaryOperator = (node: tree.Node): string | undefined => {
   // Find the operator child node
   for (let i = 0; i < node.childCount; i++) {
     const child = node.child(i)
-    if (child && ['==', '!=', '>', '<', '>=', '<=', 'and', 'or'].includes(child.text)) {
+    if (child && ['==', '!=', '>', '<', '>=', '<=', 'and', 'or', '*', '+', '-', '/', '%', '//', '**', '&', '|', '^', '<<', '>>', 'in', 'is'].includes(child.text)) {
       return child.text
     }
   }
@@ -35,7 +35,8 @@ const getLeftRightNodes = (node: tree.Node): { left: tree.Node | null, right: tr
 
   for (let i = 0; i < node.childCount; i++) {
     const child = node.child(i)
-    if (child && py.isExpression(child)) {
+    // Collect named nodes that are not operators
+    if (child && child.isNamed && !['==', '!=', '>', '<', '>=', '<=', 'and', 'or', '*', '+', '-', '/', '%', '//', '**', '&', '|', '^', '<<', '>>', 'in', 'not', 'is'].includes(child.text)) {
       children.push(child)
     }
   }
@@ -91,6 +92,10 @@ export const invertExpression = (expr: tree.Node, addOrBrackets = false): string
         if (operand && py.isParenthesizedExpression(operand)) {
           // Extract content from parentheses: not (x) => x
           const innerExpr = operand.firstNamedChild
+          // If the inner expression is a binary expression, return its text directly (like TypeScript version)
+          if (innerExpr && py.isBinaryExpression(innerExpr)) {
+            return innerExpr.text
+          }
           return innerExpr ? innerExpr.text : operand.text.slice(1, -1) // Remove parentheses
         } else if (operand) {
           // Handle unparenthesized expressions: not x => x
@@ -129,9 +134,13 @@ export const invertExpression = (expr: tree.Node, addOrBrackets = false): string
 
   if (notPattern.test(text)) {
     return text.replace(notPattern, "$3")
-  } else if (py.isBinaryExpression(expr)) {
-    return `not (${text})`
-  } else {
-    return `not ${text}`
   }
+
+  // Follow TypeScript version logic more closely
+  if (py.isBinaryExpression(expr)) {
+    return text.startsWith('not ') ? text.substring(4) : `not (${text})`
+  }
+
+  // For non-binary expressions, follow TypeScript pattern: always without parentheses for simple cases
+  return text.startsWith('not ') ? text.substring(4) : `not ${text}`
 }
