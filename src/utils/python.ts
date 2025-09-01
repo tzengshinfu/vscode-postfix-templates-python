@@ -299,7 +299,7 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
       return null
     }
 
-    // 如果當前節點是 unnamed token（如標點符號），向上查找到有意義的 named 節點
+    // 如果當前節點是 unNamed token（如標點符號），向上查找到有意義的 named 節點
     let currentNode = node
 
     if (!currentNode.isNamed) {
@@ -312,12 +312,12 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
       }
     }
 
-    if (['module', 'ERROR', 'comment'].includes(currentNode?.type)) {
+    if (['module', 'ERROR', 'comment'].includes(currentNode.type)) {
       return null
     }
 
     // Ensure the dot is at the end of the node
-    if (currentNode?.endIndex !== dotOffset) {
+    if (currentNode.endIndex !== dotOffset) {
       return null
     }
 

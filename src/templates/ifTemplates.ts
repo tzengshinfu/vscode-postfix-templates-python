@@ -44,14 +44,14 @@ export class IfEqualityTemplate extends BaseIfElseTemplate {
     super(keyword)
   }
 
+  override canUse(node: tree.Node) {
+    return super.canUse(node) && !py.isBinaryExpression(node)
+  }
+
   buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
     return CompletionItemBuilder
       .create(this.keyword, node, indentInfo)
       .replace(createIfTemplate(`{{expr}} ${this.operator} ${this.operand}`))
       .build()
-  }
-
-  override canUse(node: tree.Node) {
-    return super.canUse(node) && !py.isBinaryExpression(node)
   }
 }

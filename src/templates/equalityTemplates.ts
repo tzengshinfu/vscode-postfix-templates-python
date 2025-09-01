@@ -9,21 +9,20 @@ export class EqualityTemplate extends BaseTemplate {
     super(keyword)
   }
 
+  override canUse(node: tree.Node) {
+    return (py.isIdentifier(node)
+      || py.isExpression(node)
+      || py.isCallExpression(node))
+      && (py.inReturnStatement(node)
+        || py.inIfStatement(node)
+        || py.inVariableDeclaration(node)
+        || py.inAssignmentStatement(node))
+  }
+
   buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
     return CompletionItemBuilder
       .create(this.keyword, node, indentInfo)
       .replace(`{{expr}} ${this.operator} ${this.operand}`)
       .build()
-  }
-
-  override canUse(node: tree.Node) {
-    return (py.isIdentifier(node)
-      || py.isExpression(node)
-      || py.isCallExpression(node)
-      || py.isAwaitExpression(node))
-      && (py.inReturnStatement(node)
-        || py.inIfStatement(node)
-        || py.inVariableDeclaration(node)
-        || py.inAssignmentStatement(node))
   }
 }
