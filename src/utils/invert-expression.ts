@@ -78,19 +78,24 @@ export const invertBinaryExpression = (expr: tree.Node, addOrBrackets = false): 
 export const invertExpression = (expr: tree.Node, addOrBrackets = false): string => {
   const text = expr.text
 
-  // not (x) => x or not x => x
-  if (py.isPrefixUnaryExpression(expr) && expr.childCount >= 2) {
-    const operator = expr.child(0)
-    const operand = expr.child(1)
+  // not (x) => x or not x => x  
+  // Check for not_operator node type specifically
+  if (expr.type === 'not_operator' || py.isPrefixUnaryExpression(expr)) {
+    // For not_operator, the structure is: not_operator -> 'not' -> operand
+    // For unary_operator, the structure is: unary_operator -> operator -> operand
+    if (expr.childCount >= 2) {
+      const operator = expr.child(0)
+      const operand = expr.child(1)
 
-    if (operator?.text === 'not') {
-      if (operand && py.isParenthesizedExpression(operand)) {
-        // Extract content from parentheses: not (x) => x
-        const innerExpr = operand.firstNamedChild
-        return innerExpr ? innerExpr.text : operand.text.slice(1, -1) // Remove parentheses
-      } else if (operand) {
-        // Handle unparenthesized expressions: not x => x
-        return operand.text
+      if (operator?.text === 'not') {
+        if (operand && py.isParenthesizedExpression(operand)) {
+          // Extract content from parentheses: not (x) => x
+          const innerExpr = operand.firstNamedChild
+          return innerExpr ? innerExpr.text : operand.text.slice(1, -1) // Remove parentheses
+        } else if (operand) {
+          // Handle unparenthesized expressions: not x => x
+          return operand.text
+        }
       }
     }
   }

@@ -100,7 +100,7 @@ function testInvertBinaryExpression(dsl: string) {
       // Navigate up to find the complete expression
       // Keep going up while the parent contains expressions
       while (rootNode && rootNode.parent && 
-             (py.isExpression(rootNode.parent) || py.isBinaryExpression(rootNode.parent))) {
+             (py.isExpression(rootNode.parent) || py.isBinaryExpression(rootNode.parent) || py.isPrefixUnaryExpression(rootNode.parent))) {
         rootNode = rootNode.parent
       }
       
@@ -128,7 +128,7 @@ function testInvertExpression(dsl: string) {
       // Navigate up to find the complete expression
       // Keep going up while the parent contains expressions
       while (rootNode && rootNode.parent && 
-             (py.isExpression(rootNode.parent) || py.isBinaryExpression(rootNode.parent))) {
+             (py.isExpression(rootNode.parent) || py.isBinaryExpression(rootNode.parent) || py.isPrefixUnaryExpression(rootNode.parent))) {
         rootNode = rootNode.parent
       }
       
