@@ -57,7 +57,7 @@ describe('02. Template usage', () => {
   testTemplateUsage('element access expression', 'expr.a.b[c]', ALL_TEMPLATES)
   testTemplateUsage('binary expression', 'x > y', BINARY_EXPRESSION_TEMPLATES)
   testTemplateUsage('binary expression', '(x > y)', BINARY_EXPRESSION_TEMPLATES)
-  testTemplateUsage('unary expression', 'not expr', () => _.difference(ALL_TEMPLATES, [...FOR_TEMPLATES, 'await']))
+  testTemplateUsage('unary expression', '-expr', () => _.difference(ALL_TEMPLATES, [...FOR_TEMPLATES, 'await']))
   testTemplateUsage('conditional expression', 'if x * 100{cursor}:', ['not'])
   testTemplateUsage('return expression', 'return x * 100', [...CAST_TEMPLATES, 'not'])
   testTemplateUsage('dict literal expression', '{}', () => [...PYTHON_TEMPLATES, 'return'])
