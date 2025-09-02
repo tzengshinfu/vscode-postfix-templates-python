@@ -37,7 +37,9 @@ export const isElementAccessExpression = (node: tree.Node | null | undefined): b
 }
 
 export const isExpression = (node: tree.Node | null | undefined): boolean => {
-  return node?.type === 'expression_statement' || getUnwrappedNode(node)?.type === 'expression_statement'
+  return (node?.type === 'expression_statement' || getUnwrappedNode(node)?.type === 'expression_statement')
+    || (node?.type === 'attribute' || getUnwrappedNode(node)?.type === 'attribute')
+    || (node?.type === 'subscript' || getUnwrappedNode(node)?.type === 'subscript')
 }
 
 export const isParenthesizedExpression = (node: tree.Node | null | undefined): boolean => {
