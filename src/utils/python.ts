@@ -29,7 +29,8 @@ export const isBinaryExpression = (node: tree.Node | null | undefined): boolean 
     return true
   }
 
-  return false
+  // Check parent node recursively (like TypeScript version)
+  return node.parent ? isBinaryExpression(node.parent) : false
 }
 
 export const isElementAccessExpression = (node: tree.Node | null | undefined): boolean => {
