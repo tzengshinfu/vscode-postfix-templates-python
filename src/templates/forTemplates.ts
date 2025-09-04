@@ -54,8 +54,6 @@ export class ForRangeTemplate extends BaseForTemplate {
 
   override canUse(node: tree.Node) {
     // Check if node text content is a valid non-negative integer (including 0)
-    const isNumber = /^\s*\d+\s*$/.test(node.text)
-
-    return (super.canUse(node) || isNumber) && !py.isStringLiteral(node)
+    return (super.canUse(node) || node.type === 'integer') && !py.isStringLiteral(node)
   }
 }

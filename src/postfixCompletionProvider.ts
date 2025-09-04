@@ -1,5 +1,5 @@
 import * as vsc from 'vscode'
-
+import * as py from './utils/python'
 import { IndentInfo, IPostfixTemplate } from './template'
 import { AllTabs, AllSpaces } from './utils/multiline-expressions'
 import { loadBuiltinTemplates, loadCustomTemplates } from './templates'
@@ -44,6 +44,7 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
       if (!fullCurrentNode) {
         return []
       }
+      const replacementNode = this.getNodeForReplacement(fullCurrentNode)
 
       const indentInfo = this.getIndentInfo(document, fullCurrentNode)
 
@@ -64,7 +65,7 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
         })
         .flatMap(t => {
           try {
-            return t.buildCompletionItem(fullCurrentNode, indentInfo)
+            return t.buildCompletionItem(replacementNode, indentInfo)
           } catch (buildErr) {
             console.error(`Error building completion item for template '${t.templateName}':`, buildErr)
             return []
@@ -105,6 +106,16 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
       console.error('Error in getNodeBeforeTheDot:', err)
       return null
     }
+  }
+
+  private getNodeForReplacement = (node: tree.Node) => {
+    if (py.isAwaitExpression(node.parent)) {
+      node = node.parent
+    }
+    // PrefixUnaryExpression? -await expr
+    // not expr? not await expr
+
+    return node
   }
 
   private getIndentInfo(document: vsc.TextDocument, node: tree.Node): IndentInfo {

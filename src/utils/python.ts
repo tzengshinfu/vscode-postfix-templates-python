@@ -38,9 +38,8 @@ export const isElementAccessExpression = (node: tree.Node | null | undefined): b
 }
 
 export const isExpression = (node: tree.Node | null | undefined): boolean => {
-  return (node?.type === 'expression_statement' || getUnwrappedNode(node)?.type === 'expression_statement')
-    || (node?.type === 'attribute' || getUnwrappedNode(node)?.type === 'attribute')
-    || (node?.type === 'subscript' || getUnwrappedNode(node)?.type === 'subscript')
+  return ['expression_statement', 'attribute', 'subscript', 'integer', 'float', 'true', 'false', 'none', 'list', 'tuple', 'set', 'dictionary']
+    .filter(nodeType=>[node?.type, getUnwrappedNode(node)?.type].includes(nodeType)).length > 0
 }
 
 export const isParenthesizedExpression = (node: tree.Node | null | undefined): boolean => {
