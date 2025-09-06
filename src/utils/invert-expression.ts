@@ -65,8 +65,13 @@ export const invertBinaryExpression = (expr: tree.Node, addOrBrackets = false): 
 
   op = logicalOperatorMapping.get(operator)
   if (op) {
-    const leftInverted = invertExpression(left, op !== 'or')
-    const rightInverted = invertExpression(right, op !== 'or')
+    // For 'and' -> 'or': left becomes 'not left', right becomes 'not right'
+    // Only add brackets for complex expressions, not simple identifiers
+    const isLeftSimple = /^[a-zA-Z_][a-zA-Z0-9_]*$/.test(left.text.trim())
+    const isRightSimple = /^[a-zA-Z_][a-zA-Z0-9_]*$/.test(right.text.trim())
+    
+    const leftInverted = invertExpression(left, !isLeftSimple && op !== 'or')
+    const rightInverted = invertExpression(right, !isRightSimple && op !== 'or')
 
     const result = `${leftInverted} ${op} ${rightInverted}`
 
@@ -136,11 +141,30 @@ export const invertExpression = (expr: tree.Node, addOrBrackets = false): string
     return text.replace(notPattern, "$3")
   }
 
-  // Follow TypeScript version logic more closely
-  if (py.isBinaryExpression(expr)) {
+  // Check if this node itself is a binary expression (not its parent)
+  const binaryTypes = ['binary_operator', 'boolean_operator', 'comparison_operator']
+  const isNodeItelfBinaryExpression = binaryTypes.includes(expr.type) || 
+    (py.isParenthesizedExpression(expr) && expr.firstNamedChild && binaryTypes.includes(expr.firstNamedChild.type))
+  
+  if (isNodeItelfBinaryExpression) {
     return text.startsWith('not ') ? text.substring(4) : `not (${text})`
   }
 
-  // For non-binary expressions, follow TypeScript pattern: always without parentheses for simple cases
-  return text.startsWith('not ') ? text.substring(4) : `not ${text}`
+  // For non-binary logical expressions, we need to be more careful about operator precedence
+  // If the expression is complex (contains operators), we should wrap it in parentheses
+  const hasOperators = /[+\-*/%<>=!&|^]/.test(text)
+  const isSimpleIdentifier = /^[a-zA-Z_][a-zA-Z0-9_]*$/.test(text)
+  
+  if (text.startsWith('not ')) {
+    return text.substring(4)
+  } else if (isSimpleIdentifier && !addOrBrackets) {
+    // For simple identifiers without forcing brackets, no parentheses needed
+    return `not ${text}`
+  } else if (hasOperators || addOrBrackets) {
+    // For expressions with operators or when brackets are forced, wrap in parentheses
+    return `not (${text})`
+  } else {
+    // For other cases (like numbers, strings), no parentheses needed
+    return `not ${text}`
+  }
 }
