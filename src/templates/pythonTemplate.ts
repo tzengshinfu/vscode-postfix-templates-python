@@ -18,8 +18,7 @@ export class PythonTemplate extends BaseTemplate {
   }
 
   override canUse(node: tree.Node) {
-    return !py.inIfStatement(node)
-      && !py.isTypeNode(node)
+    return !py.isTypeNode(node)
       && (py.isIdentifier(node)
         || py.isExpression(node)
         || py.isPrefixUnaryExpression(node)

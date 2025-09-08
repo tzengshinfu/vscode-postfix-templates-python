@@ -233,7 +233,7 @@ export const inIfStatement = (node: tree.Node | null | undefined, expressionNode
     }
 
     // Check if expressionNode is the condition of this if statement
-    return node.firstNamedChild === expressionNode
+    return node.firstNamedChild.id === expressionNode.id
   }
 
   return node.parent ? inIfStatement(node.parent, node) : false

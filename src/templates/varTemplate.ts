@@ -31,5 +31,6 @@ export class VarTemplate extends BaseExpressionTemplate {
       && !py.inFunctionArgument(node)
       && !py.inVariableDeclaration(node)
       && !py.inAssignmentStatement(node)
+      && !py.inIfStatement(node)
   }
 }
