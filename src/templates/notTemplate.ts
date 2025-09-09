@@ -86,7 +86,7 @@ export class NotTemplate extends BaseTemplate {
       return node
     }
 
-    if (this.isStrictEqualityOrInstanceofBinaryExpression(node.parent)) {
+    if (node.parent && this.isStrictEqualityOrInstanceofBinaryExpression(node.parent)) {
       return node.parent
     }
 

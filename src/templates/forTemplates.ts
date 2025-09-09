@@ -57,7 +57,7 @@ export class ForRangeTemplate extends BaseForTemplate {
   override canUse(node: tree.Node) {
     // Check if node text content is a valid non-negative integer (including 0)
     return (super.canUse(node)
-      || (node.type === 'integer' && !py.isBinaryExpression(node))
+      || (node.type === 'integer' && !py.inBinaryExpression(node))
     ) && !py.isStringLiteral(node)
   }
 }

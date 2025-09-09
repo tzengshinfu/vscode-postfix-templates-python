@@ -17,7 +17,7 @@ export class EqualityTemplate extends BaseTemplate {
         || py.inIfStatement(node)
         || py.inVariableDeclaration(node)
         || py.inAssignmentStatement(node))
-      && !py.isBinaryExpression(node)
+      && !py.inBinaryExpression(node)
   }
 
   buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
