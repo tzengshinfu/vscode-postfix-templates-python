@@ -15,18 +15,8 @@ export const isAwaitExpression = (node: tree.Node | null | undefined): boolean =
 }
 
 export const isBinaryExpression = (node: tree.Node | null | undefined): boolean => {
-  if (!node) {
-    return false
-  }
-
-  // Check if the node itself is a binary expression
-  if (['binary_operator', 'boolean_operator', 'comparison_operator']
-    .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length) {
-    return true
-  }
-
-  // Check parent node recursively (like TypeScript version)
-  return node.parent ? isBinaryExpression(node.parent) : false
+  return Boolean(['binary_operator', 'boolean_operator', 'comparison_operator']
+    .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
 }
 
 export const isElementAccessExpression = (node: tree.Node | null | undefined): boolean => {
@@ -233,12 +223,22 @@ export const inIfStatement = (node: tree.Node | null | undefined, expressionNode
   return node.parent ? inIfStatement(node.parent, node) : false
 }
 
-export const inAwaitedExpression = (node: tree.Node | null | undefined): boolean => {
-  if (!node || isAnyFunction(node)) {
+export const inAwaitExpression = (node: tree.Node | null | undefined): boolean => {
+  if (isAnyFunction(node)) {
     return false
   }
 
-  return isAwaitExpression(node) || (node.parent ? inAwaitedExpression(node.parent) : false)
+  return isAwaitExpression(node) || (node.parent ? inAwaitExpression(node.parent) : false)
+}
+
+export const inBinaryExpression = (node: tree.Node | null | undefined): boolean => {
+  // Check if the node itself is a binary expression
+  if (isBinaryExpression(node)) {
+    return true
+  }
+
+  // Check parent node recursively (like TypeScript version)
+  return node.parent ? inBinaryExpression(node.parent) : false
 }
 
 export const unwindBinaryExpression = (node: tree.Node, removeParens = true): tree.Node => {
