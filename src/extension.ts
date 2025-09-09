@@ -54,7 +54,7 @@ export function deactivate(): void {
       parser.delete()
       parser = null
     }
-    
+
     if (completionProvider) {
       completionProvider.dispose()
       completionProvider = null
