@@ -5,11 +5,13 @@ const { Parser, Language } = require('web-tree-sitter')
 
 // Python tree-sitter node type checking functions
 export const isArrayLiteral = (node: tree.Node | null | undefined): boolean => {
-  return node?.type === 'list' || getUnwrappedNode(node)?.type === 'list'
+  return Boolean(['list']
+    .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
 }
 
 export const isAwaitExpression = (node: tree.Node | null | undefined): boolean => {
-  return node?.type === 'await' || getUnwrappedNode(node)?.type === 'await'
+  return Boolean(['await']
+    .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
 }
 
 export const isBinaryExpression = (node: tree.Node | null | undefined): boolean => {
@@ -17,15 +19,9 @@ export const isBinaryExpression = (node: tree.Node | null | undefined): boolean 
     return false
   }
 
-  const binaryTypes = ['binary_operator', 'boolean_operator', 'comparison_operator']
-
   // Check if the node itself is a binary expression
-  if (binaryTypes.includes(node.type) || binaryTypes.includes(getUnwrappedNode(node)?.type)) {
-    return true
-  }
-
-  // Check if it's a parenthesized binary expression
-  if (isParenthesizedExpression(node) && node.firstNamedChild && binaryTypes.includes(node.firstNamedChild.type)) {
+  if (['binary_operator', 'boolean_operator', 'comparison_operator']
+    .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length) {
     return true
   }
 
@@ -34,33 +30,39 @@ export const isBinaryExpression = (node: tree.Node | null | undefined): boolean 
 }
 
 export const isElementAccessExpression = (node: tree.Node | null | undefined): boolean => {
-  return node?.type === 'subscript' || getUnwrappedNode(node)?.type === 'subscript'
+  return Boolean(['subscript']
+    .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
 }
 
 export const isExpression = (node: tree.Node | null | undefined): boolean => {
-  return ['expression_statement', 'attribute', 'subscript', 'integer', 'float', 'true', 'false', 'none', 'list', 'tuple', 'set', 'dictionary']
-    .filter(nodeType=>[node?.type, getUnwrappedNode(node)?.type].includes(nodeType)).length > 0
+  return Boolean([
+    ...['expression_statement'],
+    ...['attribute', 'subscript'],
+    ...['integer', 'float'],
+    ...['true', 'false', 'none'],
+    ...['list', 'tuple', 'set', 'dictionary']
+  ].filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
 }
 
 export const isParenthesizedExpression = (node: tree.Node | null | undefined): boolean => {
-  // There is no need to call `getUnwrappedNode` because the bottom node cannot be a parenthesized_expression
-  return node?.type === 'parenthesized_expression'
+  // There is no need to call `unwrappedNode` because the bottom node cannot be a parenthesized_expression
+  return Boolean(['parenthesized_expression']
+    .filter(t => [node?.type].includes(t)).length)
 }
 
 export const isPrefixUnaryExpression = (node: tree.Node | null | undefined): boolean => {
-  const unaryTypes = ['unary_operator', 'not_operator']
-
-  return unaryTypes.includes(node?.type) || unaryTypes.includes(getUnwrappedNode(node)?.type)
+  return Boolean(['unary_operator', 'not_operator']
+    .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
 }
 
 // Utility function to get the unwrapped node (inner node without parentheses)
-export const getUnwrappedNode = (node: tree.Node | null | undefined): tree.Node | null => {
+export const unwrappedNode = (node: tree.Node | null | undefined): tree.Node | null => {
   if (!node) {
     return null
   }
 
   let current = node
-  while (current && current.type === 'parenthesized_expression') {
+  while (isParenthesizedExpression(current)) {
     current = current.firstNamedChild
   }
 
@@ -82,27 +84,29 @@ export const getLineAndCharacterOfPosition = (node: tree.Node, offset: number): 
 
 // Specific Python node checks
 export const isIdentifier = (node: tree.Node | null | undefined): boolean => {
-  return node?.type === 'identifier' || getUnwrappedNode(node)?.type === 'identifier'
+  return Boolean(['identifier']
+    .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
 }
 
 export const isCallExpression = (node: tree.Node | null | undefined): boolean => {
-  return node?.type === 'call' || getUnwrappedNode(node)?.type === 'call'
+  return Boolean(['call']
+    .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
 }
 
 export const isPropertyAccessExpression = (node: tree.Node | null | undefined): boolean => {
-  return node?.type === 'attribute' || getUnwrappedNode(node)?.type === 'attribute'
+  return Boolean(['attribute']
+    .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
 }
 
 // New helper functions to distinguish different call patterns
 export const isConstructorCall = (node: tree.Node | null | undefined): boolean => {
-  if (!node || (node.type !== 'call' && getUnwrappedNode(node)?.type !== 'call')) {
+  if (!isCallExpression(node)) {
     return false
   }
 
   // Get the actual call node (unwrap if parenthesized)
-  const callNode = node.type === 'call' ? node :
-    (getUnwrappedNode(node)?.type === 'call' ? getUnwrappedNode(node) : null)
-
+  const callNode = isCallExpression(node) ? node :
+    (isCallExpression(unwrappedNode(node)) ? unwrappedNode(node) : null)
   if (!callNode) {
     return false
   }
@@ -114,14 +118,13 @@ export const isConstructorCall = (node: tree.Node | null | undefined): boolean =
 }
 
 export const isMethodCall = (node: tree.Node | null | undefined): boolean => {
-  if (!node || (node.type !== 'call' && getUnwrappedNode(node)?.type !== 'call')) {
+  if (!isCallExpression(node)) {
     return false
   }
 
   // Get the actual call node (unwrap if parenthesized)
-  const callNode = node.type === 'call' ? node :
-    (getUnwrappedNode(node)?.type === 'call' ? getUnwrappedNode(node) : null)
-
+  const callNode = isCallExpression(node) ? node :
+    (isCallExpression(unwrappedNode(node)) ? unwrappedNode(node) : null)
   if (!callNode) {
     return false
   }
@@ -132,17 +135,14 @@ export const isMethodCall = (node: tree.Node | null | undefined): boolean => {
   return functionNode?.type === 'attribute'
 }
 
-export const isFunctionCall = (node: tree.Node | null | undefined): boolean => {
-  return isConstructorCall(node) // In Python, function calls and constructor calls have the same structure
-}
-
 export const isChainedMethodCall = (node: tree.Node | null | undefined): boolean => {
   if (!isMethodCall(node)) {
     return false
   }
 
   // Get the actual call node (unwrap if parenthesized)
-  const callNode = node?.type === 'call' ? node : getUnwrappedNode(node)
+  const callNode = isCallExpression(node) ? node :
+    (isCallExpression(unwrappedNode(node)) ? unwrappedNode(node) : null)
   if (!callNode) {
     return false
   }
@@ -151,32 +151,34 @@ export const isChainedMethodCall = (node: tree.Node | null | undefined): boolean
   const attributeNode = callNode.firstNamedChild  // should be 'attribute'
   const objectNode = attributeNode?.firstNamedChild  // the object part
 
-  return objectNode?.type === 'call' || getUnwrappedNode(objectNode)?.type === 'call'
+  return isCallExpression(objectNode)
 }
 
 // Additional helper functions for templates
 export const isStringLiteral = (node: tree.Node | null | undefined): boolean => {
-  return node?.type === 'string' || getUnwrappedNode(node)?.type === 'string'
+  return Boolean(['string']
+    .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
 }
 
 export const isTypeNode = (node: tree.Node | null | undefined): boolean => {
-  return node?.type === 'type' || getUnwrappedNode(node)?.type === 'type'
+  return Boolean(['type']
+    .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
 }
 
 // Context checking functions for Python AST
 export const isObjectLiteral = (node: tree.Node | null | undefined): boolean => {
   // Python equivalent would be dictionary literals
-  return node?.type === 'dictionary' || getUnwrappedNode(node)?.type === 'dictionary'
+  return Boolean(['dictionary']
+    .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
 }
 
 export const isAnyFunction = (node: tree.Node | null | undefined): boolean => {
-  const functionTypes = ['function_definition', 'lambda', 'async_function_definition']
-
-  return functionTypes.includes(node?.type) || functionTypes.includes(getUnwrappedNode(node)?.type)
+  return Boolean(['function_definition', 'lambda', 'async_function_definition']
+    .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
 }
 
 export const inReturnStatement = (node: tree.Node | null | undefined): boolean => {
-  if (!node || isAnyFunction(node)) {
+  if (isAnyFunction(node)) {
     return false
   }
 
@@ -188,16 +190,17 @@ export const inReturnStatement = (node: tree.Node | null | undefined): boolean =
 }
 
 export const inFunctionArgument = (node: tree.Node | null | undefined): boolean => {
-  return node?.parent?.type === 'argument_list'
+  return Boolean(['argument_list']
+    .filter(t => [node?.parent?.type].includes(t)).length)
 }
 
 export const inVariableDeclaration = (node: tree.Node | null | undefined): boolean => {
-  if (!node || isAnyFunction(node)) {
+  if (isAnyFunction(node)) {
     return false
   }
 
   // Python assignment statements
-  if (node.type === 'assignment' || node.parent?.type === 'assignment') {
+  if (inAssignmentStatement(node)) {
     return true
   }
 
@@ -205,7 +208,7 @@ export const inVariableDeclaration = (node: tree.Node | null | undefined): boole
 }
 
 export const inAssignmentStatement = (node: tree.Node | null | undefined): boolean => {
-  if (!node || isAnyFunction(node)) {
+  if (isAnyFunction(node)) {
     return false
   }
 
@@ -214,20 +217,11 @@ export const inAssignmentStatement = (node: tree.Node | null | undefined): boole
     return true
   }
 
-  // Check if parent is assignment and we're on the left side
-  if (node.parent?.type === 'assignment') {
-    return node.parent.firstNamedChild === node
-  }
-
   return node.parent ? inAssignmentStatement(node.parent) : false
 }
 
 export const inIfStatement = (node: tree.Node | null | undefined, expressionNode?: tree.Node | null | undefined): boolean => {
-  if (!node) {
-    return false
-  }
-
-  if (node.type === 'if_statement') {
+  if (node?.type === 'if_statement') {
     if (!expressionNode) {
       return true
     }
@@ -244,7 +238,7 @@ export const inAwaitedExpression = (node: tree.Node | null | undefined): boolean
     return false
   }
 
-  return node.type === 'await' || (node.parent ? inAwaitedExpression(node.parent) : false)
+  return isAwaitExpression(node) || (node.parent ? inAwaitedExpression(node.parent) : false)
 }
 
 export const unwindBinaryExpression = (node: tree.Node, removeParens = true): tree.Node => {
