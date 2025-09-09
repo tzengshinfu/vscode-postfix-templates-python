@@ -15,12 +15,12 @@ export abstract class BaseExpressionTemplate extends BaseTemplate {
 
   canUse(node: tree.Node) {
     return !py.inIfStatement(node)
-      && !py.isTypeNode(node)
+      && !py.inTypeNode(node)
       && !py.inAssignmentStatement(node)
       && (py.isIdentifier(node)
         || py.isExpression(node)
-        || py.isPrefixUnaryExpression(node)
-        || py.isBinaryExpression(node)
+        || py.inPrefixUnaryExpression(node)
+        || py.inBinaryExpression(node)
         || py.isCallExpression(node))
   }
 }

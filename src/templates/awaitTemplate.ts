@@ -13,11 +13,11 @@ export class AwaitTemplate extends BaseExpressionTemplate {
   }
 
   override canUse(node: tree.Node) {
-    return !py.isTypeNode(node)
+    return !py.inTypeNode(node)
       && !py.inAssignmentStatement(node)
-      && !py.isBinaryExpression(node)
-      && !py.inAwaitedExpression(node)
-      && !py.isPrefixUnaryExpression(node.parent) // prevent `await -expr`
+      && !py.inBinaryExpression(node)
+      && !py.inAwaitExpression(node)
+      && !py.inPrefixUnaryExpression(node) // prevent `await -expr`
       && (py.isIdentifier(node)
         || py.isExpression(node)
         || py.isCallExpression(node))

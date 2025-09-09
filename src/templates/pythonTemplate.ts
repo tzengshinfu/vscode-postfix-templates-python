@@ -18,11 +18,11 @@ export class PythonTemplate extends BaseTemplate {
   }
 
   override canUse(node: tree.Node) {
-    return !py.isTypeNode(node)
+    return !py.inTypeNode(node)
       && (py.isIdentifier(node)
         || py.isExpression(node)
-        || py.isPrefixUnaryExpression(node)
-        || py.isBinaryExpression(node)
+        || py.inPrefixUnaryExpression(node)
+        || py.inBinaryExpression(node)
         || py.isCallExpression(node))
   }
 }

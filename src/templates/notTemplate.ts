@@ -13,7 +13,7 @@ export class NotTemplate extends BaseTemplate {
     const completionBuilder = CompletionItemBuilder
       .create('not', node, indentInfo)
 
-    if (py.isBinaryExpression(node)) {
+    if (py.inBinaryExpression(node)) {
       const expressions = this.getBinaryExpressions(node)
       if (expressions.length > 1) {
         return completionBuilder
@@ -35,17 +35,16 @@ export class NotTemplate extends BaseTemplate {
   }
 
   canUse(node: tree.Node) {
-    return !py.isTypeNode(node)
+    return !py.inTypeNode(node)
       && (py.isExpression(node)
-        || py.isPrefixUnaryExpression(node)
-        || py.isPrefixUnaryExpression(node.parent)
-        || py.isBinaryExpression(node)
+        || py.inPrefixUnaryExpression(node)
+        || py.inBinaryExpression(node)
         || py.isCallExpression(node)
         || py.isIdentifier(node))
   }
 
   private isStrictEqualityOrInstanceofBinaryExpression = (node: tree.Node) => {
-    if (py.isBinaryExpression(node)) {
+    if (py.inBinaryExpression(node)) {
       const operatorNode = node.namedChildren.find(child => child.type === 'comparison_operator')
       if (operatorNode) {
         const operatorText = operatorNode.text
@@ -66,7 +65,7 @@ export class NotTemplate extends BaseTemplate {
     const possibleExpressions = [node]
 
     do {
-      py.isBinaryExpression(node.parent) && possibleExpressions.push(node.parent)
+      py.inBinaryExpression(node.parent) && possibleExpressions.push(node.parent)
 
       node = node.parent
     } while (node.parent)
@@ -78,7 +77,7 @@ export class NotTemplate extends BaseTemplate {
     if (node.parent
       && py.isParenthesizedExpression(node.parent)
       && node.parent.firstNamedChild
-      && py.isBinaryExpression(node.parent.firstNamedChild)) {
+      && py.inBinaryExpression(node.parent.firstNamedChild)) {
 
       return node.parent
     }

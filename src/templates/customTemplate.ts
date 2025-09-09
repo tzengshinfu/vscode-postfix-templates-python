@@ -9,11 +9,11 @@ export class CustomTemplate extends BaseTemplate {
   private conditionsMap = new Map<string, (node: tree.Node) => boolean>([
     ['identifier', node => py.isIdentifier(node)],
     ['expression', node => py.isExpression(node)],
-    ['binary-expression', node => py.isBinaryExpression(node)],
-    ['unary-expression', node => py.isPrefixUnaryExpression(node.parent)],
+    ['binary-expression', node => py.inBinaryExpression(node)],
+    ['unary-expression', node => py.inPrefixUnaryExpression(node)],
     ['function-call', node => py.isCallExpression(node)],
     ['string-literal', node => py.isStringLiteral(node)],
-    ['type', node => py.isTypeNode(node)]
+    ['type', node => py.inTypeNode(node)]
   ])
 
   constructor(name: string, private description: string, private body: CustomTemplateBodyType, private when: string[]) {

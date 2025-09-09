@@ -45,7 +45,7 @@ export class IfEqualityTemplate extends BaseIfElseTemplate {
   }
 
   override canUse(node: tree.Node) {
-    return super.canUse(node) && !py.isBinaryExpression(node)
+    return super.canUse(node) && !py.inBinaryExpression(node)
   }
 
   buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {

@@ -251,6 +251,16 @@ export const inBinaryExpression = (node: tree.Node | null | undefined): boolean 
   return node.parent ? inBinaryExpression(node.parent) : false
 }
 
+export const inTypeNode = (node: tree.Node | null | undefined): boolean => {
+  // Check if the node itself is a type
+  if (isTypeNode(node)) {
+    return true
+  }
+
+  // Check parent node recursively (like TypeScript version)
+  return node.parent ? inTypeNode(node.parent) : false
+}
+
 export const unwindBinaryExpression = (node: tree.Node, removeParens = true): tree.Node => {
   let binaryExpression: tree.Node | undefined
 
