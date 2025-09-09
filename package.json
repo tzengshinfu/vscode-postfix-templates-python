@@ -259,6 +259,6 @@
     "typescript": "^5.0.4",
     "vscode-html-languageservice": "^5.0.4",
     "vscode-snippet-parser": "^0.0.5",
-    "web-tree-sitter": "^0.25.8"
+    "web-tree-sitter": "^0.25.9"
   }
 }
