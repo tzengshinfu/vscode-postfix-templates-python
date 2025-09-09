@@ -210,6 +210,16 @@ export const inAssignmentStatement = (node: tree.Node | null | undefined): boole
   return node.parent ? inAssignmentStatement(node.parent) : false
 }
 
+export const inPrefixUnaryExpression = (node: tree.Node | null | undefined): boolean => {
+  // Check if the node itself is a prefix unary expression
+  if (isPrefixUnaryExpression(node)) {
+    return true
+  }
+
+  // Check parent node recursively (like TypeScript version)
+  return node.parent ? inPrefixUnaryExpression(node.parent) : false
+}
+
 export const inIfStatement = (node: tree.Node | null | undefined, expressionNode?: tree.Node | null | undefined): boolean => {
   if (node?.type === 'if_statement') {
     if (!expressionNode) {
