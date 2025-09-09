@@ -300,11 +300,11 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
       return null
     }
 
-    // 如果當前節點是 unNamed token（如標點符號），向上查找到有意義的 named 節點
+    // If the current node is an unNamed token (like punctuation), search upward to find a meaningful named node
     let currentNode = node
 
     if (!currentNode.isNamed) {
-      // 向上查找直到找到 named 節點
+      // Search upward until a named node is found
       while (currentNode.parent) {
         currentNode = currentNode.parent
         if (currentNode.isNamed) {
