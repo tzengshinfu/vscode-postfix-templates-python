@@ -50,16 +50,16 @@ describe('02. Template usage', () => {
     vsc.commands.executeCommand('workbench.action.closeOtherEditors').then(() => done(), err => done(err))
   })
 
-  testTemplateUsage.skip('identifier expression', 'expr', ALL_TEMPLATES)
-  testTemplateUsage.skip('awaited expression', 'await expr', () => _.difference(ALL_TEMPLATES, ['await']))
-  testTemplateUsage.skip('method call expression', 'expr.call()', ALL_TEMPLATES)
-  testTemplateUsage.skip('property access expression', 'expr.a.b.c', ALL_TEMPLATES)
-  testTemplateUsage.skip('element access expression', 'expr.a.b[c]', ALL_TEMPLATES)
-  testTemplateUsage.skip('binary expression', 'x > y', BINARY_EXPRESSION_TEMPLATES)
-  testTemplateUsage.skip('binary expression', '(x > y)', BINARY_EXPRESSION_TEMPLATES)
-  testTemplateUsage.skip('unary expression', '-expr', () => _.difference(ALL_TEMPLATES, [...FOR_TEMPLATES, 'await']))
-  testTemplateUsage('conditional expression', 'if x * 100{cursor}:', [...PYTHON_TEMPLATES, ...EQUALITY_TEMPLATES, 'not'])
-  testTemplateUsage.skip('return expression', 'return x * 100', [...CAST_TEMPLATES, ...PYTHON_TEMPLATES, 'not'])
+  testTemplateUsage('identifier expression', 'expr', ALL_TEMPLATES)
+  testTemplateUsage('awaited expression', 'await expr', () => _.difference(ALL_TEMPLATES, ['await']))
+  testTemplateUsage('method call expression', 'expr.call()', ALL_TEMPLATES)
+  testTemplateUsage('property access expression', 'expr.a.b.c', ALL_TEMPLATES)
+  testTemplateUsage('element access expression', 'expr.a.b[c]', ALL_TEMPLATES)
+  testTemplateUsage('binary expression', 'x > y', BINARY_EXPRESSION_TEMPLATES)
+  testTemplateUsage('binary expression', '(x > y)', BINARY_EXPRESSION_TEMPLATES)
+  testTemplateUsage('unary expression', '-expr', () => _.difference(ALL_TEMPLATES, [...FOR_TEMPLATES, 'await']))
+  testTemplateUsage('conditional expression', 'if x * 100{cursor}:', [...PYTHON_TEMPLATES, 'not'])
+  testTemplateUsage('return expression', 'return x * 100', [...CAST_TEMPLATES, ...PYTHON_TEMPLATES, 'not'])
   testTemplateUsage.skip('dict literal expression', '{}', () => [...PYTHON_TEMPLATES, 'return'])
   testTemplateUsage.skip('dict literal expression', '{"foo":"foo"}', () => [...PYTHON_TEMPLATES, 'return'])
   testTemplateUsage.skip('expression as argument', 'function("arg", expr{cursor})', [...CAST_TEMPLATES, 'not', 'await'])
@@ -185,7 +185,7 @@ async function getAvailableSuggestions(doc: vsc.TextDocument, initialText: strin
     const pos = new vsc.Position(0, cursorIdx + 1)
     editor.selection = new vsc.Selection(pos, pos)
 
-    // 使用 executeCommand 直接獲取 completion items
+    // Use executeCommand to directly get completion items
     const completionList = await vsc.commands.executeCommand<vsc.CompletionList>(
       'vscode.executeCompletionItemProvider',
       doc.uri,
