@@ -18,7 +18,9 @@
       "Bash(npx tsc:*)",
       "Bash(del test-fix.js)",
       "WebSearch",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(set VSCODE_TEST_VERSION=stable)",
+      "Bash(where code)"
     ],
     "deny": []
   }

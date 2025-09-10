@@ -24,5 +24,8 @@
   "typescript.format.insertSpaceAfterConstructor": false,
   "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis": false,
   "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": false,
-  "typescript.format.insertSpaceBeforeFunctionParenthesis": false
+  "typescript.format.insertSpaceBeforeFunctionParenthesis": false,
+  "postfix.builtinFunctions": ["len", "str", "int", "float", "bool", "list", "dict", "tuple", "set", "print", "input", "range", "enumerate", "zip", "map", "filter", "sorted", "reversed", "sum", "min", "max", "abs", "round", "type", "isinstance", "hasattr", "getattr", "setattr", "delattr", "all", "any", "chr", "ord", "bin", "hex", "oct"],
+  "postfix.customTemplates": [],
+  "postfix.disabledBuiltinTemplates": []
 }
