@@ -48,46 +48,46 @@ describe('02. Template usage', () => {
     vsc.commands.executeCommand('workbench.action.closeOtherEditors').then(() => done(), err => done(err))
   })
 
-  testTemplateUsage.skip('identifier expression', 'expr', ALL_TEMPLATES)
-  testTemplateUsage.skip('awaited expression', 'await expr', () => _.difference(ALL_TEMPLATES, ['await']))
-  testTemplateUsage.skip('method call expression', 'expr.call()', ALL_TEMPLATES)
-  testTemplateUsage.skip('property access expression', 'expr.a.b.c', ALL_TEMPLATES)
-  testTemplateUsage.skip('element access expression', 'expr.a.b[c]', ALL_TEMPLATES)
-  testTemplateUsage.skip('binary expression', 'x > y', BINARY_EXPRESSION_TEMPLATES)
-  testTemplateUsage.skip('binary expression', '(x > y)', BINARY_EXPRESSION_TEMPLATES)
-  testTemplateUsage.skip('unary expression', '-expr', () => _.difference(ALL_TEMPLATES, [...FOR_TEMPLATES, 'await']))
-  testTemplateUsage.skip('conditional expression', 'if x * 100{cursor}:', [...PYTHON_TEMPLATES, 'not'])
-  testTemplateUsage.skip('return expression', 'return x * 100', [...PYTHON_TEMPLATES, 'not'])
+  testTemplateUsage('identifier expression', 'expr', ALL_TEMPLATES)
+  testTemplateUsage('awaited expression', 'await expr', () => _.difference(ALL_TEMPLATES, ['await']))
+  testTemplateUsage('method call expression', 'expr.call()', ALL_TEMPLATES)
+  testTemplateUsage('property access expression', 'expr.a.b.c', ALL_TEMPLATES)
+  testTemplateUsage('element access expression', 'expr.a.b[c]', ALL_TEMPLATES)
+  testTemplateUsage('binary expression', 'x > y', BINARY_EXPRESSION_TEMPLATES)
+  testTemplateUsage('binary expression', '(x > y)', BINARY_EXPRESSION_TEMPLATES)
+  testTemplateUsage('unary expression', '-expr', () => _.difference(ALL_TEMPLATES, [...FOR_TEMPLATES, 'await']))
+  testTemplateUsage('conditional expression', 'if x * 100{cursor}:', [...PYTHON_TEMPLATES, 'not'])
+  testTemplateUsage('return expression', 'return x * 100', [...PYTHON_TEMPLATES, 'not'])
   testTemplateUsage('dict literal expression', '{}', () => [...VAR_TEMPLATES,...PYTHON_TEMPLATES, 'return'])
   testTemplateUsage('dict literal expression', '{"foo":"foo"}', () => [...VAR_TEMPLATES,...PYTHON_TEMPLATES, 'return'])
   testTemplateUsage('new expression', 'new Class()', [...VAR_TEMPLATES, 'return', 'call'])
-  testTemplateUsage.skip('expression as argument', 'function("arg", expr{cursor})', ['not', 'await'])
+  testTemplateUsage('expression as argument', 'function("arg", expr{cursor})', ['not', 'await'])
 
-  testTemplateUsage.skip('string literal - single quote', '\'a string\'', STRING_LITERAL_TEMPLATES)
-  testTemplateUsage.skip('string literal - double quote', '"a string"', STRING_LITERAL_TEMPLATES)
-  testTemplateUsage.skip('string literal - f-string', 'f"a string"', STRING_LITERAL_TEMPLATES)
-  testTemplateUsage.skip('string literal - f-string with var #1', 'f"a {value} string"', STRING_LITERAL_TEMPLATES)
-  testTemplateUsage.skip('string literal - f-string with var #2', 'f"a string {value}"', STRING_LITERAL_TEMPLATES)
+  testTemplateUsage('string literal - single quote', '\'a string\'', STRING_LITERAL_TEMPLATES)
+  testTemplateUsage('string literal - double quote', '"a string"', STRING_LITERAL_TEMPLATES)
+  testTemplateUsage('string literal - f-string', 'f"a string"', STRING_LITERAL_TEMPLATES)
+  testTemplateUsage('string literal - f-string with var #1', 'f"a {value} string"', STRING_LITERAL_TEMPLATES)
+  testTemplateUsage('string literal - f-string with var #2', 'f"a string {value}"', STRING_LITERAL_TEMPLATES)
 
-  testTemplateUsage.skip('inside return - lambda', 'return map(lambda x: result{cursor}, items)', ALL_TEMPLATES)
-  testTemplateUsage.skip('inside return - list comprehension', 'return [result{cursor} for x in items]', ALL_TEMPLATES)
+  testTemplateUsage('inside return - lambda', 'return map(lambda x: result{cursor}, items)', ALL_TEMPLATES)
+  testTemplateUsage('inside return - list comprehension', 'return [result{cursor} for x in items]', ALL_TEMPLATES)
 
-  testTemplateUsage.skip('inside variable declaration', 'test = expr{cursor}', [...EQUALITY_TEMPLATES, 'not', 'await'])
-  testTemplateUsage.skip('inside assignment statement', 'test = expr{cursor}', [...EQUALITY_TEMPLATES, 'not'])
-  testTemplateUsage.skip('inside assignment statement - short-circuit', 'test *= expr{cursor}', [...EQUALITY_TEMPLATES, 'not'])
-  testTemplateUsage.skip('inside return', 'return expr{cursor}', [...EQUALITY_TEMPLATES, 'not', 'await'])
-  testTemplateUsage.skip('inside single line comment', '# expr', [])
-  testTemplateUsage.skip('inside multi line comment', '""" expr{cursor} """', [])
+  testTemplateUsage('inside variable declaration', 'test = expr{cursor}', [...EQUALITY_TEMPLATES, 'not', 'await'])
+  testTemplateUsage('inside assignment statement', 'test = expr{cursor}', [...EQUALITY_TEMPLATES, 'not'])
+  testTemplateUsage('inside assignment statement - short-circuit', 'test *= expr{cursor}', [...EQUALITY_TEMPLATES, 'not'])
+  testTemplateUsage('inside return', 'return expr{cursor}', [...EQUALITY_TEMPLATES, 'not', 'await'])
+  testTemplateUsage('inside single line comment', '# expr', [])
+  testTemplateUsage('inside multi line comment', '""" expr{cursor} """', [])
 
-  testTemplateUsage.skip('inside var declaration - function', 'f1 = lambda: expr{cursor}', ALL_TEMPLATES)
-  testTemplateUsage.skip('inside var declaration - lambda', 'f3 = lambda: expr{cursor}', ALL_TEMPLATES)
-  testTemplateUsage.skip('inside function', 'def f2(): expr{cursor}', ALL_TEMPLATES)
-  testTemplateUsage.skip('inside lambda function', 'lambda: expr{cursor}', ALL_TEMPLATES)
+  testTemplateUsage('inside var declaration - function', 'f1 = lambda: expr{cursor}', ALL_TEMPLATES)
+  testTemplateUsage('inside var declaration - lambda', 'f3 = lambda: expr{cursor}', ALL_TEMPLATES)
+  testTemplateUsage('inside function', 'def f2(): expr{cursor}', ALL_TEMPLATES)
+  testTemplateUsage('inside lambda function', 'lambda: expr{cursor}', ALL_TEMPLATES)
 
-  testTemplateUsage.skip('cursor in wrong place #1', 'test.something = {cursor-no-dot}', [])
-  testTemplateUsage.skip('cursor in wrong place #2', 'test.something = func{cursor-no-dot}', [])
+  testTemplateUsage('cursor in wrong place #1', 'test.something = {cursor-no-dot}', [])
+  testTemplateUsage('cursor in wrong place #2', 'test.something = func{cursor-no-dot}', [])
 
-  describe.skip('custom template tests', () => {
+  describe('custom template tests', () => {
     before(setCustomTemplates(config, [{
       name: "custom",
       body: "custom({{expr}})",
@@ -112,7 +112,7 @@ describe('02. Template usage', () => {
     testTemplateUsage('custom template - type', 'int', ['custom'])
   })
 
-  describe.skip('when some templates are disabled', () => {
+  describe('when some templates are disabled', () => {
     before(setDisabledTemplates(config, ['none', 'for', 'forrange']))
     after(setDisabledTemplates(config, []))
 
