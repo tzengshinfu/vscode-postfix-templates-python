@@ -7,13 +7,12 @@ import { makeTestFunction } from '../utils/test-helpers'
 
 const LANGUAGE = 'postfix'
 
-const VAR_TEMPLATES = ['var', 'const', 'new']
-const FOR_TEMPLATES = ['for', 'forrange', 'forin', 'foreach']
+const VAR_TEMPLATES = ['var']  // Only var template actually exists
+const FOR_TEMPLATES = ['for', 'forrange']  // Only for and forrange templates actually exist
 const PYTHON_TEMPLATES = vsc.workspace.getConfiguration('postfix').get<string[]>('builtinFunctions', [])
 const EQUALITY_TEMPLATES = ['none', 'notnone']
 const IF_TEMPLATES = ['if', 'ifelse']
-const UTILITY_TEMPLATES = ['call', 'cast', 'castas', 'log', 'warn', 'error']
-// Note: UTILITY_TEMPLATES are disabled by default and only enabled in specific tests
+// ALL_TEMPLATES contains only actually available templates
 const ALL_TEMPLATES = [
   ...VAR_TEMPLATES,
   ...FOR_TEMPLATES,
@@ -25,23 +24,17 @@ const ALL_TEMPLATES = [
   'await'
 ]
 
-// Templates available when utility templates are enabled
-const ALL_TEMPLATES_WITH_UTILITY = [
-  ...ALL_TEMPLATES,
-  ...UTILITY_TEMPLATES
-]
-
 const STRING_LITERAL_TEMPLATES = [
   ...VAR_TEMPLATES,
   ...PYTHON_TEMPLATES,
   'return'
 ]
 
+// Binary expressions cannot use FOR_TEMPLATES, await, or EQUALITY_TEMPLATES due to canUse restrictions
 const BINARY_EXPRESSION_TEMPLATES = [
   ...VAR_TEMPLATES,
   ...PYTHON_TEMPLATES,
-  'if',
-  'ifelse',
+  ...IF_TEMPLATES,  // if/ifelse are available
   'not',
   'return'
 ]
@@ -50,9 +43,9 @@ const config = vsc.workspace.getConfiguration('postfix')
 const testTemplateUsage = makeTestFunction<typeof __testTemplateUsage>(__testTemplateUsage)
 
 describe('02. Template usage', () => {
-  // Clear custom templates by default for all tests and keep utility templates disabled
+  // Clear custom templates by default for all tests
   before(setCustomTemplates(config, []))
-  before(setDisabledTemplates(config, ['call', 'cast', 'castas', 'log', 'warn', 'error']))
+  before(setDisabledTemplates(config, []))  // Enable all available templates
   after(setDisabledTemplates(config, []))
 
   afterEach(done => {

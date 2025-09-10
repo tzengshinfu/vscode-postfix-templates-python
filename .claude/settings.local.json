@@ -26,7 +26,11 @@
       "Bash(set NODE_ENV=test)",
       "Bash(dir:*)",
       "Bash(timeout 60 npm test:*)",
-      "Bash(timeout 90 npm test)"
+      "Bash(timeout 90 npm test)",
+      "Bash(timeout 30 npm test:*)",
+      "Bash(timeout 120 npm test)",
+      "Bash(timeout 180 npm test -- --grep \"constructor call\")",
+      "Bash(timeout 300 npm test -- --grep \"constructor call\" --timeout 10000)"
     ],
     "deny": []
   }
