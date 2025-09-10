@@ -8,7 +8,9 @@ const withTrimWhitespaces: Options = { trimWhitespaces: true }
 
 describe('03. Single line template tests', () => {
   before(setInferVarName(config, false))
+  before(setDisabledTemplates(config, []))  // Enable all templates for specific template tests
   after(setInferVarName(config, true))
+  after(setDisabledTemplates(config, ['call', 'cast', 'castas', 'log', 'warn', 'error']))
 
   Test('not template - already negated expression | not expr{not}            >> expr')
   Test('var template - binary expression #1       | a * 3{var}               >> name = a * 3')
@@ -237,5 +239,11 @@ describe('03. Single line template tests', () => {
 function setInferVarName(config: vsc.WorkspaceConfiguration, value: boolean) {
   return (done: Mocha.Done) => {
     config.update('inferVariableName', value, true).then(done, done)
+  }
+}
+
+function setDisabledTemplates(config: vsc.WorkspaceConfiguration, value: string[]) {
+  return (done: Mocha.Done) => {
+    config.update('disabledBuiltinTemplates', value, true).then(done, done)
   }
 }

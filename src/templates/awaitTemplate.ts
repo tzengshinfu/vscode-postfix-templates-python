@@ -18,6 +18,8 @@ export class AwaitTemplate extends BaseExpressionTemplate {
       && !py.inBinaryExpression(node)
       && !py.inAwaitExpression(node)
       && !py.inPrefixUnaryExpression(node) // prevent `await -expr`
+      && !py.isObjectLiteral(node) // don't await dict literals
+      && !py.isStringLiteral(node) // don't await string literals
       && (py.isIdentifier(node)
         || py.isExpression(node)
         || py.isCallExpression(node))

@@ -74,10 +74,13 @@ export const inferVarTemplateName = (node: tree.Node): string[] => {
     // Fallback: original logic for backward compatibility
     const methodName = getMethodName(node)
     name = beautifyMethodName(methodName)
+  } else if (py.isIdentifier(node)) {
+    // 5. Simple identifier: use the identifier text directly
+    name = node.text
   }
 
   if (!name) {
-    return ['item']
+    return ['name']  // Changed from 'item' to 'name' as fallback
   }
 
   return getUniqueVariants(name).map(snakeCase)

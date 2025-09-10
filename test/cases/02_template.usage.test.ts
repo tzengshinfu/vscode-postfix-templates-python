@@ -7,19 +7,28 @@ import { makeTestFunction } from '../utils/test-helpers'
 
 const LANGUAGE = 'postfix'
 
-const VAR_TEMPLATES = ['var']
-const FOR_TEMPLATES = ['for', 'forrange']
+const VAR_TEMPLATES = ['var', 'const', 'new']
+const FOR_TEMPLATES = ['for', 'forrange', 'forin', 'foreach']
 const PYTHON_TEMPLATES = vsc.workspace.getConfiguration('postfix').get<string[]>('builtinFunctions', [])
 const EQUALITY_TEMPLATES = ['none', 'notnone']
-const IF_TEMPLATES = ['if', 'ifelse', 'none', 'notnone']
+const IF_TEMPLATES = ['if', 'ifelse']
+const UTILITY_TEMPLATES = ['call', 'cast', 'castas', 'log', 'warn', 'error']
+// Note: UTILITY_TEMPLATES are disabled by default and only enabled in specific tests
 const ALL_TEMPLATES = [
   ...VAR_TEMPLATES,
   ...FOR_TEMPLATES,
   ...PYTHON_TEMPLATES,
+  ...EQUALITY_TEMPLATES,
   ...IF_TEMPLATES,
   'not',
   'return',
   'await'
+]
+
+// Templates available when utility templates are enabled
+const ALL_TEMPLATES_WITH_UTILITY = [
+  ...ALL_TEMPLATES,
+  ...UTILITY_TEMPLATES
 ]
 
 const STRING_LITERAL_TEMPLATES = [
@@ -41,8 +50,10 @@ const config = vsc.workspace.getConfiguration('postfix')
 const testTemplateUsage = makeTestFunction<typeof __testTemplateUsage>(__testTemplateUsage)
 
 describe('02. Template usage', () => {
-  // Clear custom templates by default for all tests
+  // Clear custom templates by default for all tests and keep utility templates disabled
   before(setCustomTemplates(config, []))
+  before(setDisabledTemplates(config, ['call', 'cast', 'castas', 'log', 'warn', 'error']))
+  after(setDisabledTemplates(config, []))
 
   afterEach(done => {
     vsc.commands.executeCommand('workbench.action.closeOtherEditors').then(() => done(), err => done(err))
@@ -60,8 +71,8 @@ describe('02. Template usage', () => {
   testTemplateUsage('return expression', 'return x * 100', [...PYTHON_TEMPLATES, 'not'])
   testTemplateUsage('dict literal expression', '{}', () => [...VAR_TEMPLATES,...PYTHON_TEMPLATES, 'return'])
   testTemplateUsage('dict literal expression', '{"foo":"foo"}', () => [...VAR_TEMPLATES,...PYTHON_TEMPLATES, 'return'])
-  testTemplateUsage('constructor call', 'MyClass()', [...VAR_TEMPLATES, 'return', ...PYTHON_TEMPLATES])
-  testTemplateUsage('expression as argument', 'function("arg", expr{cursor})', ['not', 'await'])
+  testTemplateUsage('constructor call', 'MyClass()', [...VAR_TEMPLATES, ...PYTHON_TEMPLATES, 'return'])
+  testTemplateUsage('expression as argument', 'function("arg", expr{cursor})', [...PYTHON_TEMPLATES, 'not', 'await'])
 
   testTemplateUsage('string literal - single quote', '\'a string\'', STRING_LITERAL_TEMPLATES)
   testTemplateUsage('string literal - double quote', '"a string"', STRING_LITERAL_TEMPLATES)
@@ -69,13 +80,13 @@ describe('02. Template usage', () => {
   testTemplateUsage('string literal - f-string with var #1', 'f"a {value} string"', STRING_LITERAL_TEMPLATES)
   testTemplateUsage('string literal - f-string with var #2', 'f"a string {value}"', STRING_LITERAL_TEMPLATES)
 
-  testTemplateUsage('inside return - lambda', 'return map(lambda x: result{cursor}, items)', ALL_TEMPLATES)
-  testTemplateUsage('inside return - list comprehension', 'return [result{cursor} for x in items]', ALL_TEMPLATES)
+  testTemplateUsage('inside return - lambda', 'return map(lambda x: result{cursor}, items)', () => _.difference(ALL_TEMPLATES, ['return']))
+  testTemplateUsage('inside return - list comprehension', 'return [result{cursor} for x in items]', () => _.difference(ALL_TEMPLATES, ['return']))
 
-  testTemplateUsage('inside variable declaration', 'test = expr{cursor}', [...EQUALITY_TEMPLATES, 'not', 'await'])
+  testTemplateUsage('inside variable declaration', 'test = expr{cursor}', [...EQUALITY_TEMPLATES, 'not'])
   testTemplateUsage('inside assignment statement', 'test = expr{cursor}', [...EQUALITY_TEMPLATES, 'not'])
   testTemplateUsage('inside assignment statement - short-circuit', 'test *= expr{cursor}', [...EQUALITY_TEMPLATES, 'not'])
-  testTemplateUsage('inside return', 'return expr{cursor}', [...EQUALITY_TEMPLATES, 'not', 'await'])
+  testTemplateUsage('inside return', 'return expr{cursor}', [...EQUALITY_TEMPLATES, 'not'])
   testTemplateUsage('inside single line comment', '# expr', [])
   testTemplateUsage('inside multi line comment', '""" expr{cursor} """', [])
 

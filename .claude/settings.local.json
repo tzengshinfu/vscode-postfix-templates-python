@@ -20,7 +20,13 @@
       "WebSearch",
       "WebFetch(domain:github.com)",
       "Bash(set VSCODE_TEST_VERSION=stable)",
-      "Bash(where code)"
+      "Bash(where code)",
+      "Bash(npm run pretest:*)",
+      "Bash(cross-env:*)",
+      "Bash(set NODE_ENV=test)",
+      "Bash(dir:*)",
+      "Bash(timeout 60 npm test:*)",
+      "Bash(timeout 90 npm test)"
     ],
     "deny": []
   }

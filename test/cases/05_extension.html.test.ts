@@ -20,7 +20,9 @@ const Test = (test: string, options?: Pick<Options, 'trimWhitespaces'>) => runTe
 
 describe('05. HTML - smoke tests', () => {
   before(setInferVarName(config, false))
+  before(setDisabledTemplates(config, []))  // Enable all templates for specific template tests
   after(setInferVarName(config, true))
+  after(setDisabledTemplates(config, ['call', 'cast', 'castas', 'log', 'warn', 'error']))
 
   Test('log template    | expr{log}     >> print(expr)')
 
@@ -90,5 +92,11 @@ describe('05. HTML - smoke tests', () => {
 function setInferVarName(config: vsc.WorkspaceConfiguration, value: boolean) {
   return (done: Mocha.Done) => {
     config.update('inferVariableName', value, true).then(done, done)
+  }
+}
+
+function setDisabledTemplates(config: vsc.WorkspaceConfiguration, value: string[]) {
+  return (done: Mocha.Done) => {
+    config.update('disabledBuiltinTemplates', value, true).then(done, done)
   }
 }

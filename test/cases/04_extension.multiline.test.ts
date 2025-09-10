@@ -1,10 +1,15 @@
 import { runTestMultiline as Test, runTestMultilineQuickPick as QuickPick } from '../runner'
 import { runWithCustomTemplate, TabSize } from '../utils/test-helpers'
-import { describe } from 'mocha'
+import { describe, before, after } from 'mocha'
+import * as vsc from 'vscode'
+
+const config = vsc.workspace.getConfiguration('postfix')
 
 const indent = (size: number) => ' '.repeat(size * TabSize)
 
 describe('04. Multiline template tests', () => {
+  before(setDisabledTemplates(config, []))  // Enable all templates for specific template tests
+  after(setDisabledTemplates(config, ['call', 'cast', 'castas', 'log', 'warn', 'error']))
   Test(`var template - method call
       | object.call()     >> name = object.call()
       | \t.anotherCall()  >> \t.anotherCall()
@@ -123,3 +128,9 @@ describe('04. Multiline template tests', () => {
       |   .b){not}    >>   .b)
       | )  {}         >> )  {}`, false, 1)
 })
+
+function setDisabledTemplates(config: vsc.WorkspaceConfiguration, value: string[]) {
+  return (done: Mocha.Done) => {
+    config.update('disabledBuiltinTemplates', value, true).then(done, done)
+  }
+}

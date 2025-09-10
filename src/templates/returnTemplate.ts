@@ -15,10 +15,15 @@ export class ReturnTemplate extends BaseExpressionTemplate {
   }
 
   override canUse(node: tree.Node) {
+    // Allow return template even inside return statements for binary expressions
+    // This allows things like "return x * 100.return" but prevents "return expr.return"
+    const inReturn = py.inReturnStatement(node)
+    const allowInReturn = inReturn && py.isBinaryExpression(node)
+    
     return (super.canUse(node)
       || py.isObjectLiteral(node)
       || py.isStringLiteral(node))
-      && !py.inReturnStatement(node)
+      && (!inReturn || allowInReturn)
       && !py.inFunctionArgument(node)
       && !py.inVariableDeclaration(node)
       && !py.inAssignmentStatement(node)
