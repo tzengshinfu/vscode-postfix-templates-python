@@ -17,6 +17,7 @@ abstract class BaseForTemplate extends BaseTemplate {
       && !py.inTypeNode(node)
       && !py.inBinaryExpression(node)
       && !py.inPrefixUnaryExpression(node)
+      && !py.isConstructorCall(node)
       && (py.isIdentifier(node)
         || py.isPropertyAccessExpression(node)
         || py.isElementAccessExpression(node)
@@ -57,7 +58,9 @@ export class ForRangeTemplate extends BaseForTemplate {
   override canUse(node: tree.Node) {
     // Check if node text content is a valid non-negative integer (including 0)
     return (super.canUse(node)
-      || (node.type === 'integer' && !py.inBinaryExpression(node))
+      || (node.type === 'integer'
+        && !py.inBinaryExpression(node)
+        && !py.isConstructorCall(node))
     ) && !py.isStringLiteral(node)
   }
 }

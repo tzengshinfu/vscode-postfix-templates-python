@@ -64,10 +64,10 @@ describe('02. Template usage', () => {
   testTemplateUsage('return expression', 'return x * 100', [...PYTHON_TEMPLATES, 'not'])
   testTemplateUsage('dict literal expression', '{}', () => [...VAR_TEMPLATES,...PYTHON_TEMPLATES, 'return'])
   testTemplateUsage('dict literal expression', '{"foo":"foo"}', () => [...VAR_TEMPLATES,...PYTHON_TEMPLATES, 'return'])
-  testTemplateUsage('constructor call', 'MyClass()', [...VAR_TEMPLATES, ...PYTHON_TEMPLATES, 'return'])
+  testTemplateUsage('constructor call', 'MyClass()', [...VAR_TEMPLATES, ...PYTHON_TEMPLATES, ...IF_TEMPLATES, ...EQUALITY_TEMPLATES, 'not', 'return'])
   testTemplateUsage('expression as argument', 'function("arg", expr{cursor})', [...PYTHON_TEMPLATES, 'not', 'await'])
 
-  testTemplateUsage('string literal - single quote', '\'a string\'', STRING_LITERAL_TEMPLATES)
+  testTemplateUsage('string literal - single quote', '\'a string\'', [...STRING_LITERAL_TEMPLATES, 'for'])
   testTemplateUsage('string literal - double quote', '"a string"', STRING_LITERAL_TEMPLATES)
   testTemplateUsage('string literal - f-string', 'f"a string"', STRING_LITERAL_TEMPLATES)
   testTemplateUsage('string literal - f-string with var #1', 'f"a {value} string"', STRING_LITERAL_TEMPLATES)

@@ -23,6 +23,7 @@ export class PythonTemplate extends BaseTemplate {
         || py.isExpression(node)
         || py.inPrefixUnaryExpression(node)
         || py.inBinaryExpression(node)
-        || py.isCallExpression(node))
+        || py.isCallExpression(node)
+        || py.isStringLiteral(node))
   }
 }
