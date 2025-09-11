@@ -27,7 +27,8 @@ const ALL_TEMPLATES = [
 const STRING_LITERAL_TEMPLATES = [
   ...VAR_TEMPLATES,
   ...PYTHON_TEMPLATES,
-  'return'
+  'return',
+  'for'
 ]
 
 // Binary expressions cannot use FOR_TEMPLATES, await, or EQUALITY_TEMPLATES due to canUse restrictions
@@ -67,7 +68,7 @@ describe('02. Template usage', () => {
   testTemplateUsage('constructor call', 'MyClass()', [...VAR_TEMPLATES, ...PYTHON_TEMPLATES, ...IF_TEMPLATES, ...EQUALITY_TEMPLATES, 'not', 'return'])
   testTemplateUsage('expression as argument', 'function("arg", expr{cursor})', [...PYTHON_TEMPLATES, 'not', 'await'])
 
-  testTemplateUsage('string literal - single quote', '\'a string\'', [...STRING_LITERAL_TEMPLATES, 'for'])
+  testTemplateUsage('string literal - single quote', '\'a string\'', STRING_LITERAL_TEMPLATES)
   testTemplateUsage('string literal - double quote', '"a string"', STRING_LITERAL_TEMPLATES)
   testTemplateUsage('string literal - f-string', 'f"a string"', STRING_LITERAL_TEMPLATES)
   testTemplateUsage('string literal - f-string with var #1', 'f"a {value} string"', STRING_LITERAL_TEMPLATES)
@@ -153,8 +154,8 @@ function __testTemplateUsage(func: TestFunction, testDescription: string, initia
       }).then(undefined, (reason) => {
         console.log(`\n=== Test FAILED: ${testDescription} ===`)
         console.log(`Input: ${initialText}`)
-        console.log(`Expected but not in Actual: [${_.difference(expectedSorted, actualSorted).join(', ')}]`)
-        console.log(`Actual but not in Expected: [${_.difference(actualSorted, expectedSorted).join(', ')}]`)
+        console.log(`Missing: [${_.difference(expectedSorted, actualSorted).join(', ')}]`)
+        console.log(`Unexpected: [${_.difference(actualSorted, expectedSorted).join(', ')}]`)
         console.log(`Error: ${reason}`)
         done(reason)
       })
