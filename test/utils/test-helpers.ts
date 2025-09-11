@@ -25,7 +25,12 @@ export function delay(timeout: number) {
 // Increase initial delay time to ensure configuration system is fully loaded
 // Allow scaling via env var when environment is unstable
 const delayScale = Number(process.env.POSTFIX_DELAY_SCALE || '1')
-const delaySteps = [3000, 2000, 1500, 1000, 800, 600, 400, 300, 250].map(d => Math.max(100, Math.floor(d * delayScale)))
+const customFirstDelay = Number(process.env.POSTFIX_FIRST_DELAY || '0')
+const defaultSteps = [3000, 2000, 1500, 1000, 800, 600, 400, 300, 250]
+const delaySteps = (
+  (customFirstDelay > 0 ? [customFirstDelay] : [])
+    .concat(defaultSteps)
+).map(d => Math.max(100, Math.floor(d * delayScale)))
 
 export const getCurrentDelay = () => (delaySteps.length > 1) ? <number>delaySteps.shift() : delaySteps[0]
 
@@ -38,13 +43,14 @@ export type TestTemplateOptions = Partial<{
 }>
 
 export function testTemplate(dslString: string, options: TestTemplateOptions = {}) {
+  const globalExtraDelay = Number(process.env.POSTFIX_EXTRA_DELAY || '0')
   const dsl = parseDSL(dslString)
 
   return (done: Mocha.Done) => {
     vsc.workspace.openTextDocument({ language: options.fileLanguage || LANGUAGE }).then(async (doc) => {
       try {
         await selectAndAcceptSuggestion(doc, dsl, options.fileContext)
-        await delay(options.extraDelay || 0)
+        await delay((options.extraDelay ?? 0) + globalExtraDelay)
         await options.preAssertAction?.()
 
         const expected = options.fileContext

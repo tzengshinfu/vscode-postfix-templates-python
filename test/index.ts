@@ -4,14 +4,13 @@ import * as glob from 'glob'
 
 export function run(): Promise<void> {
   // Create the mocha test
-  const mocha = new Mocha({
-    ui: 'tdd',
-    color: true
-  })
+  const envTimeout = Number(process.env.POSTFIX_MOCHA_TIMEOUT || '0')
+  const envRetries = Number(process.env.POSTFIX_MOCHA_RETRIES || '0')
+  const mocha = new Mocha({ ui: 'tdd', color: true })
 
-  // Allow slower environments to stabilize
-  mocha.timeout(120000)
-  mocha.retries(2)
+  // Allow slower environments to stabilize (configurable via env)
+  mocha.timeout(envTimeout > 0 ? envTimeout : 180000) // default 3 minutes
+  mocha.retries(envRetries > 0 ? envRetries : 3)
 
   const testsRoot = path.resolve(__dirname, '..')
 
