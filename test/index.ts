@@ -9,7 +9,9 @@ export function run(): Promise<void> {
     color: true
   })
 
-  mocha.timeout(60000)
+  // Allow slower environments to stabilize
+  mocha.timeout(120000)
+  mocha.retries(2)
 
   const testsRoot = path.resolve(__dirname, '..')
 

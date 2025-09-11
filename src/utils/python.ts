@@ -180,8 +180,13 @@ export const inReturnStatement = (node: tree.Node | null | undefined): boolean =
 }
 
 export const inFunctionArgument = (node: tree.Node | null | undefined): boolean => {
-  return Boolean(['argument_list']
-    .filter(t => [node?.parent?.type].includes(t)).length)
+  if (!node) {
+    return false
+  }
+  if (node.parent?.type === 'argument_list') {
+    return true
+  }
+  return node.parent ? inFunctionArgument(node.parent) : false
 }
 
 export const inVariableDeclaration = (node: tree.Node | null | undefined): boolean => {

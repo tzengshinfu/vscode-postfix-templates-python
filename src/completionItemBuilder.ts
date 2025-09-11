@@ -92,7 +92,7 @@ export class CompletionItemBuilder {
       const code = this.replaceExpression(replacement, inputCode)
       const snippetPreviewMode = getConfigValue<'raw' | 'inserted'>('snippetPreviewMode')
 
-      return md.appendCodeblock(snippetPreviewMode === 'inserted' ? new SnippetParser().text(code) : code, 'ts')
+      return md.appendCodeblock(snippetPreviewMode === 'inserted' ? new SnippetParser().text(code) : code, 'python')
     }
 
     if (!this.item.documentation) {
