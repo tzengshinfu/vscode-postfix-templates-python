@@ -20,10 +20,10 @@ export function delay(timeout: number) {
   return new Promise<void>(resolve => setTimeout(resolve, timeout))
 }
 
-// for some reason editor.action.triggerSuggest needs more delay at the beginning when the process is not yet "warmed up"
-// let's start from high delays and then slowly go to lower delays
-// Increase initial delay time to ensure configuration system is fully loaded
-// Allow scaling via env var when environment is unstable
+/* for some reason editor.action.triggerSuggest needs more delay at the beginning when the process is not yet "warmed up" */
+/* let's start from high delays and then slowly go to lower delays */
+/* Increase initial delay time to ensure configuration system is fully loaded */
+/* Allow scaling via env var when environment is unstable */
 const delayScale = Number(process.env.POSTFIX_DELAY_SCALE || '1')
 const customFirstDelay = Number(process.env.POSTFIX_FIRST_DELAY || '0')
 const defaultSteps = [3000, 2000, 1500, 1000, 800, 600, 400, 300, 250]
@@ -187,7 +187,7 @@ export function makeTestFunction<T extends (first: TestFunction, ...args: unknow
   return result
 }
 
-// Tree-sitter utilities
+/* Tree-sitter utilities */
 
 /**
  * Initialize the tree-sitter parser for Python
@@ -245,7 +245,7 @@ export function findBinaryOperatorNode(node: tree.Node): tree.Node | null {
  * Find an expression node in the syntax tree
  */
 export function findExpressionNode(node: tree.Node): tree.Node | null {
-  // Look for binary operators, boolean operators, comparison operators, or simple expressions
+  /* Look for binary operators, boolean operators, comparison operators, or simple expressions */
   if (['binary_operator', 'comparison_operator', 'boolean_operator', 'identifier', 'parenthesized_expression'].includes(node.type)) {
     return node
   }

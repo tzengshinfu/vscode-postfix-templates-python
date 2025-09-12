@@ -72,7 +72,7 @@ const getHtmlLikeEmbedRange = (document: vsc.TextDocument, cursorOffset: number)
   }
 
   if (attrName !== undefined && attrValue !== undefined) {
-    // return range without quotes
+    /* return range without quotes */
     if (validAttributeRegexps[document.languageId].test(attrName)) {
       return { start: scanner.getTokenOffset() + 1, end: scanner.getTokenEnd() - 2 }
     } else {

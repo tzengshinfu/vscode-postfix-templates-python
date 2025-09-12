@@ -40,7 +40,7 @@ export class CompletionItemBuilder {
 
     const rangeToDelete = new vsc.Range(
       new vsc.Position(nodeStart.line, nodeStart.character),
-      new vsc.Position(nodeEnd.line, nodeEnd.character + 1) // accomodate 1 character for the dot
+      new vsc.Position(nodeEnd.line, nodeEnd.character + 1) /* accomodate 1 character for the dot */
     )
 
     const useSnippets = /(?<!\\)\$/.test(replacement)
@@ -57,7 +57,7 @@ export class CompletionItemBuilder {
       this.item.additionalTextEdits = [
         vsc.TextEdit.delete(rangeToDelete)
       ]
-      // align with insert text behavior below
+      /* align with insert text behavior below */
       this.item.keepWhitespace = true
     } else {
       this.item.insertText = ''
@@ -69,7 +69,7 @@ export class CompletionItemBuilder {
       ]
     }
 
-    // Clean up the syntax tree after we're done using the node
+    /* Clean up the syntax tree after we're done using the node */
     if (this.node.tree) {
       this.node.tree.delete()
     }

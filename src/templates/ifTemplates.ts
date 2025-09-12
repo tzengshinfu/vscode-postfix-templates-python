@@ -13,8 +13,8 @@ abstract class BaseIfElseTemplate extends BaseExpressionTemplate {
       && !py.inFunctionArgument(node)
       && !py.inVariableDeclaration(node)
       && !py.inAssignmentStatement(node)
-      && !py.isObjectLiteral(node) // don't offer if for dict literals
-      && !py.isStringLiteral(node) // don't offer if for string literals
+      && !py.isObjectLiteral(node) /* don't offer if for dict literals */
+      && !py.isStringLiteral(node) /* don't offer if for string literals */
   }
 }
 

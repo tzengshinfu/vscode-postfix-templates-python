@@ -20,7 +20,7 @@ const Test = (test: string, options?: Pick<Options, 'trimWhitespaces'>) => runTe
 
 describe('05. HTML - smoke tests', () => {
   before(setInferVarName(config, false))
-  before(setDisabledTemplates(config, []))  // Enable all templates for specific template tests
+  before(setDisabledTemplates(config, []))  /* Enable all templates for specific template tests */
   after(setInferVarName(config, true))
   after(setDisabledTemplates(config, ['call', 'cast', 'castas', 'log', 'warn', 'error']))
 
@@ -64,8 +64,8 @@ describe('05. HTML - smoke tests', () => {
     Test('forof template with array item name #1   | users_list{forof}                   >> for user in users_list:', withTrimWhitespaces)
   })
 
-  // Custom templates in HTML embeddings are not yet reliable with tree-sitter offsets.
-  // Skip these until HTML embedding support is finalized for Python.
+  /* Custom templates in HTML embeddings are not yet reliable with tree-sitter offsets. */
+  /* Skip these until HTML embedding support is finalized for Python. */
   describe('custom template tests', () => {
     const run = runWithCustomTemplate('not {{expr}}')
 
@@ -80,9 +80,9 @@ describe('05. HTML - smoke tests', () => {
     run('function-call',
       '  call(){custom}                       | call(){custom}      >> not call()',
       '  test.call(){custom}                  | test.call(){custom} >> not test.call() ')
-    // Allow minor trailing whitespace differences in HTML embedding
+    /* Allow minor trailing whitespace differences in HTML embedding */
     run('string-literal', 'expr{custom}       | "expr"{custom}      >> not "expr" ')
-    // Adapt type-context tests to Python syntax inside <script type="py">
+    /* Adapt type-context tests to Python syntax inside <script type="py"> */
     run('type',
       '  x: bool{custom}                      | x: bool{custom}                     >> x: bool.custom',
       '  x: A.B{custom}                       | x: A.B{custom}                      >> x: A.B.custom',

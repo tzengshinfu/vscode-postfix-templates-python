@@ -23,7 +23,7 @@ export function notCommand(editor: vsc.TextEditor, expressions: tree.Node[]) {
 
         const range = new vsc.Range(
           new vsc.Position(nodeStart.line, nodeStart.character),
-          new vsc.Position(nodeEnd.line, nodeEnd.character + 1) // accomodate 1 character for the dot
+          new vsc.Position(nodeEnd.line, nodeEnd.character + 1) /* accomodate 1 character for the dot */
         )
 
         e.delete(range)

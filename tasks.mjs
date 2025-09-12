@@ -1,4 +1,4 @@
-//@ts-check
+/* @ts-check */
 import * as process from 'node:process'
 import * as console from 'node:console'
 import { mkdirSync, readFileSync, writeFileSync, rmSync } from 'node:fs'
@@ -11,7 +11,7 @@ async function clean() {
     rmSync('./out', { recursive: true, force: true })
     console.log('Cleaned out directory')
   } catch (error) {
-    // Ignore if directory doesn't exist
+    /* Ignore if directory doesn't exist */
     if (error.code !== 'ENOENT') {
       throw error
     }
@@ -21,13 +21,13 @@ async function clean() {
 async function pretest() {
   const pkg = readPackageJson()
   pkg.contributes.languages = [{ id: LANGUAGE }]
-  // Activate the extension right after start to avoid delay and failure in first test
+  /* Activate the extension right after start to avoid delay and failure in first test */
   pkg.activationEvents = ['*']
-  // Don't use bundler for tests as it breaks template usage tests
+  /* Don't use bundler for tests as it breaks template usage tests */
   pkg.main = './src/extension'
   writePackageJson(pkg)
 
-  // Copy tree-sitter wasm files to out/out directory
+  /* Copy tree-sitter wasm files to out/out directory */
   await copyTreeSitterWasm('out/out')
 }
 

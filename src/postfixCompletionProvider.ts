@@ -109,17 +109,17 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
   }
 
   private getNodeForReplacement = (node: tree.Node) => {
-    // for await expressions
+    /* for await expressions */
     if (py.isAwaitExpression(node.parent)) {
       node = node.parent
     }
 
-    // for -x
+    /* for -x */
     if (py.isPrefixUnaryExpression(node.parent)) {
       node = node.parent
     }
 
-    // for not x
+    /* for not x */
     if (node.parent?.type === 'not_operator') {
       node = node.parent
     }

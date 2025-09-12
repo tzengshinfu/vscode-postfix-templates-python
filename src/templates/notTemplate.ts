@@ -36,8 +36,8 @@ export class NotTemplate extends BaseTemplate {
 
   canUse(node: tree.Node) {
     return !py.inTypeNode(node)
-      && !py.isObjectLiteral(node) // don't negate dict literals
-      && !py.isStringLiteral(node) // don't negate string literals  
+      && !py.isObjectLiteral(node) /* don't negate dict literals */
+      && !py.isStringLiteral(node) /* don't negate string literals  */
       && (py.isExpression(node)
         || py.inPrefixUnaryExpression(node)
         || py.inBinaryExpression(node)

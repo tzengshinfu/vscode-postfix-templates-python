@@ -8,7 +8,7 @@ const withTrimWhitespaces: Options = { trimWhitespaces: true }
 
 describe('03. Single line template tests', () => {
   before(setInferVarName(config, false))
-  before(setDisabledTemplates(config, []))  // Enable all templates for specific template tests
+  before(setDisabledTemplates(config, []))  /* Enable all templates for specific template tests */
   after(setInferVarName(config, true))
   after(setDisabledTemplates(config, ['call', 'cast', 'castas', 'log', 'warn', 'error']))
 
@@ -74,7 +74,7 @@ describe('03. Single line template tests', () => {
   Test('castas template | expr{castas} >> expr')
   Test('call template   | expr{call}   >> expr()')
 
-  // New template tests
+  /* New template tests */
   Test('new template - simple identifier            | Person{new}           >> person = Person()')
   Test('new template - camel case                   | PersonBuilder{new}    >> person_builder = PersonBuilder()')
   Test('new template - with underscore              | my_class{new}         >> my_class = my_class()')
@@ -143,7 +143,7 @@ describe('03. Single line template tests', () => {
     Test('forof template with array item name #3   | order.items{forof}                  >> for item in order.items:', withTrimWhitespaces)
     Test('forof template with array item name #4   | obj.get_commands(){forof}           >> for command in obj.get_commands():', withTrimWhitespaces)
     
-    // New template with variable name inference
+    /* New template with variable name inference */
     Test('new template - class name inference       | Person{new}              >> person = Person()')
     Test('new template - multiple words             | UserAccount{new}         >> user_account = UserAccount()')
     Test('new template - with numbers               | User2FA{new}             >> user2_f_a = User2FA()')

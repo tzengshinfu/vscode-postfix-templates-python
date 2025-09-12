@@ -7,12 +7,12 @@ import { makeTestFunction } from '../utils/test-helpers'
 
 const LANGUAGE = 'postfix'
 
-const VAR_TEMPLATES = ['var']  // Only var template actually exists
-const FOR_TEMPLATES = ['for', 'forrange']  // Only for and forrange templates actually exist
+const VAR_TEMPLATES = ['var']  /* Only var template actually exists */
+const FOR_TEMPLATES = ['for', 'forrange']  /* Only for and forrange templates actually exist */
 const PYTHON_TEMPLATES = vsc.workspace.getConfiguration('postfix').get<string[]>('builtinFunctions', [])
 const EQUALITY_TEMPLATES = ['none', 'notnone']
 const IF_TEMPLATES = ['if', 'ifelse']
-// ALL_TEMPLATES contains only actually available templates
+/* ALL_TEMPLATES contains only actually available templates */
 const ALL_TEMPLATES = [
   ...VAR_TEMPLATES,
   ...FOR_TEMPLATES,
@@ -31,11 +31,11 @@ const STRING_LITERAL_TEMPLATES = [
   'for'
 ]
 
-// Binary expressions cannot use FOR_TEMPLATES, await, or EQUALITY_TEMPLATES due to canUse restrictions
+/* Binary expressions cannot use FOR_TEMPLATES, await, or EQUALITY_TEMPLATES due to canUse restrictions */
 const BINARY_EXPRESSION_TEMPLATES = [
   ...VAR_TEMPLATES,
   ...PYTHON_TEMPLATES,
-  ...IF_TEMPLATES,  // if/ifelse are available
+  ...IF_TEMPLATES,  /* if/ifelse are available */
   'not',
   'return'
 ]
@@ -44,85 +44,85 @@ const config = vsc.workspace.getConfiguration('postfix')
 const testTemplateUsage = makeTestFunction<typeof __testTemplateUsage>(__testTemplateUsage)
 
 describe('02. Template usage', () => {
-  // Clear custom templates by default for all tests
+  /* Clear custom templates by default for all tests */
   before(setCustomTemplates(config, []))
-  before(setDisabledTemplates(config, []))  // Enable all available templates
+  before(setDisabledTemplates(config, []))  /* Enable all available templates */
   after(setDisabledTemplates(config, []))
 
   afterEach(done => {
     vsc.commands.executeCommand('workbench.action.closeOtherEditors').then(() => done(), err => done(err))
   })
 
-  // testTemplateUsage('identifier expression', 'expr', ALL_TEMPLATES)
-  // testTemplateUsage('awaited expression', 'await expr', () => _.difference(ALL_TEMPLATES, ['await']))
-  // testTemplateUsage('method call expression', 'expr.call()', ALL_TEMPLATES)
-  // testTemplateUsage('property access expression', 'expr.a.b.c', ALL_TEMPLATES)
-  // testTemplateUsage('element access expression', 'expr.a.b[c]', ALL_TEMPLATES)
-  // testTemplateUsage('binary expression', 'x > y', BINARY_EXPRESSION_TEMPLATES)
-  // testTemplateUsage('binary expression', '(x > y)', BINARY_EXPRESSION_TEMPLATES)
-  // testTemplateUsage('unary expression', '-expr', () => _.difference(ALL_TEMPLATES, [...FOR_TEMPLATES, 'await']))
-  // testTemplateUsage('conditional expression', 'if x * 100{cursor}:', [...PYTHON_TEMPLATES, 'not'])
-  // testTemplateUsage('return expression', 'return x * 100', [...PYTHON_TEMPLATES, 'not'])
-  // testTemplateUsage('dict literal expression', '{}', () => [...VAR_TEMPLATES, ...PYTHON_TEMPLATES, 'return'])
-  // testTemplateUsage('dict literal expression', '{"foo":"foo"}', () => [...VAR_TEMPLATES, ...PYTHON_TEMPLATES, 'return'])
-  // testTemplateUsage('constructor call', 'MyClass()', [...VAR_TEMPLATES, ...PYTHON_TEMPLATES, ...IF_TEMPLATES, ...EQUALITY_TEMPLATES, 'not', 'return'])
-  // testTemplateUsage('expression as argument', 'function("arg", expr{cursor})', [...PYTHON_TEMPLATES, 'not', 'await'])
+  testTemplateUsage('identifier expression', 'expr', ALL_TEMPLATES)
+  testTemplateUsage('awaited expression', 'await expr', () => _.difference(ALL_TEMPLATES, ['await']))
+  testTemplateUsage('method call expression', 'expr.call()', ALL_TEMPLATES)
+  testTemplateUsage('property access expression', 'expr.a.b.c', ALL_TEMPLATES)
+  testTemplateUsage('element access expression', 'expr.a.b[c]', ALL_TEMPLATES)
+  testTemplateUsage('binary expression', 'x > y', BINARY_EXPRESSION_TEMPLATES)
+  testTemplateUsage('binary expression', '(x > y)', BINARY_EXPRESSION_TEMPLATES)
+  testTemplateUsage('unary expression', '-expr', () => _.difference(ALL_TEMPLATES, [...FOR_TEMPLATES, 'await']))
+  testTemplateUsage('conditional expression', 'if x * 100{cursor}:', [...PYTHON_TEMPLATES, 'not'])
+  testTemplateUsage('return expression', 'return x * 100', [...PYTHON_TEMPLATES, 'not'])
+  testTemplateUsage('dict literal expression', '{}', () => [...VAR_TEMPLATES, ...PYTHON_TEMPLATES, 'return'])
+  testTemplateUsage('dict literal expression', '{"foo":"foo"}', () => [...VAR_TEMPLATES, ...PYTHON_TEMPLATES, 'return'])
+  testTemplateUsage('constructor call', 'MyClass()', [...VAR_TEMPLATES, ...PYTHON_TEMPLATES, ...IF_TEMPLATES, ...EQUALITY_TEMPLATES, 'not', 'return'])
+  testTemplateUsage('expression as argument', 'function("arg", expr{cursor})', [...PYTHON_TEMPLATES, 'not', 'await'])
 
-  // testTemplateUsage('string literal - single quote', '\'a string\'', STRING_LITERAL_TEMPLATES)
-  // testTemplateUsage('string literal - double quote', '"a string"', STRING_LITERAL_TEMPLATES)
-  // testTemplateUsage('string literal - f-string', 'f"a string"', STRING_LITERAL_TEMPLATES)
-  // testTemplateUsage('string literal - f-string with var #1', 'f"a {value} string"', STRING_LITERAL_TEMPLATES)
-  // testTemplateUsage('string literal - f-string with var #2', 'f"a string {value}"', STRING_LITERAL_TEMPLATES)
+  testTemplateUsage('string literal - single quote', '\'a string\'', STRING_LITERAL_TEMPLATES)
+  testTemplateUsage('string literal - double quote', '"a string"', STRING_LITERAL_TEMPLATES)
+  testTemplateUsage('string literal - f-string', 'f"a string"', STRING_LITERAL_TEMPLATES)
+  testTemplateUsage('string literal - f-string with var #1', 'f"a {value} string"', STRING_LITERAL_TEMPLATES)
+  testTemplateUsage('string literal - f-string with var #2', 'f"a string {value}"', STRING_LITERAL_TEMPLATES)
 
-  // testTemplateUsage('inside return - lambda', 'return map(lambda x: result{cursor}, items)', () => _.difference(ALL_TEMPLATES, [...VAR_TEMPLATES, ...FOR_TEMPLATES, ...IF_TEMPLATES, 'return']))
-  // testTemplateUsage('inside return - list comprehension', 'return [result{cursor} for x in items]', () => _.difference(ALL_TEMPLATES, [...VAR_TEMPLATES, ...FOR_TEMPLATES, ...IF_TEMPLATES, 'return']))
+  testTemplateUsage('inside return - lambda', 'return map(lambda x: result{cursor}, items)', () => _.difference(ALL_TEMPLATES, [...VAR_TEMPLATES, ...FOR_TEMPLATES, ...IF_TEMPLATES, 'return']))
+  testTemplateUsage('inside return - list comprehension', 'return [result{cursor} for x in items]', () => _.difference(ALL_TEMPLATES, [...VAR_TEMPLATES, ...FOR_TEMPLATES, ...IF_TEMPLATES, 'return']))
 
-  testTemplateUsage('inside variable declaration', 'test = expr{cursor}', [...EQUALITY_TEMPLATES, 'not'])
-  testTemplateUsage('inside assignment statement', 'test = expr{cursor}', [...EQUALITY_TEMPLATES, 'not'])
-  testTemplateUsage('inside assignment statement - short-circuit', 'test *= expr{cursor}', [...EQUALITY_TEMPLATES, 'not'])
+  testTemplateUsage('inside variable declaration', 'test = expr{cursor}', [...EQUALITY_TEMPLATES, ...PYTHON_TEMPLATES, 'not'])
+  testTemplateUsage('inside assignment statement', 'test = expr{cursor}', [...EQUALITY_TEMPLATES, ...PYTHON_TEMPLATES, 'not'])
+  testTemplateUsage('inside assignment statement - short-circuit', 'test *= expr{cursor}', [...EQUALITY_TEMPLATES, ...PYTHON_TEMPLATES, 'not'])
   testTemplateUsage('inside return', 'return expr{cursor}', [...EQUALITY_TEMPLATES, 'not'])
   testTemplateUsage('inside single line comment', '# expr', [])
   testTemplateUsage('inside multi line comment', '""" expr{cursor} """', [])
 
-  // testTemplateUsage('inside var declaration - function', 'f1 = lambda: expr{cursor}', ALL_TEMPLATES)
-  // testTemplateUsage('inside var declaration - lambda', 'f3 = lambda: expr{cursor}', ALL_TEMPLATES)
-  // testTemplateUsage('inside function', 'def f2(): expr{cursor}', ALL_TEMPLATES)
-  // testTemplateUsage('inside lambda function', 'lambda: expr{cursor}', ALL_TEMPLATES)
+  testTemplateUsage('inside var declaration - function', 'f1 = lambda: expr{cursor}', ALL_TEMPLATES)
+  testTemplateUsage('inside var declaration - lambda', 'f3 = lambda: expr{cursor}', ALL_TEMPLATES)
+  testTemplateUsage('inside function', 'def f2(): expr{cursor}', ALL_TEMPLATES)
+  testTemplateUsage('inside lambda function', 'lambda: expr{cursor}', ALL_TEMPLATES)
 
-  // testTemplateUsage('cursor in wrong place #1', 'test.something = {cursor-no-dot}', [])
-  // testTemplateUsage('cursor in wrong place #2', 'test.something = func{cursor-no-dot}', [])
+  testTemplateUsage('cursor in wrong place #1', 'test.something = {cursor-no-dot}', [])
+  testTemplateUsage('cursor in wrong place #2', 'test.something = func{cursor-no-dot}', [])
 
-  // describe('custom template tests', () => {
-  //   before(setCustomTemplates(config, [{
-  //     name: "custom",
-  //     body: "custom({{expr}})",
-  //     when: [
-  //       "identifier",
-  //       "binary-expression",
-  //       "unary-expression",
-  //       "function-call",
-  //       "string-literal",
-  //       "type"
-  //     ]
-  //   }]))
+  describe('custom template tests', () => {
+    before(setCustomTemplates(config, [{
+      name: "custom",
+      body: "custom({{expr}})",
+      when: [
+        "identifier",
+        "binary-expression",
+        "unary-expression",
+        "function-call",
+        "string-literal",
+        "type"
+      ]
+    }]))
 
-  //   after(setCustomTemplates(config, []))
+    after(setCustomTemplates(config, []))
 
-  //   testTemplateUsage('custom template - identifier', 'expr', ['custom'])
-  //   testTemplateUsage('custom template - expression', 'x + y', ['custom'])
-  //   testTemplateUsage('custom template - binary-expression', 'a > b', ['custom'])
-  //   testTemplateUsage('custom template - unary-expression', 'not expr', ['custom'])
-  //   testTemplateUsage('custom template - function-call', 'func()', ['custom'])
-  //   testTemplateUsage('custom template - string-literal', '"hello"', ['custom'])
-  //   testTemplateUsage('custom template - type', 'int', ['custom'])
-  // })
+    testTemplateUsage('custom template - identifier', 'expr', ['custom'])
+    testTemplateUsage('custom template - expression', 'x + y', ['custom'])
+    testTemplateUsage('custom template - binary-expression', 'a > b', ['custom'])
+    testTemplateUsage('custom template - unary-expression', 'not expr', ['custom'])
+    testTemplateUsage('custom template - function-call', 'func()', ['custom'])
+    testTemplateUsage('custom template - string-literal', '"hello"', ['custom'])
+    testTemplateUsage('custom template - type', 'int', ['custom'])
+  })
 
-  // describe('when some templates are disabled', () => {
-  //   before(setDisabledTemplates(config, ['none', 'for', 'forrange']))
-  //   after(setDisabledTemplates(config, []))
+  describe('when some templates are disabled', () => {
+    before(setDisabledTemplates(config, ['none', 'for', 'forrange']))
+    after(setDisabledTemplates(config, []))
 
-  //   testTemplateUsage('identifier expression', 'expr', () => _.difference(ALL_TEMPLATES, ['none', 'for', 'forrange']))
-  // })
+    testTemplateUsage('identifier expression', 'expr', () => _.difference(ALL_TEMPLATES, ['none', 'for', 'forrange']))
+  })
 })
 
 function setDisabledTemplates(config: vsc.WorkspaceConfiguration, value: string[]) {
@@ -139,9 +139,9 @@ function setCustomTemplates(config: vsc.WorkspaceConfiguration, value: any[]) {
 
 function __testTemplateUsage(func: TestFunction, testDescription: string, initialText: string, expectedTemplates: string[] | (() => string[])) {
   func(testDescription, (done: Mocha.Done) => {
-    // Resolve expected templates - support both static arrays and functions
+    /* Resolve expected templates - support both static arrays and functions */
     const resolvedExpectedTemplates = typeof expectedTemplates === 'function' ? expectedTemplates() : expectedTemplates
-    // Pre-sort expected templates for comparison
+    /* Pre-sort expected templates for comparison */
     const expectedSorted = _.sortBy(resolvedExpectedTemplates)
     let actualSorted: string[] = []
 
@@ -183,7 +183,7 @@ async function getAvailableSuggestions(doc: vsc.TextDocument, initialText: strin
     const pos = new vsc.Position(0, cursorIdx + 1)
     editor.selection = new vsc.Selection(pos, pos)
 
-    // Use executeCommand to directly get completion items
+    /* Use executeCommand to directly get completion items */
     const completionList = await vsc.commands.executeCommand<vsc.CompletionList>(
       'vscode.executeCompletionItemProvider',
       doc.uri,

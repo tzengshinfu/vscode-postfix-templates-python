@@ -4,13 +4,13 @@ import * as fs from 'fs'
 import { runTests } from '@vscode/test-electron'
 
 function findVSCodeExecutable(): string {
-  // Try different possible VS Code paths
+  /* Try different possible VS Code paths */
   const possiblePaths = [
     'C:\\Users\\tzeng\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe',
     'C:\\Users\\tzeng\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\code.cmd',
     'C:\\Program Files\\Microsoft VS Code\\Code.exe',
     'C:\\Program Files\\Microsoft VS Code\\bin\\code.cmd',
-    'code', // Try system PATH
+    'code', /* Try system PATH */
   ]
 
   for (const vscodePath of possiblePaths) {
@@ -20,7 +20,7 @@ function findVSCodeExecutable(): string {
         return vscodePath
       }
     } catch (error) {
-      // Continue to next path
+      /* Continue to next path */
     }
   }
 
@@ -29,18 +29,18 @@ function findVSCodeExecutable(): string {
 
 async function main() {
   try {
-    // The folder containing the Extension Manifest package.json
-    // Passed to `--extensionDevelopmentPath`
+    /* The folder containing the Extension Manifest package.json */
+    /* Passed to `--extensionDevelopmentPath` */
     const extensionDevelopmentPath = path.resolve(__dirname, '../')
 
-    // The path to the extension test script
-    // Passed to --extensionTestsPath
+    /* The path to the extension test script */
+    /* Passed to --extensionTestsPath */
     const extensionTestsPath = path.resolve(__dirname, './index')
 
-    // Find VS Code executable
+    /* Find VS Code executable */
     const vscodeExecutablePath = findVSCodeExecutable()
 
-    // Use local VS Code installation instead of downloading
+    /* Use local VS Code installation instead of downloading */
     await runTests({ 
       vscodeExecutablePath,
       extensionDevelopmentPath, 

@@ -17,10 +17,10 @@ export class AwaitTemplate extends BaseExpressionTemplate {
       && !py.inAssignmentStatement(node)
       && !py.inBinaryExpression(node)
       && !py.inAwaitExpression(node)
-      && !py.inPrefixUnaryExpression(node) // prevent `await -expr`
-      && !py.isObjectLiteral(node) // don't await dict literals
-      && !py.isStringLiteral(node) // don't await string literals
-      && !py.isConstructorCall(node) // don't await constructor
+      && !py.inPrefixUnaryExpression(node) /* prevent `await -expr` */
+      && !py.isObjectLiteral(node) /* don't await dict literals */
+      && !py.isStringLiteral(node) /* don't await string literals */
+      && !py.isConstructorCall(node) /* don't await constructor */
       && (py.isIdentifier(node)
         || py.isExpression(node)
         || py.isCallExpression(node))

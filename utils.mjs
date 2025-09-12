@@ -1,4 +1,4 @@
-//@ts-check
+/* @ts-check */
 import { copyFile, mkdir } from 'node:fs/promises'
 import * as console from 'node:console'
 

@@ -8,7 +8,7 @@ const config = vsc.workspace.getConfiguration('postfix')
 const indent = (size: number) => ' '.repeat(size * TabSize)
 
 describe('04. Multiline template tests', () => {
-  before(setDisabledTemplates(config, []))  // Enable all templates for specific template tests
+  before(setDisabledTemplates(config, []))  /* Enable all templates for specific template tests */
   after(setDisabledTemplates(config, ['call', 'cast', 'castas', 'log', 'warn', 'error']))
   Test(`var template - method call
       | object.call()     >> name = object.call()
@@ -25,7 +25,7 @@ describe('04. Multiline template tests', () => {
       | \t\t\t.anotherCall()  >> \t\t\t.anotherCall()
       | \t\t\t.lastOne(){var} >> \t\t\t.lastOne()`)
 
-  // first line gets to keep original indentation in VSCode
+  /* first line gets to keep original indentation in VSCode */
   Test(`var template - method call (indentation - spaces)
       | ${indent(2)}object.call()   >> ${indent(2)}name = object.call()
       | ${indent(3)}.anotherCall()  >> \t\t\t.anotherCall()
@@ -46,7 +46,7 @@ describe('04. Multiline template tests', () => {
       | \t\t\t.anotherCall()     >> \t\t\t.anotherCall()
       | \t\t\t.lastOne(){return} >> \t\t\t.lastOne()`)
 
-  // first line gets to keep original indentation in VSCode
+  /* first line gets to keep original indentation in VSCode */
   Test(`return template - method call (indentation - spaces)
       | ${indent(2)}object.call()      >> ${indent(2)}return object.call()
       | ${indent(3)}.anotherCall()     >> \t\t\t.anotherCall()

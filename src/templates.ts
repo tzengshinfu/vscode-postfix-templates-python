@@ -22,7 +22,7 @@ export const loadCustomTemplates = () => {
 
 export const loadBuiltinTemplates = () => {
   const config = vsc.workspace.getConfiguration('postfix')
-  // Python built-in functions
+  /* Python built-in functions */
   const builtinFunctionTemplates = config.get<string[]>('builtinFunctions', [])
     .map(f => new PythonTemplate(f))
 

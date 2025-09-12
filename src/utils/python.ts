@@ -1,9 +1,9 @@
 import * as tree from '../web-tree-sitter'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+/* eslint-disable-next-line @typescript-eslint/no-var-requires */
 const { Parser, Language } = require('web-tree-sitter')
 
-// Python tree-sitter node type checking functions
+/* Python tree-sitter node type checking functions */
 export const isArrayLiteral = (node: tree.Node | null | undefined): boolean => {
   return Boolean(['list']
     .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
@@ -35,7 +35,7 @@ export const isExpression = (node: tree.Node | null | undefined): boolean => {
 }
 
 export const isParenthesizedExpression = (node: tree.Node | null | undefined): boolean => {
-  // There is no need to call `unwrappedNode` because the bottom node cannot be a parenthesized_expression
+  /* There is no need to call `unwrappedNode` because the bottom node cannot be a parenthesized_expression */
   return Boolean(['parenthesized_expression']
     .filter(t => [node?.type].includes(t)).length)
 }
@@ -45,7 +45,7 @@ export const isPrefixUnaryExpression = (node: tree.Node | null | undefined): boo
     .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
 }
 
-// Utility function to get the unwrapped node (inner node without parentheses)
+/* Utility function to get the unwrapped node (inner node without parentheses) */
 export const unwrappedNode = (node: tree.Node | null | undefined): tree.Node | null => {
   if (!node) {
     return null
@@ -59,20 +59,20 @@ export const unwrappedNode = (node: tree.Node | null | undefined): tree.Node | n
   return current
 }
 
-// Position utility functions for tree-sitter nodes
+/* Position utility functions for tree-sitter nodes */
 export const getLineAndCharacterOfPosition = (node: tree.Node, offset: number): { line: number, character: number } => {
-  // For tree-sitter nodes, we can get position directly
+  /* For tree-sitter nodes, we can get position directly */
   if (offset === node.startIndex) {
     return { line: node.startPosition.row, character: node.startPosition.column }
   } else if (offset === node.endIndex) {
     return { line: node.endPosition.row, character: node.endPosition.column }
   }
 
-  // Fallback to start position
+  /* Fallback to start position */
   return { line: node.startPosition.row, character: node.startPosition.column }
 }
 
-// Specific Python node checks
+/* Specific Python node checks */
 export const isIdentifier = (node: tree.Node | null | undefined): boolean => {
   return Boolean(['identifier']
     .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
@@ -88,20 +88,20 @@ export const isPropertyAccessExpression = (node: tree.Node | null | undefined): 
     .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
 }
 
-// New helper functions to distinguish different call patterns
+/* New helper functions to distinguish different call patterns */
 export const isConstructorCall = (node: tree.Node | null | undefined): boolean => {
   if (!isCallExpression(node)) {
     return false
   }
 
-  // Get the actual call node (unwrap if parenthesized)
+  /* Get the actual call node (unwrap if parenthesized) */
   const callNode = isCallExpression(node) ? node :
     (isCallExpression(unwrappedNode(node)) ? unwrappedNode(node) : null)
   if (!callNode) {
     return false
   }
 
-  // Check if the function being called is a direct identifier (not an attribute)
+  /* Check if the function being called is a direct identifier (not an attribute) */
   const functionNode = callNode.firstNamedChild
 
   return functionNode?.type === 'identifier'
@@ -112,14 +112,14 @@ export const isMethodCall = (node: tree.Node | null | undefined): boolean => {
     return false
   }
 
-  // Get the actual call node (unwrap if parenthesized)
+  /* Get the actual call node (unwrap if parenthesized) */
   const callNode = isCallExpression(node) ? node :
     (isCallExpression(unwrappedNode(node)) ? unwrappedNode(node) : null)
   if (!callNode) {
     return false
   }
 
-  // Check if the function being called is an attribute (object.method)
+  /* Check if the function being called is an attribute (object.method) */
   const functionNode = callNode.firstNamedChild
 
   return functionNode?.type === 'attribute'
@@ -130,21 +130,21 @@ export const isChainedMethodCall = (node: tree.Node | null | undefined): boolean
     return false
   }
 
-  // Get the actual call node (unwrap if parenthesized)
+  /* Get the actual call node (unwrap if parenthesized) */
   const callNode = isCallExpression(node) ? node :
     (isCallExpression(unwrappedNode(node)) ? unwrappedNode(node) : null)
   if (!callNode) {
     return false
   }
 
-  // Check if the object being called is itself a method call
-  const attributeNode = callNode.firstNamedChild  // should be 'attribute'
-  const objectNode = attributeNode?.firstNamedChild  // the object part
+  /* Check if the object being called is itself a method call */
+  const attributeNode = callNode.firstNamedChild  /* should be 'attribute' */
+  const objectNode = attributeNode?.firstNamedChild  /* the object part */
 
   return isCallExpression(objectNode)
 }
 
-// Additional helper functions for templates
+/* Additional helper functions for templates */
 export const isStringLiteral = (node: tree.Node | null | undefined): boolean => {
   return Boolean(['string']
     .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
@@ -155,9 +155,9 @@ export const isTypeNode = (node: tree.Node | null | undefined): boolean => {
     .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
 }
 
-// Context checking functions for Python AST
+/* Context checking functions for Python AST */
 export const isObjectLiteral = (node: tree.Node | null | undefined): boolean => {
-  // Python equivalent would be dictionary literals
+  /* Python equivalent would be dictionary literals */
   return Boolean(['dictionary']
     .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
 }
@@ -204,7 +204,7 @@ export const inVariableDeclaration = (node: tree.Node | null | undefined): boole
     return false
   }
 
-  // Python assignment statements
+  /* Python assignment statements */
   if (inAssignmentStatement(node)) {
     return true
   }
@@ -217,7 +217,7 @@ export const inAssignmentStatement = (node: tree.Node | null | undefined): boole
     return false
   }
 
-  // Check if we're in an assignment context
+  /* Check if we're in an assignment context */
   if (node.type === 'assignment') {
     return true
   }
@@ -226,12 +226,12 @@ export const inAssignmentStatement = (node: tree.Node | null | undefined): boole
 }
 
 export const inPrefixUnaryExpression = (node: tree.Node | null | undefined): boolean => {
-  // Check if the node itself is a prefix unary expression
+  /* Check if the node itself is a prefix unary expression */
   if (isPrefixUnaryExpression(node)) {
     return true
   }
 
-  // Check parent node recursively (like TypeScript version)
+  /* Check parent node recursively (like TypeScript version) */
   return node.parent ? inPrefixUnaryExpression(node.parent) : false
 }
 
@@ -241,7 +241,7 @@ export const inIfStatement = (node: tree.Node | null | undefined, expressionNode
       return true
     }
 
-    // Check if expressionNode is the condition of this if statement
+    /* Check if expressionNode is the condition of this if statement */
     return node.firstNamedChild.id === expressionNode.id
   }
 
@@ -261,42 +261,42 @@ export const inBinaryExpression = (node: tree.Node | null | undefined): boolean 
     return false
   }
 
-  // Check if the node itself is a binary expression
+  /* Check if the node itself is a binary expression */
   if (isBinaryExpression(node)) {
     return true
   }
 
-  // Check parent node recursively (like TypeScript version)
+  /* Check parent node recursively (like TypeScript version) */
   return node.parent ? inBinaryExpression(node.parent) : false
 }
 
 export const inTypeNode = (node: tree.Node | null | undefined): boolean => {
-  // Check if the node itself is a type
+  /* Check if the node itself is a type */
   if (isTypeNode(node)) {
     return true
   }
 
-  // Check parent node recursively (like TypeScript version)
+  /* Check parent node recursively (like TypeScript version) */
   return node.parent ? inTypeNode(node.parent) : false
 }
 
 export const inLambda = (node: tree.Node | null | undefined): boolean => {
-  // Check if the node itself is a type
+  /* Check if the node itself is a type */
   if (isLambda(node)) {
     return true
   }
 
-  // Check parent node recursively (like TypeScript version)
+  /* Check parent node recursively (like TypeScript version) */
   return node.parent ? inLambda(node.parent) : false
 }
 
 export const inListComprehension = (node: tree.Node | null | undefined): boolean => {
-  // Check if the node itself is a type
+  /* Check if the node itself is a type */
   if (isListComprehension(node)) {
     return true
   }
 
-  // Check parent node recursively (like TypeScript version)
+  /* Check parent node recursively (like TypeScript version) */
   return node.parent ? isListComprehension(node.parent) : false
 }
 
@@ -310,7 +310,7 @@ export const unwindBinaryExpression = (node: tree.Node, removeParens = true): tr
   ) {
     binaryExpression = node.firstNamedChild
   } else {
-    // Find the binary expression upwards
+    /* Find the binary expression upwards */
     let current = node.parent
     while (current) {
       if (isBinaryExpression(current)) {
@@ -323,7 +323,7 @@ export const unwindBinaryExpression = (node: tree.Node, removeParens = true): tr
     }
   }
 
-  // Continue expanding upwards to the top-level binary expression
+  /* Continue expanding upwards to the top-level binary expression */
   while (
     binaryExpression?.parent && isBinaryExpression(binaryExpression.parent)
   ) {
@@ -353,11 +353,11 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
       return null
     }
 
-    // If the current node is an unNamed token (like punctuation), search upward to find a meaningful named node
+    /* If the current node is an unNamed token (like punctuation), search upward to find a meaningful named node */
     let currentNode = node
 
     if (!currentNode.isNamed) {
-      // Search upward until a named node is found
+      /* Search upward until a named node is found */
       while (currentNode.parent) {
         currentNode = currentNode.parent
         if (currentNode.isNamed) {
@@ -370,7 +370,7 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
       return null
     }
 
-    // Ensure the dot is at the end of the node
+    /* Ensure the dot is at the end of the node */
     if (currentNode.endIndex !== dotOffset) {
       return null
     }
@@ -390,36 +390,36 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
     return null
   }
 
-  // for @x
+  /* for @x */
   if (treeNode.parent?.type === 'decorator') {
     syntaxTree.delete()
     return null
   }
 
-  // for f-strings interpolation
+  /* for f-strings interpolation */
   if (treeNode.type === 'interpolation') {
     syntaxTree.delete()
     return null
   }
 
-  // for string
+  /* for string */
   if (treeNode.type === 'string_end') {
     return treeNode.parent
   }
 
-  // for x.y
+  /* for x.y */
   if (treeNode.parent?.type === 'attribute') {
     return treeNode.parent
   }
 
-  // for x(y, z)
+  /* for x(y, z) */
   if (treeNode.parent?.type === 'call') {
     return treeNode.parent
   }
 
-  // NOTE: syntaxTree is intentionally not deleted here
-  // The returned node depends on this tree remaining alive
-  // The caller is responsible for cleaning up by calling node.tree.delete()
+  /* NOTE: syntaxTree is intentionally not deleted here */
+  /* The returned node depends on this tree remaining alive */
+  /* The caller is responsible for cleaning up by calling node.tree.delete() */
   return treeNode
 }
 
@@ -436,7 +436,7 @@ export const getNodePositions = (node: tree.Node): { start: { line: number, char
   }
 }
 
-// Parser initialization utilities
+/* Parser initialization utilities */
 /**
  * Initialize a tree-sitter parser for Python
  * @param wasmPath - Path to the tree-sitter-python.wasm file

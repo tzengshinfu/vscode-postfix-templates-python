@@ -24,7 +24,7 @@ describe('01. Utils tests', () => {
   })
 
   it('getIndentCharacters when spaces', async () => {
-    // Create a text document and open it to ensure activeTextEditor exists
+    /* Create a text document and open it to ensure activeTextEditor exists */
     const doc = await vsc.workspace.openTextDocument({ content: '', language: 'python' })
     const editor = await vsc.window.showTextDocument(doc)
 
@@ -34,12 +34,12 @@ describe('01. Utils tests', () => {
     const result = getIndentCharacters()
     assert.strictEqual(result, '    ')
 
-    // Clean up
+    /* Clean up */
     await vsc.commands.executeCommand('workbench.action.closeActiveEditor')
   })
 
   it('getIndentCharacters when tabs', async () => {
-    // Create a text document and open it to ensure activeTextEditor exists
+    /* Create a text document and open it to ensure activeTextEditor exists */
     const doc = await vsc.workspace.openTextDocument({ content: '', language: 'python' })
     const editor = await vsc.window.showTextDocument(doc)
 
@@ -48,7 +48,7 @@ describe('01. Utils tests', () => {
     const result = getIndentCharacters()
     assert.strictEqual(result, '\t')
 
-    // Clean up
+    /* Clean up */
     await vsc.commands.executeCommand('workbench.action.closeActiveEditor')
   })
 
@@ -97,16 +97,16 @@ function testInvertBinaryExpression(dsl: string) {
     try {
       let rootNode = findNodeBeforeDot(parser, input + '.', input.length)
       
-      // Navigate up to find the complete expression
-      // First, if current node is not a binary expression but parent is, go to parent
+      /* Navigate up to find the complete expression */
+      /* First, if current node is not a binary expression but parent is, go to parent */
       if (!py.isBinaryExpression(rootNode) && py.isBinaryExpression(rootNode.parent)) {
         rootNode = rootNode.parent
       }
       
-      // Keep going up while the parent contains expressions, but stop if we're at a binary expression and parent is expression_statement
+      /* Keep going up while the parent contains expressions, but stop if we're at a binary expression and parent is expression_statement */
       while (rootNode && rootNode.parent && 
              (py.isExpression(rootNode.parent) || py.isBinaryExpression(rootNode.parent) || py.isPrefixUnaryExpression(rootNode.parent))) {
-        // Don't navigate past binary expressions or prefix unary expressions to expression statements
+        /* Don't navigate past binary expressions or prefix unary expressions to expression statements */
         if ((py.isBinaryExpression(rootNode) || py.isPrefixUnaryExpression(rootNode)) && rootNode.parent.type === 'expression_statement') {
           break
         }
@@ -134,16 +134,16 @@ function testInvertExpression(dsl: string) {
     try {
       let rootNode = findNodeBeforeDot(parser, input + '.', input.length)
       
-      // Navigate up to find the complete expression
-      // First, if current node is not a binary expression but parent is, go to parent
+      /* Navigate up to find the complete expression */
+      /* First, if current node is not a binary expression but parent is, go to parent */
       if (!py.isBinaryExpression(rootNode) && py.isBinaryExpression(rootNode.parent)) {
         rootNode = rootNode.parent
       }
       
-      // Keep going up while the parent contains expressions, but stop if we're at a binary expression and parent is expression_statement
+      /* Keep going up while the parent contains expressions, but stop if we're at a binary expression and parent is expression_statement */
       while (rootNode && rootNode.parent && 
              (py.isExpression(rootNode.parent) || py.isBinaryExpression(rootNode.parent) || py.isPrefixUnaryExpression(rootNode.parent))) {
-        // Don't navigate past binary expressions or prefix unary expressions to expression statements
+        /* Don't navigate past binary expressions or prefix unary expressions to expression statements */
         if ((py.isBinaryExpression(rootNode) || py.isPrefixUnaryExpression(rootNode)) && rootNode.parent.type === 'expression_statement') {
           break
         }
