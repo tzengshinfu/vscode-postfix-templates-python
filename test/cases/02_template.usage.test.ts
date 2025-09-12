@@ -24,21 +24,21 @@ const ALL_TEMPLATES = [
   'await'
 ]
 
-// const STRING_LITERAL_TEMPLATES = [
-//   ...VAR_TEMPLATES,
-//   ...PYTHON_TEMPLATES,
-//   'return',
-//   'for'
-// ]
+const STRING_LITERAL_TEMPLATES = [
+  ...VAR_TEMPLATES,
+  ...PYTHON_TEMPLATES,
+  'return',
+  'for'
+]
 
 // Binary expressions cannot use FOR_TEMPLATES, await, or EQUALITY_TEMPLATES due to canUse restrictions
-// const BINARY_EXPRESSION_TEMPLATES = [
-//   ...VAR_TEMPLATES,
-//   ...PYTHON_TEMPLATES,
-//   ...IF_TEMPLATES,  // if/ifelse are available
-//   'not',
-//   'return'
-// ]
+const BINARY_EXPRESSION_TEMPLATES = [
+  ...VAR_TEMPLATES,
+  ...PYTHON_TEMPLATES,
+  ...IF_TEMPLATES,  // if/ifelse are available
+  'not',
+  'return'
+]
 
 const config = vsc.workspace.getConfiguration('postfix')
 const testTemplateUsage = makeTestFunction<typeof __testTemplateUsage>(__testTemplateUsage)
@@ -53,26 +53,26 @@ describe('02. Template usage', () => {
     vsc.commands.executeCommand('workbench.action.closeOtherEditors').then(() => done(), err => done(err))
   })
 
-  // testTemplateUsage('identifier expression', 'expr', ALL_TEMPLATES)
-  // testTemplateUsage('awaited expression', 'await expr', () => _.difference(ALL_TEMPLATES, ['await']))
-  // testTemplateUsage('method call expression', 'expr.call()', ALL_TEMPLATES)
-  // testTemplateUsage('property access expression', 'expr.a.b.c', ALL_TEMPLATES)
-  // testTemplateUsage('element access expression', 'expr.a.b[c]', ALL_TEMPLATES)
-  // testTemplateUsage('binary expression', 'x > y', BINARY_EXPRESSION_TEMPLATES)
-  // testTemplateUsage('binary expression', '(x > y)', BINARY_EXPRESSION_TEMPLATES)
-  // testTemplateUsage('unary expression', '-expr', () => _.difference(ALL_TEMPLATES, [...FOR_TEMPLATES, 'await']))
-  // testTemplateUsage('conditional expression', 'if x * 100{cursor}:', [...PYTHON_TEMPLATES, 'not'])
-  // testTemplateUsage('return expression', 'return x * 100', [...PYTHON_TEMPLATES, 'not'])
-  // testTemplateUsage('dict literal expression', '{}', () => [...VAR_TEMPLATES, ...PYTHON_TEMPLATES, 'return'])
-  // testTemplateUsage('dict literal expression', '{"foo":"foo"}', () => [...VAR_TEMPLATES, ...PYTHON_TEMPLATES, 'return'])
-  // testTemplateUsage('constructor call', 'MyClass()', [...VAR_TEMPLATES, ...PYTHON_TEMPLATES, ...IF_TEMPLATES, ...EQUALITY_TEMPLATES, 'not', 'return'])
-  // testTemplateUsage('expression as argument', 'function("arg", expr{cursor})', [...PYTHON_TEMPLATES, 'not', 'await'])
+  testTemplateUsage('identifier expression', 'expr', ALL_TEMPLATES)
+  testTemplateUsage('awaited expression', 'await expr', () => _.difference(ALL_TEMPLATES, ['await']))
+  testTemplateUsage('method call expression', 'expr.call()', ALL_TEMPLATES)
+  testTemplateUsage('property access expression', 'expr.a.b.c', ALL_TEMPLATES)
+  testTemplateUsage('element access expression', 'expr.a.b[c]', ALL_TEMPLATES)
+  testTemplateUsage('binary expression', 'x > y', BINARY_EXPRESSION_TEMPLATES)
+  testTemplateUsage('binary expression', '(x > y)', BINARY_EXPRESSION_TEMPLATES)
+  testTemplateUsage('unary expression', '-expr', () => _.difference(ALL_TEMPLATES, [...FOR_TEMPLATES, 'await']))
+  testTemplateUsage('conditional expression', 'if x * 100{cursor}:', [...PYTHON_TEMPLATES, 'not'])
+  testTemplateUsage('return expression', 'return x * 100', [...PYTHON_TEMPLATES, 'not'])
+  testTemplateUsage('dict literal expression', '{}', () => [...VAR_TEMPLATES, ...PYTHON_TEMPLATES, 'return'])
+  testTemplateUsage('dict literal expression', '{"foo":"foo"}', () => [...VAR_TEMPLATES, ...PYTHON_TEMPLATES, 'return'])
+  testTemplateUsage('constructor call', 'MyClass()', [...VAR_TEMPLATES, ...PYTHON_TEMPLATES, ...IF_TEMPLATES, ...EQUALITY_TEMPLATES, 'not', 'return'])
+  testTemplateUsage('expression as argument', 'function("arg", expr{cursor})', [...PYTHON_TEMPLATES, 'not', 'await'])
 
-  // testTemplateUsage('string literal - single quote', '\'a string\'', STRING_LITERAL_TEMPLATES)
-  // testTemplateUsage('string literal - double quote', '"a string"', STRING_LITERAL_TEMPLATES)
-  // testTemplateUsage('string literal - f-string', 'f"a string"', STRING_LITERAL_TEMPLATES)
-  // testTemplateUsage('string literal - f-string with var #1', 'f"a {value} string"', STRING_LITERAL_TEMPLATES)
-  // testTemplateUsage('string literal - f-string with var #2', 'f"a string {value}"', STRING_LITERAL_TEMPLATES)
+  testTemplateUsage('string literal - single quote', '\'a string\'', STRING_LITERAL_TEMPLATES)
+  testTemplateUsage('string literal - double quote', '"a string"', STRING_LITERAL_TEMPLATES)
+  testTemplateUsage('string literal - f-string', 'f"a string"', STRING_LITERAL_TEMPLATES)
+  testTemplateUsage('string literal - f-string with var #1', 'f"a {value} string"', STRING_LITERAL_TEMPLATES)
+  testTemplateUsage('string literal - f-string with var #2', 'f"a string {value}"', STRING_LITERAL_TEMPLATES)
 
   testTemplateUsage('inside return - lambda', 'return map(lambda x: result{cursor}, items)', () => _.difference(ALL_TEMPLATES, [...VAR_TEMPLATES, ...FOR_TEMPLATES, ...IF_TEMPLATES, 'return']))
   testTemplateUsage('inside return - list comprehension', 'return [result{cursor} for x in items]', () => _.difference(ALL_TEMPLATES, [...VAR_TEMPLATES, ...FOR_TEMPLATES, ...IF_TEMPLATES, 'return']))

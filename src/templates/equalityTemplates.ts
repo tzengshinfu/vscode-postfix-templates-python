@@ -16,7 +16,10 @@ export class EqualityTemplate extends BaseTemplate {
       && (py.inReturnStatement(node)
         || py.inIfStatement(node)
         || py.inVariableDeclaration(node)
-        || py.inAssignmentStatement(node))
+        || py.inAssignmentStatement(node)
+        || py.inLambda(node)
+        || py.inListComprehension(node)
+      )
       && !py.inBinaryExpression(node)
   }
 

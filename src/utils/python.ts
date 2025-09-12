@@ -167,15 +167,18 @@ export const isAnyFunction = (node: tree.Node | null | undefined): boolean => {
     .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
 }
 
-// Functions that establish a new statement scope for `return` (exclude lambda)
-export const isFunctionDefinition = (node: tree.Node | null | undefined): boolean => {
-  return Boolean(['function_definition', 'async_function_definition']
+export const isLambda = (node: tree.Node | null | undefined): boolean => {
+  return Boolean(['lambda']
+    .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
+}
+
+export const isListComprehension = (node: tree.Node | null | undefined): boolean => {
+  return Boolean(['list_comprehension']
     .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
 }
 
 export const inReturnStatement = (node: tree.Node | null | undefined): boolean => {
-  // Stop at real function definitions, but not at lambdas (they are expressions)
-  if (isFunctionDefinition(node)) {
+  if (isAnyFunction(node)) {
     return false
   }
 
@@ -275,6 +278,26 @@ export const inTypeNode = (node: tree.Node | null | undefined): boolean => {
 
   // Check parent node recursively (like TypeScript version)
   return node.parent ? inTypeNode(node.parent) : false
+}
+
+export const inLambda = (node: tree.Node | null | undefined): boolean => {
+  // Check if the node itself is a type
+  if (isLambda(node)) {
+    return true
+  }
+
+  // Check parent node recursively (like TypeScript version)
+  return node.parent ? inLambda(node.parent) : false
+}
+
+export const inListComprehension = (node: tree.Node | null | undefined): boolean => {
+  // Check if the node itself is a type
+  if (isListComprehension(node)) {
+    return true
+  }
+
+  // Check parent node recursively (like TypeScript version)
+  return node.parent ? isListComprehension(node.parent) : false
 }
 
 export const unwindBinaryExpression = (node: tree.Node, removeParens = true): tree.Node => {
