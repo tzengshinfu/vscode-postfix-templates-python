@@ -218,7 +218,7 @@ export const inAssignmentStatement = (node: tree.Node | null | undefined): boole
   }
 
   /* Check if we're in an assignment context */
-  if (node.type === 'assignment') {
+  if (node.type === 'assignment' || node.type === 'augmented_assignment') {
     return true
   }
 
