@@ -8,6 +8,12 @@ export function run(): Promise<void> {
   const envRetries = Number(process.env.POSTFIX_MOCHA_RETRIES || '0')
   const mocha = new Mocha({ ui: 'tdd', color: true })
 
+  // Optional: reporter (e.g., 'min' to show only failures)
+  const envReporter = String(process.env.POSTFIX_MOCHA_REPORTER || '').trim()
+  if (envReporter) {
+    try { mocha.reporter(envReporter as any) } catch { /* ignore invalid reporter */ }
+  }
+
   /* Optional: fail fast and/or filter tests via env vars */
   const envBail = String(process.env.POSTFIX_MOCHA_BAIL || '').trim()
   if (envBail && envBail !== '0' && envBail.toLowerCase() !== 'false') {

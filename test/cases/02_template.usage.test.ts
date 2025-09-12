@@ -77,7 +77,6 @@ describe('02. Template usage', () => {
   testTemplateUsage('inside return - lambda', 'return map(lambda x: result{cursor}, items)', () => _.difference(ALL_TEMPLATES, [...VAR_TEMPLATES, ...FOR_TEMPLATES, ...IF_TEMPLATES, 'return']))
   testTemplateUsage('inside return - list comprehension', 'return [result{cursor} for x in items]', () => _.difference(ALL_TEMPLATES, [...VAR_TEMPLATES, ...FOR_TEMPLATES, ...IF_TEMPLATES, 'return']))
 
-  testTemplateUsage('inside variable declaration', 'test = expr{cursor}', [...EQUALITY_TEMPLATES, ...PYTHON_TEMPLATES, 'not'])
   testTemplateUsage('inside assignment statement', 'test = expr{cursor}', [...EQUALITY_TEMPLATES, ...PYTHON_TEMPLATES, 'not'])
   testTemplateUsage('inside assignment statement - short-circuit', 'test *= expr{cursor}', [...EQUALITY_TEMPLATES, ...PYTHON_TEMPLATES, 'not'])
   testTemplateUsage('inside return', 'return expr{cursor}', [...EQUALITY_TEMPLATES, 'not'])
