@@ -167,8 +167,15 @@ export const isAnyFunction = (node: tree.Node | null | undefined): boolean => {
     .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
 }
 
+// Functions that establish a new statement scope for `return` (exclude lambda)
+export const isFunctionDefinition = (node: tree.Node | null | undefined): boolean => {
+  return Boolean(['function_definition', 'async_function_definition']
+    .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
+}
+
 export const inReturnStatement = (node: tree.Node | null | undefined): boolean => {
-  if (isAnyFunction(node)) {
+  // Stop at real function definitions, but not at lambdas (they are expressions)
+  if (isFunctionDefinition(node)) {
     return false
   }
 
@@ -247,6 +254,10 @@ export const inAwaitExpression = (node: tree.Node | null | undefined): boolean =
 }
 
 export const inBinaryExpression = (node: tree.Node | null | undefined): boolean => {
+  if (isAnyFunction(node)) {
+    return false
+  }
+
   // Check if the node itself is a binary expression
   if (isBinaryExpression(node)) {
     return true

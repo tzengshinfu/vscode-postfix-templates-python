@@ -24,21 +24,21 @@ const ALL_TEMPLATES = [
   'await'
 ]
 
-const STRING_LITERAL_TEMPLATES = [
-  ...VAR_TEMPLATES,
-  ...PYTHON_TEMPLATES,
-  'return',
-  'for'
-]
+// const STRING_LITERAL_TEMPLATES = [
+//   ...VAR_TEMPLATES,
+//   ...PYTHON_TEMPLATES,
+//   'return',
+//   'for'
+// ]
 
 // Binary expressions cannot use FOR_TEMPLATES, await, or EQUALITY_TEMPLATES due to canUse restrictions
-const BINARY_EXPRESSION_TEMPLATES = [
-  ...VAR_TEMPLATES,
-  ...PYTHON_TEMPLATES,
-  ...IF_TEMPLATES,  // if/ifelse are available
-  'not',
-  'return'
-]
+// const BINARY_EXPRESSION_TEMPLATES = [
+//   ...VAR_TEMPLATES,
+//   ...PYTHON_TEMPLATES,
+//   ...IF_TEMPLATES,  // if/ifelse are available
+//   'not',
+//   'return'
+// ]
 
 const config = vsc.workspace.getConfiguration('postfix')
 const testTemplateUsage = makeTestFunction<typeof __testTemplateUsage>(__testTemplateUsage)
@@ -74,8 +74,8 @@ describe('02. Template usage', () => {
   // testTemplateUsage('string literal - f-string with var #1', 'f"a {value} string"', STRING_LITERAL_TEMPLATES)
   // testTemplateUsage('string literal - f-string with var #2', 'f"a string {value}"', STRING_LITERAL_TEMPLATES)
 
-  testTemplateUsage('inside return - lambda', 'return map(lambda x: result{cursor}, items)', () => _.difference(ALL_TEMPLATES, [...FOR_TEMPLATES, ...IF_TEMPLATES, ...VAR_TEMPLATES, 'return']))
-  // testTemplateUsage('inside return - list comprehension', 'return [result{cursor} for x in items]', () => _.difference(ALL_TEMPLATES, ['return']))
+  testTemplateUsage('inside return - lambda', 'return map(lambda x: result{cursor}, items)', () => _.difference(ALL_TEMPLATES, [...VAR_TEMPLATES, ...FOR_TEMPLATES, ...IF_TEMPLATES, 'return']))
+  testTemplateUsage('inside return - list comprehension', 'return [result{cursor} for x in items]', () => _.difference(ALL_TEMPLATES, [...VAR_TEMPLATES, ...FOR_TEMPLATES, ...IF_TEMPLATES, 'return']))
 
   // testTemplateUsage('inside variable declaration', 'test = expr{cursor}', [...EQUALITY_TEMPLATES, 'not'])
   // testTemplateUsage('inside assignment statement', 'test = expr{cursor}', [...EQUALITY_TEMPLATES, 'not'])
