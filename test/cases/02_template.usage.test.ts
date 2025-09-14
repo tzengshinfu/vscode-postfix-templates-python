@@ -79,7 +79,7 @@ describe('02. Template usage', () => {
 
   testTemplateUsage('inside assignment statement', 'test = expr{cursor}', [...EQUALITY_TEMPLATES, ...PYTHON_TEMPLATES, 'not'])
   testTemplateUsage('inside assignment statement - short-circuit', 'test *= expr{cursor}', [...EQUALITY_TEMPLATES, ...PYTHON_TEMPLATES, 'not'])
-  testTemplateUsage('inside return', 'return expr{cursor}', [...EQUALITY_TEMPLATES, ...PYTHON_TEMPLATES, 'not'])
+  testTemplateUsage('inside return', 'return expr{cursor}', [...EQUALITY_TEMPLATES, ...PYTHON_TEMPLATES, 'not', 'await'])
   testTemplateUsage('inside single line comment', '# expr', [])
   testTemplateUsage('inside multi line comment', '""" expr{cursor} """', [])
 
