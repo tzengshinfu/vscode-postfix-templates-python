@@ -24,6 +24,10 @@ describe('01. Utils tests', () => {
   })
 
   it('getIndentCharacters when spaces', async () => {
+    if (process.env.NODE_ENV === 'specific' && process.env.VPTP_DEBUG_TEST_DESCRIPTION !== 'getIndentCharacters when spaces') {
+      return;
+    }
+
     /* Create a text document and open it to ensure activeTextEditor exists */
     const doc = await vsc.workspace.openTextDocument({ content: '', language: 'python' })
     const editor = await vsc.window.showTextDocument(doc)
@@ -39,6 +43,10 @@ describe('01. Utils tests', () => {
   })
 
   it('getIndentCharacters when tabs', async () => {
+    if (process.env.NODE_ENV === 'specific' && process.env.VPTP_DEBUG_TEST_DESCRIPTION !== 'getIndentCharacters when tabs') {
+      return;
+    }
+
     /* Create a text document and open it to ensure activeTextEditor exists */
     const doc = await vsc.workspace.openTextDocument({ content: '', language: 'python' })
     const editor = await vsc.window.showTextDocument(doc)
@@ -96,15 +104,15 @@ function testInvertBinaryExpression(dsl: string) {
   it(`${input} should invert to ${expected}`, () => {
     try {
       let rootNode = findNodeBeforeDot(parser, input + '.', input.length)
-      
+
       /* Navigate up to find the complete expression */
       /* First, if current node is not a binary expression but parent is, go to parent */
       if (!py.isBinaryExpression(rootNode) && py.isBinaryExpression(rootNode.parent)) {
         rootNode = rootNode.parent
       }
-      
+
       /* Keep going up while the parent contains expressions, but stop if we're at a binary expression and parent is expression_statement */
-      while (rootNode && rootNode.parent && 
+      while (rootNode && rootNode.parent &&
              (py.isExpression(rootNode.parent) || py.isBinaryExpression(rootNode.parent) || py.isPrefixUnaryExpression(rootNode.parent))) {
         /* Don't navigate past binary expressions or prefix unary expressions to expression statements */
         if ((py.isBinaryExpression(rootNode) || py.isPrefixUnaryExpression(rootNode)) && rootNode.parent.type === 'expression_statement') {
@@ -112,7 +120,7 @@ function testInvertBinaryExpression(dsl: string) {
         }
         rootNode = rootNode.parent
       }
-      
+
       const result = invertBinaryExpression(rootNode)
 
       assert.strictEqual(result, expected)
@@ -128,20 +136,24 @@ function testInvertBinaryExpression(dsl: string) {
 }
 
 function testInvertExpression(dsl: string) {
+  if (process.env.NODE_ENV === 'specific' && process.env.VPTP_DEBUG_TEST_DESCRIPTION !== dsl) {
+    return;
+  }
+
   const [input, expected] = dsl.split('>>').map(x => x.trim())
 
   it(`${input} should invert to ${expected}`, () => {
     try {
       let rootNode = findNodeBeforeDot(parser, input + '.', input.length)
-      
+
       /* Navigate up to find the complete expression */
       /* First, if current node is not a binary expression but parent is, go to parent */
       if (!py.isBinaryExpression(rootNode) && py.isBinaryExpression(rootNode.parent)) {
         rootNode = rootNode.parent
       }
-      
+
       /* Keep going up while the parent contains expressions, but stop if we're at a binary expression and parent is expression_statement */
-      while (rootNode && rootNode.parent && 
+      while (rootNode && rootNode.parent &&
              (py.isExpression(rootNode.parent) || py.isBinaryExpression(rootNode.parent) || py.isPrefixUnaryExpression(rootNode.parent))) {
         /* Don't navigate past binary expressions or prefix unary expressions to expression statements */
         if ((py.isBinaryExpression(rootNode) || py.isPrefixUnaryExpression(rootNode)) && rootNode.parent.type === 'expression_statement') {
@@ -149,7 +161,7 @@ function testInvertExpression(dsl: string) {
         }
         rootNode = rootNode.parent
       }
-      
+
       const result = invertExpression(rootNode)
 
       assert.strictEqual(result, expected)
