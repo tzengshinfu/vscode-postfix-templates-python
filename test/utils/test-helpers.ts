@@ -262,3 +262,11 @@ export function findExpressionNode(node: tree.Node): tree.Node | null {
 
   return null
 }
+
+/**
+ * 針對特定案例除錯用
+ * 如果是`runWithCustomTemplate`要寫成`template<空格>when`
+ */
+export function isNotSpecificTestDescription(testDescription: string) {
+  return process.env.NODE_ENV === 'specific' && process.env.VPTP_DEBUG_TEST_DESCRIPTION !== testDescription
+}

@@ -3,7 +3,7 @@ import * as _ from 'lodash'
 import * as vsc from 'vscode'
 import { describe, afterEach, before, after, TestFunction } from 'mocha'
 
-import { makeTestFunction } from '../utils/test-helpers'
+import { isNotSpecificTestDescription, makeTestFunction } from '../utils/test-helpers'
 
 const LANGUAGE = 'postfix'
 
@@ -137,7 +137,11 @@ function setCustomTemplates(config: vsc.WorkspaceConfiguration, value: any[]) {
 }
 
 function __testTemplateUsage(func: TestFunction, testDescription: string, initialText: string, expectedTemplates: string[] | (() => string[]), exactMatch = true) {
-  func(testDescription, (done: Mocha.Done) => {
+  func(testDescription, function (done: Mocha.Done) {
+    if (isNotSpecificTestDescription(testDescription)) {
+      this.skip()
+    }
+
     /* Resolve expected templates - support both static arrays and functions */
     const resolvedExpectedTemplates = typeof expectedTemplates === 'function' ? expectedTemplates() : expectedTemplates
     /* Pre-sort expected templates for comparison */

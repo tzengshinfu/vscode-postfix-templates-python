@@ -8,6 +8,7 @@ import { invertBinaryExpression, invertExpression } from '../../src/utils/invert
 import { createPythonParser, findNodeBeforeDot } from '../../src/utils/python'
 import * as tree from '../../src/web-tree-sitter'
 import * as py from '../../src/utils/python'
+import { isNotSpecificTestDescription } from '../utils/test-helpers'
 
 let parser: tree.Parser
 
@@ -23,9 +24,9 @@ describe('01. Utils tests', () => {
     }
   })
 
-  it('getIndentCharacters when spaces', async () => {
-    if (process.env.NODE_ENV === 'specific' && process.env.VPTP_DEBUG_TEST_DESCRIPTION !== 'getIndentCharacters when spaces') {
-      return;
+  it('getIndentCharacters when spaces', async function () {
+    if (isNotSpecificTestDescription('getIndentCharacters when spaces')) {
+      this.skip()
     }
 
     /* Create a text document and open it to ensure activeTextEditor exists */
@@ -42,9 +43,9 @@ describe('01. Utils tests', () => {
     await vsc.commands.executeCommand('workbench.action.closeActiveEditor')
   })
 
-  it('getIndentCharacters when tabs', async () => {
-    if (process.env.NODE_ENV === 'specific' && process.env.VPTP_DEBUG_TEST_DESCRIPTION !== 'getIndentCharacters when tabs') {
-      return;
+  it('getIndentCharacters when tabs', async function () {
+    if (isNotSpecificTestDescription('getIndentCharacters when tabs')) {
+      this.skip()
     }
 
     /* Create a text document and open it to ensure activeTextEditor exists */
@@ -101,7 +102,11 @@ describe('01. Utils tests', () => {
 function testInvertBinaryExpression(dsl: string) {
   const [input, expected] = dsl.split('>>').map(x => x.trim())
 
-  it(`${input} should invert to ${expected}`, () => {
+  it(`${input} should invert to ${expected}`, function () {
+    if (isNotSpecificTestDescription(dsl)) {
+      this.skip()
+    }
+
     try {
       let rootNode = findNodeBeforeDot(parser, input + '.', input.length)
 
@@ -113,7 +118,7 @@ function testInvertBinaryExpression(dsl: string) {
 
       /* Keep going up while the parent contains expressions, but stop if we're at a binary expression and parent is expression_statement */
       while (rootNode && rootNode.parent &&
-             (py.isExpression(rootNode.parent) || py.isBinaryExpression(rootNode.parent) || py.isPrefixUnaryExpression(rootNode.parent))) {
+        (py.isExpression(rootNode.parent) || py.isBinaryExpression(rootNode.parent) || py.isPrefixUnaryExpression(rootNode.parent))) {
         /* Don't navigate past binary expressions or prefix unary expressions to expression statements */
         if ((py.isBinaryExpression(rootNode) || py.isPrefixUnaryExpression(rootNode)) && rootNode.parent.type === 'expression_statement') {
           break
@@ -136,13 +141,13 @@ function testInvertBinaryExpression(dsl: string) {
 }
 
 function testInvertExpression(dsl: string) {
-  if (process.env.NODE_ENV === 'specific' && process.env.VPTP_DEBUG_TEST_DESCRIPTION !== dsl) {
-    return;
-  }
-
   const [input, expected] = dsl.split('>>').map(x => x.trim())
 
-  it(`${input} should invert to ${expected}`, () => {
+  it(`${input} should invert to ${expected}`, function () {
+    if (isNotSpecificTestDescription(dsl)) {
+      this.skip()
+    }
+
     try {
       let rootNode = findNodeBeforeDot(parser, input + '.', input.length)
 
@@ -154,7 +159,7 @@ function testInvertExpression(dsl: string) {
 
       /* Keep going up while the parent contains expressions, but stop if we're at a binary expression and parent is expression_statement */
       while (rootNode && rootNode.parent &&
-             (py.isExpression(rootNode.parent) || py.isBinaryExpression(rootNode.parent) || py.isPrefixUnaryExpression(rootNode.parent))) {
+        (py.isExpression(rootNode.parent) || py.isBinaryExpression(rootNode.parent) || py.isPrefixUnaryExpression(rootNode.parent))) {
         /* Don't navigate past binary expressions or prefix unary expressions to expression statements */
         if ((py.isBinaryExpression(rootNode) || py.isPrefixUnaryExpression(rootNode)) && rootNode.parent.type === 'expression_statement') {
           break
