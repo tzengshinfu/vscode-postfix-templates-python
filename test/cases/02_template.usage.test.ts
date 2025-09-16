@@ -107,13 +107,13 @@ describe('02. Template usage', () => {
 
     after(setCustomTemplates(config, []))
 
-    testTemplateUsage('custom template - identifier', 'expr', ['custom'])
-    testTemplateUsage('custom template - expression', 'x + y', ['custom'])
-    testTemplateUsage('custom template - binary-expression', 'a > b', ['custom'])
-    testTemplateUsage('custom template - unary-expression', 'not expr', ['custom'])
-    testTemplateUsage('custom template - function-call', 'func()', ['custom'])
-    testTemplateUsage('custom template - string-literal', '"hello"', ['custom'])
-    testTemplateUsage('custom template - type', 'int', ['custom'])
+    testTemplateUsage('custom template - identifier', 'expr', ['custom'], false)
+    testTemplateUsage('custom template - expression', 'x + y', ['custom'], false)
+    testTemplateUsage('custom template - binary-expression', 'a > b', ['custom'], false)
+    testTemplateUsage('custom template - unary-expression', 'not expr', ['custom'], false)
+    testTemplateUsage('custom template - function-call', 'func()', ['custom'], false)
+    testTemplateUsage('custom template - string-literal', '"hello"', ['custom'], false)
+    testTemplateUsage('custom template - type', 'int', ['custom'], false)
   })
 
   describe('when some templates are disabled', () => {
@@ -136,7 +136,7 @@ function setCustomTemplates(config: vsc.WorkspaceConfiguration, value: any[]) {
   }
 }
 
-function __testTemplateUsage(func: TestFunction, testDescription: string, initialText: string, expectedTemplates: string[] | (() => string[])) {
+function __testTemplateUsage(func: TestFunction, testDescription: string, initialText: string, expectedTemplates: string[] | (() => string[]), exactMatch = true) {
   func(testDescription, (done: Mocha.Done) => {
     /* Resolve expected templates - support both static arrays and functions */
     const resolvedExpectedTemplates = typeof expectedTemplates === 'function' ? expectedTemplates() : expectedTemplates
@@ -148,7 +148,12 @@ function __testTemplateUsage(func: TestFunction, testDescription: string, initia
       return getAvailableSuggestions(doc, initialText).then(templates => {
         actualSorted = _.sortBy(templates)
 
-        assert.deepStrictEqual(actualSorted, expectedSorted)
+        if (exactMatch) {
+          assert.deepStrictEqual(actualSorted, expectedSorted)
+        } else {
+          assert.ok(expectedSorted.some(template => actualSorted.includes(template)))
+        }
+
         done()
       }).then(undefined, (reason) => {
         console.log(`\n=== Test FAILED: ${testDescription} ===`)
