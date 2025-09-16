@@ -1,4 +1,4 @@
-import { makeTestFunction, testTemplate, TestTemplateOptions, testTemplateWithQuickPick } from './utils/test-helpers'
+import { isNotSpecificTestDescription, makeTestFunction, testTemplate, TestTemplateOptions, testTemplateWithQuickPick } from './utils/test-helpers'
 import { EOL } from 'os'
 import { TestFunction } from 'mocha'
 
@@ -11,6 +11,11 @@ export const runTestMultilineQuickPick = (...args: Parameters<ReturnType<typeof 
 
 function __runTest(func: TestFunction, test: string, options: Options = {}) {
   const [title, ...dsl] = test.split('|')
+
+  if (isNotSpecificTestDescription(test)) {
+    func(title.trim(), testTemplate('|' + dsl.join('|'), options)).skip()
+  }
+
   func(title.trim(), testTemplate('|' + dsl.join('|'), options))
 }
 
