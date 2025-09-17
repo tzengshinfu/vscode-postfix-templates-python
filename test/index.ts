@@ -10,11 +10,11 @@ export async function run(): Promise<void> {
       placeHolder: 'example: custom template - identifier'
     })
 
-    if (input) {
+    if (input !== undefined) {
       process.env.VPTP_DEBUG_TEST_DESCRIPTION = input
     }
     else {
-      return
+      process.env.NODE_ENV = 'test'
     }
   }
 
