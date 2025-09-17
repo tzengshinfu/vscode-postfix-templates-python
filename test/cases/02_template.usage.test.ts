@@ -199,9 +199,11 @@ async function getAvailableSuggestions(doc: vsc.TextDocument, initialText: strin
     )
 
     if (completionList && completionList.items) {
-      return completionList.items.map(item =>
-        typeof item.label === 'string' ? item.label : item.label.label
-      )
+      return completionList.items
+        .filter((item): item is vsc.CompletionItem & { label: vsc.CompletionItemLabel } =>
+          typeof item.label !== 'string' && item.label.description === 'POSTFIX'
+        )
+        .map(item => item.label.label)
     }
 
     return []
