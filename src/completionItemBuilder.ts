@@ -16,8 +16,6 @@ export class CompletionItemBuilder {
   private constructor(keyword: string, node: tree.Node, private indentInfo: IndentInfo) {
     this.node = node
     this.item = new vsc.CompletionItem({ label: keyword, description: 'POSTFIX' }, vsc.CompletionItemKind.Snippet)
-    this.item.sortText = `000_${keyword}`
-    this.item.preselect = true
     this.code = adjustMultilineIndentation(node.text, indentInfo?.indentSize)
   }
 

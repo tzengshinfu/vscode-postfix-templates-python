@@ -35,17 +35,7 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
       const line = document.lineAt(position.line)
       const dotIndex = line.text.lastIndexOf('.', position.character - 1)
       const wordRange = document.getWordRangeAtPosition(position)
-      let isCursorOnWordAfterDot = (wordRange?.start ?? position).character === dotIndex + 1
-      // In HTML embeddings, VS Code word ranges can be unreliable; relax the check
-      const embedded = this.getHtmlLikeEmbeddedText(document, position)
-      if (embedded !== null) {
-        isCursorOnWordAfterDot = position.character >= dotIndex + 1
-      }
-      // Ignore comments like `# expr.`
-      const beforeDot = line.text.slice(0, dotIndex).trimStart()
-      if (beforeDot.startsWith('#')) {
-        return []
-      }
+      const isCursorOnWordAfterDot = (wordRange?.start ?? position).character === dotIndex + 1
       if (dotIndex === -1 || !isCursorOnWordAfterDot) {
         return []
       }
