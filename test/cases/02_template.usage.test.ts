@@ -12,6 +12,7 @@ const FOR_TEMPLATES = ['for', 'forrange']  /* Only for and forrange templates ac
 const PYTHON_TEMPLATES = vsc.workspace.getConfiguration('postfix').get<string[]>('builtinFunctions', [])
 const EQUALITY_TEMPLATES = ['none', 'notnone']
 const IF_TEMPLATES = ['if', 'ifelse']
+const IF_EQUALITY_TEMPLATES = ['ifnone', 'ifnotnone']
 /* ALL_TEMPLATES contains only actually available templates */
 const ALL_TEMPLATES = [
   ...VAR_TEMPLATES,
@@ -19,6 +20,7 @@ const ALL_TEMPLATES = [
   ...PYTHON_TEMPLATES,
   ...EQUALITY_TEMPLATES,
   ...IF_TEMPLATES,
+  ...IF_EQUALITY_TEMPLATES,
   'not',
   'return',
   'await'
