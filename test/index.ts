@@ -1,23 +1,8 @@
 import * as path from 'path'
 import * as Mocha from 'mocha'
 import * as glob from 'glob'
-import * as vsc from 'vscode'
 
 export async function run(): Promise<void> {
-  if (process.env.NODE_ENV === 'specific') {
-    const input = await vsc.window.showInputBox({
-      prompt: '請輸入測試需要的環境變數',
-      placeHolder: 'example: custom template - identifier'
-    })
-
-    if (input !== undefined) {
-      process.env.VPTP_DEBUG_TEST_DESCRIPTION = input
-    }
-    else {
-      process.env.NODE_ENV = 'test'
-    }
-  }
-
   /* Create the mocha test */
   const envTimeout = Number(process.env.POSTFIX_MOCHA_TIMEOUT || '0')
   const envRetries = Number(process.env.POSTFIX_MOCHA_RETRIES || '0')

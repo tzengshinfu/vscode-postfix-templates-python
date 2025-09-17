@@ -8,7 +8,6 @@ import { invertBinaryExpression, invertExpression } from '../../src/utils/invert
 import { createPythonParser, findNodeBeforeDot } from '../../src/utils/python'
 import * as tree from '../../src/web-tree-sitter'
 import * as py from '../../src/utils/python'
-import { isNotSpecificTestDescription } from '../utils/test-helpers'
 
 let parser: tree.Parser
 
@@ -25,10 +24,6 @@ describe('01. Utils tests', () => {
   })
 
   it('getIndentCharacters when spaces', async function () {
-    if (isNotSpecificTestDescription('getIndentCharacters when spaces')) {
-      this.skip()
-    }
-
     /* Create a text document and open it to ensure activeTextEditor exists */
     const doc = await vsc.workspace.openTextDocument({ content: '', language: 'python' })
     const editor = await vsc.window.showTextDocument(doc)
@@ -44,10 +39,6 @@ describe('01. Utils tests', () => {
   })
 
   it('getIndentCharacters when tabs', async function () {
-    if (isNotSpecificTestDescription('getIndentCharacters when tabs')) {
-      this.skip()
-    }
-
     /* Create a text document and open it to ensure activeTextEditor exists */
     const doc = await vsc.workspace.openTextDocument({ content: '', language: 'python' })
     const editor = await vsc.window.showTextDocument(doc)
@@ -103,10 +94,6 @@ function testInvertBinaryExpression(dsl: string) {
   const [input, expected] = dsl.split('>>').map(x => x.trim())
 
   it(`${input} should invert to ${expected}`, function () {
-    if (isNotSpecificTestDescription(dsl)) {
-      this.skip()
-    }
-
     try {
       let rootNode = findNodeBeforeDot(parser, input + '.', input.length)
 
@@ -144,10 +131,6 @@ function testInvertExpression(dsl: string) {
   const [input, expected] = dsl.split('>>').map(x => x.trim())
 
   it(`${input} should invert to ${expected}`, function () {
-    if (isNotSpecificTestDescription(dsl)) {
-      this.skip()
-    }
-
     try {
       let rootNode = findNodeBeforeDot(parser, input + '.', input.length)
 

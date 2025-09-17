@@ -1,4 +1,4 @@
-import { isNotSpecificTestDescription, makeTestFunction, testTemplate, TestTemplateOptions, testTemplateWithQuickPick } from './utils/test-helpers'
+import { makeTestFunction, testTemplate, TestTemplateOptions, testTemplateWithQuickPick } from './utils/test-helpers'
 import { EOL } from 'os'
 import { TestFunction } from 'mocha'
 
@@ -11,44 +11,20 @@ export const runTestMultilineQuickPick = (...args: Parameters<ReturnType<typeof 
 
 function __runTest(func: TestFunction, test: string, options: Options = {}) {
   const [title, ...dsl] = test.split('|')
-
-  if (isNotSpecificTestDescription(test)) {
-    func.skip(title.trim(), testTemplate('|' + dsl.join('|'), options))
-    return
-  }
-
   func(title.trim(), testTemplate('|' + dsl.join('|'), options))
 }
 
 function __runTestMultiline(func: TestFunction, test: string, options: Options = {}) {
   const [title, ...dsl] = test.split(/\r?\n/)
-
-  if (isNotSpecificTestDescription(test)) {
-    func.skip(title.trim(), testTemplate(dsl.join(EOL), options))
-    return
-  }
-
   func(title.trim(), testTemplate(dsl.join(EOL), options))
 }
 
 function __runTestQuickPick(func: TestFunction, test: string, trimWhitespaces?: boolean, skipSuggestions?: number, cancelQuickPick?: boolean) {
   const [title, ...dsl] = test.split('|')
-
-  if (isNotSpecificTestDescription(test)) {
-    func.skip(title.trim(), testTemplateWithQuickPick('|' + dsl.join('|'), trimWhitespaces, skipSuggestions, cancelQuickPick))
-    return
-  }
-
   func(title.trim(), testTemplateWithQuickPick('|' + dsl.join('|'), trimWhitespaces, skipSuggestions, cancelQuickPick))
 }
 
 function __runTestMultilineQuickPick(func: TestFunction, test: string, trimWhitespaces?: boolean, skipSuggestions?: number, cancelQuickPick?: boolean) {
   const [title, ...dsl] = test.split(/\r?\n/)
-
-  if (isNotSpecificTestDescription(test)) {
-    func.skip(title.trim(), testTemplateWithQuickPick(dsl.join(EOL), trimWhitespaces, skipSuggestions, cancelQuickPick))
-    return
-  }
-
   func(title.trim(), testTemplateWithQuickPick(dsl.join(EOL), trimWhitespaces, skipSuggestions, cancelQuickPick))
 }

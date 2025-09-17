@@ -35,26 +35,6 @@
         "${workspaceRoot}/out/src/**/*.js"
       ],
       "preLaunchTask": "npm: pretest-clean"
-    },
-    {
-      "name": "Launch Specific Test",
-      "type": "extensionHost",
-      "request": "launch",
-      "runtimeExecutable": "${execPath}",
-      "args": [
-        "--disable-extensions",
-        "--extensionDevelopmentPath=${workspaceRoot}/out",
-        "--extensionTestsPath=${workspaceRoot}/out/test"
-      ],
-      "env": {
-        "NODE_ENV": "specific"
-      },
-      "sourceMaps": true,
-      "outFiles": [
-        "${workspaceRoot}/out/test/**/*.js",
-        "${workspaceRoot}/out/src/**/*.js"
-      ],
-      "preLaunchTask": "npm: pretest-clean"
     }
   ]
 }
