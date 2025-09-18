@@ -10,7 +10,6 @@ const LANGUAGE = 'postfix'
 const VAR_TEMPLATES = ['var']  /* Only var template actually exists */
 const FOR_TEMPLATES = ['for', 'forrange']  /* Only for and forrange templates actually exist */
 const PYTHON_TEMPLATES = vsc.workspace.getConfiguration('postfix').get<string[]>('builtinFunctions', [])
-const EQUALITY_TEMPLATES = ['none', 'notnone']
 const IF_TEMPLATES = ['if', 'ifelse']
 const IF_EQUALITY_TEMPLATES = ['ifnone', 'ifnotnone']
 /* ALL_TEMPLATES contains only actually available templates */
@@ -18,7 +17,6 @@ const ALL_TEMPLATES = [
   ...VAR_TEMPLATES,
   ...FOR_TEMPLATES,
   ...PYTHON_TEMPLATES,
-  ...EQUALITY_TEMPLATES,
   ...IF_TEMPLATES,
   ...IF_EQUALITY_TEMPLATES,
   'not',
@@ -67,7 +65,7 @@ describe('02. Template usage', () => {
   testTemplateUsage('return expression', 'return x * 100', [...PYTHON_TEMPLATES, 'not'])
   testTemplateUsage('dict literal expression', '{}', () => [...VAR_TEMPLATES, ...PYTHON_TEMPLATES, 'return'])
   testTemplateUsage('dict literal expression', '{"foo":"foo"}', () => [...VAR_TEMPLATES, ...PYTHON_TEMPLATES, 'return'])
-  testTemplateUsage('constructor call', 'MyClass()', [...VAR_TEMPLATES, ...PYTHON_TEMPLATES, ...IF_TEMPLATES, ...EQUALITY_TEMPLATES, 'not', 'return'])
+  testTemplateUsage('constructor call', 'MyClass()', [...VAR_TEMPLATES, ...PYTHON_TEMPLATES, ...IF_TEMPLATES, ...IF_EQUALITY_TEMPLATES, 'not', 'return'])
   testTemplateUsage('expression as argument', 'function("arg", expr{cursor})', [...PYTHON_TEMPLATES, 'not', 'await'])
 
   testTemplateUsage('string literal - single quote', '\'a string\'', STRING_LITERAL_TEMPLATES)
@@ -76,12 +74,12 @@ describe('02. Template usage', () => {
   testTemplateUsage('string literal - f-string with var #1', 'f"a {value} string"', STRING_LITERAL_TEMPLATES)
   testTemplateUsage('string literal - f-string with var #2', 'f"a string {value}"', STRING_LITERAL_TEMPLATES)
 
-  testTemplateUsage('inside return - lambda', 'return map(lambda x: result{cursor}, items)', () => _.difference(ALL_TEMPLATES, [...VAR_TEMPLATES, ...FOR_TEMPLATES, ...IF_TEMPLATES, 'return']))
-  testTemplateUsage('inside return - list comprehension', 'return [result{cursor} for x in items]', () => _.difference(ALL_TEMPLATES, [...VAR_TEMPLATES, ...FOR_TEMPLATES, ...IF_TEMPLATES, 'return']))
+  testTemplateUsage('inside return - lambda', 'return map(lambda x: result{cursor}, items)', () => _.difference(ALL_TEMPLATES, [...VAR_TEMPLATES, ...FOR_TEMPLATES, ...IF_TEMPLATES, ...IF_EQUALITY_TEMPLATES, 'return']))
+  testTemplateUsage('inside return - list comprehension', 'return [result{cursor} for x in items]', () => _.difference(ALL_TEMPLATES, [...VAR_TEMPLATES, ...FOR_TEMPLATES, ...IF_TEMPLATES, ...IF_EQUALITY_TEMPLATES, 'return']))
 
-  testTemplateUsage('inside assignment statement', 'test = expr{cursor}', [...EQUALITY_TEMPLATES, ...PYTHON_TEMPLATES, 'not'])
-  testTemplateUsage('inside assignment statement - short-circuit', 'test *= expr{cursor}', [...EQUALITY_TEMPLATES, ...PYTHON_TEMPLATES, 'not'])
-  testTemplateUsage('inside return', 'return expr{cursor}', [...EQUALITY_TEMPLATES, ...PYTHON_TEMPLATES, 'not', 'await'])
+  testTemplateUsage('inside assignment statement', 'test = expr{cursor}', [...PYTHON_TEMPLATES, 'not'])
+  testTemplateUsage('inside assignment statement - short-circuit', 'test *= expr{cursor}', [...PYTHON_TEMPLATES, 'not'])
+  testTemplateUsage('inside return', 'return expr{cursor}', [...PYTHON_TEMPLATES, 'not', 'await'])
   testTemplateUsage('inside single line comment', '# expr', [])
   testTemplateUsage('inside multi line comment', '""" expr{cursor} """', [])
 

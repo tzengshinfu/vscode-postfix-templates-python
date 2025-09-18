@@ -2,7 +2,6 @@ import * as vsc from 'vscode'
 import { IPostfixTemplate } from './template'
 import { AwaitTemplate } from './templates/awaitTemplate'
 import { CustomTemplate } from './templates/customTemplate'
-import { EqualityTemplate } from './templates/equalityTemplates'
 import { ForTemplate, ForRangeTemplate } from './templates/forTemplates'
 import { IfTemplate, IfElseTemplate, IfEqualityTemplate } from './templates/ifTemplates'
 import { NotTemplate } from './templates/notTemplate'
@@ -33,8 +32,6 @@ export const loadBuiltinTemplates = () => {
     new IfElseTemplate('ifelse'),
     new IfEqualityTemplate('ifnone', 'is', 'None'),
     new IfEqualityTemplate('ifnotnone', 'is not', 'None'),
-    new EqualityTemplate('none', 'is', 'None'),
-    new EqualityTemplate('notnone', 'is not', 'None'),
     new NotTemplate('not'),
     new ReturnTemplate('return'),
     new VarTemplate('var'),

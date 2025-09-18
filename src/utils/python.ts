@@ -280,26 +280,6 @@ export const inTypeNode = (node: tree.Node | null | undefined): boolean => {
   return node.parent ? inTypeNode(node.parent) : false
 }
 
-export const inLambda = (node: tree.Node | null | undefined): boolean => {
-  /* Check if the node itself is a type */
-  if (isLambda(node)) {
-    return true
-  }
-
-  /* Check parent node recursively (like TypeScript version) */
-  return node.parent ? inLambda(node.parent) : false
-}
-
-export const inListComprehension = (node: tree.Node | null | undefined): boolean => {
-  /* Check if the node itself is a type */
-  if (isListComprehension(node)) {
-    return true
-  }
-
-  /* Check parent node recursively (like TypeScript version) */
-  return node.parent ? isListComprehension(node.parent) : false
-}
-
 export const unwindBinaryExpression = (node: tree.Node, removeParens = true): tree.Node => {
   let binaryExpression: tree.Node | undefined
 
