@@ -6,10 +6,6 @@ import { runTests } from '@vscode/test-electron'
 function findVSCodeExecutable(): string {
   /* Try different possible VS Code paths */
   const possiblePaths = [
-    'C:\\Users\\tzeng\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe',
-    'C:\\Users\\tzeng\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\code.cmd',
-    'C:\\Program Files\\Microsoft VS Code\\Code.exe',
-    'C:\\Program Files\\Microsoft VS Code\\bin\\code.cmd',
     'code', /* Try system PATH */
   ]
 
@@ -41,10 +37,10 @@ async function main() {
     const vscodeExecutablePath = findVSCodeExecutable()
 
     /* Use local VS Code installation instead of downloading */
-    await runTests({ 
+    await runTests({
       vscodeExecutablePath,
-      extensionDevelopmentPath, 
-      extensionTestsPath 
+      extensionDevelopmentPath,
+      extensionTestsPath
     })
   } catch (err) {
     console.error('Failed to run tests:', err)
