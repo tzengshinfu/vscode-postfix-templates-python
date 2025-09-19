@@ -1,10 +1,10 @@
 import { CompletionItemBuilder } from '../completionItemBuilder'
 import { BaseExpressionTemplate } from './baseTemplates'
-import { createIfTemplate } from '../utils/template-helpers'
 import { invertExpression } from '../utils/invert-expression'
 import { IndentInfo } from '../template'
 import * as tree from '../web-tree-sitter'
 import * as py from '../utils/python'
+import { getIndentCharacters } from '../utils/vscode-helpers'
 
 abstract class BaseIfElseTemplate extends BaseExpressionTemplate {
   override canUse(node: tree.Node) {
@@ -20,23 +20,27 @@ abstract class BaseIfElseTemplate extends BaseExpressionTemplate {
 
 export class IfTemplate extends BaseIfElseTemplate {
   buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
-    const { node: unwrappedNode, text } = py.unwrapNodeForTemplate(node)
+    node = py.unwindBinaryExpression(node, false)
+    const replacement = py.unwindBinaryExpression(node, true).text
 
     return CompletionItemBuilder
-      .create('if', unwrappedNode, indentInfo)
-      .replace(createIfTemplate(text))
+      .create('if', node, indentInfo)
+      .replace(`if ${replacement}:\n
+                ${getIndentCharacters()}\${0}`)
       .build()
   }
 }
 
 export class IfElseTemplate extends BaseIfElseTemplate {
   buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
-    const { node: unwrappedNode } = py.unwrapNodeForTemplate(node)
-    const replacement = invertExpression(py.unwindBinaryExpression(unwrappedNode, true))
+    node = py.unwindBinaryExpression(node, false)
+    const replacement = invertExpression(py.unwindBinaryExpression(node, true))
 
     return CompletionItemBuilder
-      .create('ifelse', unwrappedNode, indentInfo)
-      .replace(createIfTemplate(replacement, true))
+      .create('ifelse', node, indentInfo)
+      .replace(`if ${replacement}:\n
+                ${getIndentCharacters()}\${0}\n
+                else:\n`)
       .build()
   }
 }
@@ -53,7 +57,8 @@ export class IfEqualityTemplate extends BaseIfElseTemplate {
   buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
     return CompletionItemBuilder
       .create(this.keyword, node, indentInfo)
-      .replace(createIfTemplate(`{{expr}} ${this.operator} ${this.operand}`))
+      .replace(`if {{expr}} ${this.operator} ${this.operand}:\n
+                ${getIndentCharacters()}\${0}`)
       .build()
   }
 }

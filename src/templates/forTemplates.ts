@@ -1,7 +1,6 @@
 import { CompletionItemBuilder } from '../completionItemBuilder'
 import { BaseTemplate } from './baseTemplates'
-import { getConfigValue, getPlaceholderWithOptions } from '../utils/vscode-helpers'
-import { createForLoopTemplate } from '../utils/template-helpers'
+import { getConfigValue, getIndentCharacters, getPlaceholderWithOptions } from '../utils/vscode-helpers'
 import { inferForVarTemplate } from '../utils/infer-names'
 import { IndentInfo } from '../template'
 import * as tree from '../web-tree-sitter'
@@ -40,7 +39,8 @@ export class ForTemplate extends BaseForTemplate {
 
     return CompletionItemBuilder
       .create('for', node, indentInfo)
-      .replace(createForLoopTemplate('{{expr}}', getPlaceholderWithOptions(itemNames)) + '\n')
+      .replace(`for ${getPlaceholderWithOptions(itemNames)} in {{expr}}:\n
+                ${getIndentCharacters()}\${0}\n`)
       .build()
   }
 }
@@ -51,7 +51,8 @@ export class ForRangeTemplate extends BaseForTemplate {
 
     return CompletionItemBuilder
       .create('forrange', node, indentInfo)
-      .replace(createForLoopTemplate('range({{expr}})', getPlaceholderWithOptions(itemNames)) + '\n')
+      .replace(`for ${getPlaceholderWithOptions(itemNames)} in range({{expr}}):\n
+                ${getIndentCharacters()}\${0}\n`)
       .build()
   }
 
