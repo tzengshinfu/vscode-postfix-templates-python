@@ -84,7 +84,7 @@ export class NotTemplate extends BaseTemplate {
       return node.parent
     }
 
-    if (py.isPrefixUnaryExpression(node) && node.type === 'not_operator') {
+    if (py.isPrefixUnaryExpression(node)) {
       return node
     }
 

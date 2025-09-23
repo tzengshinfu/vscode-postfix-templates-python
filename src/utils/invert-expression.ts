@@ -69,7 +69,7 @@ export const invertBinaryExpression = (expr: tree.Node, addOrBrackets = false): 
     /* Only add brackets for complex expressions, not simple identifiers */
     const isLeftSimple = /^[a-zA-Z_][a-zA-Z0-9_]*$/.test(left.text.trim())
     const isRightSimple = /^[a-zA-Z_][a-zA-Z0-9_]*$/.test(right.text.trim())
-    
+
     const leftInverted = invertExpression(left, !isLeftSimple && op !== 'or')
     const rightInverted = invertExpression(right, !isRightSimple && op !== 'or')
 
@@ -86,7 +86,7 @@ export const invertExpression = (expr: tree.Node, addOrBrackets = false): string
 
   /* not (x) => x or not x => x  */
   /* Check for not_operator node type specifically */
-  if (expr.type === 'not_operator' || py.isPrefixUnaryExpression(expr)) {
+  if (py.isPrefixUnaryExpression(expr)) {
     /* For not_operator, the structure is: not_operator -> 'not' -> operand */
     /* For unary_operator, the structure is: unary_operator -> operator -> operand */
     if (expr.childCount >= 2) {
@@ -143,9 +143,9 @@ export const invertExpression = (expr: tree.Node, addOrBrackets = false): string
 
   /* Check if this node itself is a binary expression (not its parent) */
   const binaryTypes = ['binary_operator', 'boolean_operator', 'comparison_operator']
-  const isNodeItelfBinaryExpression = binaryTypes.includes(expr.type) || 
+  const isNodeItelfBinaryExpression = binaryTypes.includes(expr.type) ||
     (py.isParenthesizedExpression(expr) && expr.firstNamedChild && binaryTypes.includes(expr.firstNamedChild.type))
-  
+
   if (isNodeItelfBinaryExpression) {
     return text.startsWith('not ') ? text.substring(4) : `not (${text})`
   }
@@ -154,7 +154,7 @@ export const invertExpression = (expr: tree.Node, addOrBrackets = false): string
   /* If the expression is complex (contains operators), we should wrap it in parentheses */
   const hasOperators = /[+\-*/%<>=!&|^]/.test(text)
   const isSimpleIdentifier = /^[a-zA-Z_][a-zA-Z0-9_]*$/.test(text)
-  
+
   if (text.startsWith('not ')) {
     return text.substring(4)
   } else if (isSimpleIdentifier && !addOrBrackets) {

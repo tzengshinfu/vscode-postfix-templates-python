@@ -115,12 +115,12 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
     }
 
     /* for -x */
-    if (py.isPrefixUnaryExpression(node.parent)) {
+    if (py.isUnaryOperator(node.parent)) {
       node = node.parent
     }
 
     /* for not x */
-    if (node.parent?.type === 'not_operator') {
+    if (py.isNotOperator(node.parent)) {
       node = node.parent
     }
 

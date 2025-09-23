@@ -45,6 +45,16 @@ export const isPrefixUnaryExpression = (node: tree.Node | null | undefined): boo
     .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
 }
 
+export const isUnaryOperator = (node: tree.Node | null | undefined): boolean => {
+  return Boolean(['unary_operator']
+    .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
+}
+
+export const isNotOperator = (node: tree.Node | null | undefined): boolean => {
+  return Boolean(['not_operator']
+    .filter(t => [node?.type, unwrappedNode(node)?.type].includes(t)).length)
+}
+
 /* Utility function to get the unwrapped node (inner node without parentheses) */
 export const unwrappedNode = (node: tree.Node | null | undefined): tree.Node | null => {
   if (!node) {
