@@ -232,7 +232,8 @@
     "test-with-coverage": "c8 npm test",
     "lint": "eslint .",
     "package": "vsce package --no-dependencies",
-    "deploy": "vsce publish"
+    "deploy": "vsce publish",
+    "clean": "node tasks.mjs clean"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.192",

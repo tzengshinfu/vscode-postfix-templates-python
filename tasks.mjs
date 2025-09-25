@@ -9,6 +9,7 @@ const LANGUAGE = 'postfix'
 async function clean() {
   try {
     rmSync('./out', { recursive: true, force: true })
+    mkdirSync('./out')
     console.log('Cleaned out directory')
   } catch (error) {
     /* Ignore if directory doesn't exist */
