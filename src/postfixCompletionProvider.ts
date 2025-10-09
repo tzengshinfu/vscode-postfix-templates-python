@@ -44,33 +44,38 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
       if (!fullCurrentNode) {
         return []
       }
+      const treeToCleanup = fullCurrentNode.tree
       const replacementNode = this.getNodeForReplacement(fullCurrentNode)
 
       const indentInfo = this.getIndentInfo(document, fullCurrentNode)
 
-      return this.templates
-        .filter(t => {
-          try {
-            let canUseTemplate = t.canUse(fullCurrentNode)
+      try {
+        return this.templates
+          .filter(t => {
+            try {
+              let canUseTemplate = t.canUse(fullCurrentNode)
 
-            if (this.mergeMode === 'override') {
-              canUseTemplate &&= (t instanceof CustomTemplate || !this.customTemplateNames.includes(t.templateName))
+              if (this.mergeMode === 'override') {
+                canUseTemplate &&= (t instanceof CustomTemplate || !this.customTemplateNames.includes(t.templateName))
+              }
+
+              return canUseTemplate
+            } catch (filterErr) {
+              console.error(`Error checking template '${t.templateName}':`, filterErr)
+              return false
             }
-
-            return canUseTemplate
-          } catch (filterErr) {
-            console.error(`Error checking template '${t.templateName}':`, filterErr)
-            return false
-          }
-        })
-        .flatMap(t => {
-          try {
-            return t.buildCompletionItem(replacementNode, indentInfo)
-          } catch (buildErr) {
-            console.error(`Error building completion item for template '${t.templateName}':`, buildErr)
-            return []
-          }
-        })
+          })
+          .flatMap(t => {
+            try {
+              return t.buildCompletionItem(replacementNode, indentInfo)
+            } catch (buildErr) {
+              console.error(`Error building completion item for template '${t.templateName}':`, buildErr)
+              return []
+            }
+          })
+      } finally {
+        treeToCleanup?.delete()
+      }
     } catch (err) {
       console.error('Error in provideCompletionItems:', err)
       return []
