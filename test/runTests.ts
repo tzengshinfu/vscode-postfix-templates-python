@@ -4,14 +4,24 @@ import * as fs from 'fs'
 import { runTests } from '@vscode/test-electron'
 
 function findVSCodeExecutable(): string {
+  /* Honour explicit override first */
+  const fromEnv = process.env.VSCODE_EXECUTABLE_PATH
+    ? path.normalize(process.env.VSCODE_EXECUTABLE_PATH)
+    : undefined
+
   /* Try different possible VS Code paths */
   const possiblePaths = [
+    fromEnv,
+    '%USERPROFILE%\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\code',
+    '%USERPROFILE%\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\code.cmd',
+    '%USERPROFILE%\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe',
+    '%ProgramFiles%\\Microsoft VS Code\\Code.exe',
     'code', /* Try system PATH */
-  ]
+  ].filter(Boolean) as string[]
 
   for (const vscodePath of possiblePaths) {
     try {
-      if (fs.existsSync(vscodePath) || vscodePath === 'code') {
+      if (vscodePath === 'code' || fs.existsSync(vscodePath)) {
         console.log(`Using VS Code at: ${vscodePath}`)
         return vscodePath
       }

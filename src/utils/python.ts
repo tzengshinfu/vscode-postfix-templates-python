@@ -336,8 +336,10 @@ export const unwindBinaryExpression = (node: tree.Node, removeParens = true): tr
 export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: number): tree.Node | null => {
   const textBeforeDot = text.slice(0, dotOffset)
   const textAfterDot = text.slice(dotOffset + 1)
-  const textReplaceDotWithSpace = textBeforeDot + " " + textAfterDot
-  const syntaxTree = parser.parse(textReplaceDotWithSpace)
+  const templateMatch = /^[\w$-]+/.exec(textAfterDot)
+  const sanitizedAfterDot = templateMatch ? textAfterDot.slice(templateMatch[0].length) : textAfterDot
+  const sanitizedText = textBeforeDot + sanitizedAfterDot
+  const syntaxTree = parser.parse(sanitizedText)
   const findNamedNode = (node: tree.Node | null): tree.Node | null => {
     if (!node) {
       return null
