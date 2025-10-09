@@ -9,13 +9,22 @@ function findVSCodeExecutable(): string {
     ? path.normalize(process.env.VSCODE_EXECUTABLE_PATH)
     : undefined
 
+  const userProfile = process.env.USERPROFILE
+    ? path.join(process.env.USERPROFILE, 'AppData', 'Local', 'Programs', 'Microsoft VS Code')
+    : undefined
+  const programFiles = process.env.ProgramFiles
+    ? path.join(process.env.ProgramFiles, 'Microsoft VS Code')
+    : 'C:\\Program Files\\Microsoft VS Code'
+
   /* Try different possible VS Code paths */
   const possiblePaths = [
     fromEnv,
-    '%USERPROFILE%\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\code',
-    '%USERPROFILE%\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\code.cmd',
-    '%USERPROFILE%\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe',
-    '%ProgramFiles%\\Microsoft VS Code\\Code.exe',
+    userProfile && path.join(userProfile, 'bin', 'code'),
+    userProfile && path.join(userProfile, 'bin', 'code.cmd'),
+    userProfile && path.join(userProfile, 'Code.exe'),
+    path.join(programFiles, 'Code.exe'),
+    path.join(programFiles, 'bin', 'code'),
+    path.join(programFiles, 'bin', 'code.cmd'),
     'code', /* Try system PATH */
   ].filter(Boolean) as string[]
 
