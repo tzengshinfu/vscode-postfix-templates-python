@@ -111,10 +111,23 @@ async function selectAndAcceptSuggestion(doc: vsc.TextDocument, dsl: ITestDSL, f
     await delay(getCurrentDelay())
 
     let current = getCurrentSuggestion()
+    // Ensure we focus one of our provider items before template navigation
+    if (!current) {
+      for (let i = 0; i < 50; i++) {
+        await vsc.commands.executeCommand('selectNextSuggestion')
+        await delay(10)
+        current = getCurrentSuggestion()
+        if (current) {
+          break
+        }
+      }
+    }
+
     const first = current
 
-    while (current !== dsl.template) {
+    for (let i = 0; i < 200 && current !== dsl.template; i++) {
       await vsc.commands.executeCommand('selectNextSuggestion')
+      await delay(5)
       current = getCurrentSuggestion()
 
       if (current === first) {

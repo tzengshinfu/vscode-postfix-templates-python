@@ -4,7 +4,7 @@ import { getLanguageService, TokenType } from 'vscode-html-languageservice'
 const languageService = getLanguageService()
 
 const getHtmlLikeEmbedRange = (document: vsc.TextDocument, cursorOffset: number): undefined | null | Record<'start' | 'end', number> => {
-  const html = languageService.parseHTMLDocument({ ...document, uri: undefined })
+  const html = languageService.parseHTMLDocument({ ...document, uri: undefined, languageId: 'html' })
   const node = html.findNodeAt(cursorOffset)
 
   let mostTopNode = node

@@ -55,9 +55,9 @@ export const inferVarTemplateName = (node: tree.Node): string[] => {
   let name: string | undefined
 
   if (py.isConstructorCall(node)) {
-    /* 1. Constructor call: function name to lowercase */
+    /* 1. Constructor call: function name to lowercase (strip leading get) */
     const constructorName = getConstructorName(node)
-    name = constructorName
+    name = constructorName ? removeGetPrefix(constructorName) : undefined
   } else if (py.isMethodCall(node)) {
     /* 2. Method call: remove 'get' prefix, function name to lowercase */
     const methodName = getMethodCallName(node)
@@ -74,6 +74,9 @@ export const inferVarTemplateName = (node: tree.Node): string[] => {
     /* Fallback: original logic for backward compatibility */
     const methodName = getMethodName(node)
     name = beautifyMethodName(methodName)
+    if (name) {
+      name = name.replace(/^get(?=[A-Z_])/, '').replace(/^get_+/, '')
+    }
   } else if (py.isIdentifier(node)) {
     /* 5. Simple identifier: use the identifier text directly */
     name = node.text

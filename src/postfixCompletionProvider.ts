@@ -34,9 +34,16 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
     try {
       const line = document.lineAt(position.line)
       const dotIndex = line.text.lastIndexOf('.', position.character - 1)
+      if (dotIndex === -1) {
+        return []
+      }
       const wordRange = document.getWordRangeAtPosition(position)
-      const isCursorOnWordAfterDot = (wordRange?.start ?? position).character === dotIndex + 1
-      if (dotIndex === -1 || !isCursorOnWordAfterDot) {
+      const afterDot = line.text.slice(dotIndex + 1, position.character)
+      const isHtml = document.languageId === 'html'
+      const isCursorOnWordAfterDot = isHtml
+        ? /^[A-Za-z_]+$/.test(afterDot)
+        : (wordRange?.start ?? position).character === dotIndex + 1
+      if (!isCursorOnWordAfterDot) {
         return []
       }
 
