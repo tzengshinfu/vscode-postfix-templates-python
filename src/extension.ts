@@ -13,7 +13,7 @@ export async function activate(context: vsc.ExtensionContext): Promise<void> {
     parser = await createPythonParser(vsc.Uri.joinPath(context.extensionUri, 'out', 'tree-sitter-python.wasm').fsPath)
     registerCompletionProvider(context)
 
-    context.subscriptions.push(vsc.commands.registerTextEditorCommand(NOT_COMMAND, async (editor: vsc.TextEditor, _: vsc.TextEditorEdit, ...args: tree.Node[]) => {
+    context.subscriptions.push(vsc.commands.registerTextEditorCommand(NOT_COMMAND, async (editor: vsc.TextEditor, _: vsc.TextEditorEdit, ...args: any[]) => {
       try {
         const [...expressions] = args
         await notCommand(editor, expressions)

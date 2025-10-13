@@ -237,8 +237,8 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.192",
-    "@types/mocha": "^10.0.1",
-    "@types/node": "^16.11.7",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^16.18.126",
     "@types/pluralize": "^0.0.29",
     "@types/vscode": "^1.60.0",
     "@typescript-eslint/eslint-plugin": "^5.57.1",

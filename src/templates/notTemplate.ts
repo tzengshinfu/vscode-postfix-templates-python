@@ -1,3 +1,4 @@
+import * as vsc from 'vscode'
 import { CompletionItemBuilder } from '../completionItemBuilder'
 import { BaseTemplate } from './baseTemplates'
 import { NOT_COMMAND } from '../utils/notCommand'
@@ -16,13 +17,22 @@ export class NotTemplate extends BaseTemplate {
     if (py.inBinaryExpression(node)) {
       const expressions = this.getBinaryExpressions(node)
       if (expressions.length > 1) {
+        const items = expressions.map(expr => {
+          const { start, end } = py.getNodePositions(expr)
+          return {
+            label: expr.text.replace(/\s+/g, ' '),
+            description: '',
+            detail: 'Invert this expression',
+            range: new vsc.Range(
+              new vsc.Position(start.line, start.character),
+              new vsc.Position(end.line, end.character + 1)
+            ),
+            text: expr.text
+          }
+        })
         return completionBuilder
           .insertText('')
-          .command({
-            title: '',
-            command: NOT_COMMAND,
-            arguments: expressions
-          })
+          .command({ title: '', command: NOT_COMMAND, arguments: items })
           .description('`!expr` - *[multiple options]*')
           .build()
       }
@@ -36,8 +46,8 @@ export class NotTemplate extends BaseTemplate {
 
   canUse(node: tree.Node) {
     return !py.inTypeNode(node)
-      && !py.isObjectLiteral(node) /* don't negate dict literals */
-      && !py.isStringLiteral(node) /* don't negate string literals  */
+      && !py.isObjectLiteral(node)
+      && !py.isStringLiteral(node)
       && (py.isExpression(node)
         || py.inPrefixUnaryExpression(node)
         || py.inBinaryExpression(node)
@@ -56,7 +66,6 @@ export class NotTemplate extends BaseTemplate {
     }
 
     if (py.isCallExpression(node) && node.firstNamedChild?.text === 'isinstance') {
-
       return true
     }
 
@@ -68,7 +77,6 @@ export class NotTemplate extends BaseTemplate {
 
     do {
       py.inBinaryExpression(node.parent) && possibleExpressions.push(node.parent)
-
       node = node.parent
     } while (node.parent)
 
@@ -80,7 +88,6 @@ export class NotTemplate extends BaseTemplate {
       && py.isParenthesizedExpression(node.parent)
       && node.parent.firstNamedChild
       && py.inBinaryExpression(node.parent.firstNamedChild)) {
-
       return node.parent
     }
 
@@ -95,3 +102,4 @@ export class NotTemplate extends BaseTemplate {
     return node
   }
 }
+

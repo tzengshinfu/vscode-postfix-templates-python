@@ -1,4 +1,6 @@
 import * as vsc from 'vscode'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { getLanguageService, TokenType } from 'vscode-html-languageservice'
 
 const languageService = getLanguageService()
