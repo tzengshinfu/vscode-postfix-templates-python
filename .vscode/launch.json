@@ -27,7 +27,8 @@
         "--extensionTestsPath=${workspaceRoot}/out/test"
       ],
       "env": {
-        "NODE_ENV": "test"
+;        "NODE_ENV": "test",
+        "POSTFIX_MOCHA_REPORTER": "min"
       },
       "sourceMaps": true,
       "outFiles": [

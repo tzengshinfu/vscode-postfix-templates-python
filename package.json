@@ -230,6 +230,8 @@
     "pretest": "node tasks.mjs pretest && tsc -p ./",
     "pretest-clean": "node tasks.mjs clean && node tasks.mjs pretest && tsc -p ./",
     "test": "cross-env NODE_ENV=test node ./out/test/runTests.js",
+    "test:min": "cross-env POSTFIX_MOCHA_REPORTER=min npm run test",
+    "test:json": "cross-env POSTFIX_MOCHA_REPORTER=json npm run test",
     "test-with-coverage": "c8 npm test",
     "lint": "eslint .",
     "package": "vsce package --no-dependencies",
