@@ -39,8 +39,8 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
       }
       const wordRange = document.getWordRangeAtPosition(position)
       const afterDot = line.text.slice(dotIndex + 1, position.character)
-      const isHtml = document.languageId === 'html'
-      const isCursorOnWordAfterDot = isHtml
+      const isHtmlLike = document.languageId === 'html' || document.languageId === 'postfix'
+      const isCursorOnWordAfterDot = isHtmlLike
         ? /^[A-Za-z_]+$/.test(afterDot)
         : (wordRange?.start ?? position).character === dotIndex + 1
       if (!isCursorOnWordAfterDot) {
@@ -97,7 +97,8 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
 
   private getHtmlLikeEmbeddedText(document: vsc.TextDocument, position: vsc.Position) {
     const knownHtmlLikeLangs = [
-      'html'
+      'html',
+      'postfix'
     ]
 
     if (knownHtmlLikeLangs.includes(document.languageId)) {

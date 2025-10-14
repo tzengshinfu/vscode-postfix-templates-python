@@ -22,7 +22,8 @@
   },
   "activationEvents": [
     "onLanguage:python",
-    "onLanguage:html"
+    "onLanguage:html",
+    "onLanguage:postfix"
   ],
   "main": "./out/extension",
   "contributes": {
