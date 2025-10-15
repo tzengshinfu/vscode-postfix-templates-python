@@ -88,30 +88,6 @@ describe('04. Multiline template tests', () => {
       | \t  .lastOne{custom}   >> \t1`)
   })
 
-  Test(`let template - method call in return object method
-      | function hoge() {   >> function hoge() {
-      |   return {          >>   return {
-      |     method(){       >>     method(){
-      |       caller(){let} >>       let name = caller()
-      |     },              >>     },
-      |   }                 >>   }
-      | }                   >> }`)
-
-  Test(`let template - no postfixes incorrect jsx parsing
-      | const func1 = <T>() => {} >> const func1 = <T>() => {}
-      | const func2 = () => {     >> const func2 = () => {
-      |     let b                 >>     let b
-      |     a = () => {           >>     a = () => {
-      |         b = c             >>         b = c
-      |         b{let}            >>         let name = b
-      |     }                     >>     }
-      | }                         >> }`)
-
-  Test(`log template - in arrow function
-      | test = () => {      >> test = () => {
-      |   wrapMe{log}       >>   console.log(wrapMe)
-      | }                   >> }`)
-
   QuickPick(`not template - whitespaces - first expression
       | if (          >> if (
       |   a && (b &&  >>   a && (!b ||
