@@ -28,12 +28,41 @@ describe('03. Single line template tests', () => {
   Test('var template - string literal #1          | "a string"{var}          >> name = "a string"')
   Test('var template - string literal #2          | \'a string\'{var}        >> name = \'a string\'')
   Test('var template - string literal #3          | """a string"""{var}      >> name = """a string"""')
-  Test('var template - f-string                   | f"a string"{var}         >> name = f"a string"')
-  Test('var template - f-string with variable     | f"a {value} string"{var} >> name = f"a {value} string"')
-  Test('var template - f-string with variable     | f"a string {value}"{var} >> name = f"a string {value}"')
-  Test('var template - raw string                 | r"\\\\"{var}             >> name = r"\\\\"')
-  Test('var template - binary string              | b"\\\\"{var}             >> name = b"\\\\"')
-  Test('var template - string combinations        | fr"""a string"""{var}    >> name = fr"""a string"""')
+  Test('var template - string literal #4          | \'\'\'a string\'\'\'{var} >> name = \'\'\'a string\'\'\'')
+
+  Test('var template - u-string #1                | u"a string"{var}         >> name = u"a string"')
+  Test('var template - u-string #2                | u\'a string\'{var}       >> name = u\'a string\'')
+
+  Test('var template - b-string #1                | b"bytes"{var}            >> name = b"bytes"')
+  Test('var template - b-string #2                | b\'bytes\'{var}          >> name = b\'bytes\'')
+
+  Test('var template - r-string #1                | r"\\\\"{var}             >> name = r"\\\\"')
+  Test('var template - r-string #2                | r\'raw\'{var}            >> name = r\'raw\'')
+  Test('var template - r-string #3                | r"""raw"""{var}          >> name = r"""raw"""')
+
+  Test('var template - ur-string                  | ur"raw unicode"{var}     >> name = ur"raw unicode"')
+  Test('var template - ru-string                  | ru"raw unicode"{var}     >> name = ru"raw unicode"')
+
+  Test('var template - rb-string                  | rb"raw bytes"{var}       >> name = rb"raw bytes"')
+  Test('var template - br-string                  | br"raw bytes"{var}       >> name = br"raw bytes"')
+
+  Test('var template - f-string #1                | f"a string"{var}         >> name = f"a string"')
+  Test('var template - f-string #2                | f\'string\'{var}         >> name = f\'string\'')
+  Test('var template - f-string with variable #1  | f"a {value} string"{var} >> name = f"a {value} string"')
+  Test('var template - f-string with variable #2  | f"a string {value}"{var} >> name = f"a string {value}"')
+  Test('var template - f-string with variable #3  | f\'value is {x}\'{var}   >> name = f\'value is {x}\'')
+
+  Test('var template - fr-string #1               | fr"""a string"""{var}    >> name = fr"""a string"""')
+  Test('var template - fr-string #2               | fr"raw {x}"{var}         >> name = fr"raw {x}"')
+  Test('var template - rf-string                  | rf"raw {x}"{var}         >> name = rf"raw {x}"')
+
+  Test('var template - t-string #1                | t"template"{var}         >> name = t"template"')
+  Test('var template - t-string #2                | t\'template\'{var}       >> name = t\'template\'')
+  Test('var template - t-string with value        | t"val {x}"{var}          >> name = t"val {x}"')
+
+  Test('var template - tr-string #1               | tr"template"{var}        >> name = tr"template"')
+  Test('var template - tr-string #2               | tr\'raw template\'{var}  >> name = tr\'raw template\'')
+  Test('var template - rt-string                  | rt"template"{var}        >> name = rt"template"')
 
   Test('var template          | a.b{var}   >> name = a.b')
   Test('var template (indent) | \ta.b{var} >> \tname = a.b')
@@ -42,14 +71,23 @@ describe('03. Single line template tests', () => {
   Test('python template (print)                     | expr{print}  >> print(f"WARNING: {expr}")')
   Test('python template (print)                     | expr{print}  >> print(f"ERROR: {expr}")')
   Test('python template (print) - binary expression | x > y{print} >> print(x > y)')
+  Test('python template (print) - f-string          | f"value is {x}"{print} >> print(f"value is {x}")')
+  Test('python template (print) - r-string          | r"\\path\\to\\file"{print} >> print(r"\\path\\to\\file")')
+  Test('python template (print) - b-string          | b"bytes"{print} >> print(b"bytes")')
+  Test('python template (print) - t-string          | t"template"{print} >> print(t"template")')
+  Test('python template (print) - tr-string         | tr"template"{print} >> print(tr"template")')
 
   Test('python template (print) - dict literal (empty) | {}{print}          >> print({})')
   Test('python template (print) - dict literal         | {"foo":"foo"}{print} >> print({"foo":"foo"})')
 
-  Test('return template | expr{return}    >> return expr')
-  Test('return template | x > 1{return}   >> return x > 1')
-  Test('return template | x > y{return}   >> return x > y')
-  Test('return template | r"\\\\"{return} >> return r"\\\\"')
+  Test('return template                       | expr{return}    >> return expr')
+  Test('return template - comparison            | x > 1{return}   >> return x > 1')
+  Test('return template - comparison            | x > y{return}   >> return x > y')
+  Test('return template - r-string              | r"\\\\"{return} >> return r"\\\\"')
+  Test('return template - f-string              | f"value: {x}"{return} >> return f"value: {x}"')
+  Test('return template - b-string              | b"bytes"{return} >> return b"bytes"')
+  Test('return template - t-string              | t"template"{return} >> return t"template"')
+  Test('return template - tr-string             | tr"raw template"{return} >> return tr"raw template"')
 
   Test('if template                     | expr{if}    >> if expr:', withTrimWhitespaces)
   Test('if template - binary expression | a > b{if}   >> if a > b:', withTrimWhitespaces)

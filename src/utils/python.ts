@@ -396,7 +396,19 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
 
   /* for string */
   if (treeNode.type === 'string_end') {
-    return treeNode.parent
+    const stringNode = treeNode.parent
+    if (!stringNode) {
+      syntaxTree.delete()
+      return null
+    }
+
+    /* Check if there's a string prefix (like f, r, b, u, t, fr, rf, tr, rt, etc.) before the string */
+    /* The prefix is part of the string node in tree-sitter, but we need to ensure it's included */
+    /* Tree-sitter Python includes the prefix as a sibling 'string_start' node */
+    /* The structure is: string -> [string_start, string_content, string_end] */
+    /* where string_start contains the prefix + opening quote */
+
+    return stringNode
   }
 
   /* for x.y */
