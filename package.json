@@ -259,10 +259,10 @@
   "dependencies": {
     "lodash": "^4.17.21",
     "pluralize": "github:plurals/pluralize#36f03cd2d573fa6d23e12e1529fa4627e2af74b4",
-    "tree-sitter-python": "^0.23.6",
+    "tree-sitter-python": "^0.25.0",
     "typescript": "^5.0.4",
     "vscode-html-languageservice": "^5.0.4",
     "vscode-snippet-parser": "^0.0.5",
-    "web-tree-sitter": "^0.25.9"
+    "web-tree-sitter": "^0.25.10"
   }
 }
