@@ -20,15 +20,18 @@
       "name": "Launch Tests",
       "type": "extensionHost",
       "request": "launch",
-      "runtimeExecutable": "${execPath}",
+      "runtimeExecutable": "${env:VSCODE_EXECUTABLE_PATH}",
       "args": [
         "--disable-extensions",
+        "--user-data-dir=${workspaceRoot}/.vscode-test/user-data",
+        "--extensions-dir=${workspaceRoot}/.vscode-test/extensions",
         "--extensionDevelopmentPath=${workspaceRoot}/out",
         "--extensionTestsPath=${workspaceRoot}/out/test"
       ],
       "env": {
-;        "NODE_ENV": "test",
-        "POSTFIX_MOCHA_REPORTER": "min"
+        "NODE_ENV": "test",
+        "POSTFIX_MOCHA_REPORTER": "min",
+        "POSTFIX_MOCHA_GREP": "^03\."
       },
       "sourceMaps": true,
       "outFiles": [

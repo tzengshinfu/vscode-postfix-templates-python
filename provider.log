@@ -1,0 +1,347 @@
+[POSTFIX] Extension activating...
+[POSTFIX] NODE_ENV: test
+[POSTFIX] extensionUri: file:///d%3A/Workspace/vscode-postfix-templates-python/out
+[POSTFIX] Loading parser from: d:\Workspace\vscode-postfix-templates-python\out\out\tree-sitter-python.wasm
+[POSTFIX] Parser loaded successfully
+[POSTFIX] Registering for document selector: (2) ['postfix', 'html']
+[POSTFIX] Completion provider registered successfully
+[POSTFIX] Completion provider registered
+[POSTFIX] Extension activated successfully
+[PROVIDER] provideCompletionItems called for postfix at 0 : 5
+[PROVIDER] Line text: "expr."
+[PROVIDER] Dot index: 4
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 81 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 11
+[PROVIDER] Line text: "await expr."
+[PROVIDER] Dot index: 10
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 80 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 12
+[PROVIDER] Line text: "expr.call()."
+[PROVIDER] Dot index: 11
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: call
+[PROVIDER] Returning 81 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 11
+[PROVIDER] Line text: "expr.a.b.c."
+[PROVIDER] Dot index: 10
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: attribute
+[PROVIDER] Returning 81 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 12
+[PROVIDER] Line text: "expr.a.b[c]."
+[PROVIDER] Dot index: 11
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: subscript
+[PROVIDER] Returning 81 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 6
+[PROVIDER] Line text: "x > y."
+[PROVIDER] Dot index: 5
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 76 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 8
+[PROVIDER] Line text: "(x > y)."
+[PROVIDER] Dot index: 7
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: parenthesized_expression
+[PROVIDER] Returning 76 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 6
+[PROVIDER] Line text: "-expr."
+[PROVIDER] Dot index: 5
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 78 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 11
+[PROVIDER] Line text: "if x * 100.:"
+[PROVIDER] Dot index: 10
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: integer
+[PROVIDER] Returning 72 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 15
+[PROVIDER] Line text: "return x * 100."
+[PROVIDER] Dot index: 14
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: integer
+[PROVIDER] Returning 72 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 3
+[PROVIDER] Line text: "{}."
+[PROVIDER] Dot index: 2
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: dictionary
+[PROVIDER] Returning 73 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 14
+[PROVIDER] Line text: "{\"foo\":\"foo\"}."
+[PROVIDER] Dot index: 13
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: dictionary
+[PROVIDER] Returning 73 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 10
+[PROVIDER] Line text: "MyClass()."
+[PROVIDER] Dot index: 9
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: call
+[PROVIDER] Returning 78 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 21
+[PROVIDER] Line text: "function(\"arg\", expr.)"
+[PROVIDER] Dot index: 20
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 73 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 11
+[PROVIDER] Line text: "'a string'."
+[PROVIDER] Dot index: 10
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: string
+[PROVIDER] Returning 74 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 11
+[PROVIDER] Line text: "\"a string\"."
+[PROVIDER] Dot index: 10
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: string
+[PROVIDER] Returning 74 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 12
+[PROVIDER] Line text: "f\"a string\"."
+[PROVIDER] Dot index: 11
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: string
+[PROVIDER] Returning 74 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 20
+[PROVIDER] Line text: "f\"a {value} string\"."
+[PROVIDER] Dot index: 19
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: string
+[PROVIDER] Returning 74 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 20
+[PROVIDER] Line text: "f\"a string {value}\"."
+[PROVIDER] Dot index: 19
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: string
+[PROVIDER] Returning 74 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 28
+[PROVIDER] Line text: "return map(lambda x: result., items)"
+[PROVIDER] Dot index: 27
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 73 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 15
+[PROVIDER] Line text: "return [result. for x in items]"
+[PROVIDER] Dot index: 14
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 73 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 12
+[PROVIDER] Line text: "test = expr."
+[PROVIDER] Dot index: 11
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 72 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 13
+[PROVIDER] Line text: "test *= expr."
+[PROVIDER] Dot index: 12
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 72 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 12
+[PROVIDER] Line text: "return expr."
+[PROVIDER] Dot index: 11
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 73 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 7
+[PROVIDER] Line text: "# expr."
+[PROVIDER] Dot index: 6
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: undefined
+[PROVIDER] No node found, returning empty
+[PROVIDER] provideCompletionItems called for postfix at 0 : 9
+[PROVIDER] Line text: "\"\"\" expr. \"\"\""
+[PROVIDER] Dot index: 8
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: undefined
+[PROVIDER] No node found, returning empty
+[PROVIDER] provideCompletionItems called for postfix at 0 : 18
+[PROVIDER] Line text: "f1 = lambda: expr."
+[PROVIDER] Dot index: 17
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 81 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 18
+[PROVIDER] Line text: "f3 = lambda: expr."
+[PROVIDER] Dot index: 17
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 81 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 15
+[PROVIDER] Line text: "def f2(): expr."
+[PROVIDER] Dot index: 14
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 81 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 13
+[PROVIDER] Line text: "lambda: expr."
+[PROVIDER] Dot index: 12
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 81 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 17
+[PROVIDER] Line text: "test.something = "
+[PROVIDER] Dot index: 4
+[PROVIDER] After dot: "something = " wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: false
+[PROVIDER] Cursor not on word after dot, returning empty
+[PROVIDER] provideCompletionItems called for postfix at 0 : 21
+[PROVIDER] Line text: "test.something = func"
+[PROVIDER] Dot index: 4
+[PROVIDER] After dot: "something = func" wordRange: Hs {a: Oo, b: Oo}
+[PROVIDER] isCursorOnWordAfterDot: false
+[PROVIDER] Cursor not on word after dot, returning empty
+[POSTFIX] Registering for document selector: (2) ['postfix', 'html']
+[POSTFIX] Completion provider registered successfully
+[PROVIDER] provideCompletionItems called for postfix at 0 : 5
+[PROVIDER] Line text: "expr."
+[PROVIDER] Dot index: 4
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 82 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 6
+[PROVIDER] Line text: "x + y."
+[PROVIDER] Dot index: 5
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 77 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 6
+[PROVIDER] Line text: "a > b."
+[PROVIDER] Dot index: 5
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 77 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 9
+[PROVIDER] Line text: "not expr."
+[PROVIDER] Dot index: 8
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 79 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 7
+[PROVIDER] Line text: "func()."
+[PROVIDER] Dot index: 6
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: call
+[PROVIDER] Returning 79 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 8
+[PROVIDER] Line text: "\"hello\"."
+[PROVIDER] Dot index: 7
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: string
+[PROVIDER] Returning 75 completion items
+[PROVIDER] provideCompletionItems called for postfix at 0 : 4
+[PROVIDER] Line text: "int."
+[PROVIDER] Dot index: 3
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 82 completion items
+[POSTFIX] Registering for document selector: (2) ['postfix', 'html']
+[POSTFIX] Completion provider registered successfully
+[POSTFIX] Registering for document selector: (2) ['postfix', 'html']
+[POSTFIX] Completion provider registered successfully
+[PROVIDER] provideCompletionItems called for postfix at 0 : 5
+[PROVIDER] Line text: "expr."
+[PROVIDER] Dot index: 4
+[PROVIDER] After dot: "" wordRange: undefined
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 79 completion items
+[POSTFIX] Registering for document selector: (2) ['postfix', 'html']
+[POSTFIX] Completion provider registered successfully
+[PROVIDER] provideCompletionItems called for postfix at 0 : 12
+[PROVIDER] Line text: "not expr.not"
+[PROVIDER] Dot index: 8
+[PROVIDER] After dot: "not" wordRange: Hs {a: Oo, b: Oo}
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 78 completion items
+[TEST] Triggered suggestions, waiting 3000 ms
+[TEST] Current suggestion after delay: not
+[PROVIDER] provideCompletionItems called for postfix at 0 : 12
+[PROVIDER] Line text: "not expr.not"
+[PROVIDER] Dot index: 8
+[PROVIDER] After dot: "not" wordRange: Hs {a: Oo, b: Oo}
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 78 completion items
+[TEST] Triggered suggestions, waiting 2000 ms
+[TEST] Current suggestion after delay: not
+[PROVIDER] provideCompletionItems called for postfix at 0 : 12
+[PROVIDER] Line text: "not expr.not"
+[PROVIDER] Dot index: 8
+[PROVIDER] After dot: "not" wordRange: Hs {a: Oo, b: Oo}
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 78 completion items
+[TEST] Triggered suggestions, waiting 1500 ms
+[TEST] Current suggestion after delay: not
+[PROVIDER] provideCompletionItems called for postfix at 0 : 12
+[PROVIDER] Line text: "not expr.not"
+[PROVIDER] Dot index: 8
+[PROVIDER] After dot: "not" wordRange: Hs {a: Oo, b: Oo}
+[PROVIDER] isCursorOnWordAfterDot: true
+[PROVIDER] Node before dot: identifier
+[PROVIDER] Returning 78 completion items
+[TEST] Triggered suggestions, waiting 1000 ms
+[TEST] Current suggestion after delay: not
+
+[FAIL] 03. Single line template tests not template - already negated expression
+Expected values to be strictly equal:
++ actual - expected
+
++ 'not expr.not'
+- 'expr'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'not expr.not'
+- 'expr'
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:127:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17

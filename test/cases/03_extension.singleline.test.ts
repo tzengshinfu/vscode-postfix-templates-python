@@ -7,6 +7,13 @@ const config = vsc.workspace.getConfiguration('postfix')
 const withTrimWhitespaces: Options = { trimWhitespaces: true }
 
 describe('03. Single line template tests', () => {
+  before(async function() {
+    /* Ensure extension is fully activated before tests run */
+    /* Wait for completion provider to be available */
+    this.timeout(10000) /* Increase timeout for this hook */
+    await new Promise(resolve => setTimeout(resolve, 2000))
+  })
+  
   before(setInferVarName(config, false))
   before(setDisabledTemplates(config, []))  /* Enable all templates for specific template tests */
   after(setInferVarName(config, true))
@@ -231,12 +238,18 @@ describe('03. Single line template tests', () => {
 
 function setInferVarName(config: vsc.WorkspaceConfiguration, value: boolean) {
   return (done: Mocha.Done) => {
-    config.update('inferVariableName', value, true).then(done, done)
+    config.update('inferVariableName', value, true).then(() => {
+      /* Add small delay to ensure config change is propagated */
+      setTimeout(done, 100)
+    }, done)
   }
 }
 
 function setDisabledTemplates(config: vsc.WorkspaceConfiguration, value: string[]) {
   return (done: Mocha.Done) => {
-    config.update('disabledBuiltinTemplates', value, true).then(done, done)
+    config.update('disabledBuiltinTemplates', value, true).then(() => {
+      /* Add small delay to ensure config change is propagated */
+      setTimeout(done, 100)
+    }, done)
   }
 }

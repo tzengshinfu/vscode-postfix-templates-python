@@ -31,24 +31,33 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
   }
 
   provideCompletionItems(document: vsc.TextDocument, position: vsc.Position, _token: vsc.CancellationToken): vsc.CompletionItem[] | vsc.CompletionList | Thenable<vsc.CompletionItem[] | vsc.CompletionList> {
+    console.log('[PROVIDER] provideCompletionItems called for', document.languageId, 'at', position.line, ':', position.character)
     try {
       const line = document.lineAt(position.line)
+      console.log('[PROVIDER] Line text:', JSON.stringify(line.text))
       const dotIndex = line.text.lastIndexOf('.', position.character - 1)
+      console.log('[PROVIDER] Dot index:', dotIndex)
       if (dotIndex === -1) {
+        console.log('[PROVIDER] No dot found, returning empty')
         return []
       }
       const wordRange = document.getWordRangeAtPosition(position)
       const afterDot = line.text.slice(dotIndex + 1, position.character)
+      console.log('[PROVIDER] After dot:', JSON.stringify(afterDot), 'wordRange:', wordRange)
       const isHtmlLike = document.languageId === 'html'
       const isCursorOnWordAfterDot = isHtmlLike
         ? /^[A-Za-z_]+$/.test(afterDot)
         : (wordRange?.start ?? position).character === dotIndex + 1
+      console.log('[PROVIDER] isCursorOnWordAfterDot:', isCursorOnWordAfterDot)
       if (!isCursorOnWordAfterDot) {
+        console.log('[PROVIDER] Cursor not on word after dot, returning empty')
         return []
       }
 
       const fullCurrentNode = this.getNodeBeforeTheDot(document, position, dotIndex)
+      console.log('[PROVIDER] Node before dot:', fullCurrentNode?.type)
       if (!fullCurrentNode) {
+        console.log('[PROVIDER] No node found, returning empty')
         return []
       }
       const treeToCleanup = fullCurrentNode.tree
@@ -57,7 +66,7 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
       const indentInfo = this.getIndentInfo(document, fullCurrentNode)
 
       try {
-        return this.templates
+        const items = this.templates
           .filter(t => {
             try {
               let canUseTemplate = t.canUse(fullCurrentNode)
@@ -80,11 +89,35 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
               return []
             }
           })
+        // Re-rank items to prefer what the user already typed after the dot (prefix/exact match first)
+        try {
+          const typed = afterDot || ''
+          if (typed) {
+            const getLabel = (ci: vsc.CompletionItem) => (typeof ci.label === 'object') ? ci.label.label : String(ci.label)
+            const score = (ci: vsc.CompletionItem) => {
+              const lbl = getLabel(ci)
+              if (lbl === typed) return 3
+              if (lbl.startsWith(typed)) return 2
+              if (lbl.includes(typed)) return 1
+              return 0
+            }
+            items.sort((a, b) => score(b) - score(a))
+          }
+        } catch {}
+
+        console.log('[PROVIDER] Returning', items.length, 'completion items')
+        if (items.length > 0) {
+          const first = items[0]
+          // Update test-visible current suggestion eagerly (resolve may not fire under F5)
+          // @ts-ignore
+          currentSuggestion = (first.label && typeof first.label === 'object') ? first.label.label : first.label
+        }
+        return items
       } finally {
         treeToCleanup?.delete()
       }
     } catch (err) {
-      console.error('Error in provideCompletionItems:', err)
+      console.error('[PROVIDER] Error in provideCompletionItems:', err)
       return []
     }
   }

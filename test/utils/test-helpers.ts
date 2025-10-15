@@ -108,18 +108,26 @@ async function selectAndAcceptSuggestion(doc: vsc.TextDocument, dsl: ITestDSL, f
     editor.selection = new vsc.Selection(pos, pos)
 
     await vsc.commands.executeCommand('editor.action.triggerSuggest')
-    await delay(getCurrentDelay())
+    const delayMs = getCurrentDelay()
+    console.log('[TEST] Triggered suggestions, waiting', delayMs, 'ms')
+    await delay(delayMs)
 
     let current = getCurrentSuggestion()
+    console.log('[TEST] Current suggestion after delay:', current)
     // Ensure we focus one of our provider items before template navigation
     if (!current) {
+      console.log('[TEST] No suggestion found, searching through list...')
       for (let i = 0; i < 50; i++) {
         await vsc.commands.executeCommand('selectNextSuggestion')
         await delay(10)
         current = getCurrentSuggestion()
         if (current) {
+          console.log('[TEST] Found suggestion at index', i, ':', current)
           break
         }
+      }
+      if (!current) {
+        console.log('[TEST] ERROR: No suggestions found after searching 50 items!')
       }
     }
 

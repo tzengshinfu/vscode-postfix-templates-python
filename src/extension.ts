@@ -9,9 +9,19 @@ let completionProvider: vsc.Disposable | null = null
 let parser: tree.Parser | null = null
 
 export async function activate(context: vsc.ExtensionContext): Promise<void> {
+  console.log('[POSTFIX] Extension activating...')
+  console.log('[POSTFIX] NODE_ENV:', process.env.NODE_ENV)
+  console.log('[POSTFIX] extensionUri:', context.extensionUri.toString())
+  
   try {
-    parser = await createPythonParser(vsc.Uri.joinPath(context.extensionUri, 'out', 'tree-sitter-python.wasm').fsPath)
+    const wasmPath = vsc.Uri.joinPath(context.extensionUri, 'out', 'tree-sitter-python.wasm').fsPath
+    console.log('[POSTFIX] Loading parser from:', wasmPath)
+    
+    parser = await createPythonParser(wasmPath)
+    console.log('[POSTFIX] Parser loaded successfully')
+    
     registerCompletionProvider(context)
+    console.log('[POSTFIX] Completion provider registered')
 
     context.subscriptions.push(vsc.commands.registerTextEditorCommand(NOT_COMMAND, async (editor: vsc.TextEditor, _: vsc.TextEditorEdit, ...args: any[]) => {
       try {
@@ -42,8 +52,10 @@ export async function activate(context: vsc.ExtensionContext): Promise<void> {
         console.error('Error handling configuration change:', configError)
       }
     }))
+    
+    console.log('[POSTFIX] Extension activated successfully')
   } catch (error) {
-    console.error('Error during extension activation:', error)
+    console.error('[POSTFIX] Error during extension activation:', error)
     throw error
   }
 }
@@ -66,7 +78,7 @@ export function deactivate(): void {
 
 function registerCompletionProvider(context: vsc.ExtensionContext) {
   if (!parser) {
-    console.error('Cannot register completion provider: parser is not initialized')
+    console.error('[POSTFIX] Cannot register completion provider: parser is not initialized')
     return
   }
 
@@ -77,9 +89,11 @@ function registerCompletionProvider(context: vsc.ExtensionContext) {
     const DOCUMENT_SELECTOR: vsc.DocumentSelector =
       process.env.NODE_ENV === 'test' ? TESTS_SELECTOR : <string[]>vsc.workspace.getConfiguration('postfix').get('languages')
 
+    console.log('[POSTFIX] Registering for document selector:', DOCUMENT_SELECTOR)
     completionProvider = vsc.languages.registerCompletionItemProvider(DOCUMENT_SELECTOR, provider, '.')
     context.subscriptions.push(completionProvider)
+    console.log('[POSTFIX] Completion provider registered successfully')
   } catch (error) {
-    console.error('Error registering completion provider:', error)
+    console.error('[POSTFIX] Error registering completion provider:', error)
   }
 }
