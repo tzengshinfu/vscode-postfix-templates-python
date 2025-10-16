@@ -13,8 +13,8 @@ async function clean() {
     mkdirSync('./out')
     console.log('Cleaned out directory')
   } catch (error) {
-    /* Ignore if directory doesn't exist */
-    if (error.code !== 'ENOENT') {
+    /* Ignore common transient issues (locked files, permissions, missing) */
+    if (!['ENOENT', 'EBUSY', 'EPERM'].includes(error.code)) {
       throw error
     }
   }
