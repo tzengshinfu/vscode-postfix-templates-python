@@ -64,7 +64,8 @@
       "runtimeExecutable": "npm",
       "args": ["run", "test"],
       "cwd": "${workspaceFolder}",
-      "console": "integratedTerminal",
+      "console": "internalConsole",
+      "outputCapture": "std",
       "env": {
         "VSCODE_EXECUTABLE_PATH": "${execPath}",
         "POSTFIX_MOCHA_REPORTER": "min",
