@@ -39,7 +39,7 @@
         "${workspaceRoot}/out/test/**/*.js",
         "${workspaceRoot}/out/src/**/*.js"
       ],
-      "preLaunchTask": "npm: pretest-clean"
+      "preLaunchTask": "pretest-clean (node)"
     },
     {
       "name": "Launch Tests (external terminal)",
@@ -48,16 +48,13 @@
       "program": "${workspaceFolder}/out/test/runTests.js",
       "runtimeExecutable": "node",
       "console": "externalTerminal",
-      "windows": {
-        "runtimeExecutable": "C:\\Program Files\\nodejs\\node.exe"
-      },
       "env": {
         "NODE_ENV": "test",
-        "VSCODE_EXECUTABLE_PATH": "${env:VSCODE_EXECUTABLE_PATH}",
+        "VSCODE_EXECUTABLE_PATH": "${execPath}",
         "POSTFIX_MOCHA_REPORTER": "min",
         "POSTFIX_MOCHA_GREP": "^03\\."
       },
-      "preLaunchTask": "npm: pretest-clean"
+      "preLaunchTask": "pretest-clean (node)"
     }
   ]
 }

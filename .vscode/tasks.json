@@ -53,5 +53,43 @@
 				"pretest"
 			]
 		}
+,
+		{
+			"type": "shell",
+			"label": "node: tasks clean",
+			"command": "C:\\Program Files\\nodejs\\node.exe",
+			"args": [
+				"tasks.mjs",
+				"clean"
+			]
+		},
+		{
+			"type": "shell",
+			"label": "node: tasks pretest",
+			"command": "C:\\Program Files\\nodejs\\node.exe",
+			"args": [
+				"tasks.mjs",
+				"pretest"
+			]
+		},
+		{
+			"type": "shell",
+			"label": "node: tsc",
+			"command": "C:\\Program Files\\nodejs\\node.exe",
+			"args": [
+				"node_modules/typescript/bin/tsc",
+				"-p",
+				"./"
+			]
+		},
+		{
+			"label": "pretest-clean (node)",
+			"dependsOrder": "sequence",
+			"dependsOn": [
+				"node: tasks clean",
+				"node: tasks pretest",
+				"node: tsc"
+			]
+		}
 	]
 }
