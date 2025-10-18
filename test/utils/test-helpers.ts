@@ -9,6 +9,8 @@ import { CustomTemplateBodyType } from '../../src/templates'
 import { createPythonParser } from '../../src/utils/python'
 import * as tree from '../../src/web-tree-sitter'
 
+
+
 const LANGUAGE = 'postfix'
 
 const config = vsc.workspace.getConfiguration('editor', null)
@@ -109,25 +111,22 @@ async function selectAndAcceptSuggestion(doc: vsc.TextDocument, dsl: ITestDSL, f
 
     await vsc.commands.executeCommand('editor.action.triggerSuggest')
     const delayMs = getCurrentDelay()
-    console.log('[TEST] Triggered suggestions, waiting', delayMs, 'ms')
+
     await delay(delayMs)
 
     let current = getCurrentSuggestion()
-    console.log('[TEST] Current suggestion after delay:', current)
+
     // Ensure we focus one of our provider items before template navigation
     if (!current) {
-      console.log('[TEST] No suggestion found, searching through list...')
+
       for (let i = 0; i < 50; i++) {
         await vsc.commands.executeCommand('selectNextSuggestion')
         await delay(10)
         current = getCurrentSuggestion()
         if (current) {
-          console.log('[TEST] Found suggestion at index', i, ':', current)
+
           break
         }
-      }
-      if (!current) {
-        console.log('[TEST] ERROR: No suggestions found after searching 50 items!')
       }
     }
 
