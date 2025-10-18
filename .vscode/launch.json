@@ -31,7 +31,7 @@
       "env": {
         "VSCODE_EXECUTABLE_PATH": "${execPath}",
         "POSTFIX_MOCHA_REPORTER": "min",
-        "POSTFIX_MOCHA_GREP": "^03\\."
+        "POSTFIX_MOCHA_GREP": ".*"
       },
       "preLaunchTask": "npm: pretest-clean"
     }
