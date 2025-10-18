@@ -18,51 +18,13 @@
     },
     {
       "name": "Launch Tests",
-      "type": "extensionHost",
-      "request": "launch",
-      "runtimeExecutable": "${env:VSCODE_EXECUTABLE_PATH}",
-      "args": [
-        "--disable-extensions",
-        "--user-data-dir=${workspaceRoot}/.vscode-test/user-data",
-        "--extensions-dir=${workspaceRoot}/.vscode-test/extensions",
-        "--extensionDevelopmentPath=${workspaceRoot}/out",
-        "--extensionTestsPath=${workspaceRoot}/out/test"
-      ],
-      "env": {
-        "NODE_ENV": "test",
-        "POSTFIX_MOCHA_REPORTER": "min",
-        "POSTFIX_MOCHA_GREP": "^03\\.",
-        "VSCODE_EXECUTABLE_PATH": "${env:VSCODE_EXECUTABLE_PATH}"
-      },
-      "sourceMaps": true,
-      "outFiles": [
-        "${workspaceRoot}/out/test/**/*.js",
-        "${workspaceRoot}/out/src/**/*.js"
-      ],
-      "preLaunchTask": "pretest-clean (node)"
-    },
-    {
-      "name": "Launch Tests (external terminal)",
-      "type": "node",
-      "request": "launch",
-      "program": "${workspaceFolder}/out/test/runTests.js",
-      "runtimeExecutable": "node",
-      "console": "externalTerminal",
-      "env": {
-        "NODE_ENV": "test",
-        "VSCODE_EXECUTABLE_PATH": "${execPath}",
-        "POSTFIX_MOCHA_REPORTER": "min",
-        "POSTFIX_MOCHA_GREP": "^03\\."
-      },
-      "preLaunchTask": "pretest-clean (node)"
-    }
-,
-    {
-      "name": "Launch Tests via npm",
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "npm",
-      "args": ["run", "test"],
+      "args": [
+        "run",
+        "test"
+      ],
       "cwd": "${workspaceFolder}",
       "console": "internalConsole",
       "outputCapture": "std",
@@ -73,4 +35,5 @@
       },
       "preLaunchTask": "npm: pretest-clean"
     }
+  ]
 }
