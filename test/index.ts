@@ -8,6 +8,41 @@ export async function run(): Promise<void> {
   const envRetries = Number(process.env.POSTFIX_MOCHA_RETRIES || '0')
   const mocha = new Mocha({ ui: 'tdd', color: true })
 
+
+  // Filter out noisy non-test logs in Debug Console
+  const originalError = console.error.bind(console)
+  const originalLog = console.log.bind(console)
+  const suppressPatterns = [
+    /Model is disposed!/i,
+    /vscode-file:\/\//i,
+    /electron.*NODE_OPTION/i
+  ]
+  const shouldSuppress = (msg: any) => suppressPatterns.some(r => ('' + msg).match(r))
+  console.error = (...args: any[]) => {
+    if (args.some(shouldSuppress)) return
+    originalError(...args)
+  }
+  console.log = (...args: any[]) => {
+    if (args.some(shouldSuppress)) return
+    originalLog(...args)
+  }
+
+  // Also filter low-level stdout/stderr writes
+  const patterns = suppressPatterns
+  const wrapWrite = (stream: NodeJS.WriteStream) => {
+    const orig: any = (stream as any).write.bind(stream)
+    ;(stream as any).write = (chunk: any, encoding?: any, cb?: any) => {
+      try {
+        const s = typeof chunk === 'string' ? chunk : String(chunk)
+        if (patterns.some(r => r.test(s))) return true
+      } catch {}
+      return orig(chunk, encoding, cb)
+    }
+  }
+  wrapWrite(process.stdout)
+  wrapWrite(process.stderr)
+
+
   // Optional: reporter (e.g., 'min' to show only failures)
   const envReporter = String(process.env.POSTFIX_MOCHA_REPORTER || '').trim()
   if (envReporter) {

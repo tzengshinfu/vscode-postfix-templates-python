@@ -21,12 +21,14 @@
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "npm",
+      "runtimeArgs": ["--silent"],
       "args": [
         "run",
         "test"
       ],
       "cwd": "${workspaceFolder}",
       "console": "internalConsole",
+      "internalConsoleOptions": "openOnSessionStart",
       "outputCapture": "std",
       "env": {
         "VSCODE_EXECUTABLE_PATH": "${execPath}",
