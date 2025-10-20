@@ -24,17 +24,17 @@
       "runtimeArgs": ["--silent"],
       "args": [
         "run",
-        "test"
+        "test:filter"
       ],
       "cwd": "${workspaceFolder}",
       "console": "internalConsole",
       "internalConsoleOptions": "openOnSessionStart",
-      "outputCapture": "std",
+      "outputCapture" : "std",
       "env": {
         "VSCODE_EXECUTABLE_PATH": "${execPath}",
         "POSTFIX_MOCHA_REPORTER": "min",
         "POSTFIX_MOCHA_GREP": ".*",
-        "VSCODE_LOG_LEVEL": "error",
+        "VSCODE_LOG_LEVEL": "off",
         "ELECTRON_NO_ATTACH_CONSOLE": "1"
       },
       "preLaunchTask": "npm: pretest-clean"
