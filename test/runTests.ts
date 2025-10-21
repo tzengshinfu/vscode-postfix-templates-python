@@ -22,6 +22,44 @@ async function main() {
     console.log(`Using VS Code from env: ${exe}`)
   }
 
+  // Suppress/limit very long noisy lines to avoid FINDSTR "lines too long"
+  try {
+    const MAX = Number(process.env.POSTFIX_MAX_FINDSTR_LINE || '8000')
+    const patterns = [
+      /Model is disposed!/i,
+      /vscode-file:\/\//i,
+      /electron.*NODE_OPTION/i
+    ]
+    const wrap = (stream: NodeJS.WriteStream) => {
+      const orig: any = (stream as any).write.bind(stream)
+      let buf = ''
+      ;(stream as any).write = (chunk: any, encoding?: any, cb?: any) => {
+        try {
+          const s = typeof chunk === 'string' ? chunk : (chunk ? chunk.toString(encoding || 'utf8') : '')
+          buf += s
+          let idx: number
+          while ((idx = buf.indexOf('\n')) !== -1) {
+            const line = buf.slice(0, idx)
+            buf = buf.slice(idx + 1)
+            if (patterns.some(r => r.test(line))) { continue }
+            if (line.length <= MAX) {
+              orig(line + '\n')
+            } else {
+              for (let i = 0; i < line.length; i += MAX) {
+                orig(line.slice(i, i + MAX) + '\n')
+              }
+            }
+          }
+          return true
+        } catch {
+          return orig(chunk, encoding, cb)
+        }
+      }
+    }
+    wrap(process.stdout)
+    wrap(process.stderr)
+  } catch { /* ignore */ }
+
   try {
     await runTests(opts)
   } catch (err: any) {
