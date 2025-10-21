@@ -26,9 +26,7 @@ async function main() {
   try {
     const MAX = Number(process.env.POSTFIX_MAX_FINDSTR_LINE || '8000')
     const patterns = [
-      /Model is disposed!/i,
-      /vscode-file:\/\//i,
-      /electron.*NODE_OPTION/i
+
     ]
     const wrap = (stream: NodeJS.WriteStream) => {
       const orig: any = (stream as any).write.bind(stream)

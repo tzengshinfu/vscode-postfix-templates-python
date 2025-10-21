@@ -24,7 +24,7 @@
       "runtimeArgs": ["--silent"],
       "args": [
         "run",
-        "test:filter"
+        "test"
       ],
       "cwd": "${workspaceFolder}",
       "console": "internalConsole",
