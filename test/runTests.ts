@@ -22,6 +22,23 @@ async function main() {
     console.log(`Using VS Code from env: ${exe}`)
   }
 
+  // Work around Electron rejecting NODE_OPTIONS in packaged app
+  try { delete process.env.NODE_OPTIONS } catch {}
+
+  // On Windows prefer the CLI script to avoid ENOENT with Code.exe from archives
+  if (process.platform === 'win32' && !opts.vscodeExecutablePath) {
+    try {
+      const { downloadAndUnzipVSCode } = require('@vscode/test-electron')
+      const version = opts.version || '1.104.3'
+      const vsPath: string = await downloadAndUnzipVSCode(version)
+      const cli = path.resolve(vsPath, 'bin', 'code.cmd')
+      if (existsSync(cli)) {
+        opts.vscodeExecutablePath = cli
+        console.log(`Using VS Code CLI: ${cli}`)
+      }
+    } catch { /* ignore */ }
+  }
+
   // Suppress/limit very long noisy lines to avoid FINDSTR "lines too long"
   try {
     const MAX = Number(process.env.POSTFIX_MAX_FINDSTR_LINE || '8000')
