@@ -11,12 +11,19 @@ const getHtmlLikeEmbedRange = (document: vsc.TextDocument, cursorOffset: number)
 
   let mostTopNode = node
 
+  // Walk up to the nearest tag node first (text nodes have no `tag`)
+  while (mostTopNode && !mostTopNode.tag) {
+    mostTopNode = mostTopNode.parent
+  }
+
+  // Then traverse up through tag nodes to find enclosing <script type="py"> block
   while (mostTopNode?.tag) {
     if (mostTopNode.tag === 'style') {
       return null
     }
     if (mostTopNode.tag === 'script') {
-      if (mostTopNode?.attributes?.type.replace(/['"]/g, '') !== 'py') {
+      const typeAttr = mostTopNode?.attributes?.type
+      if ((typeAttr ? typeAttr.replace(/['"]/g, '') : '') !== 'py') {
         return null
       }
 
