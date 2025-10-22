@@ -43,9 +43,17 @@ async function main() {
   try {
     const MAX = Number(process.env.POSTFIX_MAX_FINDSTR_LINE || '8000')
     const patterns = [
+      /\[main .*\]/i,
+      /file:/i,
+      /ChatSessionStore:/i,
+      /Loading development extension/i,
+      /MCP Registry configured:/i,
+      /Settings Sync:/i,
+      /[Ee]xtension\s?host/i,
       /Model is disposed!:/i,
-      /vscode-file:/i,
-      /Can only set when there is a listener! This is to prevent leaks.:/i
+      /Can only set when there is a listener! This is to prevent leaks.:/i,
+      /ANOMALY:/i,
+      /Exit code:\s+\d+$/i
     ]
     const wrap = (stream: NodeJS.WriteStream) => {
       const orig: any = (stream as any).write.bind(stream)
