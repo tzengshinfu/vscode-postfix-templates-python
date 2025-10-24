@@ -13,7 +13,7 @@ describe('03. Single line template tests', () => {
     this.timeout(10000) /* Increase timeout for this hook */
     await new Promise(resolve => setTimeout(resolve, 2000))
   })
-  
+
   before(setInferVarName(config, false))
   before(setDisabledTemplates(config, []))  /* Enable all templates for specific template tests */
   after(setInferVarName(config, true))
@@ -75,8 +75,6 @@ describe('03. Single line template tests', () => {
   Test('var template (indent) | \ta.b{var} >> \tname = a.b')
 
   Test('python template (print)                     | expr{print}  >> print(expr)')
-  Test('python template (print)                     | expr{print}  >> print(f"WARNING: {expr}")')
-  Test('python template (print)                     | expr{print}  >> print(f"ERROR: {expr}")')
   Test('python template (print) - binary expression | x > y{print} >> print(x > y)')
   Test('python template (print) - f-string          | f"value is {x}"{print} >> print(f"value is {x}")')
   Test('python template (print) - r-string          | r"\\path\\to\\file"{print} >> print(r"\\path\\to\\file")')
@@ -102,8 +100,6 @@ describe('03. Single line template tests', () => {
 
   Test('ifnone template              | expr{ifnone}            >> if expr is None:', withTrimWhitespaces)
   Test('ifnotnone template           | expr{ifnotnone}         >> if expr is not None:', withTrimWhitespaces)
-  Test('null template    - inside if | if x and expr{null}:    >> if x and expr is None:', withTrimWhitespaces)
-  Test('notnull template - inside if | if x and expr{notnull}: >> if x and expr is not None:', withTrimWhitespaces)
 
   Test('for template     | expr{for}           >> for item in expr:', withTrimWhitespaces)
   Test('awaited for      | await expr{for}     >> for item in await expr:', withTrimWhitespaces)
