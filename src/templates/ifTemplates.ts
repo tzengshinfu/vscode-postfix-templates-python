@@ -7,58 +7,56 @@ import * as py from '../utils/python'
 import { getIndentCharacters } from '../utils/vscode-helpers'
 
 abstract class BaseIfElseTemplate extends BaseExpressionTemplate {
-  override canUse(node: tree.Node) {
-    return super.canUse(node)
-      && !py.inReturnStatement(node)
-      && !py.inFunctionArgument(node)
-      && !py.inVariableDeclaration(node)
-      && !py.inAssignmentStatement(node)
-      && !py.isObjectLiteral(node) /* don't offer if for dict literals */
-      && !py.isStringLiteral(node) /* don't offer if for string literals */
-  }
+    override canUse(node: tree.Node) {
+        return super.canUse(node)
+            && !py.inReturnStatement(node)
+            && !py.inFunctionArgument(node)
+            && !py.inVariableDeclaration(node)
+            && !py.inAssignmentStatement(node)
+            && !py.isObjectLiteral(node) /* don't offer if for dict literals */
+            && !py.isStringLiteral(node) /* don't offer if for string literals */
+    }
 }
 
 export class IfTemplate extends BaseIfElseTemplate {
-  buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
-    node = py.unwindBinaryExpression(node, false)
-    const replacement = py.unwindBinaryExpression(node, true).text
+    buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
+        const replacement = py.unwindBinaryExpression(node, true).text
 
-    return CompletionItemBuilder
-      .create('if', node, indentInfo)
-      .replace(`if ${replacement}:\n
+        return CompletionItemBuilder
+            .create('if', node, indentInfo)
+            .replace(`if ${replacement}:\n
                 ${getIndentCharacters()}\${0}`)
-      .build()
-  }
+            .build()
+    }
 }
 
 export class IfElseTemplate extends BaseIfElseTemplate {
-  buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
-    node = py.unwindBinaryExpression(node, false)
-    const replacement = invertExpression(py.unwindBinaryExpression(node, true))
+    buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
+        const replacement = invertExpression(py.unwindBinaryExpression(node, true))
 
-    return CompletionItemBuilder
-      .create('ifelse', node, indentInfo)
-      .replace(`if ${replacement}:\n
+        return CompletionItemBuilder
+            .create('ifelse', node, indentInfo)
+            .replace(`if ${replacement}:\n
                 ${getIndentCharacters()}\${0}\n
                 else:\n`)
-      .build()
-  }
+            .build()
+    }
 }
 
 export class IfEqualityTemplate extends BaseIfElseTemplate {
-  constructor(private keyword: string, private operator: string, private operand: string, private isUndefinedTemplate?: boolean) {
-    super(keyword)
-  }
+    constructor(private keyword: string, private operator: string, private operand: string, private isUndefinedTemplate?: boolean) {
+        super(keyword)
+    }
 
-  override canUse(node: tree.Node) {
-    return super.canUse(node) && !py.inBinaryExpression(node)
-  }
+    override canUse(node: tree.Node) {
+        return super.canUse(node) && !py.inBinaryExpression(node)
+    }
 
-  buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
-    return CompletionItemBuilder
-      .create(this.keyword, node, indentInfo)
-      .replace(`if {{expr}} ${this.operator} ${this.operand}:\n
+    buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
+        return CompletionItemBuilder
+            .create(this.keyword, node, indentInfo)
+            .replace(`if {{expr}} ${this.operator} ${this.operand}:\n
                 ${getIndentCharacters()}\${0}`)
-      .build()
-  }
+            .build()
+    }
 }

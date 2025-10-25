@@ -8,98 +8,108 @@ import * as py from '../utils/python'
 import { invertExpression } from '../utils/invert-expression'
 
 export class NotTemplate extends BaseTemplate {
-  buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
-    node = this.normalizeBinaryExpression(node)
+    buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
+        node = this.normalizeBinaryExpression(node)
 
-    const completionBuilder = CompletionItemBuilder
-      .create('not', node, indentInfo)
+        const completionBuilder = CompletionItemBuilder
+            .create('not', node, indentInfo)
 
-    if (py.inBinaryExpression(node)) {
-      const expressions = this.getBinaryExpressions(node)
-      if (expressions.length > 1) {
-        const items = expressions.map(expr => {
-          const { start, end } = py.getNodePositions(expr)
-          return {
-            label: expr.text.replace(/\s+/g, ' '),
-            description: '',
-            detail: 'Invert this expression',
-            range: new vsc.Range(
-              new vsc.Position(start.line, start.character),
-              new vsc.Position(end.line, end.character + 1)
-            ),
-            text: expr.text
-          }
-        })
+        if (py.inBinaryExpression(node)) {
+            const expressions = this.getBinaryExpressions(node)
+            if (expressions.length > 1) {
+                const items = expressions.map(expr => {
+                    const { start, end } = py.getNodePositions(expr)
+                    return {
+                        label: expr.text.replace(/\s+/g, ' '),
+                        description: '',
+                        detail: 'Invert this expression',
+                        range: new vsc.Range(
+                            new vsc.Position(start.line, start.character),
+                            new vsc.Position(end.line, end.character + 1)
+                        ),
+                        text: expr.text
+                    }
+                })
+                return completionBuilder
+                    .insertText('')
+                    .command({ title: '', command: NOT_COMMAND, arguments: items })
+                    .description('`!expr` - *[multiple options]*')
+                    .build()
+            }
+        }
+
+        const replacement = invertExpression(node, undefined)
         return completionBuilder
-          .insertText('')
-          .command({ title: '', command: NOT_COMMAND, arguments: items })
-          .description('`!expr` - *[multiple options]*')
-          .build()
-      }
+            .replace(replacement)
+            .build()
     }
 
-    const replacement = invertExpression(node, undefined)
-    return completionBuilder
-      .replace(replacement)
-      .build()
-  }
-
-  canUse(node: tree.Node) {
-    return !py.inTypeNode(node)
-      && !py.isObjectLiteral(node)
-      && !py.isStringLiteral(node)
-      && (py.isExpression(node)
-        || py.inPrefixUnaryExpression(node)
-        || py.inBinaryExpression(node)
-        || py.isCallExpression(node)
-        || py.isIdentifier(node))
-  }
-
-  private isStrictEqualityOrInstanceofBinaryExpression = (node: tree.Node) => {
-    if (py.inBinaryExpression(node)) {
-      const operatorNode = node.namedChildren.find(child => child.type === 'comparison_operator')
-      if (operatorNode) {
-        const operatorText = operatorNode.text
-
-        return operatorText === 'is' || operatorText === 'is not'
-      }
+    canUse(node: tree.Node) {
+        return !py.inTypeNode(node)
+            && !py.isObjectLiteral(node)
+            && !py.isStringLiteral(node)
+            && (py.isExpression(node)
+                || py.inPrefixUnaryExpression(node)
+                || py.inBinaryExpression(node)
+                || py.isCallExpression(node)
+                || py.isIdentifier(node))
     }
 
-    if (py.isCallExpression(node) && node.firstNamedChild?.text === 'isinstance') {
-      return true
+    private isStrictEqualityOrInstanceofBinaryExpression = (node: tree.Node) => {
+        if (py.inBinaryExpression(node)) {
+            const operatorNode = node.namedChildren.find(child => child.type === 'comparison_operator')
+            if (operatorNode) {
+                const operatorText = operatorNode.text
+
+                return operatorText === 'is' || operatorText === 'is not'
+            }
+        }
+
+        if (py.isCallExpression(node) && node.firstNamedChild?.text === 'isinstance') {
+            return true
+        }
+
+        return false
     }
 
-    return false
-  }
+    private getBinaryExpressions = (node: tree.Node) => {
+        // Start from the nearest binary expression ancestor
+        let current: tree.Node | null = node
+        while (current && !py.inBinaryExpression(current)) {
+            current = current.parent
+        }
+        if (!current) {
+            return []
+        }
 
-  private getBinaryExpressions = (node: tree.Node) => {
-    const possibleExpressions = [node]
-
-    do {
-      py.inBinaryExpression(node.parent) && possibleExpressions.push(node.parent)
-      node = node.parent
-    } while (node.parent)
-
-    return possibleExpressions
-  }
-
-  private normalizeBinaryExpression = (node: tree.Node) => {
-    if (node.parent
-      && py.isParenthesizedExpression(node.parent)
-      && node.parent.firstNamedChild
-      && py.inBinaryExpression(node.parent.firstNamedChild)) {
-      return node.parent
+        const expressions: tree.Node[] = [current]
+        while (current.parent && py.inBinaryExpression(current.parent)) {
+            current = current.parent
+            expressions.push(current)
+        }
+        return expressions
     }
 
-    if (py.isPrefixUnaryExpression(node)) {
-      return node
-    }
+    private normalizeBinaryExpression = (node: tree.Node) => {
+        if (node.parent
+            && py.isParenthesizedExpression(node.parent)
+            && node.parent.firstNamedChild
+            && py.inBinaryExpression(node.parent.firstNamedChild)) {
+            return node.parent
+        }
 
-    if (node.parent && this.isStrictEqualityOrInstanceofBinaryExpression(node.parent)) {
-      return node.parent
-    }
+        if (py.isPrefixUnaryExpression(node)) {
+            return node
+        }
 
-    return node
-  }
+        if (node.parent && this.isStrictEqualityOrInstanceofBinaryExpression(node.parent)) {
+            return node.parent
+        }
+
+        if (node.parent && py.inBinaryExpression(node.parent)) {
+            return py.unwindBinaryExpression(node.parent, false)
+        }
+
+        return node
+    }
 }
-
