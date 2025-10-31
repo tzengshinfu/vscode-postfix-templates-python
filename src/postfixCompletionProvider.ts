@@ -4,7 +4,6 @@ import { IndentInfo, IPostfixTemplate } from './template'
 import { AllTabs, AllSpaces } from './utils/multiline-expressions'
 import { loadBuiltinTemplates, loadCustomTemplates } from './templates'
 import { CustomTemplate } from './templates/customTemplate'
-import { getHtmlLikeEmbedText } from './utils/htmlLikeSupport'
 import { findNodeBeforeDot } from './utils/python'
 import * as tree from './web-tree-sitter'
 
@@ -39,10 +38,7 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
       }
       const wordRange = document.getWordRangeAtPosition(position)
       const afterDot = line.text.slice(dotIndex + 1, position.character)
-      const isHtmlLike = document.languageId === 'html'
-      const isCursorOnWordAfterDot = isHtmlLike
-        ? /^[A-Za-z_]+$/.test(afterDot)
-        : (wordRange?.start ?? position).character === dotIndex + 1
+      const isCursorOnWordAfterDot = (wordRange?.start ?? position).character === dotIndex + 1
       if (!isCursorOnWordAfterDot) {
         return []
       }
@@ -118,23 +114,10 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
     return item
   }
 
-  private getHtmlLikeEmbeddedText(document: vsc.TextDocument, position: vsc.Position) {
-    const knownHtmlLikeLangs = [
-      'html'
-    ]
-
-    if (knownHtmlLikeLangs.includes(document.languageId)) {
-      return getHtmlLikeEmbedText(document, document.offsetAt(position))
-    }
-
-    return null
-  }
-
   private getNodeBeforeTheDot(document: vsc.TextDocument, position: vsc.Position, dotIndex: number) {
     try {
       const dotOffset = document.offsetAt(position.with({ character: dotIndex }))
-      const speciallyHandledText = this.getHtmlLikeEmbeddedText(document, position)
-      const fullText = speciallyHandledText ?? document.getText()
+      const fullText = document.getText()
 
       return findNodeBeforeDot(this.parser, fullText, dotOffset)
     } catch (err) {
