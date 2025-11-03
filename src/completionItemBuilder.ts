@@ -60,21 +60,15 @@ export class CompletionItemBuilder {
 
     const rangeToDelete = new vsc.Range(delStart, delEnd)
 
-    // Also remove the typed template keyword (and optional trailing ':') after the dot
+    // Also remove the typed template keyword after the dot (do not remove trailing ':')
     try {
       const editor = vsc.window.activeTextEditor
       if (editor) {
         const label = (typeof this.item.label === 'object') ? (this.item.label as vsc.CompletionItemLabel).label : String(this.item.label)
         const afterDot = delEnd
-        let end = afterDot.translate(0, label.length)
-        const colonRange = new vsc.Range(end, end.translate(0, 1))
-        if (editor.document.getText(colonRange) === ':') {
-          end = colonRange.end
-        }
-        const typedRange = new vsc.Range(afterDot, end)
         const typed = editor.document.getText(new vsc.Range(afterDot, afterDot.translate(0, label.length)))
         if (typed === label) {
-          this.item.range = typedRange
+          this.item.range = new vsc.Range(afterDot, afterDot.translate(0, label.length))
         }
       }
     } catch { /* noop */ }

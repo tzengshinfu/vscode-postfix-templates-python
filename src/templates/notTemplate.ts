@@ -49,7 +49,7 @@ export class NotTemplate extends BaseTemplate {
                 })
                 return completionBuilder
                     .insertText('')
-                    .command({ title: '', command: NOT_COMMAND, arguments: items })
+                    .command({ title: '', command: NOT_COMMAND, arguments: [this.getCleanupRange(node, 'not'), items] })
                     .description('`!expr` - *[multiple options]*')
                     .build()
             }
@@ -157,5 +157,24 @@ export class NotTemplate extends BaseTemplate {
         }
 
         return node
+    }
+
+    private getCleanupRange(node: tree.Node, keyword: string): vsc.Range | undefined {
+        try {
+            const { end } = py.getNodePositions(node)
+            const editor = vsc.window.activeTextEditor
+            if (!editor) { return undefined }
+            const doc = editor.document
+            const dotStart = new vsc.Position(end.line, end.character)
+            const afterDot = dotStart.translate(0, 1)
+            if (doc.getText(new vsc.Range(dotStart, afterDot)) !== '.') { return undefined }
+            const labelRange = new vsc.Range(afterDot, afterDot.translate(0, keyword.length))
+            if (doc.getText(labelRange) !== keyword) { return undefined }
+            const colonRange = new vsc.Range(labelRange.end, labelRange.end.translate(0, 1))
+            const endPos = doc.getText(colonRange) === ':' ? colonRange.end : labelRange.end
+            return new vsc.Range(dotStart, endPos)
+        } catch {
+            return undefined
+        }
     }
 }
