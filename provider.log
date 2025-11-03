@@ -1,347 +1,1294 @@
-[POSTFIX] Extension activating...
-[POSTFIX] NODE_ENV: test
-[POSTFIX] extensionUri: file:///d%3A/Workspace/vscode-postfix-templates-python/out
-[POSTFIX] Loading parser from: d:\Workspace\vscode-postfix-templates-python\out\out\tree-sitter-python.wasm
-[POSTFIX] Parser loaded successfully
-[POSTFIX] Registering for document selector: (2) ['postfix', 'html']
-[POSTFIX] Completion provider registered successfully
-[POSTFIX] Completion provider registered
-[POSTFIX] Extension activated successfully
-[PROVIDER] provideCompletionItems called for postfix at 0 : 5
-[PROVIDER] Line text: "expr."
-[PROVIDER] Dot index: 4
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 81 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 11
-[PROVIDER] Line text: "await expr."
-[PROVIDER] Dot index: 10
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 80 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 12
-[PROVIDER] Line text: "expr.call()."
-[PROVIDER] Dot index: 11
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: call
-[PROVIDER] Returning 81 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 11
-[PROVIDER] Line text: "expr.a.b.c."
-[PROVIDER] Dot index: 10
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: attribute
-[PROVIDER] Returning 81 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 12
-[PROVIDER] Line text: "expr.a.b[c]."
-[PROVIDER] Dot index: 11
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: subscript
-[PROVIDER] Returning 81 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 6
-[PROVIDER] Line text: "x > y."
-[PROVIDER] Dot index: 5
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 76 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 8
-[PROVIDER] Line text: "(x > y)."
-[PROVIDER] Dot index: 7
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: parenthesized_expression
-[PROVIDER] Returning 76 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 6
-[PROVIDER] Line text: "-expr."
-[PROVIDER] Dot index: 5
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 78 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 11
-[PROVIDER] Line text: "if x * 100.:"
-[PROVIDER] Dot index: 10
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: integer
-[PROVIDER] Returning 72 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 15
-[PROVIDER] Line text: "return x * 100."
-[PROVIDER] Dot index: 14
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: integer
-[PROVIDER] Returning 72 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 3
-[PROVIDER] Line text: "{}."
-[PROVIDER] Dot index: 2
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: dictionary
-[PROVIDER] Returning 73 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 14
-[PROVIDER] Line text: "{\"foo\":\"foo\"}."
-[PROVIDER] Dot index: 13
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: dictionary
-[PROVIDER] Returning 73 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 10
-[PROVIDER] Line text: "MyClass()."
-[PROVIDER] Dot index: 9
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: call
-[PROVIDER] Returning 78 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 21
-[PROVIDER] Line text: "function(\"arg\", expr.)"
-[PROVIDER] Dot index: 20
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 73 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 11
-[PROVIDER] Line text: "'a string'."
-[PROVIDER] Dot index: 10
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: string
-[PROVIDER] Returning 74 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 11
-[PROVIDER] Line text: "\"a string\"."
-[PROVIDER] Dot index: 10
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: string
-[PROVIDER] Returning 74 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 12
-[PROVIDER] Line text: "f\"a string\"."
-[PROVIDER] Dot index: 11
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: string
-[PROVIDER] Returning 74 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 20
-[PROVIDER] Line text: "f\"a {value} string\"."
-[PROVIDER] Dot index: 19
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: string
-[PROVIDER] Returning 74 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 20
-[PROVIDER] Line text: "f\"a string {value}\"."
-[PROVIDER] Dot index: 19
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: string
-[PROVIDER] Returning 74 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 28
-[PROVIDER] Line text: "return map(lambda x: result., items)"
-[PROVIDER] Dot index: 27
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 73 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 15
-[PROVIDER] Line text: "return [result. for x in items]"
-[PROVIDER] Dot index: 14
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 73 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 12
-[PROVIDER] Line text: "test = expr."
-[PROVIDER] Dot index: 11
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 72 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 13
-[PROVIDER] Line text: "test *= expr."
-[PROVIDER] Dot index: 12
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 72 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 12
-[PROVIDER] Line text: "return expr."
-[PROVIDER] Dot index: 11
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 73 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 7
-[PROVIDER] Line text: "# expr."
-[PROVIDER] Dot index: 6
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: undefined
-[PROVIDER] No node found, returning empty
-[PROVIDER] provideCompletionItems called for postfix at 0 : 9
-[PROVIDER] Line text: "\"\"\" expr. \"\"\""
-[PROVIDER] Dot index: 8
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: undefined
-[PROVIDER] No node found, returning empty
-[PROVIDER] provideCompletionItems called for postfix at 0 : 18
-[PROVIDER] Line text: "f1 = lambda: expr."
-[PROVIDER] Dot index: 17
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 81 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 18
-[PROVIDER] Line text: "f3 = lambda: expr."
-[PROVIDER] Dot index: 17
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 81 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 15
-[PROVIDER] Line text: "def f2(): expr."
-[PROVIDER] Dot index: 14
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 81 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 13
-[PROVIDER] Line text: "lambda: expr."
-[PROVIDER] Dot index: 12
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 81 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 17
-[PROVIDER] Line text: "test.something = "
-[PROVIDER] Dot index: 4
-[PROVIDER] After dot: "something = " wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: false
-[PROVIDER] Cursor not on word after dot, returning empty
-[PROVIDER] provideCompletionItems called for postfix at 0 : 21
-[PROVIDER] Line text: "test.something = func"
-[PROVIDER] Dot index: 4
-[PROVIDER] After dot: "something = func" wordRange: Hs {a: Oo, b: Oo}
-[PROVIDER] isCursorOnWordAfterDot: false
-[PROVIDER] Cursor not on word after dot, returning empty
-[POSTFIX] Registering for document selector: (2) ['postfix', 'html']
-[POSTFIX] Completion provider registered successfully
-[PROVIDER] provideCompletionItems called for postfix at 0 : 5
-[PROVIDER] Line text: "expr."
-[PROVIDER] Dot index: 4
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 82 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 6
-[PROVIDER] Line text: "x + y."
-[PROVIDER] Dot index: 5
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 77 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 6
-[PROVIDER] Line text: "a > b."
-[PROVIDER] Dot index: 5
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 77 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 9
-[PROVIDER] Line text: "not expr."
-[PROVIDER] Dot index: 8
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 79 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 7
-[PROVIDER] Line text: "func()."
-[PROVIDER] Dot index: 6
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: call
-[PROVIDER] Returning 79 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 8
-[PROVIDER] Line text: "\"hello\"."
-[PROVIDER] Dot index: 7
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: string
-[PROVIDER] Returning 75 completion items
-[PROVIDER] provideCompletionItems called for postfix at 0 : 4
-[PROVIDER] Line text: "int."
-[PROVIDER] Dot index: 3
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 82 completion items
-[POSTFIX] Registering for document selector: (2) ['postfix', 'html']
-[POSTFIX] Completion provider registered successfully
-[POSTFIX] Registering for document selector: (2) ['postfix', 'html']
-[POSTFIX] Completion provider registered successfully
-[PROVIDER] provideCompletionItems called for postfix at 0 : 5
-[PROVIDER] Line text: "expr."
-[PROVIDER] Dot index: 4
-[PROVIDER] After dot: "" wordRange: undefined
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 79 completion items
-[POSTFIX] Registering for document selector: (2) ['postfix', 'html']
-[POSTFIX] Completion provider registered successfully
-[PROVIDER] provideCompletionItems called for postfix at 0 : 12
-[PROVIDER] Line text: "not expr.not"
-[PROVIDER] Dot index: 8
-[PROVIDER] After dot: "not" wordRange: Hs {a: Oo, b: Oo}
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 78 completion items
-[TEST] Triggered suggestions, waiting 3000 ms
-[TEST] Current suggestion after delay: not
-[PROVIDER] provideCompletionItems called for postfix at 0 : 12
-[PROVIDER] Line text: "not expr.not"
-[PROVIDER] Dot index: 8
-[PROVIDER] After dot: "not" wordRange: Hs {a: Oo, b: Oo}
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 78 completion items
-[TEST] Triggered suggestions, waiting 2000 ms
-[TEST] Current suggestion after delay: not
-[PROVIDER] provideCompletionItems called for postfix at 0 : 12
-[PROVIDER] Line text: "not expr.not"
-[PROVIDER] Dot index: 8
-[PROVIDER] After dot: "not" wordRange: Hs {a: Oo, b: Oo}
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 78 completion items
-[TEST] Triggered suggestions, waiting 1500 ms
-[TEST] Current suggestion after delay: not
-[PROVIDER] provideCompletionItems called for postfix at 0 : 12
-[PROVIDER] Line text: "not expr.not"
-[PROVIDER] Dot index: 8
-[PROVIDER] After dot: "not" wordRange: Hs {a: Oo, b: Oo}
-[PROVIDER] isCursorOnWordAfterDot: true
-[PROVIDER] Node before dot: identifier
-[PROVIDER] Returning 78 completion items
-[TEST] Triggered suggestions, waiting 1000 ms
-[TEST] Current suggestion after delay: not
+"C:\Program Files\nodejs\npm.cmd" --silent run test
+Debugger attached.
+Debugger attached.
+✓ Copied tree-sitter.wasm to out/out directory
+✓ Copied tree-sitter-python.wasm to out/out directory
+Waiting for the debugger to disconnect...
+Debugger attached.
+Waiting for the debugger to disconnect...
+Debugger attached.
+Debugger attached.
+Using VS Code from env: C:\Users\tzeng\AppData\Local\Programs\Microsoft VS Code\Code.exe
 
-[FAIL] 03. Single line template tests not template - already negated expression
+
+[FAIL] 03. Single line template tests if template - binary expression
 Expected values to be strictly equal:
 + actual - expected
 
-+ 'not expr.not'
-- 'expr'
++ 'a>ifa>b:'
+- 'ifa>b:'
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'not expr.not'
-- 'expr'
++ 'a>ifa>b:'
+- 'ifa>b:'
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:127:12)
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
 	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests if template - binary in parens
+Expected values to be strictly equal:
++ actual - expected
+
++ 'if(a>b):'
+- 'ifa>b:'
+     ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'if(a>b):'
+- 'ifa>b:'
+     ^
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests not template - complex conditions - first expression
+Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>bandx*100:'
+- 'ifa>bandnot(x*100):'
+           ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>bandx*100:'
+- 'ifa>bandnot(x*100):'
+           ^
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests not template - complex conditions - second expression
+Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>bandx*100:'
+- 'ifa<=bornot(x*100):'
+      ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>bandx*100:'
+- 'ifa<=bornot(x*100):'
+      ^
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests not template - complex conditions with parens - first expression
+Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>band(x*100):'
+- 'ifa>bandnot(x*100):'
+           ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>band(x*100):'
+- 'ifa>bandnot(x*100):'
+           ^
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests not template - complex conditions with parens - second expression
+Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>band(x*100):'
+- 'ifa<=bornot(x*100):'
+      ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>band(x*100):'
+- 'ifa<=bornot(x*100):'
+      ^
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests not template - complex conditions - cancel quick pick
+Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>bandx*100.:'
+- 'ifa>bandx*100.'
+                 ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>bandx*100.:'
+- 'ifa>bandx*100.'
+                 ^
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests not template - complex conditions - first expression - alt
+Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>bandx*100:'
+- 'ifa>bandnot(x*100):'
+           ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>bandx*100:'
+- 'ifa>bandnot(x*100):'
+           ^
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests not template - complex conditions - second expression - alt
+Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>bandx*100:'
+- 'ifa<=bornot(x*100):'
+      ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>bandx*100:'
+- 'ifa<=bornot(x*100):'
+      ^
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests not template - complex conditions - cancel quick pick - alt
+Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>bandx*100.:'
+- 'ifa>bandx*100.'
+                 ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>bandx*100.:'
+- 'ifa>bandx*100.'
+                 ^
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests Infer variable name for template with array item name #1
+Expected values to be strictly equal:
++ actual - expected
+
++ 'foriteminusers_list:'
+- 'foruserinusers_list:'
+      ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'foriteminusers_list:'
+- 'foruserinusers_list:'
+      ^
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template tests type arrow = lambda arg: A.B.C{custom}
+Expected values to be strictly equal:
++ actual - expected
+
++ 'arrow = lambda arg: A.B.C.custom'
+- 'arrow = lambda arg: not A.B.C'
+                       ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'arrow = lambda arg: A.B.C.custom'
+- 'arrow = lambda arg: not A.B.C'
+                       ^
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template tests type arrow = lambda lst: A.B.C{custom}
+Expected values to be strictly equal:
++ actual - expected
+
++ 'arrow = lambda lst: A.B.C.custom'
+- 'arrow = lambda lst: not A.B.C'
+                       ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'arrow = lambda lst: A.B.C.custom'
+- 'arrow = lambda lst: not A.B.C'
+                       ^
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template with multiple expr tests unary-expression - minus -x{custom}
+Expected values to be strictly equal:
++ actual - expected
+
++ '-x.custom'
+- '-x + -x'
+     ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '-x.custom'
+- '-x + -x'
+     ^
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template with multiple expr tests unary-expression - not not x{custom}
+Expected values to be strictly equal:
++ actual - expected
+
++ 'not x.custom'
+- 'not x + not x'
+        ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'not x.custom'
+- 'not x + not x'
+        ^
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 04. Multiline template tests var template - method call
+Expected values to be strictly equal:
++ actual - expected
+
++ 'object.call()\r\n    .anotherCall()last_one = \r\n    .lastOne()'
+- 'name = object.call()\r\n    .anotherCall()\r\n    .lastOne()'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'object.call()\r\n    .anotherCall()last_one = \r\n    .lastOne()'
+- 'name = object.call()\r\n    .anotherCall()\r\n    .lastOne()'
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 04. Multiline template tests var template - method call (equal indentation)
+Expected values to be strictly equal:
++ actual - expected
+
++ '    object.call()\r\n.anotherCall()\r\n.last_one = lastOne()'
+- '    name = object.call()\r\n    .anotherCall()\r\n    .lastOne()'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '    object.call()\r\n.anotherCall()\r\n.last_one = lastOne()'
+- '    name = object.call()\r\n    .anotherCall()\r\n    .lastOne()'
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 04. Multiline template tests var template - method call (indentation - tabs)
+Expected values to be strictly equal:
++ actual - expected
+
++ '        object.call()\r\n' +
++   '            .anotherCall()last_one = \r\n' +
+- '        name = object.call()\r\n' +
+-   '            .anotherCall()\r\n' +
+    '            .lastOne()'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '        object.call()\r\n' +
++   '            .anotherCall()last_one = \r\n' +
+- '        name = object.call()\r\n' +
+-   '            .anotherCall()\r\n' +
+    '            .lastOne()'
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 04. Multiline template tests var template - method call (indentation - spaces)
+Expected values to be strictly equal:
++ actual - expected
+
++ '        object.call()\r\n' +
++   '            .anotherCall()last_one = \r\n' +
+- '        name = object.call()\r\n' +
+-   '            .anotherCall()\r\n' +
+    '            .lastOne()'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '        object.call()\r\n' +
++   '            .anotherCall()last_one = \r\n' +
+- '        name = object.call()\r\n' +
+-   '            .anotherCall()\r\n' +
+    '            .lastOne()'
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 04. Multiline template tests var template - method call (indentation - mixed)
+Expected values to be strictly equal:
++ actual - expected
+
++ '        object.call()\r\n' +
+- '        name = object.call()\r\n' +
+    '            .anotherCall()\r\n' +
++   '            .last_one = lastOne()'
+-   '            .lastOne()'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '        object.call()\r\n' +
+- '        name = object.call()\r\n' +
+    '            .anotherCall()\r\n' +
++   '            .last_one = lastOne()'
+-   '            .lastOne()'
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 04. Multiline template tests var template - method call (indentation - completely mixed)
+Expected values to be strictly equal:
++ actual - expected
+
++ '    object.call()\r\n      .anotherCall()last_one = \r\n            .lastOne()'
+- '    name = object.call()\r\n          .anotherCall()\r\n          .lastOne()'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '    object.call()\r\n      .anotherCall()last_one = \r\n            .lastOne()'
+- '    name = object.call()\r\n          .anotherCall()\r\n          .lastOne()'
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 04. Multiline template tests return template - method call (indentation - tabs)
+Expected values to be strictly equal:
++ actual - expected
+
++ '        object.call()\r\n' +
++   '            .anotherCall()return \r\n' +
+- '        return object.call()\r\n' +
+-   '            .anotherCall()\r\n' +
+    '            .lastOne()'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '        object.call()\r\n' +
++   '            .anotherCall()return \r\n' +
+- '        return object.call()\r\n' +
+-   '            .anotherCall()\r\n' +
+    '            .lastOne()'
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 04. Multiline template tests return template - method call (indentation - spaces)
+Expected values to be strictly equal:
++ actual - expected
+
++ '        object.call()\r\n' +
++   '            .anotherCall()return \r\n' +
+- '        return object.call()\r\n' +
+-   '            .anotherCall()\r\n' +
+    '            .lastOne()'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '        object.call()\r\n' +
++   '            .anotherCall()return \r\n' +
+- '        return object.call()\r\n' +
+-   '            .anotherCall()\r\n' +
+    '            .lastOne()'
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 04. Multiline template tests return template - method call (indentation - mixed)
+Expected values to be strictly equal:
++ actual - expected
+
++ '        object.call()\r\n' +
+- '        return object.call()\r\n' +
+    '            .anotherCall()\r\n' +
++   '            .return lastOne()'
+-   '            .lastOne()'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '        object.call()\r\n' +
+- '        return object.call()\r\n' +
+    '            .anotherCall()\r\n' +
++   '            .return lastOne()'
+-   '            .lastOne()'
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 04. Multiline template tests return template - method call (indentation - completely mixed)
+Expected values to be strictly equal:
++ actual - expected
+
++ '    object.call()\r\n      .anotherCall()return \r\n            .lastOne()'
+- '    return object.call()\r\n          .anotherCall()\r\n          .lastOne()'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '    object.call()\r\n      .anotherCall()return \r\n            .lastOne()'
+- '    return object.call()\r\n          .anotherCall()\r\n          .lastOne()'
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 04. Multiline template tests var template - property access expression
+Expected values to be strictly equal:
++ actual - expected
+
++ 'object.\r\n    .a\r\n    .bc = \r\n    .c'
+- 'name = object.\r\n    .a\r\n    .b\r\n    .c'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'object.\r\n    .a\r\n    .bc = \r\n    .c'
+- 'name = object.\r\n    .a\r\n    .b\r\n    .c'
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 04. Multiline template tests var template - increment expression
+Expected values to be strictly equal:
++ actual - expected
+
++ 'object.\r\n    .a\r\n    .bc = \r\n    .c'
+- 'name = object.\r\n    .a\r\n    .b\r\n    .c'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'object.\r\n    .a\r\n    .bc = \r\n    .c'
+- 'name = object.\r\n    .a\r\n    .b\r\n    .c'
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 04. Multiline template tests return template - method call (equal indentation)
+Expected values to be strictly equal:
++ actual - expected
+
++ '    object.call()\r\n.anotherCall()\r\n.return lastOne()'
+- '    return object.call()\r\n    .anotherCall()\r\n    .lastOne()'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '    object.call()\r\n.anotherCall()\r\n.return lastOne()'
+- '    return object.call()\r\n    .anotherCall()\r\n    .lastOne()'
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 04. Multiline template tests not template - whitespaces - first expression
+Expected values to be strictly equal:
++ actual - expected
+
++ 'if not (\r\n    a && (b &&\r\n    a\r\n    .a\r\n    .b)\r\n {}'
+- 'if (\r\n  a && (!b ||\r\n  !a\r\n  .a\r\n  .b)\r\n)  {}'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'if not (\r\n    a && (b &&\r\n    a\r\n    .a\r\n    .b)\r\n {}'
+- 'if (\r\n  a && (!b ||\r\n  !a\r\n  .a\r\n  .b)\r\n)  {}'
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 04. Multiline template tests not template - whitespaces - second expression
+Expected values to be strictly equal:
++ actual - expected
+
++ 'if not (\r\n    a && (b &&\r\n    a\r\n    .a\r\n    .b)\r\n {}'
+- 'if (\r\n  !a || (!b ||\r\n  !a\r\n  .a\r\n  .b)\r\n)  {}'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'if not (\r\n    a && (b &&\r\n    a\r\n    .a\r\n    .b)\r\n {}'
+- 'if (\r\n  !a || (!b ||\r\n  !a\r\n  .a\r\n  .b)\r\n)  {}'
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 04. Multiline template tests Without {{expr}} expression indentation - completely mixed
+Expected values to be strictly equal:
++ actual - expected
+
++ '    object.call()\r\n      .anotherCall()1\r\n          1\r\n      1'
+- '    1\r\n        1\r\n    1'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '    object.call()\r\n      .anotherCall()1\r\n          1\r\n      1'
+- '    1\r\n        1\r\n    1'
+
+	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  188 passing (2m)
+  31 failing
+  1) 03. Single line template tests
+       if template - binary expression:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'a>ifa>b:'
+- 'ifa>b:'
+
+      + expected - actual
+
+      -a>ifa>b:
+      +ifa>b:
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  2) 03. Single line template tests
+       if template - binary in parens:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'if(a>b):'
+- 'ifa>b:'
+     ^
+
+      + expected - actual
+
+      -if(a>b):
+      +ifa>b:
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  3) 03. Single line template tests
+       not template - complex conditions - first expression:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>bandx*100:'
+- 'ifa>bandnot(x*100):'
+           ^
+
+      + expected - actual
+
+      -ifa>bandx*100:
+      +ifa>bandnot(x*100):
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  4) 03. Single line template tests
+       not template - complex conditions - second expression:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>bandx*100:'
+- 'ifa<=bornot(x*100):'
+      ^
+
+      + expected - actual
+
+      -ifa>bandx*100:
+      +ifa<=bornot(x*100):
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  5) 03. Single line template tests
+       not template - complex conditions with parens - first expression:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>band(x*100):'
+- 'ifa>bandnot(x*100):'
+           ^
+
+      + expected - actual
+
+      -ifa>band(x*100):
+      +ifa>bandnot(x*100):
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  6) 03. Single line template tests
+       not template - complex conditions with parens - second expression:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>band(x*100):'
+- 'ifa<=bornot(x*100):'
+      ^
+
+      + expected - actual
+
+      -ifa>band(x*100):
+      +ifa<=bornot(x*100):
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  7) 03. Single line template tests
+       not template - complex conditions - cancel quick pick:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>bandx*100.:'
+- 'ifa>bandx*100.'
+                 ^
+
+      + expected - actual
+
+      -ifa>bandx*100.:
+      +ifa>bandx*100.
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  8) 03. Single line template tests
+       not template - complex conditions - first expression - alt:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>bandx*100:'
+- 'ifa>bandnot(x*100):'
+           ^
+
+      + expected - actual
+
+      -ifa>bandx*100:
+      +ifa>bandnot(x*100):
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  9) 03. Single line template tests
+       not template - complex conditions - second expression - alt:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>bandx*100:'
+- 'ifa<=bornot(x*100):'
+      ^
+
+      + expected - actual
+
+      -ifa>bandx*100:
+      +ifa<=bornot(x*100):
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  10) 03. Single line template tests
+       not template - complex conditions - cancel quick pick - alt:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>bandx*100.:'
+- 'ifa>bandx*100.'
+                 ^
+
+      + expected - actual
+
+      -ifa>bandx*100.:
+      +ifa>bandx*100.
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  11) 03. Single line template tests
+       Infer variable name
+         for template with array item name #1:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'foriteminusers_list:'
+- 'foruserinusers_list:'
+      ^
+
+      + expected - actual
+
+      -foriteminusers_list:
+      +foruserinusers_list:
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  12) 03. Single line template tests
+       custom template tests
+         type
+           arrow = lambda arg: A.B.C{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'arrow = lambda arg: A.B.C.custom'
+- 'arrow = lambda arg: not A.B.C'
+                       ^
+
+      + expected - actual
+
+      -arrow = lambda arg: A.B.C.custom
+      +arrow = lambda arg: not A.B.C
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  13) 03. Single line template tests
+       custom template tests
+         type
+           arrow = lambda lst: A.B.C{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'arrow = lambda lst: A.B.C.custom'
+- 'arrow = lambda lst: not A.B.C'
+                       ^
+
+      + expected - actual
+
+      -arrow = lambda lst: A.B.C.custom
+      +arrow = lambda lst: not A.B.C
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  14) 03. Single line template tests
+       custom template with multiple expr tests
+         unary-expression - minus
+           -x{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '-x.custom'
+- '-x + -x'
+     ^
+
+      + expected - actual
+
+      --x.custom
+      +-x + -x
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  15) 03. Single line template tests
+       custom template with multiple expr tests
+         unary-expression - not
+           not x{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'not x.custom'
+- 'not x + not x'
+        ^
+
+      + expected - actual
+
+      -not x.custom
+      +not x + not x
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  16) 04. Multiline template tests
+       var template - method call:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'object.call()\r\n    .anotherCall()last_one = \r\n    .lastOne()'
+- 'name = object.call()\r\n    .anotherCall()\r\n    .lastOne()'
+
+      + expected - actual
+
+      -object.call()
+
+      -    .anotherCall()last_one =
+
+      +name = object.call()
+
+      +    .anotherCall()
+
+           .lastOne()
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  17) 04. Multiline template tests
+       var template - method call (equal indentation):
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '    object.call()\r\n.anotherCall()\r\n.last_one = lastOne()'
+- '    name = object.call()\r\n    .anotherCall()\r\n    .lastOne()'
+
+      + expected - actual
+
+      -    object.call()
+
+      -.anotherCall()
+
+      -.last_one = lastOne()
+      +    name = object.call()
+
+      +    .anotherCall()
+
+      +    .lastOne()
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  18) 04. Multiline template tests
+       var template - method call (indentation - tabs):
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '        object.call()\r\n' +
++   '            .anotherCall()last_one = \r\n' +
+- '        name = object.call()\r\n' +
+-   '            .anotherCall()\r\n' +
+    '            .lastOne()'
+
+      + expected - actual
+
+      -        object.call()
+
+      -            .anotherCall()last_one =
+
+      +        name = object.call()
+
+      +            .anotherCall()
+
+                   .lastOne()
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  19) 04. Multiline template tests
+       var template - method call (indentation - spaces):
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '        object.call()\r\n' +
++   '            .anotherCall()last_one = \r\n' +
+- '        name = object.call()\r\n' +
+-   '            .anotherCall()\r\n' +
+    '            .lastOne()'
+
+      + expected - actual
+
+      -        object.call()
+
+      -            .anotherCall()last_one =
+
+      +        name = object.call()
+
+      +            .anotherCall()
+
+                   .lastOne()
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  20) 04. Multiline template tests
+       var template - method call (indentation - mixed):
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '        object.call()\r\n' +
+- '        name = object.call()\r\n' +
+    '            .anotherCall()\r\n' +
++   '            .last_one = lastOne()'
+-   '            .lastOne()'
+
+      + expected - actual
+
+      -        object.call()
+
+      +        name = object.call()
+
+                   .anotherCall()
+      -            .last_one = lastOne()
+      +            .lastOne()
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  21) 04. Multiline template tests
+       var template - method call (indentation - completely mixed):
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '    object.call()\r\n      .anotherCall()last_one = \r\n            .lastOne()'
+- '    name = object.call()\r\n          .anotherCall()\r\n          .lastOne()'
+
+      + expected - actual
+
+      -    object.call()
+
+      -      .anotherCall()last_one =
+
+      -            .lastOne()
+      +    name = object.call()
+
+      +          .anotherCall()
+
+      +          .lastOne()
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  22) 04. Multiline template tests
+       return template - method call (indentation - tabs):
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '        object.call()\r\n' +
++   '            .anotherCall()return \r\n' +
+- '        return object.call()\r\n' +
+-   '            .anotherCall()\r\n' +
+    '            .lastOne()'
+
+      + expected - actual
+
+      -        object.call()
+
+      -            .anotherCall()return
+
+      +        return object.call()
+
+      +            .anotherCall()
+
+                   .lastOne()
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  23) 04. Multiline template tests
+       return template - method call (indentation - spaces):
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '        object.call()\r\n' +
++   '            .anotherCall()return \r\n' +
+- '        return object.call()\r\n' +
+-   '            .anotherCall()\r\n' +
+    '            .lastOne()'
+
+      + expected - actual
+
+      -        object.call()
+
+      -            .anotherCall()return
+
+      +        return object.call()
+
+      +            .anotherCall()
+
+                   .lastOne()
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  24) 04. Multiline template tests
+       return template - method call (indentation - mixed):
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '        object.call()\r\n' +
+- '        return object.call()\r\n' +
+    '            .anotherCall()\r\n' +
++   '            .return lastOne()'
+-   '            .lastOne()'
+
+      + expected - actual
+
+      -        object.call()
+
+      +        return object.call()
+
+                   .anotherCall()
+      -            .return lastOne()
+      +            .lastOne()
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  25) 04. Multiline template tests
+       return template - method call (indentation - completely mixed):
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '    object.call()\r\n      .anotherCall()return \r\n            .lastOne()'
+- '    return object.call()\r\n          .anotherCall()\r\n          .lastOne()'
+
+      + expected - actual
+
+      -    object.call()
+
+      -      .anotherCall()return
+
+      -            .lastOne()
+      +    return object.call()
+
+      +          .anotherCall()
+
+      +          .lastOne()
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  26) 04. Multiline template tests
+       var template - property access expression:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'object.\r\n    .a\r\n    .bc = \r\n    .c'
+- 'name = object.\r\n    .a\r\n    .b\r\n    .c'
+
+      + expected - actual
+
+      -object.
+
+      +name = object.
+
+           .a
+      -    .bc =
+
+      +    .b
+
+           .c
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  27) 04. Multiline template tests
+       var template - increment expression:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'object.\r\n    .a\r\n    .bc = \r\n    .c'
+- 'name = object.\r\n    .a\r\n    .b\r\n    .c'
+
+      + expected - actual
+
+      -object.
+
+      +name = object.
+
+           .a
+      -    .bc =
+
+      +    .b
+
+           .c
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  28) 04. Multiline template tests
+       return template - method call (equal indentation):
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '    object.call()\r\n.anotherCall()\r\n.return lastOne()'
+- '    return object.call()\r\n    .anotherCall()\r\n    .lastOne()'
+
+      + expected - actual
+
+      -    object.call()
+
+      -.anotherCall()
+
+      -.return lastOne()
+      +    return object.call()
+
+      +    .anotherCall()
+
+      +    .lastOne()
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  29) 04. Multiline template tests
+       not template - whitespaces - first expression:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'if not (\r\n    a && (b &&\r\n    a\r\n    .a\r\n    .b)\r\n {}'
+- 'if (\r\n  a && (!b ||\r\n  !a\r\n  .a\r\n  .b)\r\n)  {}'
+
+      + expected - actual
+
+      -if not (
+
+      -    a && (b &&
+
+      -    a
+
+      -    .a
+
+      -    .b)
+
+      - {}
+      +if (
+
+      +  a && (!b ||
+
+      +  !a
+
+      +  .a
+
+      +  .b)
+
+      +)  {}
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  30) 04. Multiline template tests
+       not template - whitespaces - second expression:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'if not (\r\n    a && (b &&\r\n    a\r\n    .a\r\n    .b)\r\n {}'
+- 'if (\r\n  !a || (!b ||\r\n  !a\r\n  .a\r\n  .b)\r\n)  {}'
+
+      + expected - actual
+
+      -if not (
+
+      -    a && (b &&
+
+      -    a
+
+      -    .a
+
+      -    .b)
+
+      - {}
+      +if (
+
+      +  !a || (!b ||
+
+      +  !a
+
+      +  .a
+
+      +  .b)
+
+      +)  {}
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  31) 04. Multiline template tests
+       Without {{expr}}
+         expression
+           indentation - completely mixed:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '    object.call()\r\n      .anotherCall()1\r\n          1\r\n      1'
+- '    1\r\n        1\r\n    1'
+
+      + expected - actual
+
+      -    object.call()
+
+      -      .anotherCall()1
+
+      -          1
+
+      -      1
+      +    1
+
+      +        1
+
+      +    1
+
+  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+Error: 31 tests failed.
+	at d:\Workspace\vscode-postfix-templates-python\out\test\index.js:48:27
+	at done (d:\Workspace\vscode-postfix-templates-python\node_modules\mocha\lib\mocha.js:1028:7)
+Failed to run tests: Failed
+Waiting for the debugger to disconnect...
+Waiting for the debugger to disconnect...
+Waiting for the debugger to disconnect...

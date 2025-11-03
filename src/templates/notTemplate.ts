@@ -73,7 +73,7 @@ export class NotTemplate extends BaseTemplate {
     }
 
     private getBinaryExpressions = (node: tree.Node) => {
-        // Start from the nearest binary expression ancestor
+        // Find the nearest binary expression ancestor
         let current: tree.Node | null = node
         while (current && !py.inBinaryExpression(current)) {
             current = current.parent
@@ -82,12 +82,41 @@ export class NotTemplate extends BaseTemplate {
             return []
         }
 
-        const expressions: tree.Node[] = [current]
-        while (current.parent && py.inBinaryExpression(current.parent)) {
-            current = current.parent
-            expressions.push(current)
+        // Climb to the top-most binary expression
+        let top: tree.Node = current
+        while (top.parent && py.inBinaryExpression(top.parent)) {
+            top = top.parent
         }
-        return expressions
+
+        // Only offer quick-pick when it's a logical expression (and/or)
+        let hasLogical = false
+        for (let i = 0; i < top.childCount; i++) {
+            const ch = top.child(i)
+            if (ch && (ch.text === 'and' || ch.text === 'or')) {
+                hasLogical = true
+                break
+            }
+        }
+        if (!hasLogical) {
+            return [top]
+        }
+
+        // Split the top expression into left/right parts for quick-pick
+        const left = top.firstNamedChild || top
+        const right = top.lastNamedChild || top
+
+        // Prefer offering the right-hand side first, then the whole expression, then left
+        const result: tree.Node[] = []
+        if (right && right.id !== top.id) {
+            result.push(right)
+        }
+        if (top) {
+            result.push(top)
+        }
+        if (left && left.id !== top.id && (!right || left.id !== right.id)) {
+            result.push(left)
+        }
+        return result
     }
 
     private normalizeBinaryExpression = (node: tree.Node) => {

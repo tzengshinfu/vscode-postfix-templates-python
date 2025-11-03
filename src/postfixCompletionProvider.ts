@@ -142,7 +142,13 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
       node = node.parent
     }
 
-    return node
+    /* For call/attribute chains, expand to the top-most node so multiline chains are replaced as a whole */
+    let current = node
+    while (current.parent && (py.isCallExpression(current.parent) || py.isPropertyAccessExpression(current.parent))) {
+      current = current.parent
+    }
+
+    return current
   }
 
   private getIndentInfo(document: vsc.TextDocument, node: tree.Node): IndentInfo {

@@ -19,7 +19,7 @@ export function notCommand(editor: vsc.TextEditor, expressions: NotPickItem[]) {
 
       editor.edit(e => {
         e.delete(value.range)
-        e.insert(value.range.start, `not (${value.text})`)
+        e.insert(value.range.start, value.text)
       })
     })
 }

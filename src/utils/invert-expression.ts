@@ -130,9 +130,8 @@ export const invertExpression = (expr: tree.Node, addOrBrackets = false): string
 
   /* (x) => not (x) */
   if (py.isParenthesizedExpression(expr)) {
-    if (py.isIdentifier(expr.child(1))) {
-      return `not ${text}`
-    }
+    // Avoid producing double parentheses for already parenthesized expressions
+    return `not ${text}`
   }
 
   const notPattern = /(not)(\s*)(.*)/

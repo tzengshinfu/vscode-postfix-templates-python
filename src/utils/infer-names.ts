@@ -131,10 +131,20 @@ export const inferForVarTemplate = (node: tree.Node): string[] => {
 
   /* Apply plural to singular conversion and filtering */
   const cleanVariants = getUniqueVariants(name)
-  return cleanVariants
+  const result = cleanVariants
     .map(pluralize.singular)
-    .filter(x => x !== name) /* Filter out the original name if it's the same */
+    .filter(x => x && x !== name) /* Filter out the original name if it's the same */
     .map(snakeCase)
+  if (result.length > 0) return result
+  // Fallbacks for names like users_list, items, etc.
+  let base = name.replace(/_?list$/i, '')
+  const parts = base.split('_')
+  if (parts.length > 1 && parts[parts.length - 1].toLowerCase() === 'list') {
+    parts.pop()
+  }
+  base = parts.pop() || base
+  const alt = pluralize.singular(base)
+  return [snakeCase(alt || 'item')]
 }
 
 function getUniqueVariants(name?: string) {
