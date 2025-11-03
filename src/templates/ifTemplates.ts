@@ -21,7 +21,9 @@ abstract class BaseIfElseTemplate extends BaseExpressionTemplate {
 export class IfTemplate extends BaseIfElseTemplate {
     buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
         const unwound = py.unwindBinaryExpression(node, true)
-        const replacement = unwound.text
+        let replacement = unwound.text
+        const m = /^\((.*)\)$/.exec(replacement)
+        if (m) replacement = m[1]
         const deleteNode = (node.parent && py.isParenthesizedExpression(node.parent) && node.parent.firstNamedChild && py.isBinaryExpression(node.parent.firstNamedChild))
             ? node.parent
             : (py.isParenthesizedExpression(node) ? node : unwound)

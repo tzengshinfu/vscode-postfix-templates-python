@@ -11,311 +11,645 @@ Debugger attached.
 Using VS Code from env: C:\Users\tzeng\AppData\Local\Programs\Microsoft VS Code\Code.exe
 
 
-[FAIL] 03. Single line template tests if template - binary in parens
+[FAIL] 03. Single line template tests not template - already negated expression
+Expected values to be strictly equal:
+
+'e' !== 'expr'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'e' !== 'expr'
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests var template (indent)
 Expected values to be strictly equal:
 + actual - expected
 
-+ 'if(a>b):'
-- 'ifa>b:'
-     ^
++ 'name = a.b'
+- '    name = a.b'
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'if(a>b):'
-- 'ifa>b:'
-     ^
++ 'name = a.b'
+- '    name = a.b'
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests return template
+Expected values to be strictly equal:
++ actual - expected
+
++ 'retur'
+- 'return expr'
+        ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'retur'
+- 'return expr'
+        ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests return template - comparison
+Expected values to be strictly equal:
++ actual - expected
+
++ 'return'
+- 'return x > 1'
+         ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'return'
+- 'return x > 1'
+         ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests return template - comparison
+Expected values to be strictly equal:
++ actual - expected
+
++ 'return'
+- 'return x > y'
+         ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'return'
+- 'return x > y'
+         ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests return template - r-string
+Expected values to be strictly equal:
++ actual - expected
+
++ 'return'
+- 'return r"\\\\"'
+         ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'return'
+- 'return r"\\\\"'
+         ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests return template - f-string
+Expected values to be strictly equal:
++ actual - expected
+
++ 'return f"value'
+- 'return f"value: {x}"'
+                 ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'return f"value'
+- 'return f"value: {x}"'
+                 ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests return template - b-string
+Expected values to be strictly equal:
++ actual - expected
+
++ 'return b"'
+- 'return b"bytes"'
+            ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'return b"'
+- 'return b"bytes"'
+            ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests return template - t-string
+Expected values to be strictly equal:
++ actual - expected
+
++ 'return t"tem'
+- 'return t"template"'
+               ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'return t"tem'
+- 'return t"template"'
+               ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests return template - tr-string
+Expected values to be strictly equal:
++ actual - expected
+
++ 'return tr"raw tem'
+- 'return tr"raw template"'
+                    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'return tr"raw tem'
+- 'return tr"raw template"'
+                    ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests not template
+Expected values to be strictly equal:
++ actual - expected
+
++ 'not e'
+- 'not expr'
+        ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'not e'
+- 'not expr'
+        ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 03. Single line template tests not template - equality
 Expected values to be strictly equal:
 + actual - expected
 
-+ 'if a != b'
++ 'if a !:'
 - 'if a != b:'
-            ^
+         ^
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'if a != b'
++ 'if a !:'
 - 'if a != b:'
-            ^
+         ^
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 03. Single line template tests not template - isinstance
 Expected values to be strictly equal:
 + actual - expected
 
-+ 'if not isinstance(a, b)'
++ 'if not isinstance(a,:'
 - 'if not isinstance(a, b):'
-                          ^
+                       ^
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'if not isinstance(a, b)'
++ 'if not isinstance(a,:'
 - 'if not isinstance(a, b):'
-                          ^
+                       ^
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests not template - walrus
+Expected values to be strictly equal:
++ actual - expected
+
++ 'a := no'
+- 'a := not b'
+          ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'a := no'
+- 'a := not b'
+          ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests not template - expression
+Expected values to be strictly equal:
++ actual - expected
+
++ 'not e'
+- 'not expr'
+        ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'not e'
+- 'not expr'
+        ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests not template - inside a call expression
+Expected values to be strictly equal:
++ actual - expected
+
++ 'call_expression(not e)'
+- 'call_expression(not expr)'
+                        ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'call_expression(not e)'
+- 'call_expression(not expr)'
+                        ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests not template - inside a call expression - negated
+Expected values to be strictly equal:
++ actual - expected
+
++ 'call_expression(e)'
+- 'call_expression(expr)'
+                    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'call_expression(e)'
+- 'call_expression(expr)'
+                    ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests not template - binary expression
+Expected values to be strictly equal:
++ actual - expected
+
++ 'not (x * 1'
+- 'not (x * 100)'
+             ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'not (x * 1'
+- 'not (x * 100)'
+             ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 03. Single line template tests not template - inside an if - identifier
 Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifnotexpr'
++ 'ifnote:'
 - 'ifnotexpr:'
-            ^
+         ^
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifnotexpr'
++ 'ifnote:'
 - 'ifnotexpr:'
-            ^
+         ^
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 03. Single line template tests not template - inside an if - binary
 Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifnot(x*100)'
++ 'ifnot(x*1:'
 - 'ifnot(x*100):'
-               ^
+            ^
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifnot(x*100)'
++ 'ifnot(x*1:'
 - 'ifnot(x*100):'
-               ^
+            ^
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 03. Single line template tests not template - inside an if - brackets
 Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifnot(x*100)'
++ 'ifnot(x*1:'
 - 'ifnot(x*100):'
-               ^
+            ^
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifnot(x*100)'
++ 'ifnot(x*1:'
 - 'ifnot(x*100):'
-               ^
+            ^
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-[FAIL] 03. Single line template tests not template - complex conditions - first expression
+[FAIL] 03. Single line template tests not template - already negated expression - method call
 Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifa>bandx*100.:'
-- 'ifa>bandnot(x*100):'
-           ^
++ 'x.metho'
+- 'x.method()'
+          ^
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifa>bandx*100.:'
-- 'ifa>bandnot(x*100):'
-           ^
++ 'x.metho'
+- 'x.method()'
+          ^
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-[FAIL] 03. Single line template tests not template - complex conditions - second expression
+[FAIL] 03. Single line template tests custom template tests identifier expr{custom}
+Expected values to be strictly equal:
+
+'no' !== 'not expr'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'no' !== 'not expr'
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template tests expression expr.test{custom}
 Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifa>bandx*100.:'
-- 'ifa<=bornot(x*100):'
-      ^
++ 'not exp'
+- 'not expr.test'
+          ^
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifa>bandx*100.:'
-- 'ifa<=bornot(x*100):'
-      ^
++ 'not exp'
+- 'not expr.test'
+          ^
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-[FAIL] 03. Single line template tests not template - complex conditions with parens - first expression
+[FAIL] 03. Single line template tests custom template tests expression expr[index]{custom}
 Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifa>band(x*100).:'
-- 'ifa>bandnot(x*100):'
-           ^
++ 'not expr['
+- 'not expr[index]'
+            ^
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifa>band(x*100).:'
-- 'ifa>bandnot(x*100):'
-           ^
++ 'not expr['
+- 'not expr[index]'
+            ^
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-[FAIL] 03. Single line template tests not template - complex conditions with parens - second expression
+[FAIL] 03. Single line template tests custom template tests binary-expression x > 100{custom}
 Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifa>band(x*100).:'
-- 'ifa<=bornot(x*100):'
-      ^
++ 'not x'
+- 'not x > 100'
+        ^
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifa>band(x*100).:'
-- 'ifa<=bornot(x*100):'
-      ^
++ 'not x'
+- 'not x > 100'
+        ^
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-[FAIL] 03. Single line template tests not template - complex conditions - cancel quick pick
+[FAIL] 03. Single line template tests custom template tests binary-expression x > y{custom}
+Expected values to be strictly equal:
+
+'not' !== 'not x > y'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'not' !== 'not x > y'
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template tests unary-expression not x{custom}
+Expected values to be strictly equal:
+
+'not' !== 'not not x'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'not' !== 'not not x'
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template tests function-call call(){custom}
 Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifa>bandx*100.:'
-- 'ifa>bandx*100.'
-                 ^
++ 'not '
+- 'not call()'
+       ^
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifa>bandx*100.:'
-- 'ifa>bandx*100.'
-                 ^
++ 'not '
+- 'not call()'
+       ^
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-[FAIL] 03. Single line template tests not template - complex conditions - first expression - alt
+[FAIL] 03. Single line template tests custom template tests function-call test.call(){custom}
 Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifa>bandx*100.:'
-- 'ifa>bandnot(x*100):'
-           ^
++ 'not test.'
+- 'not test.call()'
+            ^
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifa>bandx*100.:'
-- 'ifa>bandnot(x*100):'
-           ^
++ 'not test.'
+- 'not test.call()'
+            ^
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-[FAIL] 03. Single line template tests not template - complex conditions - second expression - alt
+[FAIL] 03. Single line template tests custom template tests string-literal expr{custom}
 Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifa>bandx*100.:'
-- 'ifa<=bornot(x*100):'
-      ^
++ 'not '
+- 'not "expr"'
+       ^
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifa>bandx*100.:'
-- 'ifa<=bornot(x*100):'
-      ^
++ 'not '
+- 'not "expr"'
+       ^
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-[FAIL] 03. Single line template tests not template - complex conditions - cancel quick pick - alt
+[FAIL] 03. Single line template tests custom template tests type x: bool{custom}
 Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifa>bandx*100.:'
-- 'ifa>bandx*100.'
-                 ^
++ 'x: no'
+- 'x: not bool'
+        ^
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifa>bandx*100.:'
-- 'ifa>bandx*100.'
-                 ^
++ 'x: no'
+- 'x: not bool'
+        ^
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template tests type x: A.B{custom}
+Expected values to be strictly equal:
++ actual - expected
+
++ 'x: n'
+- 'x: not A.B'
+       ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'x: n'
+- 'x: not A.B'
+       ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 03. Single line template tests custom template tests type def arrow() -> str{custom}:
 Expected values to be strictly equal:
 + actual - expected
 
-+ 'def arrow() -> not str'
++ 'def arrow() -> n:'
 - 'def arrow() -> not str:'
-                         ^
+                   ^
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'def arrow() -> not str'
++ 'def arrow() -> n:'
 - 'def arrow() -> not str:'
-                         ^
+                   ^
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 03. Single line template tests custom template tests type def f() -> bool{custom}:
 Expected values to be strictly equal:
 + actual - expected
 
-+ 'def f() -> not bool'
++ 'def f() -> no:'
 - 'def f() -> not bool:'
-                      ^
+                ^
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'def f() -> not bool'
++ 'def f() -> no:'
 - 'def f() -> not bool:'
-                      ^
+                ^
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 03. Single line template tests custom template tests type def f() -> A.B.C{custom}:
 Expected values to be strictly equal:
 + actual - expected
 
-+ 'def f() -> not A.B.C'
++ 'def f() -> not:'
 - 'def f() -> not A.B.C:'
-                       ^
+                 ^
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'def f() -> not A.B.C'
++ 'def f() -> not:'
 - 'def f() -> not A.B.C:'
-                       ^
+                 ^
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template tests type def f(arg: A.B.C{custom}):
+Expected values to be strictly equal:
++ actual - expected
+
++ 'def f(arg: not):'
+- 'def f(arg: not A.B.C):'
+                 ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'def f(arg: not):'
+- 'def f(arg: not A.B.C):'
+                 ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 03. Single line template tests custom template tests type arrow = lambda arg: A.B.C{custom}
 Expected values to be strictly equal:
@@ -332,8 +666,26 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 - 'arrow = lambda arg: not A.B.C'
                        ^
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template tests type def f(d: dict[A.B.C{custom}]):
+Expected values to be strictly equal:
++ actual - expected
+
++ 'def f(d: dict[not]):'
+- 'def f(d: dict[not A.B.C]):'
+                    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'def f(d: dict[not]):'
+- 'def f(d: dict[not A.B.C]):'
+                    ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 03. Single line template tests custom template tests type arrow = lambda lst: A.B.C{custom}
 Expected values to be strictly equal:
@@ -350,8 +702,80 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 - 'arrow = lambda lst: not A.B.C'
                        ^
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template with multiple expr tests identifier expr{custom}
+Expected values to be strictly equal:
++ actual - expected
+
++ 'expr '
+- 'expr + expr'
+        ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'expr '
+- 'expr + expr'
+        ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template with multiple expr tests expression expr.test{custom}
+Expected values to be strictly equal:
++ actual - expected
+
++ 'expr.test + exp'
+- 'expr.test + expr.test'
+                  ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'expr.test + exp'
+- 'expr.test + expr.test'
+                  ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template with multiple expr tests expression expr[index]{custom}
+Expected values to be strictly equal:
++ actual - expected
+
++ 'expr[index] + expr['
+- 'expr[index] + expr[index]'
+                      ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'expr[index] + expr['
+- 'expr[index] + expr[index]'
+                      ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template with multiple expr tests binary-expression x > 100{custom}
+Expected values to be strictly equal:
++ actual - expected
+
++ 'x > 100 + x'
+- 'x > 100 + x > 100'
+              ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'x > 100 + x'
+- 'x > 100 + x > 100'
+              ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 03. Single line template tests custom template with multiple expr tests unary-expression - minus -x{custom}
 Expected values to be strictly equal:
@@ -368,8 +792,8 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 - '-x + -x'
      ^
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 03. Single line template tests custom template with multiple expr tests unary-expression - not not x{custom}
 Expected values to be strictly equal:
@@ -386,47 +810,225 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 - 'not x + not x'
         ^
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template with multiple expr tests function-call call(){custom}
+Expected values to be strictly equal:
++ actual - expected
+
++ 'call() + '
+- 'call() + call()'
+            ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'call() + '
+- 'call() + call()'
+            ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template with multiple expr tests function-call test.call(){custom}
+Expected values to be strictly equal:
++ actual - expected
+
++ 'test.call() + test.'
+- 'test.call() + test.call()'
+                      ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'test.call() + test.'
+- 'test.call() + test.call()'
+                      ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template with :lower filter identifier expr{custom}
+Expected values to be strictly equal:
+
+'' !== 'expr'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'' !== 'expr'
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template with :lower filter identifier EXPR{custom}
+Expected values to be strictly equal:
+
+'' !== 'expr'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'' !== 'expr'
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template with :lower filter identifier eXPr{custom}
+Expected values to be strictly equal:
+
+'' !== 'expr'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'' !== 'expr'
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template with :upper filter identifier expr{custom}
+Expected values to be strictly equal:
+
+'' !== 'EXPR'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'' !== 'EXPR'
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template with :upper filter identifier EXPR{custom}
+Expected values to be strictly equal:
+
+'' !== 'EXPR'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'' !== 'EXPR'
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template with :upper filter identifier eXPr{custom}
+Expected values to be strictly equal:
+
+'' !== 'EXPR'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'' !== 'EXPR'
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template with :capitalize filter identifier expr{custom}
+Expected values to be strictly equal:
+
+'' !== 'Expr'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'' !== 'Expr'
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template with :capitalize filter identifier EXPR{custom}
+Expected values to be strictly equal:
+
+'' !== 'EXPR'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'' !== 'EXPR'
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template with :capitalize filter identifier eXPr{custom}
+Expected values to be strictly equal:
+
+'' !== 'EXPr'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'' !== 'EXPr'
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template with escaped variable syntax identifier expr{custom}
+Expected values to be strictly equal:
++ actual - expected
+
++ 'console.log("$TM_LINE_NUMBER", $1'
+- 'console.log("$TM_LINE_NUMBER", $1.expr)'
+                                    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'console.log("$TM_LINE_NUMBER", $1'
+- 'console.log("$TM_LINE_NUMBER", $1.expr)'
+                                    ^
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests custom template defined as array identifier expr{custom}
+Expected values to be strictly equal:
++ actual - expected
+
++ 'Line 1 expr\r\n Line 2 expr\r\n  Line '
+- 'Line 1 expr\r\n Line 2 expr\r\n  Line 3 expr'
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'Line 1 expr\r\n Line 2 expr\r\n  Line '
+- 'Line 1 expr\r\n Line 2 expr\r\n  Line 3 expr'
+
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 04. Multiline template tests var template - method call
 Expected values to be strictly equal:
 + actual - expected
 
-+ 'object.call()\r\n    .anotherCall()last_one = \r\n    .lastOne()'
++ 'object.call()\r\n    .anotherCallast_one = \r\n    .lastOne()'
 - 'name = object.call()\r\n    .anotherCall()\r\n    .lastOne()'
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'object.call()\r\n    .anotherCall()last_one = \r\n    .lastOne()'
++ 'object.call()\r\n    .anotherCallast_one = \r\n    .lastOne()'
 - 'name = object.call()\r\n    .anotherCall()\r\n    .lastOne()'
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 04. Multiline template tests var template - method call (equal indentation)
 Expected values to be strictly equal:
 + actual - expected
 
-+ '    object.call()\r\n.anotherCall()\r\n.last_one = lastOne()'
++ '    object.call()\r\n.anotherCall()\r\nlast_one = lastOne()'
 - '    name = object.call()\r\n    .anotherCall()\r\n    .lastOne()'
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ '    object.call()\r\n.anotherCall()\r\n.last_one = lastOne()'
++ '    object.call()\r\n.anotherCall()\r\nlast_one = lastOne()'
 - '    name = object.call()\r\n    .anotherCall()\r\n    .lastOne()'
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 04. Multiline template tests var template - method call (indentation - tabs)
 Expected values to be strictly equal:
 + actual - expected
 
 + '        object.call()\r\n' +
-+   '            .anotherCall()last_one = \r\n' +
++   '            .anotherCallast_one = \r\n' +
 - '        name = object.call()\r\n' +
 -   '            .anotherCall()\r\n' +
     '            .lastOne()'
@@ -435,20 +1037,20 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
 + '        object.call()\r\n' +
-+   '            .anotherCall()last_one = \r\n' +
++   '            .anotherCallast_one = \r\n' +
 - '        name = object.call()\r\n' +
 -   '            .anotherCall()\r\n' +
     '            .lastOne()'
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 04. Multiline template tests var template - method call (indentation - spaces)
 Expected values to be strictly equal:
 + actual - expected
 
 + '        object.call()\r\n' +
-+   '            .anotherCall()last_one = \r\n' +
++   '            .anotherCallast_one = \r\n' +
 - '        name = object.call()\r\n' +
 -   '            .anotherCall()\r\n' +
     '            .lastOne()'
@@ -457,181 +1059,173 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
 + '        object.call()\r\n' +
-+   '            .anotherCall()last_one = \r\n' +
++   '            .anotherCallast_one = \r\n' +
 - '        name = object.call()\r\n' +
 -   '            .anotherCall()\r\n' +
     '            .lastOne()'
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 04. Multiline template tests var template - method call (indentation - mixed)
 Expected values to be strictly equal:
 + actual - expected
 
-+ '        object.call()\r\n' +
++ '        object.call()\r\n            .anotherCall()\r\n    last_one = lastOne()'
 - '        name = object.call()\r\n' +
-    '            .anotherCall()\r\n' +
-+   '            .last_one = lastOne()'
+-   '            .anotherCall()\r\n' +
 -   '            .lastOne()'
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ '        object.call()\r\n' +
++ '        object.call()\r\n            .anotherCall()\r\n    last_one = lastOne()'
 - '        name = object.call()\r\n' +
-    '            .anotherCall()\r\n' +
-+   '            .last_one = lastOne()'
+-   '            .anotherCall()\r\n' +
 -   '            .lastOne()'
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 04. Multiline template tests var template - method call (indentation - completely mixed)
 Expected values to be strictly equal:
 + actual - expected
 
-+ '    object.call()\r\n      .anotherCall()last_one = \r\n            .lastOne()'
++ '    object.call()\r\n      .anotherCallast_one = \r\n            .lastOne()'
 - '    name = object.call()\r\n          .anotherCall()\r\n          .lastOne()'
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ '    object.call()\r\n      .anotherCall()last_one = \r\n            .lastOne()'
++ '    object.call()\r\n      .anotherCallast_one = \r\n            .lastOne()'
 - '    name = object.call()\r\n          .anotherCall()\r\n          .lastOne()'
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 04. Multiline template tests return template - method call (indentation - tabs)
 Expected values to be strictly equal:
 + actual - expected
 
-+ '        object.call()\r\n' +
-+   '            .anotherCall()return \r\n' +
++ '        object.call()\r\n            .anotherCall()return \r\n            .las'
 - '        return object.call()\r\n' +
 -   '            .anotherCall()\r\n' +
-    '            .lastOne()'
+-   '            .lastOne()'
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ '        object.call()\r\n' +
-+   '            .anotherCall()return \r\n' +
++ '        object.call()\r\n            .anotherCall()return \r\n            .las'
 - '        return object.call()\r\n' +
 -   '            .anotherCall()\r\n' +
-    '            .lastOne()'
+-   '            .lastOne()'
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 04. Multiline template tests return template - method call (indentation - spaces)
 Expected values to be strictly equal:
 + actual - expected
 
-+ '        object.call()\r\n' +
-+   '            .anotherCall()return \r\n' +
++ '        object.call()\r\n            .anotherCall()return \r\n            .las'
 - '        return object.call()\r\n' +
 -   '            .anotherCall()\r\n' +
-    '            .lastOne()'
+-   '            .lastOne()'
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ '        object.call()\r\n' +
-+   '            .anotherCall()return \r\n' +
++ '        object.call()\r\n            .anotherCall()return \r\n            .las'
 - '        return object.call()\r\n' +
 -   '            .anotherCall()\r\n' +
-    '            .lastOne()'
+-   '            .lastOne()'
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 04. Multiline template tests return template - method call (indentation - mixed)
 Expected values to be strictly equal:
 + actual - expected
 
-+ '        object.call()\r\n' +
++ '        object.call()\r\n            .anotherCall()\r\n            .return las'
 - '        return object.call()\r\n' +
-    '            .anotherCall()\r\n' +
-+   '            .return lastOne()'
+-   '            .anotherCall()\r\n' +
 -   '            .lastOne()'
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ '        object.call()\r\n' +
++ '        object.call()\r\n            .anotherCall()\r\n            .return las'
 - '        return object.call()\r\n' +
-    '            .anotherCall()\r\n' +
-+   '            .return lastOne()'
+-   '            .anotherCall()\r\n' +
 -   '            .lastOne()'
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 04. Multiline template tests return template - method call (indentation - completely mixed)
 Expected values to be strictly equal:
 + actual - expected
 
-+ '    object.call()\r\n      .anotherCall()return \r\n            .lastOne()'
++ '    object.call()\r\n      .anotherCall()return \r\n            .las'
 - '    return object.call()\r\n          .anotherCall()\r\n          .lastOne()'
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ '    object.call()\r\n      .anotherCall()return \r\n            .lastOne()'
++ '    object.call()\r\n      .anotherCall()return \r\n            .las'
 - '    return object.call()\r\n          .anotherCall()\r\n          .lastOne()'
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 04. Multiline template tests var template - property access expression
 Expected values to be strictly equal:
 + actual - expected
 
-+ 'object.\r\n    .a\r\n    .bc = \r\n    .c'
++ 'object.\r\n    .a\r\nc = \r\n    .c'
 - 'name = object.\r\n    .a\r\n    .b\r\n    .c'
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'object.\r\n    .a\r\n    .bc = \r\n    .c'
++ 'object.\r\n    .a\r\nc = \r\n    .c'
 - 'name = object.\r\n    .a\r\n    .b\r\n    .c'
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 04. Multiline template tests var template - increment expression
 Expected values to be strictly equal:
 + actual - expected
 
-+ 'object.\r\n    .a\r\n    .bc = \r\n    .c'
++ 'object.\r\n    .a\r\nc = \r\n    .c'
 - 'name = object.\r\n    .a\r\n    .b\r\n    .c'
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'object.\r\n    .a\r\n    .bc = \r\n    .c'
++ 'object.\r\n    .a\r\nc = \r\n    .c'
 - 'name = object.\r\n    .a\r\n    .b\r\n    .c'
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 04. Multiline template tests return template - method call (equal indentation)
 Expected values to be strictly equal:
 + actual - expected
 
-+ '    object.call()\r\n.anotherCall()\r\n.return lastOne()'
++ '    object.call()\r\n.anotherCall()\r\n.return las'
 - '    return object.call()\r\n    .anotherCall()\r\n    .lastOne()'
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ '    object.call()\r\n.anotherCall()\r\n.return lastOne()'
++ '    object.call()\r\n.anotherCall()\r\n.return las'
 - '    return object.call()\r\n    .anotherCall()\r\n    .lastOne()'
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 04. Multiline template tests not template - whitespaces - first expression
 Expected values to be strictly equal:
@@ -646,8 +1240,8 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + 'if not (\r\n    a && (b &&\r\n    a\r\n    .a\r\n    .b)\r\n {}'
 - 'if (\r\n  a && (!b ||\r\n  !a\r\n  .a\r\n  .b)\r\n)  {}'
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 04. Multiline template tests not template - whitespaces - second expression
 Expected values to be strictly equal:
@@ -662,279 +1256,630 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + 'if not (\r\n    a && (b &&\r\n    a\r\n    .a\r\n    .b)\r\n {}'
 - 'if (\r\n  !a || (!b ||\r\n  !a\r\n  .a\r\n  .b)\r\n)  {}'
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
 [FAIL] 04. Multiline template tests Without {{expr}} expression indentation - completely mixed
 Expected values to be strictly equal:
 + actual - expected
 
-+ '    object.call()\r\n      .anotherCall()1\r\n          1\r\n      1'
++ '    object.call()\r\n      .anotherCall()1\r\n          1\r\n'
 - '    1\r\n        1\r\n    1'
 
 AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ '    object.call()\r\n      .anotherCall()1\r\n          1\r\n      1'
++ '    object.call()\r\n      .anotherCall()1\r\n          1\r\n'
 - '    1\r\n        1\r\n    1'
 
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
-  182 passing (2m)
-  37 failing
+	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  144 passing (4m)
+  75 failing
   1) 03. Single line template tests
-       if template - binary in parens:
+       not template - already negated expression:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'e' !== 'expr'
+
+      + expected - actual
+
+      -e
+      +expr
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  2) 03. Single line template tests
+       var template (indent):
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'if(a>b):'
-- 'ifa>b:'
-     ^
++ 'name = a.b'
+- '    name = a.b'
 
       + expected - actual
 
-      -if(a>b):
-      +ifa>b:
+      -name = a.b
+      +    name = a.b
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  2) 03. Single line template tests
+  3) 03. Single line template tests
+       return template:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'retur'
+- 'return expr'
+        ^
+
+      + expected - actual
+
+      -retur
+      +return expr
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  4) 03. Single line template tests
+       return template - comparison:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'return'
+- 'return x > 1'
+         ^
+
+      + expected - actual
+
+      -return
+      +return x > 1
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  5) 03. Single line template tests
+       return template - comparison:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'return'
+- 'return x > y'
+         ^
+
+      + expected - actual
+
+      -return
+      +return x > y
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  6) 03. Single line template tests
+       return template - r-string:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'return'
+- 'return r"\\\\"'
+         ^
+
+      + expected - actual
+
+      -return
+      +return r"\\"
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  7) 03. Single line template tests
+       return template - f-string:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'return f"value'
+- 'return f"value: {x}"'
+                 ^
+
+      + expected - actual
+
+      -return f"value
+      +return f"value: {x}"
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  8) 03. Single line template tests
+       return template - b-string:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'return b"'
+- 'return b"bytes"'
+            ^
+
+      + expected - actual
+
+      -return b"
+      +return b"bytes"
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  9) 03. Single line template tests
+       return template - t-string:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'return t"tem'
+- 'return t"template"'
+               ^
+
+      + expected - actual
+
+      -return t"tem
+      +return t"template"
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  10) 03. Single line template tests
+       return template - tr-string:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'return tr"raw tem'
+- 'return tr"raw template"'
+                    ^
+
+      + expected - actual
+
+      -return tr"raw tem
+      +return tr"raw template"
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  11) 03. Single line template tests
+       not template:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'not e'
+- 'not expr'
+        ^
+
+      + expected - actual
+
+      -not e
+      +not expr
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  12) 03. Single line template tests
        not template - equality:
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'if a != b'
++ 'if a !:'
 - 'if a != b:'
-            ^
+         ^
 
       + expected - actual
 
-      -if a != b
+      -if a !:
       +if a != b:
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  3) 03. Single line template tests
+  13) 03. Single line template tests
        not template - isinstance:
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'if not isinstance(a, b)'
++ 'if not isinstance(a,:'
 - 'if not isinstance(a, b):'
-                          ^
+                       ^
 
       + expected - actual
 
-      -if not isinstance(a, b)
+      -if not isinstance(a,:
       +if not isinstance(a, b):
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  4) 03. Single line template tests
+  14) 03. Single line template tests
+       not template - walrus:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'a := no'
+- 'a := not b'
+          ^
+
+      + expected - actual
+
+      -a := no
+      +a := not b
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  15) 03. Single line template tests
+       not template - expression:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'not e'
+- 'not expr'
+        ^
+
+      + expected - actual
+
+      -not e
+      +not expr
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  16) 03. Single line template tests
+       not template - inside a call expression:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'call_expression(not e)'
+- 'call_expression(not expr)'
+                        ^
+
+      + expected - actual
+
+      -call_expression(not e)
+      +call_expression(not expr)
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  17) 03. Single line template tests
+       not template - inside a call expression - negated:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'call_expression(e)'
+- 'call_expression(expr)'
+                    ^
+
+      + expected - actual
+
+      -call_expression(e)
+      +call_expression(expr)
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  18) 03. Single line template tests
+       not template - binary expression:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'not (x * 1'
+- 'not (x * 100)'
+             ^
+
+      + expected - actual
+
+      -not (x * 1
+      +not (x * 100)
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  19) 03. Single line template tests
        not template - inside an if - identifier:
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifnotexpr'
++ 'ifnote:'
 - 'ifnotexpr:'
-            ^
+         ^
 
       + expected - actual
 
-      -ifnotexpr
+      -ifnote:
       +ifnotexpr:
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  5) 03. Single line template tests
+  20) 03. Single line template tests
        not template - inside an if - binary:
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifnot(x*100)'
++ 'ifnot(x*1:'
 - 'ifnot(x*100):'
-               ^
+            ^
 
       + expected - actual
 
-      -ifnot(x*100)
+      -ifnot(x*1:
       +ifnot(x*100):
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  6) 03. Single line template tests
+  21) 03. Single line template tests
        not template - inside an if - brackets:
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifnot(x*100)'
++ 'ifnot(x*1:'
 - 'ifnot(x*100):'
-               ^
+            ^
 
       + expected - actual
 
-      -ifnot(x*100)
+      -ifnot(x*1:
       +ifnot(x*100):
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  7) 03. Single line template tests
-       not template - complex conditions - first expression:
-
-      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
-+ actual - expected
-
-+ 'ifa>bandx*100.:'
-- 'ifa>bandnot(x*100):'
-           ^
-
-      + expected - actual
-
-      -ifa>bandx*100.:
-      +ifa>bandnot(x*100):
-
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
-
-  8) 03. Single line template tests
-       not template - complex conditions - second expression:
+  22) 03. Single line template tests
+       not template - already negated expression - method call:
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifa>bandx*100.:'
-- 'ifa<=bornot(x*100):'
-      ^
++ 'x.metho'
+- 'x.method()'
+          ^
 
       + expected - actual
 
-      -ifa>bandx*100.:
-      +ifa<=bornot(x*100):
+      -x.metho
+      +x.method()
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  9) 03. Single line template tests
-       not template - complex conditions with parens - first expression:
+  23) 03. Single line template tests
+       custom template tests
+         identifier
+           expr{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'no' !== 'not expr'
+
+      + expected - actual
+
+      -no
+      +not expr
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  24) 03. Single line template tests
+       custom template tests
+         expression
+           expr.test{custom}:
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifa>band(x*100).:'
-- 'ifa>bandnot(x*100):'
-           ^
++ 'not exp'
+- 'not expr.test'
+          ^
 
       + expected - actual
 
-      -ifa>band(x*100).:
-      +ifa>bandnot(x*100):
+      -not exp
+      +not expr.test
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  10) 03. Single line template tests
-       not template - complex conditions with parens - second expression:
+  25) 03. Single line template tests
+       custom template tests
+         expression
+           expr[index]{custom}:
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifa>band(x*100).:'
-- 'ifa<=bornot(x*100):'
-      ^
++ 'not expr['
+- 'not expr[index]'
+            ^
 
       + expected - actual
 
-      -ifa>band(x*100).:
-      +ifa<=bornot(x*100):
+      -not expr[
+      +not expr[index]
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  11) 03. Single line template tests
-       not template - complex conditions - cancel quick pick:
+  26) 03. Single line template tests
+       custom template tests
+         binary-expression
+           x > 100{custom}:
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifa>bandx*100.:'
-- 'ifa>bandx*100.'
-                 ^
++ 'not x'
+- 'not x > 100'
+        ^
 
       + expected - actual
 
-      -ifa>bandx*100.:
-      +ifa>bandx*100.
+      -not x
+      +not x > 100
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  12) 03. Single line template tests
-       not template - complex conditions - first expression - alt:
+  27) 03. Single line template tests
+       custom template tests
+         binary-expression
+           x > y{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'not' !== 'not x > y'
+
+      + expected - actual
+
+      -not
+      +not x > y
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  28) 03. Single line template tests
+       custom template tests
+         unary-expression
+           not x{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'not' !== 'not not x'
+
+      + expected - actual
+
+      -not
+      +not not x
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  29) 03. Single line template tests
+       custom template tests
+         function-call
+           call(){custom}:
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifa>bandx*100.:'
-- 'ifa>bandnot(x*100):'
-           ^
++ 'not '
+- 'not call()'
+       ^
 
       + expected - actual
 
-      -ifa>bandx*100.:
-      +ifa>bandnot(x*100):
+      -not
+      +not call()
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  13) 03. Single line template tests
-       not template - complex conditions - second expression - alt:
+  30) 03. Single line template tests
+       custom template tests
+         function-call
+           test.call(){custom}:
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifa>bandx*100.:'
-- 'ifa<=bornot(x*100):'
-      ^
++ 'not test.'
+- 'not test.call()'
+            ^
 
       + expected - actual
 
-      -ifa>bandx*100.:
-      +ifa<=bornot(x*100):
+      -not test.
+      +not test.call()
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  14) 03. Single line template tests
-       not template - complex conditions - cancel quick pick - alt:
+  31) 03. Single line template tests
+       custom template tests
+         string-literal
+           expr{custom}:
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'ifa>bandx*100.:'
-- 'ifa>bandx*100.'
-                 ^
++ 'not '
+- 'not "expr"'
+       ^
 
       + expected - actual
 
-      -ifa>bandx*100.:
-      +ifa>bandx*100.
+      -not
+      +not "expr"
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  15) 03. Single line template tests
+  32) 03. Single line template tests
+       custom template tests
+         type
+           x: bool{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'x: no'
+- 'x: not bool'
+        ^
+
+      + expected - actual
+
+      -x: no
+      +x: not bool
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  33) 03. Single line template tests
+       custom template tests
+         type
+           x: A.B{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'x: n'
+- 'x: not A.B'
+       ^
+
+      + expected - actual
+
+      -x: n
+      +x: not A.B
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  34) 03. Single line template tests
        custom template tests
          type
            def arrow() -> str{custom}::
@@ -942,19 +1887,19 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'def arrow() -> not str'
++ 'def arrow() -> n:'
 - 'def arrow() -> not str:'
-                         ^
+                   ^
 
       + expected - actual
 
-      -def arrow() -> not str
+      -def arrow() -> n:
       +def arrow() -> not str:
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  16) 03. Single line template tests
+  35) 03. Single line template tests
        custom template tests
          type
            def f() -> bool{custom}::
@@ -962,19 +1907,19 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'def f() -> not bool'
++ 'def f() -> no:'
 - 'def f() -> not bool:'
-                      ^
+                ^
 
       + expected - actual
 
-      -def f() -> not bool
+      -def f() -> no:
       +def f() -> not bool:
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  17) 03. Single line template tests
+  36) 03. Single line template tests
        custom template tests
          type
            def f() -> A.B.C{custom}::
@@ -982,19 +1927,39 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'def f() -> not A.B.C'
++ 'def f() -> not:'
 - 'def f() -> not A.B.C:'
-                       ^
+                 ^
 
       + expected - actual
 
-      -def f() -> not A.B.C
+      -def f() -> not:
       +def f() -> not A.B.C:
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  18) 03. Single line template tests
+  37) 03. Single line template tests
+       custom template tests
+         type
+           def f(arg: A.B.C{custom})::
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'def f(arg: not):'
+- 'def f(arg: not A.B.C):'
+                 ^
+
+      + expected - actual
+
+      -def f(arg: not):
+      +def f(arg: not A.B.C):
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  38) 03. Single line template tests
        custom template tests
          type
            arrow = lambda arg: A.B.C{custom}:
@@ -1011,10 +1976,30 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
       -arrow = lambda arg: A.B.C.custom
       +arrow = lambda arg: not A.B.C
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  19) 03. Single line template tests
+  39) 03. Single line template tests
+       custom template tests
+         type
+           def f(d: dict[A.B.C{custom}])::
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'def f(d: dict[not]):'
+- 'def f(d: dict[not A.B.C]):'
+                    ^
+
+      + expected - actual
+
+      -def f(d: dict[not]):
+      +def f(d: dict[not A.B.C]):
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  40) 03. Single line template tests
        custom template tests
          type
            arrow = lambda lst: A.B.C{custom}:
@@ -1031,10 +2016,90 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
       -arrow = lambda lst: A.B.C.custom
       +arrow = lambda lst: not A.B.C
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  20) 03. Single line template tests
+  41) 03. Single line template tests
+       custom template with multiple expr tests
+         identifier
+           expr{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'expr '
+- 'expr + expr'
+        ^
+
+      + expected - actual
+
+      -expr
+      +expr + expr
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  42) 03. Single line template tests
+       custom template with multiple expr tests
+         expression
+           expr.test{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'expr.test + exp'
+- 'expr.test + expr.test'
+                  ^
+
+      + expected - actual
+
+      -expr.test + exp
+      +expr.test + expr.test
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  43) 03. Single line template tests
+       custom template with multiple expr tests
+         expression
+           expr[index]{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'expr[index] + expr['
+- 'expr[index] + expr[index]'
+                      ^
+
+      + expected - actual
+
+      -expr[index] + expr[
+      +expr[index] + expr[index]
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  44) 03. Single line template tests
+       custom template with multiple expr tests
+         binary-expression
+           x > 100{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'x > 100 + x'
+- 'x > 100 + x > 100'
+              ^
+
+      + expected - actual
+
+      -x > 100 + x
+      +x > 100 + x > 100
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  45) 03. Single line template tests
        custom template with multiple expr tests
          unary-expression - minus
            -x{custom}:
@@ -1051,10 +2116,10 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
       --x.custom
       +-x + -x
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  21) 03. Single line template tests
+  46) 03. Single line template tests
        custom template with multiple expr tests
          unary-expression - not
            not x{custom}:
@@ -1071,23 +2136,248 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
       -not x.custom
       +not x + not x
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  22) 04. Multiline template tests
+  47) 03. Single line template tests
+       custom template with multiple expr tests
+         function-call
+           call(){custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'call() + '
+- 'call() + call()'
+            ^
+
+      + expected - actual
+
+      -call() +
+      +call() + call()
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  48) 03. Single line template tests
+       custom template with multiple expr tests
+         function-call
+           test.call(){custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'test.call() + test.'
+- 'test.call() + test.call()'
+                      ^
+
+      + expected - actual
+
+      -test.call() + test.
+      +test.call() + test.call()
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  49) 03. Single line template tests
+       custom template with :lower filter
+         identifier
+           expr{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'' !== 'expr'
+
+      + expected - actual
+
+      +expr
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  50) 03. Single line template tests
+       custom template with :lower filter
+         identifier
+           EXPR{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'' !== 'expr'
+
+      + expected - actual
+
+      +expr
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  51) 03. Single line template tests
+       custom template with :lower filter
+         identifier
+           eXPr{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'' !== 'expr'
+
+      + expected - actual
+
+      +expr
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  52) 03. Single line template tests
+       custom template with :upper filter
+         identifier
+           expr{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'' !== 'EXPR'
+
+      + expected - actual
+
+      +EXPR
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  53) 03. Single line template tests
+       custom template with :upper filter
+         identifier
+           EXPR{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'' !== 'EXPR'
+
+      + expected - actual
+
+      +EXPR
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  54) 03. Single line template tests
+       custom template with :upper filter
+         identifier
+           eXPr{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'' !== 'EXPR'
+
+      + expected - actual
+
+      +EXPR
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  55) 03. Single line template tests
+       custom template with :capitalize filter
+         identifier
+           expr{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'' !== 'Expr'
+
+      + expected - actual
+
+      +Expr
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  56) 03. Single line template tests
+       custom template with :capitalize filter
+         identifier
+           EXPR{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'' !== 'EXPR'
+
+      + expected - actual
+
+      +EXPR
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  57) 03. Single line template tests
+       custom template with :capitalize filter
+         identifier
+           eXPr{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'' !== 'EXPr'
+
+      + expected - actual
+
+      +EXPr
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  58) 03. Single line template tests
+       custom template with escaped variable syntax
+         identifier
+           expr{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'console.log("$TM_LINE_NUMBER", $1'
+- 'console.log("$TM_LINE_NUMBER", $1.expr)'
+                                    ^
+
+      + expected - actual
+
+      -console.log("$TM_LINE_NUMBER", $1
+      +console.log("$TM_LINE_NUMBER", $1.expr)
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  59) 03. Single line template tests
+       custom template defined as array
+         identifier
+           expr{custom}:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'Line 1 expr\r\n Line 2 expr\r\n  Line '
+- 'Line 1 expr\r\n Line 2 expr\r\n  Line 3 expr'
+
+      + expected - actual
+
+       Line 1 expr
+        Line 2 expr
+      -  Line
+      +  Line 3 expr
+
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  60) 04. Multiline template tests
        var template - method call:
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'object.call()\r\n    .anotherCall()last_one = \r\n    .lastOne()'
++ 'object.call()\r\n    .anotherCallast_one = \r\n    .lastOne()'
 - 'name = object.call()\r\n    .anotherCall()\r\n    .lastOne()'
 
       + expected - actual
 
       -object.call()
 
-      -    .anotherCall()last_one =
+      -    .anotherCallast_one =
 
       +name = object.call()
 
@@ -1095,16 +2385,16 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 
            .lastOne()
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  23) 04. Multiline template tests
+  61) 04. Multiline template tests
        var template - method call (equal indentation):
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ '    object.call()\r\n.anotherCall()\r\n.last_one = lastOne()'
++ '    object.call()\r\n.anotherCall()\r\nlast_one = lastOne()'
 - '    name = object.call()\r\n    .anotherCall()\r\n    .lastOne()'
 
       + expected - actual
@@ -1113,24 +2403,24 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 
       -.anotherCall()
 
-      -.last_one = lastOne()
+      -last_one = lastOne()
       +    name = object.call()
 
       +    .anotherCall()
 
       +    .lastOne()
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  24) 04. Multiline template tests
+  62) 04. Multiline template tests
        var template - method call (indentation - tabs):
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
 + '        object.call()\r\n' +
-+   '            .anotherCall()last_one = \r\n' +
++   '            .anotherCallast_one = \r\n' +
 - '        name = object.call()\r\n' +
 -   '            .anotherCall()\r\n' +
     '            .lastOne()'
@@ -1139,7 +2429,7 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 
       -        object.call()
 
-      -            .anotherCall()last_one =
+      -            .anotherCallast_one =
 
       +        name = object.call()
 
@@ -1147,17 +2437,17 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 
                    .lastOne()
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  25) 04. Multiline template tests
+  63) 04. Multiline template tests
        var template - method call (indentation - spaces):
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
 + '        object.call()\r\n' +
-+   '            .anotherCall()last_one = \r\n' +
++   '            .anotherCallast_one = \r\n' +
 - '        name = object.call()\r\n' +
 -   '            .anotherCall()\r\n' +
     '            .lastOne()'
@@ -1166,7 +2456,7 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 
       -        object.call()
 
-      -            .anotherCall()last_one =
+      -            .anotherCallast_one =
 
       +        name = object.call()
 
@@ -1174,19 +2464,18 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 
                    .lastOne()
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  26) 04. Multiline template tests
+  64) 04. Multiline template tests
        var template - method call (indentation - mixed):
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ '        object.call()\r\n' +
++ '        object.call()\r\n            .anotherCall()\r\n    last_one = lastOne()'
 - '        name = object.call()\r\n' +
-    '            .anotherCall()\r\n' +
-+   '            .last_one = lastOne()'
+-   '            .anotherCall()\r\n' +
 -   '            .lastOne()'
 
       + expected - actual
@@ -1196,26 +2485,26 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
       +        name = object.call()
 
                    .anotherCall()
-      -            .last_one = lastOne()
+      -    last_one = lastOne()
       +            .lastOne()
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  27) 04. Multiline template tests
+  65) 04. Multiline template tests
        var template - method call (indentation - completely mixed):
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ '    object.call()\r\n      .anotherCall()last_one = \r\n            .lastOne()'
++ '    object.call()\r\n      .anotherCallast_one = \r\n            .lastOne()'
 - '    name = object.call()\r\n          .anotherCall()\r\n          .lastOne()'
 
       + expected - actual
 
       -    object.call()
 
-      -      .anotherCall()last_one =
+      -      .anotherCallast_one =
 
       -            .lastOne()
       +    name = object.call()
@@ -1224,20 +2513,19 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 
       +          .lastOne()
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  28) 04. Multiline template tests
+  66) 04. Multiline template tests
        return template - method call (indentation - tabs):
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ '        object.call()\r\n' +
-+   '            .anotherCall()return \r\n' +
++ '        object.call()\r\n            .anotherCall()return \r\n            .las'
 - '        return object.call()\r\n' +
 -   '            .anotherCall()\r\n' +
-    '            .lastOne()'
+-   '            .lastOne()'
 
       + expected - actual
 
@@ -1245,26 +2533,26 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 
       -            .anotherCall()return
 
+      -            .las
       +        return object.call()
 
       +            .anotherCall()
 
-                   .lastOne()
+      +            .lastOne()
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  29) 04. Multiline template tests
+  67) 04. Multiline template tests
        return template - method call (indentation - spaces):
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ '        object.call()\r\n' +
-+   '            .anotherCall()return \r\n' +
++ '        object.call()\r\n            .anotherCall()return \r\n            .las'
 - '        return object.call()\r\n' +
 -   '            .anotherCall()\r\n' +
-    '            .lastOne()'
+-   '            .lastOne()'
 
       + expected - actual
 
@@ -1272,25 +2560,25 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 
       -            .anotherCall()return
 
+      -            .las
       +        return object.call()
 
       +            .anotherCall()
 
-                   .lastOne()
+      +            .lastOne()
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  30) 04. Multiline template tests
+  68) 04. Multiline template tests
        return template - method call (indentation - mixed):
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ '        object.call()\r\n' +
++ '        object.call()\r\n            .anotherCall()\r\n            .return las'
 - '        return object.call()\r\n' +
-    '            .anotherCall()\r\n' +
-+   '            .return lastOne()'
+-   '            .anotherCall()\r\n' +
 -   '            .lastOne()'
 
       + expected - actual
@@ -1300,22 +2588,19 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
       +        return object.call()
 
                    .anotherCall()
-      -            .return lastOne()
+      -            .return las
       +            .lastOne()
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-Error: 37 tests failed.
-	at d:\Workspace\vscode-postfix-templates-python\out\test\index.js:48:27
-	at done (d:\Workspace\vscode-postfix-templates-python\node_modules\mocha\lib\mocha.js:1028:7)
-  31) 04. Multiline template tests
+  69) 04. Multiline template tests
        return template - method call (indentation - completely mixed):
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ '    object.call()\r\n      .anotherCall()return \r\n            .lastOne()'
++ '    object.call()\r\n      .anotherCall()return \r\n            .las'
 - '    return object.call()\r\n          .anotherCall()\r\n          .lastOne()'
 
       + expected - actual
@@ -1324,23 +2609,23 @@ Error: 37 tests failed.
 
       -      .anotherCall()return
 
-      -            .lastOne()
+      -            .las
       +    return object.call()
 
       +          .anotherCall()
 
       +          .lastOne()
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  32) 04. Multiline template tests
+  70) 04. Multiline template tests
        var template - property access expression:
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'object.\r\n    .a\r\n    .bc = \r\n    .c'
++ 'object.\r\n    .a\r\nc = \r\n    .c'
 - 'name = object.\r\n    .a\r\n    .b\r\n    .c'
 
       + expected - actual
@@ -1350,22 +2635,22 @@ Error: 37 tests failed.
       +name = object.
 
            .a
-      -    .bc =
+      -c =
 
       +    .b
 
            .c
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  33) 04. Multiline template tests
+  71) 04. Multiline template tests
        var template - increment expression:
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ 'object.\r\n    .a\r\n    .bc = \r\n    .c'
++ 'object.\r\n    .a\r\nc = \r\n    .c'
 - 'name = object.\r\n    .a\r\n    .b\r\n    .c'
 
       + expected - actual
@@ -1375,22 +2660,22 @@ Error: 37 tests failed.
       +name = object.
 
            .a
-      -    .bc =
+      -c =
 
       +    .b
 
            .c
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  34) 04. Multiline template tests
+  72) 04. Multiline template tests
        return template - method call (equal indentation):
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ '    object.call()\r\n.anotherCall()\r\n.return lastOne()'
++ '    object.call()\r\n.anotherCall()\r\n.return las'
 - '    return object.call()\r\n    .anotherCall()\r\n    .lastOne()'
 
       + expected - actual
@@ -1399,17 +2684,17 @@ Error: 37 tests failed.
 
       -.anotherCall()
 
-      -.return lastOne()
+      -.return las
       +    return object.call()
 
       +    .anotherCall()
 
       +    .lastOne()
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  35) 04. Multiline template tests
+  73) 04. Multiline template tests
        not template - whitespaces - first expression:
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
@@ -1443,10 +2728,10 @@ Error: 37 tests failed.
 
       +)  {}
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  36) 04. Multiline template tests
+  74) 04. Multiline template tests
        not template - whitespaces - second expression:
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
@@ -1480,10 +2765,10 @@ Error: 37 tests failed.
 
       +)  {}
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  37) 04. Multiline template tests
+  75) 04. Multiline template tests
        Without {{expr}}
          expression
            indentation - completely mixed:
@@ -1491,7 +2776,7 @@ Error: 37 tests failed.
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 + actual - expected
 
-+ '    object.call()\r\n      .anotherCall()1\r\n          1\r\n      1'
++ '    object.call()\r\n      .anotherCall()1\r\n          1\r\n'
 - '    1\r\n        1\r\n    1'
 
       + expected - actual
@@ -1502,16 +2787,18 @@ Error: 37 tests failed.
 
       -          1
 
-      -      1
       +    1
 
       +        1
 
       +    1
 
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
+  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
+Error: 75 tests failed.
+	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\index.js:48:27
+	at done (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\node_modules\mocha\lib\mocha.js:1028:7)
 Failed to run tests: Failed
 Waiting for the debugger to disconnect...
 Waiting for the debugger to disconnect...
