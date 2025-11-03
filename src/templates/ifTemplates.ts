@@ -22,8 +22,9 @@ export class IfTemplate extends BaseIfElseTemplate {
     buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
         const unwound = py.unwindBinaryExpression(node, true)
         const replacement = unwound.text
+        const deleteNode = py.isParenthesizedExpression(node) ? node : unwound
         return CompletionItemBuilder
-            .create('if', node, indentInfo)
+            .create('if', deleteNode, indentInfo)
             .replace(`if ${replacement}:\n${getIndentCharacters()}\${0}`)
             .build()
     }
@@ -33,8 +34,9 @@ export class IfElseTemplate extends BaseIfElseTemplate {
     buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
         const unwound = py.unwindBinaryExpression(node, true)
         const replacement = invertExpression(unwound)
+        const deleteNode = py.isParenthesizedExpression(node) ? node : unwound
         return CompletionItemBuilder
-            .create('ifelse', node, indentInfo)
+            .create('ifelse', deleteNode, indentInfo)
             .replace(`if ${replacement}:\n${getIndentCharacters()}\${0}\nelse:\n`)
             .build()
     }

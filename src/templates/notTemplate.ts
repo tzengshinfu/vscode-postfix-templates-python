@@ -17,17 +17,34 @@ export class NotTemplate extends BaseTemplate {
         if (py.inBinaryExpression(node)) {
             const expressions = this.getBinaryExpressions(node)
             if (expressions.length > 1) {
+                // Compute top-most binary expression for full inversion option
+                let top: tree.Node = node
+                while (top.parent && py.inBinaryExpression(top.parent)) {
+                    top = top.parent
+                }
+                const topPos = py.getNodePositions(top)
+                const topRange = new vsc.Range(
+                    new vsc.Position(topPos.start.line, topPos.start.character),
+                    new vsc.Position(topPos.end.line, topPos.end.character + 1)
+                )
                 const items = expressions.map(expr => {
-                    const { start, end } = py.getNodePositions(expr)
+                    const exprPos = py.getNodePositions(expr)
+                    const exprRange = new vsc.Range(
+                        new vsc.Position(exprPos.start.line, exprPos.start.character),
+                        new vsc.Position(exprPos.end.line, exprPos.end.character + 1)
+                    )
+                    const isTop = expr.id === top.id
+                    const makeNot = (t: string) => {
+                        const s = t.trim()
+                        const wrapped = /^\(.*\)$/.test(s) ? s : `(${s})`
+                        return `not ${wrapped}`
+                    }
                     return {
                         label: expr.text.replace(/\s+/g, ' '),
                         description: '',
                         detail: 'Invert this expression',
-                        range: new vsc.Range(
-                            new vsc.Position(start.line, start.character),
-                            new vsc.Position(end.line, end.character + 1)
-                        ),
-                        text: expr.text
+                        range: isTop ? topRange : exprRange,
+                        text: isTop ? invertExpression(top) : makeNot(expr.text)
                     }
                 })
                 return completionBuilder
