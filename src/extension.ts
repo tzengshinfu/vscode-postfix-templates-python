@@ -18,8 +18,8 @@ export async function activate(context: vsc.ExtensionContext): Promise<void> {
 
     context.subscriptions.push(vsc.commands.registerTextEditorCommand(NOT_COMMAND, async (editor: vsc.TextEditor, _: vsc.TextEditorEdit, ...args: any[]) => {
       try {
-        const [...expressions] = args
-        await notCommand(editor, expressions)
+        const [arg0, arg1] = args as any[]
+        await notCommand(editor, arg0, arg1)
       } catch (cmdError) {
         console.error('Error in NOT_COMMAND:', cmdError)
       }

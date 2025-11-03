@@ -22,7 +22,9 @@ export class IfTemplate extends BaseIfElseTemplate {
     buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
         const unwound = py.unwindBinaryExpression(node, true)
         const replacement = unwound.text
-        const deleteNode = py.isParenthesizedExpression(node) ? node : unwound
+        const deleteNode = (node.parent && py.isParenthesizedExpression(node.parent) && node.parent.firstNamedChild && py.isBinaryExpression(node.parent.firstNamedChild))
+            ? node.parent
+            : (py.isParenthesizedExpression(node) ? node : unwound)
         return CompletionItemBuilder
             .create('if', deleteNode, indentInfo)
             .replace(`if ${replacement}:\n${getIndentCharacters()}\${0}`)
@@ -34,7 +36,9 @@ export class IfElseTemplate extends BaseIfElseTemplate {
     buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
         const unwound = py.unwindBinaryExpression(node, true)
         const replacement = invertExpression(unwound)
-        const deleteNode = py.isParenthesizedExpression(node) ? node : unwound
+        const deleteNode = (node.parent && py.isParenthesizedExpression(node.parent) && node.parent.firstNamedChild && py.isBinaryExpression(node.parent.firstNamedChild))
+            ? node.parent
+            : (py.isParenthesizedExpression(node) ? node : unwound)
         return CompletionItemBuilder
             .create('ifelse', deleteNode, indentInfo)
             .replace(`if ${replacement}:\n${getIndentCharacters()}\${0}\nelse:\n`)
