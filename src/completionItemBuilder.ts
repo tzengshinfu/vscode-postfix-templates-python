@@ -41,10 +41,43 @@ export class CompletionItemBuilder {
 
     const { start: nodeStart, end: nodeEnd } = py.getNodePositions(this.node)
 
-    const rangeToDelete = new vsc.Range(
-      new vsc.Position(nodeStart.line, nodeStart.character),
-      new vsc.Position(nodeEnd.line, nodeEnd.character + 1) /* accomodate 1 character for the dot */
-    )
+    // Expand deletion to include wrapping parentheses like (expr).<template>
+    let delStart = new vsc.Position(nodeStart.line, nodeStart.character)
+    const delEnd = new vsc.Position(nodeEnd.line, nodeEnd.character + 1) // include dot
+    try {
+      const editor = vsc.window.activeTextEditor
+      if (editor) {
+        const doc = editor.document
+        if (delStart.character > 0) {
+          const lpar = doc.getText(new vsc.Range(delStart.translate(0, -1), delStart))
+          const rpar = doc.getText(new vsc.Range(delEnd.translate(0, -1), delEnd))
+          if (lpar === '(' && rpar === ')') {
+            delStart = delStart.translate(0, -1)
+          }
+        }
+      }
+    } catch { /* noop */ }
+
+    const rangeToDelete = new vsc.Range(delStart, delEnd)
+
+    // Also remove the typed template keyword (and optional trailing ':') after the dot
+    try {
+      const editor = vsc.window.activeTextEditor
+      if (editor) {
+        const label = (typeof this.item.label === 'object') ? (this.item.label as vsc.CompletionItemLabel).label : String(this.item.label)
+        const afterDot = delEnd
+        let end = afterDot.translate(0, label.length)
+        const colonRange = new vsc.Range(end, end.translate(0, 1))
+        if (editor.document.getText(colonRange) === ':') {
+          end = colonRange.end
+        }
+        const typedRange = new vsc.Range(afterDot, end)
+        const typed = editor.document.getText(new vsc.Range(afterDot, afterDot.translate(0, label.length)))
+        if (typed === label) {
+          this.item.range = typedRange
+        }
+      }
+    } catch { /* noop */ }
 
     const useSnippets = /(?<!\\)\$/.test(replacement)
 
