@@ -65,24 +65,6 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
 	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-[FAIL] 03. Single line template tests Infer variable name for template with array item name #1
-Expected values to be strictly equal:
-+ actual - expected
-
-+ 'foriteminusers_list:'
-- 'foruserinusers_list:'
-      ^
-
-AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
-+ actual - expected
-
-+ 'foriteminusers_list:'
-- 'foruserinusers_list:'
-      ^
-
-	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
-
 [FAIL] 03. Single line template tests custom template tests type arrow = lambda arg: A.B.C{custom}
 Expected values to be strictly equal:
 + actual - expected
@@ -446,8 +428,8 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 
 	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
 	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
-  195 passing (2m)
-  24 failing
+  196 passing (2m)
+  23 failing
   1) 03. Single line template tests
        if template - binary in parens:
 
@@ -503,25 +485,6 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
   	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
   4) 03. Single line template tests
-       Infer variable name
-         for template with array item name #1:
-
-      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
-+ actual - expected
-
-+ 'foriteminusers_list:'
-- 'foruserinusers_list:'
-      ^
-
-      + expected - actual
-
-      -foriteminusers_list:
-      +foruserinusers_list:
-
-  	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
-
-  5) 03. Single line template tests
        custom template tests
          type
            arrow = lambda arg: A.B.C{custom}:
@@ -541,7 +504,7 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
   	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
   	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  6) 03. Single line template tests
+  5) 03. Single line template tests
        custom template tests
          type
            arrow = lambda lst: A.B.C{custom}:
@@ -561,7 +524,7 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
   	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
   	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  7) 03. Single line template tests
+  6) 03. Single line template tests
        custom template with multiple expr tests
          unary-expression - minus
            -x{custom}:
@@ -581,7 +544,7 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
   	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
   	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  8) 03. Single line template tests
+  7) 03. Single line template tests
        custom template with multiple expr tests
          unary-expression - not
            not x{custom}:
@@ -601,7 +564,7 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
   	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
   	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  9) 04. Multiline template tests
+  8) 04. Multiline template tests
        var template - method call:
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
@@ -625,7 +588,7 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
   	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
   	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  10) 04. Multiline template tests
+  9) 04. Multiline template tests
        var template - method call (equal indentation):
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
@@ -650,7 +613,7 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
   	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
   	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  11) 04. Multiline template tests
+  10) 04. Multiline template tests
        var template - method call (indentation - tabs):
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
@@ -677,7 +640,7 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
   	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
   	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  12) 04. Multiline template tests
+  11) 04. Multiline template tests
        var template - method call (indentation - spaces):
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
@@ -704,7 +667,7 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
   	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
   	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  13) 04. Multiline template tests
+  12) 04. Multiline template tests
        var template - method call (indentation - mixed):
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
@@ -729,7 +692,7 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
   	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
   	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  14) 04. Multiline template tests
+  13) 04. Multiline template tests
        var template - method call (indentation - completely mixed):
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
@@ -754,7 +717,7 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
   	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
   	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  15) 04. Multiline template tests
+  14) 04. Multiline template tests
        return template - method call (indentation - tabs):
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
@@ -781,10 +744,7 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
   	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
   	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-Error: 24 tests failed.
-	at d:\Workspace\vscode-postfix-templates-python\out\test\index.js:48:27
-	at done (d:\Workspace\vscode-postfix-templates-python\node_modules\mocha\lib\mocha.js:1028:7)
-  16) 04. Multiline template tests
+  15) 04. Multiline template tests
        return template - method call (indentation - spaces):
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
@@ -811,7 +771,7 @@ Error: 24 tests failed.
   	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
   	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  17) 04. Multiline template tests
+  16) 04. Multiline template tests
        return template - method call (indentation - mixed):
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
@@ -836,7 +796,7 @@ Error: 24 tests failed.
   	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
   	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  18) 04. Multiline template tests
+  17) 04. Multiline template tests
        return template - method call (indentation - completely mixed):
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
@@ -861,7 +821,7 @@ Error: 24 tests failed.
   	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
   	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  19) 04. Multiline template tests
+  18) 04. Multiline template tests
        var template - property access expression:
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
@@ -886,7 +846,7 @@ Error: 24 tests failed.
   	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
   	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  20) 04. Multiline template tests
+  19) 04. Multiline template tests
        var template - increment expression:
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
@@ -911,7 +871,7 @@ Error: 24 tests failed.
   	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
   	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  21) 04. Multiline template tests
+  20) 04. Multiline template tests
        return template - method call (equal indentation):
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
@@ -936,7 +896,7 @@ Error: 24 tests failed.
   	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
   	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  22) 04. Multiline template tests
+  21) 04. Multiline template tests
        not template - whitespaces - first expression:
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
@@ -973,7 +933,7 @@ Error: 24 tests failed.
   	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
   	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  23) 04. Multiline template tests
+  22) 04. Multiline template tests
        not template - whitespaces - second expression:
 
       AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
@@ -1010,7 +970,7 @@ Error: 24 tests failed.
   	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
   	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
-  24) 04. Multiline template tests
+  23) 04. Multiline template tests
        Without {{expr}}
          expression
            indentation - completely mixed:
@@ -1039,6 +999,9 @@ Error: 24 tests failed.
   	at assertText (d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
   	at d:\Workspace\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
 
+Error: 23 tests failed.
+	at d:\Workspace\vscode-postfix-templates-python\out\test\index.js:48:27
+	at done (d:\Workspace\vscode-postfix-templates-python\node_modules\mocha\lib\mocha.js:1028:7)
 Failed to run tests: Failed
 Waiting for the debugger to disconnect...
 Waiting for the debugger to disconnect...

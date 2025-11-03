@@ -119,10 +119,19 @@ export const inferForVarTemplate = (node: tree.Node): string[] => {
       ? beautifyMethodName(subjectName)
       : subjectName.replace(/^(?:all)?(.+?)(?:List)?$/, "$1")
 
-    return getUniqueVariants(clean)
+    const base = getUniqueVariants(clean)
       .map(pluralize.singular)
-      .filter(x => x !== clean)
+      .filter(x => x && x !== clean)
       .map(snakeCase)
+
+    if (base.length > 0) return base
+
+    // Extra fallback for names like users_list, cookies, order_items, etc.
+    let stem = subjectName.replace(/_?list$/i, '')
+    const parts = stem.split('_')
+    stem = parts.pop() || stem
+    const alt = pluralize.singular(stem)
+    return [snakeCase(alt || 'item')]
   }
 
   if (!name) {
