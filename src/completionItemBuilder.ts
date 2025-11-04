@@ -67,28 +67,39 @@ export class CompletionItemBuilder {
         .replace(/\\/g, '\\\\')
         .replace(/\$/g, '\\$')
 
-      this.item.insertText = new vsc.SnippetString(adjustLeadingWhitespace(
+      const snippetContent = adjustLeadingWhitespace(
         this.replaceExpression(replacement, escapedCode),
         this.indentInfo.leadingWhitespace
-      ))
-      const edits: vsc.TextEdit[] = [vsc.TextEdit.delete(rangeToDelete)]
-      if (labelRange) {
-        edits.push(vsc.TextEdit.delete(labelRange))
-      }
+      )
+      const finalText = new SnippetParser().text(snippetContent)
+      const edits: vsc.TextEdit[] = [
+        vsc.TextEdit.replace(rangeToDelete, finalText)
+      ]
+      // Ensure the typed keyword after the dot is removed
+      try {
+        const afterDot = new vsc.Position(nodeEnd.line, nodeEnd.character + 1)
+        this.item.textEdit = labelRange
+          ? vsc.TextEdit.replace(labelRange, '')
+          : vsc.TextEdit.insert(afterDot, '')
+      } catch { /* noop */ }
       this.item.additionalTextEdits = edits
       /* align with insert text behavior below */
       this.item.keepWhitespace = true
     } else {
-      this.item.insertText = ''
+      const finalText = adjustLeadingWhitespace(
+        this.replaceExpression(replacement.replace(/\\\$/g, '$$'), this.code),
+        this.indentInfo.leadingWhitespace
+      )
       const edits: vsc.TextEdit[] = [
-        vsc.TextEdit.replace(rangeToDelete, adjustLeadingWhitespace(
-          this.replaceExpression(replacement.replace(/\\\$/g, '$$'), this.code),
-          this.indentInfo.leadingWhitespace
-        ))
+        vsc.TextEdit.replace(rangeToDelete, finalText)
       ]
-      if (labelRange) {
-        edits.push(vsc.TextEdit.delete(labelRange))
-      }
+      // Ensure the typed keyword after the dot is removed
+      try {
+        const afterDot = new vsc.Position(nodeEnd.line, nodeEnd.character + 1)
+        this.item.textEdit = labelRange
+          ? vsc.TextEdit.replace(labelRange, '')
+          : vsc.TextEdit.insert(afterDot, '')
+      } catch { /* noop */ }
       this.item.additionalTextEdits = edits
     }
 
