@@ -179,8 +179,8 @@ describe('03. Single line template tests', () => {
       '  expr.test{custom}                       | expr.test{custom}   >> expr.test + expr.test',
       '  expr[index]{custom}                     | expr[index]{custom} >> expr[index] + expr[index]')
     run('binary-expression', 'x > 100{custom}    | x > 100{custom}     >> x > 100 + x > 100')
-    run('unary-expression - minus', '-x{custom}  | -x{custom}          >> -x + -x')
-    run('unary-expression - not', 'not x{custom} | not x{custom}       >> not x + not x')
+    run('unary-expression', '-x{custom}  | -x{custom}          >> -x + -x')
+    run('unary-expression', 'not x{custom} | not x{custom}       >> not x + not x')
     run('function-call',
       '  call(){custom}                          | call(){custom}      >> call() + call()',
       '  test.call(){custom}                     | test.call(){custom} >> test.call() + test.call()')
