@@ -1,7 +1,7 @@
 {
   "name": "vscode-postfix-templates-python",
-  "displayName": "Python postfix templates",
-  "description": "Postfix templates for Python - extension for VS Code",
+  "displayName": "Python Postfix Templates",
+  "description": "Postfix Templates for Python - extension for VS Code",
   "version": "1.0.0",
   "license": "MIT",
   "publisher": "tzengshinfu",
@@ -27,9 +27,9 @@
   "main": "./out/extension",
   "contributes": {
     "configuration": {
-      "title": "Postfix completion",
+      "title": "Python Postfix Templates",
       "properties": {
-        "postfix.languages": {
+        "pythonPostfixTemplates.languages": {
           "type": "array",
           "enum": [
             "python"
@@ -39,7 +39,7 @@
             "python"
           ]
         },
-        "postfix.snippetPreviewMode": {
+        "pythonPostfixTemplates.snippetPreviewMode": {
           "type": "string",
           "enum": [
             "raw",
@@ -51,7 +51,7 @@
             "The inserted text variant"
           ]
         },
-        "postfix.customTemplates": {
+        "pythonPostfixTemplates.customTemplates": {
           "type": "array",
           "items": {
             "type": "object",
@@ -115,7 +115,7 @@
             }
           }
         },
-        "postfix.customTemplate.mergeMode": {
+        "pythonPostfixTemplates.customTemplate.mergeMode": {
           "type": "string",
           "markdownDescription": "Determines how custom templates are shown if they share a name with built-in template:\n`append` - both built-in and custom template will be shown\n`override` - only custom template will be shown (it overrides built-in one)",
           "default": "append",
@@ -124,12 +124,12 @@
             "override"
           ]
         },
-        "postfix.inferVariableName": {
+        "pythonPostfixTemplates.inferVariableName": {
           "type": "boolean",
           "markdownDescription": "Try to guess variable names for `var`, `let`, `const`, `forEach` and `forof` templates.",
           "default": true
         },
-        "postfix.disabledBuiltinTemplates": {
+        "pythonPostfixTemplates.disabledBuiltinTemplates": {
           "type": "array",
           "markdownDescription": "Name all built-in templates that you want to disable, eg. `forof`",
           "items": {
@@ -138,7 +138,7 @@
           "uniqueItems": true,
           "default": []
         },
-        "postfix.builtinFunctions": {
+        "pythonPostfixTemplates.builtinFunctions": {
           "type": "array",
           "description": "A list of Python built-in functions",
           "items": {

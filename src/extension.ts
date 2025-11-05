@@ -27,7 +27,7 @@ export async function activate(context: vsc.ExtensionContext): Promise<void> {
 
     context.subscriptions.push(vsc.workspace.onDidChangeConfiguration(e => {
       try {
-        if (!e.affectsConfiguration('postfix')) {
+        if (!e.affectsConfiguration('pythonPostfixTemplates')) {
           return
         }
 
@@ -79,7 +79,7 @@ function registerCompletionProvider(context: vsc.ExtensionContext) {
 
     const TESTS_SELECTOR: vsc.DocumentSelector = ['postfix']
     const DOCUMENT_SELECTOR: vsc.DocumentSelector =
-      process.env.NODE_ENV === 'test' ? TESTS_SELECTOR : <string[]>vsc.workspace.getConfiguration('postfix').get('languages')
+      process.env.NODE_ENV === 'test' ? TESTS_SELECTOR : <string[]>vsc.workspace.getConfiguration('pythonPostfixTemplates').get('languages')
 
     completionProvider = vsc.languages.registerCompletionItemProvider(DOCUMENT_SELECTOR, provider, '.')
     context.subscriptions.push(completionProvider)

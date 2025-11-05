@@ -16,7 +16,7 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
   private parser: tree.Parser
 
   constructor(parser: tree.Parser) {
-    this.mergeMode = vsc.workspace.getConfiguration('postfix.customTemplate').get('mergeMode', 'append')
+    this.mergeMode = vsc.workspace.getConfiguration('pythonPostfixTemplates.customTemplate').get('mergeMode', 'append')
 
     const customTemplates = loadCustomTemplates()
     this.customTemplateNames = customTemplates.map(t => t.templateName)

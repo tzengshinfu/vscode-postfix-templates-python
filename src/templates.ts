@@ -10,7 +10,7 @@ import { PythonTemplate } from './templates/pythonTemplate'
 import { VarTemplate } from './templates/varTemplate'
 
 export const loadCustomTemplates = () => {
-  const config = vsc.workspace.getConfiguration('postfix')
+  const config = vsc.workspace.getConfiguration('pythonPostfixTemplates')
   const templates = config.get<ICustomTemplateDefinition[]>('customTemplates')
   if (templates) {
     return templates.map(t => new CustomTemplate(t.name, t.description, t.body, t.when))
@@ -20,7 +20,7 @@ export const loadCustomTemplates = () => {
 }
 
 export const loadBuiltinTemplates = () => {
-  const config = vsc.workspace.getConfiguration('postfix')
+  const config = vsc.workspace.getConfiguration('pythonPostfixTemplates')
   /* Python built-in functions */
   const builtinFunctionTemplates = config.get<string[]>('builtinFunctions', [])
     .map(f => new PythonTemplate(f))

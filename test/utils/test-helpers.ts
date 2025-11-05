@@ -165,7 +165,7 @@ function normalizeWhitespaces(text: string) {
 }
 
 export function runWithCustomTemplate(template: CustomTemplateBodyType) {
-  const postfixConfig = vsc.workspace.getConfiguration('postfix')
+  const postfixConfig = vsc.workspace.getConfiguration('pythonPostfixTemplates')
   return (when: string, ...tests: string[]) =>
     describe(when, () => {
       before(setCustomTemplate(postfixConfig, 'custom', template, [when]))

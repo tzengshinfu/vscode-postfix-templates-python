@@ -3,7 +3,7 @@ import { runTest as Test, runTestQuickPick as QuickPick, Options } from '../runn
 import { describe, before, after } from 'mocha'
 import { runWithCustomTemplate } from '../utils/test-helpers'
 
-const config = vsc.workspace.getConfiguration('postfix')
+const config = vsc.workspace.getConfiguration('pythonPostfixTemplates')
 const withTrimWhitespaces: Options = { trimWhitespaces: true }
 
 describe('03. Single line template tests', () => {
