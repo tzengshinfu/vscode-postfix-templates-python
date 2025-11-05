@@ -14,7 +14,7 @@ export class VarTemplate extends BaseExpressionTemplate {
   buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
     node = py.unwindBinaryExpression(node)
 
-    const inferVarNameEnabled = getConfigValue<boolean>('inferVariableName')
+    const inferVarNameEnabled = getConfigValue<boolean>('inferVariableName') ?? true
     const suggestedVarNames = inferVarNameEnabled ? inferVarTemplateName(node) : ['name']
 
     return CompletionItemBuilder

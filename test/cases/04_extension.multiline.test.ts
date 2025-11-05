@@ -3,7 +3,7 @@ import { runWithCustomTemplate, TabSize } from '../utils/test-helpers'
 import { describe, before, after } from 'mocha'
 import * as vsc from 'vscode'
 
-const config = vsc.workspace.getConfiguration('postfix')
+const config = vsc.workspace.getConfiguration('pythonPostfixTemplates')
 
 const indent = (size: number) => ' '.repeat(size * TabSize)
 

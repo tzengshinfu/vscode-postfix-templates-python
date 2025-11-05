@@ -9,7 +9,7 @@ const LANGUAGE = 'postfix'
 
 const VAR_TEMPLATES = ['var']  /* Only var template actually exists */
 const FOR_TEMPLATES = ['for', 'forrange']  /* Only for and forrange templates actually exist */
-const PYTHON_TEMPLATES = vsc.workspace.getConfiguration('postfix').get<string[]>('builtinFunctions', [])
+const PYTHON_TEMPLATES = vsc.workspace.getConfiguration('pythonPostfixTemplates').get<string[]>('builtinFunctions', [])
 const IF_TEMPLATES = ['if', 'ifelse']
 const IF_EQUALITY_TEMPLATES = ['ifnone', 'ifnotnone']
 /* ALL_TEMPLATES contains only actually available templates */
@@ -40,7 +40,7 @@ const BINARY_EXPRESSION_TEMPLATES = [
   'return'
 ]
 
-const config = vsc.workspace.getConfiguration('postfix')
+const config = vsc.workspace.getConfiguration('pythonPostfixTemplates')
 const testTemplateUsage = makeTestFunction<typeof __testTemplateUsage>(__testTemplateUsage)
 
 describe('02. Template usage', () => {

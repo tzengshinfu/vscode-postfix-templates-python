@@ -127,9 +127,9 @@ export const inferForVarTemplate = (node: tree.Node): string[] => {
     if (base.length > 0) return base
 
     // Extra fallback for names like users_list, cookies, order_items, etc.
-    let stem = subjectName.replace(/_?list$/i, '')
-    const parts = stem.split('_')
-    stem = parts.pop() || stem
+    let stem = subjectName.replace(/(?:_list|list)$/i, '')
+    const parts = stem.split('_').filter(Boolean)
+    stem = parts.pop() || stem.replace(/_+$/,'')
     const alt = pluralize.singular(stem)
     return [snakeCase(alt || 'item')]
   }
@@ -146,7 +146,7 @@ export const inferForVarTemplate = (node: tree.Node): string[] => {
     .map(snakeCase)
   if (result.length > 0) return result
   // Fallbacks for names like users_list, items, etc.
-  let base = name.replace(/_?list$/i, '')
+  let base = name.replace(/(?:_list|list)$/i, '')
   const parts = base.split('_')
   if (parts.length > 1 && parts[parts.length - 1].toLowerCase() === 'list') {
     parts.pop()

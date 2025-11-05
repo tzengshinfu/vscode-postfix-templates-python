@@ -27,7 +27,7 @@ abstract class BaseForTemplate extends BaseTemplate {
 }
 
 const getArrayItemNames = (node: tree.Node): string[] => {
-  const inferVarNameEnabled = getConfigValue<boolean>('inferVariableName')
+  const inferVarNameEnabled = (getConfigValue<boolean>('inferVariableName') ?? true)
   const suggestedNames = inferVarNameEnabled ? inferForVarTemplate(node) : ['item']
   return (suggestedNames && suggestedNames.length > 0) ? suggestedNames : ['item']
 }
