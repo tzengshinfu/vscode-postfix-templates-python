@@ -160,15 +160,15 @@ describe('03. Single line template tests', () => {
       '  test.call(){custom}                  | test.call(){custom} >> not test.call()')
     run('string-literal', 'expr{custom}       | "expr"{custom}      >> not "expr"')
     run('type',
-      '  x: bool{custom}                      | x: bool{custom}                     >> x: not bool',
-      '  x: A.B{custom}                       | x: A.B{custom}                      >> x: not A.B',
+      '  x: bool{custom}                       | x: bool{custom}                     >> x: not bool',
+      '  x: A.B{custom}                        | x: A.B{custom}                      >> x: not A.B',
       '  def arrow() -> str{custom}:           | def arrow() -> str{custom}:          >> def arrow() -> not str:',
       '  def f() -> bool{custom}:              | def f() -> bool{custom}:             >> def f() -> not bool:',
       '  def f() -> A.B.C{custom}:             | def f() -> A.B.C{custom}:            >> def f() -> not A.B.C:',
       '  def f(arg: A.B.C{custom}):            | def f(arg: A.B.C{custom}):           >> def f(arg: not A.B.C):',
-      '  arrow = lambda arg: A.B.C{custom}    | arrow = lambda arg: A.B.C{custom}   >> arrow = lambda arg: not A.B.C',
+      '  arrow: Callable[[A.B.C]{custom}, None] = lambda arg: None     | arrow: Callable[[A.B.C]{custom}, None] = lambda arg: None     >> arrow: Callable[not [A.B.C], None] = lambda arg: None',
       '  def f(d: dict[A.B.C{custom}]):        | def f(d: dict[A.B.C{custom}]):       >> def f(d: dict[not A.B.C]):',
-      '  arrow = lambda lst: A.B.C{custom}    | arrow = lambda lst: A.B.C{custom}   >> arrow = lambda lst: not A.B.C')
+      '  arrow: Callable[[List[A.B.C]]{custom}, None] = lambda _: None | arrow: Callable[[List[A.B.C]]{custom}, None] = lambda _: None >> arrow: Callable[not [List[A.B.C]], None] = lambda _: None')
   })
 
   describe('custom template with multiple expr tests', () => {
