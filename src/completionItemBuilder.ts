@@ -71,17 +71,11 @@ export class CompletionItemBuilder {
         this.replaceExpression(replacement, escapedCode),
         this.indentInfo.leadingWhitespace
       )
-      const finalText = new SnippetParser().text(snippetContent)
+      // Use SnippetString so VS Code expands $TM_* and tabstops
+      this.item.insertText = new vsc.SnippetString(snippetContent)
       const edits: vsc.TextEdit[] = [
-        vsc.TextEdit.replace(rangeToDelete, finalText)
+        vsc.TextEdit.delete(rangeToDelete)
       ]
-      // Ensure the typed keyword after the dot is removed
-      try {
-        const afterDot = new vsc.Position(nodeEnd.line, nodeEnd.character + 1)
-        this.item.textEdit = labelRange
-          ? vsc.TextEdit.replace(labelRange, '')
-          : vsc.TextEdit.insert(afterDot, '')
-      } catch { /* noop */ }
       this.item.additionalTextEdits = edits
       /* align with insert text behavior below */
       this.item.keepWhitespace = true
