@@ -9,7 +9,7 @@ const indent = (size: number) => ' '.repeat(size * TabSize)
 
 describe('04. Multiline template tests', () => {
   before(setDisabledTemplates(config, []))  /* Enable all templates for specific template tests */
-  after(setDisabledTemplates(config, ['call', 'cast', 'castas', 'log', 'warn', 'error']))
+  after(setDisabledTemplates(config, []))
   Test(`var template - method call
       | object.call()     >> name = object.call()
       | \t.anotherCall()  >> \t.anotherCall()
