@@ -63,13 +63,13 @@ describe('04. Multiline template tests', () => {
       | \t  .lastOne(){return} >> \t\t  .lastOne()`)
 
   Test(`var template - property access expression
-      | object. \\ >> name = object. \\
+      | object. \\ >> c = object. \\
       | \t.a \\    >> \t.a \\
       | \t.b \\    >> \t.b \\
       | \t.c{var}  >> \t.c`)
 
   Test(`var template - increment expression
-      | object. \\  >> name = object. \\
+      | object. \\  >> c = object. \\
       | \t.a \\     >> \t.a \\
       | \t.b \\     >> \t.b \\
       | \t.c{var}   >> \t.c`)
