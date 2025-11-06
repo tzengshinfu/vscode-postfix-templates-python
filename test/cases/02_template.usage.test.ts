@@ -93,15 +93,15 @@ describe('02. Template usage', () => {
 
   describe('custom template tests', () => {
     before(setCustomTemplates(config, [{
-      name: "custom",
-      body: "custom({{expr}})",
+      name: 'custom',
+      body: 'custom({{expr}})',
       when: [
-        "identifier",
-        "binary-expression",
-        "unary-expression",
-        "function-call",
-        "string-literal",
-        "type"
+        'identifier',
+        'binary-expression',
+        'unary-expression',
+        'function-call',
+        'string-literal',
+        'type'
       ]
     }]))
 
