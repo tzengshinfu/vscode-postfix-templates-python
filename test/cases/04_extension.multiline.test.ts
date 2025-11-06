@@ -89,20 +89,22 @@ describe('04. Multiline template tests', () => {
   })
 
   QuickPick(`not template - whitespaces - first expression
-      | if (         \\ >> if ( \\
-      |   a && (b && \\ >>   a && (!b || \\
-      |   a          \\ >>   !a \\
-      |   .a         \\ >>   .a \\
-      |   .b){not}   \\ >>   .b) \\
-      | )  {}           >> )  {}`, false, 0)
+      | if ( \\             >> if ( \\
+      |     a and (b and \\ >>     a and (not b or \\
+      |     a \\            >>     not a \\
+      |     .a \\           >>     .a \\
+      |     .b){not} \\     >>     .b) \\
+      | ): \\               >> ): \\
+      | pass                >> pass`, false, 0)
 
   QuickPick(`not template - whitespaces - second expression
-      | if (         \\ >> if ( \\
-      |   a && (b && \\ >>   !a || (!b || \\
-      |   a          \\ >>   !a \\
-      |   .a         \\ >>   .a \\
-      |   .b){not}   \\ >>   .b) \\
-      | )  {}           >> )  {}`, false, 1)
+      | if ( \\             >> if ( \\
+      |     a and (b and \\ >>     not a or (not b or \\
+      |     a \\            >>     not a \\
+      |     .a \\           >>     .a \\
+      |     .b){not} \\     >>     .b) \\
+      | ): \\               >> ): \\
+      | pass                >> pass`, false, 1)
 })
 
 function setDisabledTemplates(config: vsc.WorkspaceConfiguration, value: string[]) {
