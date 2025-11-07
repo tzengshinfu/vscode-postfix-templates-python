@@ -7,7 +7,7 @@ const config = vsc.workspace.getConfiguration('pythonPostfixTemplates')
 const withTrimWhitespaces: Options = { trimWhitespaces: true }
 
 describe('03. Single line template tests', () => {
-  before(async function() {
+  before(async function () {
     /* Ensure extension is fully activated before tests run */
     /* Wait for completion provider to be available */
     this.timeout(10000) /* Increase timeout for this hook */
@@ -70,8 +70,8 @@ describe('03. Single line template tests', () => {
   Test('python template (print) - b-string             | b"bytes"{print}            >> print(b"bytes")')
   Test('python template (print) - t-string             | t"template"{print}         >> print(t"template")')
   Test('python template (print) - tr-string            | tr"template"{print}        >> print(tr"template")')
-  Test('python template (print) - dict literal (empty)  | {}{print}                   >> print({})')
-  Test('python template (print) - dict literal          | {"foo":"foo"}{print}        >> print({"foo":"foo"})')
+  Test('python template (print) - dict literal (empty) | {}{print}                  >> print({})')
+  Test('python template (print) - dict literal         | {"foo":"foo"}{print}       >> print({"foo":"foo"})')
 
   Test('return template              | expr{return}             >> return expr')
   Test('return template - comparison | x > 1{return}            >> return x > 1')
@@ -133,43 +133,50 @@ describe('03. Single line template tests', () => {
   describe('custom template tests', () => {
     const run = runWithCustomTemplate('not {{expr}}')
 
-    run('identifier', 'expr{custom}                                    | expr{custom}                                                 >> not expr')
+    run('identifier',
+      'expr{custom}                                                  | expr{custom}                                                  >> not expr')
     run('expression',
-      '  expr.test{custom}                                             | expr.test{custom}                                            >> not expr.test',
-      '  expr[index]{custom}                                           | expr[index]{custom}                                          >> not expr[index]')
+      'expr.test{custom}                                             | expr.test{custom}                                             >> not expr.test',
+      'expr[index]{custom}                                           | expr[index]{custom}                                           >> not expr[index]')
     run('binary-expression',
-      'x > 100{custom}                                                 | x > 100{custom}                                              >> not x > 100',
-      'x > y{custom}                                                   | x > y{custom}                                                >> not x > y')
-    run('unary-expression', ' not x{custom}                            | not x{custom}                                                >> not not x')
+      'x > 100{custom}                                               | x > 100{custom}                                               >> not x > 100',
+      'x > y{custom}                                                 | x > y{custom}                                                 >> not x > y')
+    run('unary-expression',
+      'not x{custom}                                                 | not x{custom}                                                 >> not not x')
     run('function-call',
-      '  call(){custom}                                                | call(){custom}                                               >> not call()',
-      '  test.call(){custom}                                           | test.call(){custom}                                          >> not test.call()')
-    run('string-literal', 'expr{custom}                                | "expr"{custom}                                               >> not "expr"')
+      'call(){custom}                                                | call(){custom}                                                >> not call()',
+      'test.call(){custom}                                           | test.call(){custom}                                           >> not test.call()')
+    run('string-literal',
+      'expr{custom}                                                  | "expr"{custom}                                                >> not "expr"')
     run('type',
-      '  x: bool{custom}                                               | x: bool{custom}                                              >> x: not bool',
-      '  x: A.B{custom}                                                | x: A.B{custom}                                               >> x: not A.B',
-      '  def arrow() -> str{custom}:                                   | def arrow() -> str{custom}:                                  >> def arrow() -> not str:',
-      '  def f() -> bool{custom}:                                      | def f() -> bool{custom}:                                     >> def f() -> not bool:',
-      '  def f() -> A.B.C{custom}:                                     | def f() -> A.B.C{custom}:                                    >> def f() -> not A.B.C:',
-      '  def f(arg: A.B.C{custom}):                                    | def f(arg: A.B.C{custom}):                                   >> def f(arg: not A.B.C):',
-      '  arrow: Callable[[A.B.C]{custom}, None] = lambda arg: None     | arrow: Callable[[A.B.C]{custom}, None] = lambda arg: None    >> arrow: Callable[not [A.B.C], None] = lambda arg: None',
-      '  def f(d: dict[A.B.C{custom}]):                                | def f(d: dict[A.B.C{custom}]):                               >> def f(d: dict[not A.B.C]):',
-      '  arrow: Callable[[List[A.B.C]]{custom}, None] = lambda _: None | arrow: Callable[[List[A.B.C]]{custom}, None] = lambda _: None >>  arrow: Callable[not [List[A.B.C]], None] = lambda _: None')
+      'x: bool{custom}                                               | x: bool{custom}                                               >> x: not bool',
+      'x: A.B{custom}                                                | x: A.B{custom}                                                >> x: not A.B',
+      'def arrow() -> str{custom}:                                   | def arrow() -> str{custom}:                                   >> def arrow() -> not str:',
+      'def f() -> bool{custom}:                                      | def f() -> bool{custom}:                                      >> def f() -> not bool:',
+      'def f() -> A.B.C{custom}:                                     | def f() -> A.B.C{custom}:                                     >> def f() -> not A.B.C:',
+      'def f(arg: A.B.C{custom}):                                    | def f(arg: A.B.C{custom}):                                    >> def f(arg: not A.B.C):',
+      'arrow: Callable[[A.B.C]{custom}, None] = lambda arg: None     | arrow: Callable[[A.B.C]{custom}, None] = lambda arg: None     >> arrow: Callable[not [A.B.C], None] = lambda arg: None',
+      'def f(d: dict[A.B.C{custom}]):                                | def f(d: dict[A.B.C{custom}]):                                >> def f(d: dict[not A.B.C]):',
+      'arrow: Callable[[List[A.B.C]]{custom}, None] = lambda _: None | arrow: Callable[[List[A.B.C]]{custom}, None] = lambda _: None >> arrow: Callable[not [List[A.B.C]], None] = lambda _: None')
   })
 
   describe('custom template with multiple expr tests', () => {
     const run = runWithCustomTemplate('{{expr}} + {{expr}}')
 
-    run('identifier', 'expr{custom}           | expr{custom}       >> expr + expr')
+    run('identifier',
+      'expr{custom}        | expr{custom}        >> expr + expr')
     run('expression',
-      '  expr.test{custom}                    | expr.test{custom}  >> expr.test + expr.test',
-      '  expr[index]{custom}                  | expr[index]{custom} >>  expr[index] + expr[index]')
-    run('binary-expression', 'x > 100{custom} | x > 100{custom}    >> x > 100 + x > 100')
-    run('unary-expression', '-x{custom}       | -x{custom}         >> -x + -x')
-    run('unary-expression', 'not x{custom}    | not x{custom}      >> not x + not x')
+      'expr.test{custom}   | expr.test{custom}   >> expr.test + expr.test',
+      'expr[index]{custom} | expr[index]{custom} >> expr[index] + expr[index]')
+    run('binary-expression',
+      'x > 100{custom}     | x > 100{custom}     >> x > 100 + x > 100')
+    run('unary-expression',
+      '-x{custom}          | -x{custom}          >> -x + -x')
+    run('unary-expression',
+      'not x{custom}       | not x{custom}       >> not x + not x')
     run('function-call',
-      '  call(){custom}                       | call(){custom}     >> call() + call()',
-      '  test.call(){custom}                  | test.call(){custom} >>  test.call() + test.call()')
+      'call(){custom}      | call(){custom}      >> call() + call()',
+      'test.call(){custom} | test.call(){custom} >> test.call() + test.call()')
   })
 
   describe('custom template with :lower filter', () => {
@@ -211,9 +218,9 @@ describe('03. Single line template tests', () => {
   describe('custom template defined as array', () => {
     const run = runWithCustomTemplate(['Line 1 {{expr}}', ' Line 2 {{expr}}', '  Line 3 {{expr}}'])
 
-    run('identifier', `expr{custom} | expr{custom} >> Line 1 expr
-                                                     >> Line 2 expr
-                                                     >> Line 3 expr`)
+    run('identifier', `expr{custom}           | expr{custom}        >> Line 1 expr
+                                                                    >>  Line 2 expr
+                                                                    >>   Line 3 expr`)
   })
 })
 
