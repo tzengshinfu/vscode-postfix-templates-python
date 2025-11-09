@@ -30,20 +30,10 @@ const getBinaryOperator = (node: tree.Node): string | undefined => {
 }
 
 const getLeftRightNodes = (node: tree.Node): { left: tree.Node | null, right: tree.Node | null } => {
-  /* For binary expressions, typically: left_expr operator right_expr */
-  const children = []
-
-  for (let i = 0; i < node.childCount; i++) {
-    const child = node.child(i)
-    /* Collect named nodes that are not operators */
-    if (child && child.isNamed && !['==', '!=', '>', '<', '>=', '<=', 'and', 'or', '*', '+', '-', '/', '%', '//', '**', '&', '|', '^', '<<', '>>', 'in', 'not', 'is'].includes(child.text)) {
-      children.push(child)
-    }
-  }
-
+  /* Use first/last named children to capture full operands (handles chained/multiline attributes) */
   return {
-    left: children[0] || null,
-    right: children[1] || null
+    left: node.firstNamedChild || null,
+    right: node.lastNamedChild || null
   }
 }
 
@@ -65,15 +55,19 @@ export const invertBinaryExpression = (expr: tree.Node, addOrBrackets = false): 
 
   op = logicalOperatorMapping.get(operator)
   if (op) {
-    /* For 'and' -> 'or': left becomes 'not left', right becomes 'not right' */
-    /* Only add brackets for complex expressions, not simple identifiers */
+    /* Preserve original whitespace/newlines between operands for multiline logical expressions */
     const isLeftSimple = /^[a-zA-Z_][a-zA-Z0-9_]*$/.test(left.text.trim())
     const isRightSimple = /^[a-zA-Z_][a-zA-Z0-9_]*$/.test(right.text.trim())
 
     const leftInverted = invertExpression(left, !isLeftSimple && op !== 'or')
     const rightInverted = invertExpression(right, !isRightSimple && op !== 'or')
 
-    const result = `${leftInverted} ${op} ${rightInverted}`
+    const relativeLeftEnd = left.endIndex - expr.startIndex
+    const relativeRightStart = right.startIndex - expr.startIndex
+    let between = expr.text.slice(relativeLeftEnd, relativeRightStart)
+    between = between.replace(/\b(and|or)\b/, op) // swap operator token but keep surrounding whitespace/backslashes
+
+    const result = `${leftInverted}${between}${rightInverted}`
 
     return addOrBrackets && op === 'or' ? `(${result})` : result
   }
