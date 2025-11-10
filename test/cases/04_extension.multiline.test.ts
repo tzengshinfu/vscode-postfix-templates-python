@@ -105,6 +105,15 @@ describe('04. Multiline template tests', () => {
       |     .b){not} \\     >>     .b) \\
       | ): \\               >> ): \\
       | pass                >> pass`, false, 1)
+
+  QuickPick(`not template - whitespaces - third expression
+      | if ( \\             >> if ( \\
+      |     a and (b and \\ >>     not a and (b and \\
+      |     a \\            >>     a \\
+      |     .a \\           >>     .a \\
+      |     .b){not} \\     >>     .b) \\
+      | ): \\               >> ): \\
+      | pass                >> pass`, false, 2)
 })
 
 function setDisabledTemplates(config: vsc.WorkspaceConfiguration, value: string[]) {

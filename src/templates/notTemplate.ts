@@ -23,15 +23,24 @@ export class NotTemplate extends BaseTemplate {
           top = top.parent
         }
         const topPos = py.getNodePositions(top)
+        // Extend range to include enclosing parenthesis if top is inside a parenthesized_expression
+        const topEndPos = (top.parent && py.isParenthesizedExpression(top.parent) && top.parent.lastNamedChild?.id === top.id)
+          ? py.getNodePositions(top.parent).end
+          : topPos.end
+        // Range for top: end at expression end (exclude typed dot); dot cleanup handled separately
         const topRange = new vsc.Range(
           new vsc.Position(topPos.start.line, topPos.start.character),
-          new vsc.Position(topPos.end.line, topPos.end.character + 1)
+          new vsc.Position(topEndPos.line, topEndPos.character) // do NOT include dot or trailing space
         )
         const items = expressions.map(expr => {
           const exprPos = py.getNodePositions(expr)
+          const exprEndPos = (expr.parent && py.isParenthesizedExpression(expr.parent) && expr.parent.lastNamedChild?.id === expr.id)
+            ? py.getNodePositions(expr.parent).end
+            : exprPos.end
+          // For sub-expressions do not consume trailing space; keep range strictly over expression
           const exprRange = new vsc.Range(
             new vsc.Position(exprPos.start.line, exprPos.start.character),
-            new vsc.Position(exprPos.end.line, exprPos.end.character + 1)
+            new vsc.Position(exprEndPos.line, exprEndPos.character)
           )
           const isTop = expr.id === top.id
           return {
@@ -39,7 +48,7 @@ export class NotTemplate extends BaseTemplate {
             description: '',
             detail: 'Invert this expression',
             range: isTop ? topRange : exprRange,
-            text: invertExpression(expr)
+            text: invertExpression(expr) // suffix handled in notCommand
           }
         })
         return completionBuilder

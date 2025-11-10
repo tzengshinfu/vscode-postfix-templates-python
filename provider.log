@@ -1,129 +1,34 @@
-"C:\Program Files\nodejs\npm.cmd" --silent run test
-Debugger attached.
-Debugger attached.
-✓ Copied tree-sitter.wasm to out/out directory
-✓ Copied tree-sitter-python.wasm to out/out directory
-Waiting for the debugger to disconnect...
-Debugger attached.
-Waiting for the debugger to disconnect...
-Debugger attached.
-Debugger attached.
-Using VS Code from env: C:\Users\tzeng\AppData\Local\Programs\Microsoft VS Code\Code.exe
-
-
-[FAIL] 04. Multiline template tests not template - whitespaces - first expression
-Expected values to be strictly equal:
-+ actual - expected
-
-+ 'if ( \\\r\n    a and (not b or not a \\\r\n    .a \\\r\n    .b)\r\n): \\\r\npass'
-- 'if ( \\\r\n    a and (not b or \\\r\n    not a \\\r\n    .a \\\r\n    .b) \\\r\n): \\\r\npass'
-
-AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
-+ actual - expected
-
-+ 'if ( \\\r\n    a and (not b or not a \\\r\n    .a \\\r\n    .b)\r\n): \\\r\npass'
-- 'if ( \\\r\n    a and (not b or \\\r\n    not a \\\r\n    .a \\\r\n    .b) \\\r\n): \\\r\npass'
-
-	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
-
-[FAIL] 04. Multiline template tests not template - whitespaces - second expression
-Expected values to be strictly equal:
-+ actual - expected
-
-+ 'if ( \\\r\n    not a or (not b or not a \\\r\n    .a \\\r\n    .b)\r\n): \\\r\npass'
-- 'if ( \\\r\n' +
--   '    not a or (not b or \\\r\n' +
--   '    not a \\\r\n' +
--   '    .a \\\r\n' +
--   '    .b) \\\r\n' +
--   '): \\\r\n' +
--   'pass'
-
-AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
-+ actual - expected
-
-+ 'if ( \\\r\n    not a or (not b or not a \\\r\n    .a \\\r\n    .b)\r\n): \\\r\npass'
-- 'if ( \\\r\n' +
--   '    not a or (not b or \\\r\n' +
--   '    not a \\\r\n' +
--   '    .a \\\r\n' +
--   '    .b) \\\r\n' +
--   '): \\\r\n' +
--   'pass'
-
-	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
-  214 passing (2m)
-  2 failing
-  1) 04. Multiline template tests
-       not template - whitespaces - first expression:
-
-      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
-+ actual - expected
-
-+ 'if ( \\\r\n    a and (not b or not a \\\r\n    .a \\\r\n    .b)\r\n): \\\r\npass'
-- 'if ( \\\r\n    a and (not b or \\\r\n    not a \\\r\n    .a \\\r\n    .b) \\\r\n): \\\r\npass'
-
-      + expected - actual
-
-       if ( \
-      -    a and (not b or not a \
-
-      +    a and (not b or \
-
-      +    not a \
-
-           .a \
-      -    .b)
-
-      +    .b) \
-
-       ): \
-       pass
-
-  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
-
-  2) 04. Multiline template tests
-       not template - whitespaces - second expression:
-
-      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
-+ actual - expected
-
-+ 'if ( \\\r\n    not a or (not b or not a \\\r\n    .a \\\r\n    .b)\r\n): \\\r\npass'
-- 'if ( \\\r\n' +
--   '    not a or (not b or \\\r\n' +
--   '    not a \\\r\n' +
--   '    .a \\\r\n' +
--   '    .b) \\\r\n' +
--   '): \\\r\n' +
--   'pass'
-
-      + expected - actual
-
-       if ( \
-      -    not a or (not b or not a \
-
-      +    not a or (not b or \
-
-      +    not a \
-
-           .a \
-      -    .b)
-
-      +    .b) \
-
-       ): \
-       pass
-
-  	at assertText (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:120:12)
-  	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
-
-Error: 2 tests failed.
-	at d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\out\test\index.js:48:27
-	at done (d:\workspace@computer\Developing\vscode-postfix-templates\vscode-postfix-templates-python\node_modules\mocha\lib\mocha.js:1028:7)
-Failed to run tests: Failed
-Waiting for the debugger to disconnect...
-Waiting for the debugger to disconnect...
-Waiting for the debugger to disconnect...
+(node:2692) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `Code --trace-warnings ...` to show where the warning was created)
+[INFO] 2025-11-10T06:31:52.823Z - Translations initialized.
+[INFO] 2025-11-10T06:31:52.827Z - Extension activated!
+Congratulations, your extension "rioukkevin.vscode-git-commit" is now active!
+MIGRATION TEMPLATE V2.1/2 -> V3.1 (FIX)
+(node:2692) [DEP0051] DeprecationWarning: The `util.isNullOrUndefined` API is deprecated. Please use `arg === null || arg === undefined` instead.
+[relatedFiles] unknown language python
+[AsyncCompletionManager] [2ec950b2-fd78-467a-904d-bbebee5b43e9] Request errored with AbortError: The operation was aborted.
+    at AbortSignal.abortHandler (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\node_modules\@adobe\helix-fetch\src\fetch\index.js:106:17)
+    at AbortSignal.[nodejs.internal.kHybridDispatch] (node:internal/event_target:827:20)
+    at AbortSignal.dispatchEvent (node:internal/event_target:762:26)
+    at runAbort (node:internal/abort_controller:486:10)
+    at abortSignal (node:internal/abort_controller:457:3)
+    at AbortController.abort (node:internal/abort_controller:505:5)
+    at c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\lib\src\networking.ts:105:19
+    at Xue.invoke (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\node_modules\vscode-jsonrpc\lib\common\events.js:55:39)
+    at t.fire (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\node_modules\vscode-jsonrpc\lib\common\events.js:117:36)
+    at Tq.cancel (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\node_modules\vscode-jsonrpc\lib\common\cancellation.js:41:31)
+    at tde.cancel (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\node_modules\vscode-jsonrpc\lib\common\cancellation.js:82:25)
+    at Fc.cancelRequest (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\lib\src\ghostText\asyncCompletions.ts:257:41)
+    at Fc.getFirstMatchingRequest (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\lib\src\ghostText\asyncCompletions.ts:234:22)
+    at c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\lib\src\ghostText\ghostText.ts:955:22
+    at getGhostText (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\lib\src\ghostText\ghostText.ts:1101:16)
+    at getInlineCompletionsResult (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\lib\src\inlineCompletion.ts:31:20)
+    at getInlineCompletions (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\lib\src\inlineCompletion.ts:92:20)
+    at Wce.provideInlineCompletionItems (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\extension\src\ghostText\ghostText.ts:47:32)
+    at e8e.provideInlineCompletionItems (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\extension\src\inlineCompletion.ts:93:25)
+    at da.provideInlineCompletions (file:///c:/Users/tzeng/AppData/Local/Programs/Microsoft%20VS%20Code/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:142:145872) {
+  type: 'aborted',
+  _name: 'AbortError'
+}
+Error in NOT_COMMAND: TypeError: Cannot read properties of undefined (reading 'length')
+    at file:///c:/Users/tzeng/AppData/Local/Programs/Microsoft%20VS%20Code/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:201:32962 {stack: 'TypeError: Cannot read properties of undefine…ch/api/node/extensionHostProcess.js:201:32962', message: "Cannot read properties of undefined (reading 'length')"}

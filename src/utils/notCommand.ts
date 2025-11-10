@@ -12,12 +12,13 @@ type NotPickItem = {
 
 export function notCommand(editor: vsc.TextEditor, cleanupRangeOrExpressions: any, maybeExpressions?: NotPickItem[]) {
   let cleanupRange: vsc.Range | undefined
-  let expressions: NotPickItem[]
-  if (cleanupRangeOrExpressions && typeof cleanupRangeOrExpressions === 'object' && 'start' in cleanupRangeOrExpressions && 'end' in cleanupRangeOrExpressions) {
-    cleanupRange = cleanupRangeOrExpressions as vsc.Range
-    expressions = maybeExpressions || []
-  } else {
+  let expressions: NotPickItem[] = []
+  // Support both call forms: (items) or (cleanupRange, items)
+  if (Array.isArray(cleanupRangeOrExpressions)) {
     expressions = cleanupRangeOrExpressions as NotPickItem[]
+  } else {
+    cleanupRange = cleanupRangeOrExpressions as vsc.Range | undefined
+    expressions = Array.isArray(maybeExpressions) ? maybeExpressions : []
   }
 
   // Always cleanup the typed keyword (e.g., '.not' and trailing ':')
