@@ -1,3 +1,4 @@
+import path = require('path')
 import * as vsc from 'vscode'
 
 export const NOT_COMMAND = 'complete.notTemplate'
@@ -43,6 +44,14 @@ export function notCommand(editor: vsc.TextEditor, cleanupRangeOrExpressions: an
         )
         const dotRange = triggerDotRange ?? fallbackRange
         const nextChar = doc.getText(dotRange)
+        // TEMP: log dotRange info to provider.log for debugging
+        try {
+          const fs = require('fs') as typeof import('fs')
+          const logPath = path.join(__dirname, '..', '..', '..', 'provider.log')
+          console.log(logPath)
+          const logLine = `${new Date().toISOString()} notCommand tex=(${value.text}) dotRange=(${dotRange.start.line},${dotRange.start.character})->(${dotRange.end.line},${dotRange.end.character}) nextChar="${nextChar.replace(/"/g, '""')}"\n`
+          fs.appendFileSync(logPath, logLine)
+        } catch {}
         if (nextChar === '.') {
           e.delete(dotRange)
         }

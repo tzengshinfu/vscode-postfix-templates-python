@@ -1,34 +1,96 @@
-(node:2692) ExperimentalWarning: SQLite is an experimental feature and might change at any time
-(Use `Code --trace-warnings ...` to show where the warning was created)
-[INFO] 2025-11-10T06:31:52.823Z - Translations initialized.
-[INFO] 2025-11-10T06:31:52.827Z - Extension activated!
-Congratulations, your extension "rioukkevin.vscode-git-commit" is now active!
-MIGRATION TEMPLATE V2.1/2 -> V3.1 (FIX)
-(node:2692) [DEP0051] DeprecationWarning: The `util.isNullOrUndefined` API is deprecated. Please use `arg === null || arg === undefined` instead.
-[relatedFiles] unknown language python
-[AsyncCompletionManager] [2ec950b2-fd78-467a-904d-bbebee5b43e9] Request errored with AbortError: The operation was aborted.
-    at AbortSignal.abortHandler (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\node_modules\@adobe\helix-fetch\src\fetch\index.js:106:17)
-    at AbortSignal.[nodejs.internal.kHybridDispatch] (node:internal/event_target:827:20)
-    at AbortSignal.dispatchEvent (node:internal/event_target:762:26)
-    at runAbort (node:internal/abort_controller:486:10)
-    at abortSignal (node:internal/abort_controller:457:3)
-    at AbortController.abort (node:internal/abort_controller:505:5)
-    at c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\lib\src\networking.ts:105:19
-    at Xue.invoke (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\node_modules\vscode-jsonrpc\lib\common\events.js:55:39)
-    at t.fire (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\node_modules\vscode-jsonrpc\lib\common\events.js:117:36)
-    at Tq.cancel (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\node_modules\vscode-jsonrpc\lib\common\cancellation.js:41:31)
-    at tde.cancel (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\node_modules\vscode-jsonrpc\lib\common\cancellation.js:82:25)
-    at Fc.cancelRequest (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\lib\src\ghostText\asyncCompletions.ts:257:41)
-    at Fc.getFirstMatchingRequest (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\lib\src\ghostText\asyncCompletions.ts:234:22)
-    at c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\lib\src\ghostText\ghostText.ts:955:22
-    at getGhostText (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\lib\src\ghostText\ghostText.ts:1101:16)
-    at getInlineCompletionsResult (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\lib\src\inlineCompletion.ts:31:20)
-    at getInlineCompletions (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\lib\src\inlineCompletion.ts:92:20)
-    at Wce.provideInlineCompletionItems (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\extension\src\ghostText\ghostText.ts:47:32)
-    at e8e.provideInlineCompletionItems (c:\Users\tzeng\.vscode\extensions\github.copilot-1.388.0\extension\src\inlineCompletion.ts:93:25)
-    at da.provideInlineCompletions (file:///c:/Users/tzeng/AppData/Local/Programs/Microsoft%20VS%20Code/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:142:145872) {
-  type: 'aborted',
-  _name: 'AbortError'
-}
-Error in NOT_COMMAND: TypeError: Cannot read properties of undefined (reading 'length')
-    at file:///c:/Users/tzeng/AppData/Local/Programs/Microsoft%20VS%20Code/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:201:32962 {stack: 'TypeError: Cannot read properties of undefine…ch/api/node/extensionHostProcess.js:201:32962', message: "Cannot read properties of undefined (reading 'length')"}
+2025-11-17T14:45:59.836Z notCommand dotRange=(0,20)->(0,21) nextChar="."
+2025-11-17T14:46:00.564Z notCommand dotRange=(0,20)->(0,21) nextChar="."
+2025-11-17T14:46:01.267Z notCommand dotRange=(0,22)->(0,23) nextChar="."
+2025-11-17T14:46:01.943Z notCommand dotRange=(0,22)->(0,23) nextChar="."
+2025-11-17T14:46:03.243Z notCommand dotRange=(0,20)->(0,21) nextChar="."
+2025-11-17T14:46:03.965Z notCommand dotRange=(0,20)->(0,21) nextChar="."
+2025-11-17T14:46:36.891Z notCommand dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T14:46:37.565Z notCommand dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T14:46:38.255Z notCommand dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T14:46:38.952Z notCommand dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T14:46:39.662Z notCommand dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T14:46:40.372Z notCommand dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T14:46:41.124Z notCommand dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T14:46:41.786Z notCommand dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T14:46:42.494Z notCommand dotRange=(1,5)->(1,6) nextChar=" "
+2025-11-17T14:46:43.192Z notCommand dotRange=(1,5)->(1,6) nextChar=" "
+2025-11-17T14:46:43.913Z notCommand dotRange=(1,5)->(1,6) nextChar=" "
+2025-11-17T14:46:44.573Z notCommand dotRange=(1,5)->(1,6) nextChar=" "
+2025-11-17T14:53:16.151Z notCommand otRange=(0,20)->(0,21) nextChar="."
+2025-11-17T14:53:16.828Z notCommand otRange=(0,20)->(0,21) nextChar="."
+2025-11-17T14:53:17.536Z notCommand otRange=(0,22)->(0,23) nextChar="."
+2025-11-17T14:53:18.258Z notCommand otRange=(0,22)->(0,23) nextChar="."
+2025-11-17T14:53:19.585Z notCommand otRange=(0,20)->(0,21) nextChar="."
+2025-11-17T14:53:20.291Z notCommand otRange=(0,20)->(0,21) nextChar="."
+2025-11-17T14:53:53.932Z notCommand otRange=(4,7)->(4,8) nextChar="."
+2025-11-17T14:53:54.643Z notCommand otRange=(4,7)->(4,8) nextChar="."
+2025-11-17T14:53:55.320Z notCommand otRange=(4,7)->(4,8) nextChar="."
+2025-11-17T14:53:56.033Z notCommand otRange=(4,7)->(4,8) nextChar="."
+2025-11-17T14:53:56.759Z notCommand otRange=(4,7)->(4,8) nextChar="."
+2025-11-17T14:53:57.469Z notCommand otRange=(4,7)->(4,8) nextChar="."
+2025-11-17T14:53:58.219Z notCommand otRange=(4,7)->(4,8) nextChar="."
+2025-11-17T14:53:58.942Z notCommand otRange=(4,7)->(4,8) nextChar="."
+2025-11-17T14:53:59.669Z notCommand otRange=(1,5)->(1,6) nextChar=" "
+2025-11-17T14:54:00.471Z notCommand otRange=(1,5)->(1,6) nextChar=" "
+2025-11-17T14:54:01.273Z notCommand otRange=(1,5)->(1,6) nextChar=" "
+2025-11-17T14:54:01.988Z notCommand otRange=(1,5)->(1,6) nextChar=" "
+2025-11-17T15:08:09.743Z notCommand tex=({value.text}) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-17T15:08:10.468Z notCommand tex=({value.text}) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-17T15:08:11.191Z notCommand tex=({value.text}) dotRange=(0,22)->(0,23) nextChar="."
+2025-11-17T15:08:11.932Z notCommand tex=({value.text}) dotRange=(0,22)->(0,23) nextChar="."
+2025-11-17T15:08:13.303Z notCommand tex=({value.text}) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-17T15:08:14.080Z notCommand tex=({value.text}) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-17T15:08:48.364Z notCommand tex=({value.text}) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T15:08:49.060Z notCommand tex=({value.text}) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T15:08:49.758Z notCommand tex=({value.text}) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T15:08:50.487Z notCommand tex=({value.text}) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T15:08:51.225Z notCommand tex=({value.text}) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T15:08:51.944Z notCommand tex=({value.text}) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T15:08:52.692Z notCommand tex=({value.text}) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T15:08:53.461Z notCommand tex=({value.text}) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T15:08:54.252Z notCommand tex=({value.text}) dotRange=(1,5)->(1,6) nextChar=" "
+2025-11-17T15:08:55.013Z notCommand tex=({value.text}) dotRange=(1,5)->(1,6) nextChar=" "
+2025-11-17T15:08:55.810Z notCommand tex=({value.text}) dotRange=(1,5)->(1,6) nextChar=" "
+2025-11-17T15:08:56.583Z notCommand tex=({value.text}) dotRange=(1,5)->(1,6) nextChar=" "
+2025-11-17T15:54:12.140Z notCommand tex=(not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-17T15:54:12.816Z notCommand tex=(a <= b or not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-17T15:54:13.490Z notCommand tex=(not (x * 100)) dotRange=(0,22)->(0,23) nextChar="."
+2025-11-17T15:54:14.199Z notCommand tex=(a <= b or not (x * 100)) dotRange=(0,22)->(0,23) nextChar="."
+2025-11-17T15:54:15.546Z notCommand tex=(not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-17T15:54:16.254Z notCommand tex=(a <= b or not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-17T15:54:50.245Z notCommand tex=((not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T15:54:50.981Z notCommand tex=((not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T15:54:51.690Z notCommand tex=((not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T15:54:52.369Z notCommand tex=((not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T15:54:53.080Z notCommand tex=(not a or (not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T15:54:53.787Z notCommand tex=(not a or (not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T15:54:54.518Z notCommand tex=(not a or (not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T15:54:55.227Z notCommand tex=(not a or (not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-17T15:54:55.933Z notCommand tex=(not a) dotRange=(1,5)->(1,6) nextChar=" "
+2025-11-17T15:54:56.630Z notCommand tex=(not a) dotRange=(1,5)->(1,6) nextChar=" "
+2025-11-17T15:54:57.327Z notCommand tex=(not a) dotRange=(1,5)->(1,6) nextChar=" "
+2025-11-17T15:54:58.002Z notCommand tex=(not a) dotRange=(1,5)->(1,6) nextChar=" "
