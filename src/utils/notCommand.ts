@@ -10,7 +10,7 @@ type NotPickItem = {
   text: string
 }
 
-export function notCommand(editor: vsc.TextEditor, cleanupRangeOrExpressions: any, maybeExpressions?: NotPickItem[]) {
+export function notCommand(editor: vsc.TextEditor, cleanupRangeOrExpressions: any, maybeExpressions?: NotPickItem[], triggerDotRange?: vsc.Range) {
   let cleanupRange: vsc.Range | undefined
   let expressions: NotPickItem[] = []
   // Support both call forms: (items) or (cleanupRange, items)
@@ -37,10 +37,14 @@ export function notCommand(editor: vsc.TextEditor, cleanupRangeOrExpressions: an
         e.delete(value.range)
         // Remove trailing dot after the expression (postfix trigger)
         const doc = editor.document
-        const dotPos = value.range.end
-        const nextChar = doc.getText(new vsc.Range(dotPos, new vsc.Position(dotPos.line, dotPos.character + 1)))
+        const fallbackRange = new vsc.Range(
+          value.range.end,
+          new vsc.Position(value.range.end.line, value.range.end.character + 1),
+        )
+        const dotRange = triggerDotRange ?? fallbackRange
+        const nextChar = doc.getText(dotRange)
         if (nextChar === '.') {
-          e.delete(new vsc.Range(dotPos, new vsc.Position(dotPos.line, dotPos.character + 1)))
+          e.delete(dotRange)
         }
         // Insert inverted text
         e.insert(value.range.start, value.text)

@@ -53,6 +53,17 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
       const indentInfo = this.getIndentInfo(document, fullCurrentNode)
 
       try {
+        const activeEditor = vsc.window.activeTextEditor
+        const cursor = activeEditor?.selection.active
+        let triggerDotRange: vsc.Range | undefined
+        if (activeEditor && cursor && cursor.character > 0 && cursor.line === position.line) {
+          const dotPos = cursor.translate(0, -1)
+          const maybeDotRange = new vsc.Range(dotPos, cursor)
+          if (activeEditor.document.getText(maybeDotRange) === '.') {
+            triggerDotRange = maybeDotRange
+          }
+        }
+
         const items = this.templates
           .filter(t => {
             try {
@@ -70,7 +81,23 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
           })
           .flatMap(t => {
             try {
-              return t.buildCompletionItem(replacementNode, indentInfo)
+              const built = t.buildCompletionItem(replacementNode, indentInfo)
+              const asArray = Array.isArray(built) ? built : [built]
+
+              // Attach triggerDotRange to NOT_COMMAND completion items via command arguments
+              asArray.forEach(ci => {
+                if (ci && ci.command && ci.command.command === 'complete.notTemplate') {
+                  const args = ci.command.arguments ?? []
+                  if (args.length >= 2) {
+                    ci.command = {
+                      ...ci.command,
+                      arguments: [args[0], args[1], triggerDotRange]
+                    }
+                  }
+                }
+              })
+
+              return asArray
             } catch (buildErr) {
               console.error(`Error building completion item for template '${t.templateName}':`, buildErr)
               return []
