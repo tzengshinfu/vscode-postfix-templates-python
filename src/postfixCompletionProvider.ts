@@ -53,15 +53,11 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
       const indentInfo = this.getIndentInfo(document, fullCurrentNode)
 
       try {
-        const activeEditor = vsc.window.activeTextEditor
-        const cursor = activeEditor?.selection.active
         let triggerDotRange: vsc.Range | undefined
-        if (activeEditor && cursor && cursor.character > 0 && cursor.line === position.line) {
-          const dotPos = cursor.translate(0, -1)
-          const maybeDotRange = new vsc.Range(dotPos, cursor)
-          if (activeEditor.document.getText(maybeDotRange) === '.') {
-            triggerDotRange = maybeDotRange
-          }
+        const dotPos = new vsc.Position(position.line, dotIndex)
+        const maybeDotRange = new vsc.Range(dotPos, dotPos.translate(0, 1))
+        if (document.getText(maybeDotRange) === '.') {
+          triggerDotRange = maybeDotRange
         }
 
         const items = this.templates

@@ -49,7 +49,7 @@ export function notCommand(editor: vsc.TextEditor, cleanupRangeOrExpressions: an
           const fs = require('fs') as typeof import('fs')
           const logPath = path.join(__dirname, '..', '..', '..', 'provider.log')
           console.log(logPath)
-          const logLine = `${new Date().toISOString()} notCommand tex=(${value.text}) dotRange=(${dotRange.start.line},${dotRange.start.character})->(${dotRange.end.line},${dotRange.end.character}) nextChar="${nextChar.replace(/"/g, '""')}"\n`
+          const logLine = `${new Date().toISOString()} notCommand text=(${value.text}) dotRange=(${dotRange.start.line},${dotRange.start.character})->(${dotRange.end.line},${dotRange.end.character}) nextChar="${nextChar.replace(/"/g, '""')}"\n`
           fs.appendFileSync(logPath, logLine)
         } catch {}
         if (nextChar === '.') {

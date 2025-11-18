@@ -1,96 +1,126 @@
-2025-11-17T14:45:59.836Z notCommand dotRange=(0,20)->(0,21) nextChar="."
-2025-11-17T14:46:00.564Z notCommand dotRange=(0,20)->(0,21) nextChar="."
-2025-11-17T14:46:01.267Z notCommand dotRange=(0,22)->(0,23) nextChar="."
-2025-11-17T14:46:01.943Z notCommand dotRange=(0,22)->(0,23) nextChar="."
-2025-11-17T14:46:03.243Z notCommand dotRange=(0,20)->(0,21) nextChar="."
-2025-11-17T14:46:03.965Z notCommand dotRange=(0,20)->(0,21) nextChar="."
-2025-11-17T14:46:36.891Z notCommand dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T14:46:37.565Z notCommand dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T14:46:38.255Z notCommand dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T14:46:38.952Z notCommand dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T14:46:39.662Z notCommand dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T14:46:40.372Z notCommand dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T14:46:41.124Z notCommand dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T14:46:41.786Z notCommand dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T14:46:42.494Z notCommand dotRange=(1,5)->(1,6) nextChar=" "
-2025-11-17T14:46:43.192Z notCommand dotRange=(1,5)->(1,6) nextChar=" "
-2025-11-17T14:46:43.913Z notCommand dotRange=(1,5)->(1,6) nextChar=" "
-2025-11-17T14:46:44.573Z notCommand dotRange=(1,5)->(1,6) nextChar=" "
-2025-11-17T14:53:16.151Z notCommand otRange=(0,20)->(0,21) nextChar="."
-2025-11-17T14:53:16.828Z notCommand otRange=(0,20)->(0,21) nextChar="."
-2025-11-17T14:53:17.536Z notCommand otRange=(0,22)->(0,23) nextChar="."
-2025-11-17T14:53:18.258Z notCommand otRange=(0,22)->(0,23) nextChar="."
-2025-11-17T14:53:19.585Z notCommand otRange=(0,20)->(0,21) nextChar="."
-2025-11-17T14:53:20.291Z notCommand otRange=(0,20)->(0,21) nextChar="."
-2025-11-17T14:53:53.932Z notCommand otRange=(4,7)->(4,8) nextChar="."
-2025-11-17T14:53:54.643Z notCommand otRange=(4,7)->(4,8) nextChar="."
-2025-11-17T14:53:55.320Z notCommand otRange=(4,7)->(4,8) nextChar="."
-2025-11-17T14:53:56.033Z notCommand otRange=(4,7)->(4,8) nextChar="."
-2025-11-17T14:53:56.759Z notCommand otRange=(4,7)->(4,8) nextChar="."
-2025-11-17T14:53:57.469Z notCommand otRange=(4,7)->(4,8) nextChar="."
-2025-11-17T14:53:58.219Z notCommand otRange=(4,7)->(4,8) nextChar="."
-2025-11-17T14:53:58.942Z notCommand otRange=(4,7)->(4,8) nextChar="."
-2025-11-17T14:53:59.669Z notCommand otRange=(1,5)->(1,6) nextChar=" "
-2025-11-17T14:54:00.471Z notCommand otRange=(1,5)->(1,6) nextChar=" "
-2025-11-17T14:54:01.273Z notCommand otRange=(1,5)->(1,6) nextChar=" "
-2025-11-17T14:54:01.988Z notCommand otRange=(1,5)->(1,6) nextChar=" "
-2025-11-17T15:08:09.743Z notCommand tex=({value.text}) dotRange=(0,20)->(0,21) nextChar="."
-2025-11-17T15:08:10.468Z notCommand tex=({value.text}) dotRange=(0,20)->(0,21) nextChar="."
-2025-11-17T15:08:11.191Z notCommand tex=({value.text}) dotRange=(0,22)->(0,23) nextChar="."
-2025-11-17T15:08:11.932Z notCommand tex=({value.text}) dotRange=(0,22)->(0,23) nextChar="."
-2025-11-17T15:08:13.303Z notCommand tex=({value.text}) dotRange=(0,20)->(0,21) nextChar="."
-2025-11-17T15:08:14.080Z notCommand tex=({value.text}) dotRange=(0,20)->(0,21) nextChar="."
-2025-11-17T15:08:48.364Z notCommand tex=({value.text}) dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T15:08:49.060Z notCommand tex=({value.text}) dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T15:08:49.758Z notCommand tex=({value.text}) dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T15:08:50.487Z notCommand tex=({value.text}) dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T15:08:51.225Z notCommand tex=({value.text}) dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T15:08:51.944Z notCommand tex=({value.text}) dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T15:08:52.692Z notCommand tex=({value.text}) dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T15:08:53.461Z notCommand tex=({value.text}) dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T15:08:54.252Z notCommand tex=({value.text}) dotRange=(1,5)->(1,6) nextChar=" "
-2025-11-17T15:08:55.013Z notCommand tex=({value.text}) dotRange=(1,5)->(1,6) nextChar=" "
-2025-11-17T15:08:55.810Z notCommand tex=({value.text}) dotRange=(1,5)->(1,6) nextChar=" "
-2025-11-17T15:08:56.583Z notCommand tex=({value.text}) dotRange=(1,5)->(1,6) nextChar=" "
-2025-11-17T15:54:12.140Z notCommand tex=(not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
-2025-11-17T15:54:12.816Z notCommand tex=(a <= b or not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
-2025-11-17T15:54:13.490Z notCommand tex=(not (x * 100)) dotRange=(0,22)->(0,23) nextChar="."
-2025-11-17T15:54:14.199Z notCommand tex=(a <= b or not (x * 100)) dotRange=(0,22)->(0,23) nextChar="."
-2025-11-17T15:54:15.546Z notCommand tex=(not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
-2025-11-17T15:54:16.254Z notCommand tex=(a <= b or not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
-2025-11-17T15:54:50.245Z notCommand tex=((not b or \
+2025-11-18T06:38:44.314Z notCommand text=(not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-18T06:38:44.910Z notCommand text=(a <= b or not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-18T06:38:45.485Z notCommand text=(not (x * 100)) dotRange=(0,22)->(0,23) nextChar="."
+2025-11-18T06:38:46.051Z notCommand text=(a <= b or not (x * 100)) dotRange=(0,22)->(0,23) nextChar="."
+2025-11-18T06:38:47.133Z notCommand text=(not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-18T06:38:47.707Z notCommand text=(a <= b or not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-18T06:39:13.172Z notCommand text=((not b or \
     not a \
     .a \
     .b)) dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T15:54:50.981Z notCommand tex=((not b or \
+2025-11-18T06:39:13.747Z notCommand text=((not b or \
     not a \
     .a \
     .b)) dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T15:54:51.690Z notCommand tex=((not b or \
+2025-11-18T06:39:14.337Z notCommand text=((not b or \
     not a \
     .a \
     .b)) dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T15:54:52.369Z notCommand tex=((not b or \
+2025-11-18T06:39:14.916Z notCommand text=((not b or \
     not a \
     .a \
     .b)) dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T15:54:53.080Z notCommand tex=(not a or (not b or \
+2025-11-18T06:39:15.493Z notCommand text=(not a or (not b or \
     not a \
     .a \
     .b)) dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T15:54:53.787Z notCommand tex=(not a or (not b or \
+2025-11-18T06:39:16.070Z notCommand text=(not a or (not b or \
     not a \
     .a \
     .b)) dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T15:54:54.518Z notCommand tex=(not a or (not b or \
+2025-11-18T06:39:16.645Z notCommand text=(not a or (not b or \
     not a \
     .a \
     .b)) dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T15:54:55.227Z notCommand tex=(not a or (not b or \
+2025-11-18T06:39:17.271Z notCommand text=(not a or (not b or \
     not a \
     .a \
     .b)) dotRange=(4,7)->(4,8) nextChar="."
-2025-11-17T15:54:55.933Z notCommand tex=(not a) dotRange=(1,5)->(1,6) nextChar=" "
-2025-11-17T15:54:56.630Z notCommand tex=(not a) dotRange=(1,5)->(1,6) nextChar=" "
-2025-11-17T15:54:57.327Z notCommand tex=(not a) dotRange=(1,5)->(1,6) nextChar=" "
-2025-11-17T15:54:58.002Z notCommand tex=(not a) dotRange=(1,5)->(1,6) nextChar=" "
+2025-11-18T06:39:17.863Z notCommand text=(not a) dotRange=(1,5)->(1,6) nextChar=" "
+2025-11-18T06:39:18.436Z notCommand text=(not a) dotRange=(1,5)->(1,6) nextChar=" "
+2025-11-18T06:39:19.011Z notCommand text=(not a) dotRange=(1,5)->(1,6) nextChar=" "
+2025-11-18T06:39:19.585Z notCommand text=(not a) dotRange=(1,5)->(1,6) nextChar=" "
+2025-11-18T07:16:47.874Z notCommand text=(not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-18T07:16:48.470Z notCommand text=(a <= b or not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-18T07:16:49.071Z notCommand text=(not (x * 100)) dotRange=(0,22)->(0,23) nextChar="."
+2025-11-18T07:16:49.645Z notCommand text=(a <= b or not (x * 100)) dotRange=(0,22)->(0,23) nextChar="."
+2025-11-18T07:16:50.737Z notCommand text=(not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-18T07:16:51.334Z notCommand text=(a <= b or not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-18T07:17:17.159Z notCommand text=((not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-18T07:17:17.735Z notCommand text=((not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-18T07:17:18.343Z notCommand text=((not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-18T07:17:18.923Z notCommand text=((not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-18T07:17:19.533Z notCommand text=(not a or (not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-18T07:17:20.145Z notCommand text=(not a or (not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-18T07:17:20.746Z notCommand text=(not a or (not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-18T07:17:21.347Z notCommand text=(not a or (not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-18T07:17:21.948Z notCommand text=(not a) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-18T07:17:22.539Z notCommand text=(not a) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-18T07:17:23.148Z notCommand text=(not a) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-18T07:17:23.736Z notCommand text=(not a) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-18T07:24:12.903Z notCommand text=(not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-18T07:24:13.493Z notCommand text=(a <= b or not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-18T07:24:14.053Z notCommand text=(not (x * 100)) dotRange=(0,22)->(0,23) nextChar="."
+2025-11-18T07:24:14.638Z notCommand text=(a <= b or not (x * 100)) dotRange=(0,22)->(0,23) nextChar="."
+2025-11-18T07:24:15.628Z notCommand text=(not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-18T07:24:16.271Z notCommand text=(a <= b or not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-18T07:24:42.107Z notCommand text=((not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-18T07:24:42.693Z notCommand text=((not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-18T07:24:43.283Z notCommand text=((not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-18T07:24:43.860Z notCommand text=((not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-18T07:24:44.439Z notCommand text=(not a or (not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-18T07:24:45.047Z notCommand text=(not a or (not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-18T07:24:45.638Z notCommand text=(not a or (not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-18T07:24:46.264Z notCommand text=(not a or (not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-18T07:24:46.842Z notCommand text=(not a) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-18T07:24:47.439Z notCommand text=(not a) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-18T07:24:48.028Z notCommand text=(not a) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-18T07:24:48.622Z notCommand text=(not a) dotRange=(4,7)->(4,8) nextChar="."
