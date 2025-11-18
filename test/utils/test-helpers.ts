@@ -148,6 +148,7 @@ async function selectAndAcceptSuggestion(doc: vsc.TextDocument, dsl: ITestDSL, f
 
 function assertText(doc: vsc.TextDocument, expectedResult: string, trimWhitespaces = false) {
   let result = doc.getText()
+  console.log('Result:\n' + result)
 
   if (trimWhitespaces) {
     result = result.replaceAll(/\s/g, '')

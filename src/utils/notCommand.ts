@@ -54,6 +54,7 @@ export function notCommand(editor: vsc.TextEditor, cleanupRangeOrExpressions: an
         } catch {}
         if (nextChar === '.') {
           e.delete(dotRange)
+          console.log('dotRange:\n' + JSON.stringify(dotRange))
         }
         // Insert inverted text
         e.insert(value.range.start, value.text)
