@@ -1,3 +1,4 @@
+import { result } from 'lodash'
 import path = require('path')
 import * as vsc from 'vscode'
 
@@ -12,6 +13,8 @@ type NotPickItem = {
 }
 
 export function notCommand(editor: vsc.TextEditor, cleanupRangeOrExpressions: any, maybeExpressions?: NotPickItem[], triggerDotRange?: vsc.Range) {
+  console.log('[' + new Date().toISOString() + ']; {notCommands.ts:16}:\n ' + '`' + editor.document.getText() + '`')
+  // TODO: 查16~44行` \`消失原因
   let cleanupRange: vsc.Range | undefined
   let expressions: NotPickItem[] = []
   // Support both call forms: (items) or (cleanupRange, items)
@@ -35,9 +38,16 @@ export function notCommand(editor: vsc.TextEditor, cleanupRangeOrExpressions: an
 
       return editor.edit(e => {
         // Delete the selected expression range
+        const newRange = new vsc.Range(
+          value.range.start,
+          new vsc.Position(value.range.end.line, value.range.end.character + 20),
+        )
+        console.log('[' + new Date().toISOString() + ']; {notCommands.ts:44}:\n ' + '`' + editor.document.getText(newRange) + '`')
         e.delete(value.range)
         // Remove trailing dot after the expression (postfix trigger)
         const doc = editor.document
+        console.log('[' + new Date().toISOString() + ']; {notCommands.ts:48}:\n ' + '`' + doc.getText() + '`')
+
         const fallbackRange = new vsc.Range(
           value.range.end,
           new vsc.Position(value.range.end.line, value.range.end.character + 1),
@@ -48,16 +58,17 @@ export function notCommand(editor: vsc.TextEditor, cleanupRangeOrExpressions: an
         try {
           const fs = require('fs') as typeof import('fs')
           const logPath = path.join(__dirname, '..', '..', '..', 'provider.log')
-          console.log(logPath)
           const logLine = `${new Date().toISOString()} notCommand text=(${value.text}) dotRange=(${dotRange.start.line},${dotRange.start.character})->(${dotRange.end.line},${dotRange.end.character}) nextChar="${nextChar.replace(/"/g, '""')}"\n`
           fs.appendFileSync(logPath, logLine)
         } catch {}
         if (nextChar === '.') {
           e.delete(dotRange)
-          console.log('dotRange:\n' + JSON.stringify(dotRange))
+            const lineText = doc.lineAt(dotRange.start.line).text ?? ''
+            console.log('[' + new Date().toISOString() + ']; {notCommands.ts:66}:\n ' + '`' + lineText + '`')
         }
         // Insert inverted text
         e.insert(value.range.start, value.text)
+        console.log('[' + new Date().toISOString() + '] {notCommands.ts:70}:\n ' + '`' + value.text + '`')
       }).then(() => {
         // If inside an 'if' statement and no trailing ':', append ':' at EOL
         try {

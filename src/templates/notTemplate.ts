@@ -43,11 +43,15 @@ export class NotTemplate extends BaseTemplate {
             new vsc.Position(exprEndPos.line, exprEndPos.character)
           )
           const isTop = expr.id === top.id
+          const finalRange = isTop ? topRange : exprRange
+          console.log('[' + new Date().toISOString() + '] {notTemplate.ts:47}:\n ' + '`' + expr.text + '`')
+          const rangeInfo = `${finalRange.start.line}:${finalRange.start.character}->${finalRange.end.line}:${finalRange.end.character}`
+          console.log('[' + new Date().toISOString() + '] {notTemplate.ts:49}:\n ' + '`' + rangeInfo + '`')
           return {
             label: expr.text.replace(/\s+/g, ' '),
             description: '',
             detail: 'Invert this expression',
-            range: isTop ? topRange : exprRange,
+            range: finalRange,
             text: invertExpression(expr) // suffix handled in notCommand
           }
         })

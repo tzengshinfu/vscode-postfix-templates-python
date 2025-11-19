@@ -42,6 +42,7 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
       if (!isCursorOnWordAfterDot) {
         return []
       }
+      console.log('[' + new Date().toISOString() + '] {postfixCompletionProvider.ts:45}:\n ' + '`' + document.getText() + '`')
 
       const fullCurrentNode = this.getNodeBeforeTheDot(document, position, dotIndex)
       if (!fullCurrentNode) {
