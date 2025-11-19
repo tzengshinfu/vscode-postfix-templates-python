@@ -55,9 +55,10 @@ export class NotTemplate extends BaseTemplate {
             text: invertExpression(expr) // suffix handled in notCommand
           }
         })
+        const cleanupPayload = { range: this.getCleanupRange(node, 'not'), keyword: 'not' }
         return completionBuilder
           .insertText('')
-          .command({ title: '', command: NOT_COMMAND, arguments: [this.getCleanupRange(node, 'not'), items] })
+          .command({ title: '', command: NOT_COMMAND, arguments: [cleanupPayload, items] })
           .description('`!expr` - *[multiple options]*')
           .build()
       }

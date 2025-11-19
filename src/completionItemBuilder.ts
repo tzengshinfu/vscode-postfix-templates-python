@@ -33,6 +33,34 @@ export class CompletionItemBuilder {
   public insertText = (insertText?: string) => {
     this.item.insertText = insertText
 
+    if (insertText === '') {
+      try {
+        const { end: nodeEnd } = py.getNodePositions(this.node)
+        const afterDot = new vsc.Position(nodeEnd.line, nodeEnd.character + 1)
+        const label = (typeof this.item.label === 'object')
+          ? (this.item.label as vsc.CompletionItemLabel).label
+          : String(this.item.label ?? '')
+        console.log('[' + new Date().toISOString() + ']; {completionItemBuilder.ts:41}:\n ' + '`' + label + '`')
+        let editRange: vsc.Range | undefined
+        const editor = vsc.window.activeTextEditor
+        if (editor && label) {
+          const candidateRange = new vsc.Range(afterDot, afterDot.translate(0, label.length))
+          const candidateText = editor.document.getText(candidateRange)
+          console.log('[' + new Date().toISOString() + ']; {completionItemBuilder.ts:47}:\n ' + '`' + candidateText + '`')
+          if (candidateText === label) {
+            editRange = candidateRange
+          }
+        }
+        const editInfo = editRange
+          ? `replace ${editRange.start.line}:${editRange.start.character}->${editRange.end.line}:${editRange.end.character}`
+          : `insert ${afterDot.line}:${afterDot.character}`
+        console.log('[' + new Date().toISOString() + ']; {completionItemBuilder.ts:52}:\n ' + '`' + editInfo + '`')
+        this.item.textEdit = editRange
+          ? vsc.TextEdit.replace(editRange, '')
+          : vsc.TextEdit.insert(afterDot, '')
+      } catch { /* noop */ }
+    }
+
     return this
   }
 
