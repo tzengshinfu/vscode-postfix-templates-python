@@ -33,24 +33,27 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
     try {
       const line = document.lineAt(position.line)
       const dotIndex = line.text.lastIndexOf('.', position.character - 1)
+
       if (dotIndex === -1) {
         return []
       }
+
       const wordRange = document.getWordRangeAtPosition(position)
       const afterDot = line.text.slice(dotIndex + 1, position.character)
       const isCursorOnWordAfterDot = (wordRange?.start ?? position).character === dotIndex + 1
+
       if (!isCursorOnWordAfterDot) {
         return []
       }
-      // TODO:delete console.log('[' + new Date().toISOString() + '] {postfixCompletionProvider.ts:45}:\n ' + '`' + document.getText() + '`')
 
       const fullCurrentNode = this.getNodeBeforeTheDot(document, position, dotIndex)
+
       if (!fullCurrentNode) {
         return []
       }
+
       const treeToCleanup = fullCurrentNode.tree
       const replacementNode = this.getNodeForReplacement(fullCurrentNode)
-
       const indentInfo = this.getIndentInfo(document, fullCurrentNode)
 
       try {
@@ -114,7 +117,7 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
             }
             items.sort((a, b) => score(b) - score(a))
           }
-        } catch {}
+        } catch { /* noop */ }
 
         if (items.length > 0) {
           const first = items[0]

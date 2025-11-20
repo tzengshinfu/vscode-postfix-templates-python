@@ -44,9 +44,7 @@ export class NotTemplate extends BaseTemplate {
           )
           const isTop = expr.id === top.id
           const finalRange = isTop ? topRange : exprRange
-          // TODO:delete console.log('[' + new Date().toISOString() + '] {notTemplate.ts:47}:\n ' + '`' + expr.text + '`')
-          const rangeInfo = `${finalRange.start.line}:${finalRange.start.character}->${finalRange.end.line}:${finalRange.end.character}`
-          // TODO:delete console.log('[' + new Date().toISOString() + '] {notTemplate.ts:49}:\n ' + '`' + rangeInfo + '`')
+
           return {
             label: expr.text.replace(/\s+/g, ' '),
             description: '',

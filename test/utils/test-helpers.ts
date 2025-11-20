@@ -104,13 +104,13 @@ async function selectAndAcceptSuggestion(doc: vsc.TextDocument, dsl: ITestDSL, f
   }
 
   if (await editor.edit(edit => edit.insert(startPosition, dsl.input))) {
-    // TODO:delete console.log('[' + new Date().toISOString() + '] {test-helpers.ts:107}:\n ' + '`' + doc.getText() + '`')
     const { character, line } = dsl.cursorPosition
     const pos = startPosition.translate(line, character)
 
     editor.selection = new vsc.Selection(pos, pos)
 
     await vsc.commands.executeCommand('editor.action.triggerSuggest')
+
     const delayMs = getCurrentDelay()
 
     await delay(delayMs)
@@ -124,8 +124,8 @@ async function selectAndAcceptSuggestion(doc: vsc.TextDocument, dsl: ITestDSL, f
         await vsc.commands.executeCommand('selectNextSuggestion')
         await delay(10)
         current = getCurrentSuggestion()
-        if (current) {
 
+        if (current) {
           break
         }
       }
@@ -144,14 +144,13 @@ async function selectAndAcceptSuggestion(doc: vsc.TextDocument, dsl: ITestDSL, f
     }
 
     const acceptResult = await vsc.commands.executeCommand('acceptSelectedSuggestion')
-    // TODO:delete console.log('[' + new Date().toISOString() + '] {test-helpers.ts:147}:\n ' + '`' + doc.getText() + '`')
+
     return acceptResult
   }
 }
 
 function assertText(doc: vsc.TextDocument, expectedResult: string, trimWhitespaces = false) {
   let result = doc.getText()
-  // TODO:delete console.log('[' + new Date().toISOString() + ']; {test-helpers.ts:154}:\n ' + '`' + result + '`')
 
   if (trimWhitespaces) {
     result = result.replaceAll(/\s/g, '')
