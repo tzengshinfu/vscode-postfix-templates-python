@@ -113,10 +113,10 @@ describe('03. Single line template tests', () => {
   QuickPick('not template - complex conditions - second expression             | if a > b and x * 100{not}:   >> if a <= b or not (x * 100):', true, 1)
   QuickPick('not template - complex conditions with parens - first expression  | if a > b and (x * 100){not}: >> if a > b and not (x * 100):', true, 0)
   QuickPick('not template - complex conditions with parens - second expression | if a > b and (x * 100){not}: >> if a <= b or not (x * 100):', true, 1)
-  QuickPick('not template - complex conditions - cancel quick pick             | if a > b and x * 100{not}:   >> if a > b and x * 100.', true, 0, true)
+  QuickPick('not template - complex conditions - cancel quick pick             | if a > b and x * 100{not}:   >> if a > b and x * 100.:', true, 0, true)
   QuickPick('not template - complex conditions - first expression - alt        | if a > b and x * 100{not}:   >> if a > b and not (x * 100):', true, 0)
   QuickPick('not template - complex conditions - second expression - alt       | if a > b and x * 100{not}:   >> if a <= b or not (x * 100):', true, 1)
-  QuickPick('not template - complex conditions - cancel quick pick - alt       | if a > b and x * 100{not}:   >> if a > b and x * 100.', true, 0, true)
+  QuickPick('not template - complex conditions - cancel quick pick - alt       | if a > b and x * 100{not}:   >> if a > b and x * 100.:', true, 0, true)
 
   describe('Infer variable name', () => {
     before(setInferVarName(config, true))

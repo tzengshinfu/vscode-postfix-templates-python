@@ -91,3 +91,18 @@ Failed to run tests: Failed
 Waiting for the debugger to disconnect...
 Waiting for the debugger to disconnect...
 Waiting for the debugger to disconnect...
+2025-11-20T05:51:56.246Z notCommand text=(not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-20T05:51:56.821Z notCommand text=(a <= b or not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-20T05:51:57.378Z notCommand text=(not (x * 100)) dotRange=(0,22)->(0,23) nextChar="."
+2025-11-20T05:51:57.942Z notCommand text=(a <= b or not (x * 100)) dotRange=(0,22)->(0,23) nextChar="."
+2025-11-20T05:51:58.921Z notCommand text=(not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-20T05:51:59.498Z notCommand text=(a <= b or not (x * 100)) dotRange=(0,20)->(0,21) nextChar="."
+2025-11-20T05:52:24.256Z notCommand text=((not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-20T05:52:24.819Z notCommand text=(not a or (not b or \
+    not a \
+    .a \
+    .b)) dotRange=(4,7)->(4,8) nextChar="."
+2025-11-20T05:52:25.378Z notCommand text=(not a) dotRange=(4,7)->(4,8) nextChar="."
