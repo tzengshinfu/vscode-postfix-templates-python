@@ -25,7 +25,7 @@ const isCleanupPayload = (value: unknown): value is CleanupPayload => {
 }
 
 export function notCommand(editor: vsc.TextEditor, cleanupRangeOrExpressions: any, maybeExpressions?: NotPickItem[], triggerDotRange?: vsc.Range) {
-  console.log('[' + new Date().toISOString() + ']; {notCommands.ts:16}:\n ' + '`' + editor.document.getText() + '`')
+  // TODO:delete console.log('[' + new Date().toISOString() + ']; {notCommands.ts:16}:\n ' + '`' + editor.document.getText() + '`')
   // TODO: 查16~44行` \`消失原因
   let cleanupRange: vsc.Range | undefined
   let cleanupKeyword: string | undefined
@@ -41,14 +41,14 @@ export function notCommand(editor: vsc.TextEditor, cleanupRangeOrExpressions: an
     cleanupRange = cleanupRangeOrExpressions as vsc.Range | undefined
     expressions = Array.isArray(maybeExpressions) ? maybeExpressions : []
   }
-  console.log('[' + new Date().toISOString() + ']; {notCommands.ts:27}:\n ' + '`' + editor.document.getText() + '`')
+  // TODO:delete console.log('[' + new Date().toISOString() + ']; {notCommands.ts:27}:\n ' + '`' + editor.document.getText() + '`')
 
   const startQuickPick = () => {
-    console.log('[' + new Date().toISOString() + ']; {notCommands.ts:33}:\n ' + '`' + editor.document.getText() + '`')
+    // TODO:delete console.log('[' + new Date().toISOString() + ']; {notCommands.ts:33}:\n ' + '`' + editor.document.getText() + '`')
 
     return vsc.window.showQuickPick(expressions)
       .then(value => {
-        console.log('[' + new Date().toISOString() + ']; {notCommands.ts:38}:\n ' + '`' + editor.document.getText() + '`')
+        // TODO:delete console.log('[' + new Date().toISOString() + ']; {notCommands.ts:38}:\n ' + '`' + editor.document.getText() + '`')
         if (!value) {
           return undefined
         }
@@ -59,11 +59,11 @@ export function notCommand(editor: vsc.TextEditor, cleanupRangeOrExpressions: an
             value.range.start,
             new vsc.Position(value.range.end.line, value.range.end.character + 20),
           )
-          console.log('[' + new Date().toISOString() + ']; {notCommands.ts:44}:\n ' + '`' + editor.document.getText(newRange) + '`')
+          // TODO:delete console.log('[' + new Date().toISOString() + ']; {notCommands.ts:44}:\n ' + '`' + editor.document.getText(newRange) + '`')
           e.delete(value.range)
           // Remove trailing dot after the expression (postfix trigger)
           const doc = editor.document
-          console.log('[' + new Date().toISOString() + ']; {notCommands.ts:48}:\n ' + '`' + doc.getText() + '`')
+          // TODO:delete console.log('[' + new Date().toISOString() + ']; {notCommands.ts:48}:\n ' + '`' + doc.getText() + '`')
 
           const fallbackRange = new vsc.Range(
             value.range.end,
@@ -81,11 +81,11 @@ export function notCommand(editor: vsc.TextEditor, cleanupRangeOrExpressions: an
           if (nextChar === '.') {
             e.delete(dotRange)
               const lineText = doc.lineAt(dotRange.start.line).text ?? ''
-              console.log('[' + new Date().toISOString() + ']; {notCommands.ts:66}:\n ' + '`' + lineText + '`')
+              // TODO:delete console.log('[' + new Date().toISOString() + ']; {notCommands.ts:66}:\n ' + '`' + lineText + '`')
           }
           // Insert inverted text
           e.insert(value.range.start, value.text)
-          console.log('[' + new Date().toISOString() + '] {notCommands.ts:70}:\n ' + '`' + value.text + '`')
+          // TODO:delete console.log('[' + new Date().toISOString() + '] {notCommands.ts:70}:\n ' + '`' + value.text + '`')
         }).then(() => {
           // If inside an 'if' statement and no trailing ':', append ':' at EOL
           try {

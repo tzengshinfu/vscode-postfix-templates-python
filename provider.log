@@ -1,13 +1,93 @@
-摘要 – 2025-11-19T16:34:43.767Z
+"C:\nvm4w\nodejs\npm.cmd" --experimental-network-inspection --silent run test
+Debugger attached.
+Debugger attached.
+✓ Copied tree-sitter.wasm to out/out directory
+✓ Copied tree-sitter-python.wasm to out/out directory
+Waiting for the debugger to disconnect...
+Debugger attached.
+Waiting for the debugger to disconnect...
+Debugger attached.
+Debugger attached.
+Using VS Code from env: D:\Users\y1938\AppData\Local\Programs\Microsoft VS Code\Code.exe
 
-     - 調整 completionItemBuilder.insertText('')：在設定空字串插入時輸出 label/候選內容/textEdit 決策的 console
-   log，確保只刪除點後輸入的模板關鍵字。
-     - notTemplate 會傳遞 { range, keyword: 'not' } 給 notCommand，新 CleanupPayload
-   判斷只在文件中仍可見完整關鍵字時才清除，避免誤刪  \。
-     - notCommand 重新組織：辨識 payload、依序 log、必要時先執行 cleanup 的 edit，再啟動
-   QuickPick，其他行為維持原狀。
 
-   測試
+[FAIL] 03. Single line template tests not template - complex conditions - cancel quick pick
+Expected values to be strictly equal:
++ actual - expected
 
-     - npm run test -- --grep 'not template - whitespaces'：VS Code 測試環境下載多次卡在 EPERM: operation not
-   permitted rename .vscode-test\vscode-win32-x64-archive-1.104.3.tmp，無法完成測試。
++ 'ifa>bandx*100.:'
+- 'ifa>bandx*100.'
+                 ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>bandx*100.:'
+- 'ifa>bandx*100.'
+                 ^
+
+	at assertText (r:\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:124:12)
+	at r:\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+[FAIL] 03. Single line template tests not template - complex conditions - cancel quick pick - alt
+Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>bandx*100.:'
+- 'ifa>bandx*100.'
+                 ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>bandx*100.:'
+- 'ifa>bandx*100.'
+                 ^
+
+	at assertText (r:\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:124:12)
+	at r:\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+  215 passing (1m)
+  2 failing
+  1) 03. Single line template tests
+       not template - complex conditions - cancel quick pick:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>bandx*100.:'
+- 'ifa>bandx*100.'
+                 ^
+
+      + expected - actual
+
+      -ifa>bandx*100.:
+      +ifa>bandx*100.
+
+  	at assertText (r:\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:124:12)
+  	at r:\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+  2) 03. Single line template tests
+       not template - complex conditions - cancel quick pick - alt:
+
+      AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'ifa>bandx*100.:'
+- 'ifa>bandx*100.'
+                 ^
+
+      + expected - actual
+
+      -ifa>bandx*100.:
+      +ifa>bandx*100.
+
+  	at assertText (r:\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:124:12)
+  	at r:\vscode-postfix-templates\vscode-postfix-templates-python\out\test\utils\test-helpers.js:43:17
+
+Error: 2 tests failed.
+	at r:\vscode-postfix-templates\vscode-postfix-templates-python\out\test\index.js:48:27
+	at done (r:\vscode-postfix-templates\vscode-postfix-templates-python\node_modules\mocha\lib\mocha.js:1028:7)
+Failed to run tests: Failed
+Waiting for the debugger to disconnect...
+Waiting for the debugger to disconnect...
+Waiting for the debugger to disconnect...
