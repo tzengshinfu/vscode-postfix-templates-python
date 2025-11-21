@@ -328,11 +328,37 @@ export const unwindBinaryExpression = (node: tree.Node, removeParens = true): tr
  * This function traverses up the AST to find the complete expression node
  * that should be used for postfix completion.
  *
- * @param syntaxTree - The (optionally sanitized) tree-sitter syntax tree for the document
- * @param dotOffset - The offset position of the dot
- * @returns The AST node representing the expression before the dot, or null if not found
+ * Overload 1: Accepts a parser and raw text. The text will be sanitized
+ *             (the dot and any typed suffix will be removed) before parsing.
+ * Overload 2: Accepts a pre-parsed syntax tree that already reflects the
+ *             sanitized text (used together with DocumentTreeCache).
  */
-export const findNodeBeforeDot = (syntaxTree: tree.Tree, dotOffset: number): tree.Node | null => {
+export function findNodeBeforeDot(parser: tree.Parser, text: string, dotOffset: number): tree.Node | null
+export function findNodeBeforeDot(syntaxTree: tree.Tree, dotOffset: number): tree.Node | null
+export function findNodeBeforeDot(arg1: tree.Parser | tree.Tree, arg2: string | number, arg3?: number): tree.Node | null {
+  if (typeof arg2 === 'string' && typeof arg3 === 'number') {
+    const parser = arg1 as tree.Parser
+    const sanitized = sanitizeTextAroundDot(arg2, arg3)
+    const syntaxTree = parser.parse(sanitized)
+    return findNodeBeforeDotInTree(syntaxTree, arg3)
+  }
+
+  if (typeof arg2 === 'number' && arg3 === undefined) {
+    return findNodeBeforeDotInTree(arg1 as tree.Tree, arg2)
+  }
+
+  throw new Error('Invalid arguments for findNodeBeforeDot')
+}
+
+const sanitizeTextAroundDot = (text: string, dotOffset: number): string => {
+  const textBeforeDot = text.slice(0, dotOffset)
+  const textAfterDot = text.slice(dotOffset + 1)
+  const templateMatch = /^[\w$-]+/.exec(textAfterDot)
+  const sanitizedAfterDot = templateMatch ? textAfterDot.slice(templateMatch[0].length) : textAfterDot
+  return textBeforeDot + sanitizedAfterDot
+}
+
+const findNodeBeforeDotInTree = (syntaxTree: tree.Tree, dotOffset: number): tree.Node | null => {
   const findNamedNode = (node: tree.Node | null): tree.Node | null => {
     if (!node) {
       return null
@@ -393,12 +419,6 @@ export const findNodeBeforeDot = (syntaxTree: tree.Tree, dotOffset: number): tre
     if (!stringNode) {
       return null
     }
-
-    /* Check if there's a string prefix (like f, r, b, u, t, fr, rf, tr, rt, etc.) before the string */
-    /* The prefix is part of the string node in tree-sitter, but we need to ensure it's included */
-    /* Tree-sitter Python includes the prefix as a sibling 'string_start' node */
-    /* The structure is: string -> [string_start, string_content, string_end] */
-    /* where string_start contains the prefix + opening quote */
 
     return stringNode
   }

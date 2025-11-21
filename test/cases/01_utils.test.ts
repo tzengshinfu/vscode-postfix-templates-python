@@ -95,36 +95,31 @@ function testInvertBinaryExpression(dsl: string) {
 
   it(`${input} should invert to ${expected}`, function () {
     try {
-      const syntaxTree = parser.parse(input + '.')
-      try {
-        let rootNode = findNodeBeforeDot(syntaxTree, input.length)
+      let rootNode = findNodeBeforeDot(parser, input + '.', input.length)
 
-        /* Navigate up to find the complete expression */
-        /* First, if current node is not a binary expression but parent is, go to parent */
-        if (!rootNode) {
-          throw new Error('Unable to locate node before dot')
-        }
-
-        if (!py.isBinaryExpression(rootNode) && py.isBinaryExpression(rootNode.parent)) {
-          rootNode = rootNode.parent
-        }
-
-        /* Keep going up while the parent contains expressions, but stop if we're at a binary expression and parent is expression_statement */
-        while (rootNode && rootNode.parent &&
-          (py.isExpression(rootNode.parent) || py.isBinaryExpression(rootNode.parent) || py.isPrefixUnaryExpression(rootNode.parent))) {
-          /* Don't navigate past binary expressions or prefix unary expressions to expression statements */
-          if ((py.isBinaryExpression(rootNode) || py.isPrefixUnaryExpression(rootNode)) && rootNode.parent.type === 'expression_statement') {
-            break
-          }
-          rootNode = rootNode.parent
-        }
-
-        const result = invertBinaryExpression(rootNode)
-
-        assert.strictEqual(result, expected)
-      } finally {
-        syntaxTree.delete()
+      /* Navigate up to find the complete expression */
+      /* First, if current node is not a binary expression but parent is, go to parent */
+      if (!rootNode) {
+        throw new Error('Unable to locate node before dot')
       }
+
+      if (!py.isBinaryExpression(rootNode) && py.isBinaryExpression(rootNode.parent)) {
+        rootNode = rootNode.parent
+      }
+
+      /* Keep going up while the parent contains expressions, but stop if we're at a binary expression and parent is expression_statement */
+      while (rootNode && rootNode.parent &&
+        (py.isExpression(rootNode.parent) || py.isBinaryExpression(rootNode.parent) || py.isPrefixUnaryExpression(rootNode.parent))) {
+        /* Don't navigate past binary expressions or prefix unary expressions to expression statements */
+        if ((py.isBinaryExpression(rootNode) || py.isPrefixUnaryExpression(rootNode)) && rootNode.parent.type === 'expression_statement') {
+          break
+        }
+        rootNode = rootNode.parent
+      }
+
+      const result = invertBinaryExpression(rootNode)
+
+      assert.strictEqual(result, expected)
     } catch (error) {
       console.log(`\n=== Test FAILED: invertBinaryExpression ===`)
       console.log(`Input: ${input}`)
@@ -141,35 +136,30 @@ function testInvertExpression(dsl: string) {
 
   it(`${input} should invert to ${expected}`, function () {
     try {
-      const syntaxTree = parser.parse(input + '.')
-      try {
-        let rootNode = findNodeBeforeDot(syntaxTree, input.length)
-        if (!rootNode) {
-          throw new Error('Unable to locate node before dot')
-        }
-
-        /* Navigate up to find the complete expression */
-        /* First, if current node is not a binary expression but parent is, go to parent */
-        if (!py.isBinaryExpression(rootNode) && py.isBinaryExpression(rootNode.parent)) {
-          rootNode = rootNode.parent
-        }
-
-        /* Keep going up while the parent contains expressions, but stop if we're at a binary expression and parent is expression_statement */
-        while (rootNode && rootNode.parent &&
-          (py.isExpression(rootNode.parent) || py.isBinaryExpression(rootNode.parent) || py.isPrefixUnaryExpression(rootNode.parent))) {
-          /* Don't navigate past binary expressions or prefix unary expressions to expression statements */
-          if ((py.isBinaryExpression(rootNode) || py.isPrefixUnaryExpression(rootNode)) && rootNode.parent.type === 'expression_statement') {
-            break
-          }
-          rootNode = rootNode.parent
-        }
-
-        const result = invertExpression(rootNode)
-
-        assert.strictEqual(result, expected)
-      } finally {
-        syntaxTree.delete()
+      let rootNode = findNodeBeforeDot(parser, input + '.', input.length)
+      if (!rootNode) {
+        throw new Error('Unable to locate node before dot')
       }
+
+      /* Navigate up to find the complete expression */
+      /* First, if current node is not a binary expression but parent is, go to parent */
+      if (!py.isBinaryExpression(rootNode) && py.isBinaryExpression(rootNode.parent)) {
+        rootNode = rootNode.parent
+      }
+
+      /* Keep going up while the parent contains expressions, but stop if we're at a binary expression and parent is expression_statement */
+      while (rootNode && rootNode.parent &&
+        (py.isExpression(rootNode.parent) || py.isBinaryExpression(rootNode.parent) || py.isPrefixUnaryExpression(rootNode.parent))) {
+        /* Don't navigate past binary expressions or prefix unary expressions to expression statements */
+        if ((py.isBinaryExpression(rootNode) || py.isPrefixUnaryExpression(rootNode)) && rootNode.parent.type === 'expression_statement') {
+          break
+        }
+        rootNode = rootNode.parent
+      }
+
+      const result = invertExpression(rootNode)
+
+      assert.strictEqual(result, expected)
     } catch (error) {
       console.log(`\n=== Test FAILED: invertExpression ===`)
       console.log(`Input: ${input}`)

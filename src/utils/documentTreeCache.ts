@@ -42,9 +42,6 @@ export class DocumentTreeCache implements vsc.Disposable {
     }
 
     const removalLength = this.getTemplateSuffixLength(afterDot)
-    if (removalLength <= 0) {
-      return { tree: entry.tree }
-    }
 
     return this.buildSanitizedTree(document, entry, dotOffset, removalLength)
   }
@@ -142,8 +139,8 @@ export class DocumentTreeCache implements vsc.Disposable {
   }
 
   private buildSanitizedTree(document: vsc.TextDocument, entry: CachedDocument, dotOffset: number, removalLength: number): TreeForCompletion {
-    const removalStart = dotOffset + 1
-    const removalEnd = Math.min(entry.text.length, removalStart + removalLength)
+    const removalStart = dotOffset
+    const removalEnd = Math.min(entry.text.length, removalStart + 1 + Math.max(0, removalLength))
 
     if (removalStart >= removalEnd) {
       return { tree: entry.tree }
