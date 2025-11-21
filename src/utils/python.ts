@@ -328,18 +328,11 @@ export const unwindBinaryExpression = (node: tree.Node, removeParens = true): tr
  * This function traverses up the AST to find the complete expression node
  * that should be used for postfix completion.
  *
- * @param parser - The tree-sitter parser instance
- * @param text - The full text content
+ * @param syntaxTree - The (optionally sanitized) tree-sitter syntax tree for the document
  * @param dotOffset - The offset position of the dot
  * @returns The AST node representing the expression before the dot, or null if not found
  */
-export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: number): tree.Node | null => {
-  const textBeforeDot = text.slice(0, dotOffset)
-  const textAfterDot = text.slice(dotOffset + 1)
-  const templateMatch = /^[\w$-]+/.exec(textAfterDot)
-  const sanitizedAfterDot = templateMatch ? textAfterDot.slice(templateMatch[0].length) : textAfterDot
-  const sanitizedText = textBeforeDot + sanitizedAfterDot
-  const syntaxTree = parser.parse(sanitizedText)
+export const findNodeBeforeDot = (syntaxTree: tree.Tree, dotOffset: number): tree.Node | null => {
   const findNamedNode = (node: tree.Node | null): tree.Node | null => {
     if (!node) {
       return null
@@ -370,27 +363,27 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
     return currentNode
   }
 
+  if (dotOffset <= 0) {
+    return null
+  }
+
   let treeNode = syntaxTree.rootNode.descendantForIndex(dotOffset - 1)
   if (!treeNode) {
-    syntaxTree.delete()
     return null
   }
 
   treeNode = findNamedNode(treeNode)
   if (!treeNode) {
-    syntaxTree.delete()
     return null
   }
 
   /* for @x */
   if (treeNode.parent?.type === 'decorator') {
-    syntaxTree.delete()
     return null
   }
 
   /* for f-strings interpolation */
   if (treeNode.type === 'interpolation') {
-    syntaxTree.delete()
     return null
   }
 
@@ -398,7 +391,6 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
   if (treeNode.type === 'string_end') {
     const stringNode = treeNode.parent
     if (!stringNode) {
-      syntaxTree.delete()
       return null
     }
 
@@ -421,9 +413,6 @@ export const findNodeBeforeDot = (parser: tree.Parser, text: string, dotOffset: 
     return treeNode.parent
   }
 
-  /* NOTE: syntaxTree is intentionally not deleted here */
-  /* The returned node depends on this tree remaining alive */
-  /* The caller is responsible for cleaning up by calling node.tree.delete() */
   return treeNode
 }
 

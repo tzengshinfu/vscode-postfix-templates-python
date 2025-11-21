@@ -3,16 +3,21 @@ import * as vsc from 'vscode'
 import { PostfixCompletionProvider } from './postfixCompletionProvider'
 import { notCommand, NOT_COMMAND } from './utils/notCommand'
 import { createPythonParser } from './utils/python'
+import { DocumentTreeCache } from './utils/documentTreeCache'
 import * as tree from './web-tree-sitter'
 
 let completionProvider: vsc.Disposable | null = null
 let parser: tree.Parser | null = null
+let documentTreeCache: DocumentTreeCache | null = null
 
 export async function activate(context: vsc.ExtensionContext): Promise<void> {
   try {
     const wasmPath = vsc.Uri.joinPath(context.extensionUri, 'out', 'tree-sitter-python.wasm').fsPath
 
     parser = await createPythonParser(wasmPath)
+
+    documentTreeCache = new DocumentTreeCache(parser)
+    context.subscriptions.push(documentTreeCache)
 
     registerCompletionProvider(context)
 
@@ -54,6 +59,11 @@ export async function activate(context: vsc.ExtensionContext): Promise<void> {
 
 export function deactivate(): void {
   try {
+    if (documentTreeCache) {
+      documentTreeCache.dispose()
+      documentTreeCache = null
+    }
+
     if (parser) {
       parser.delete()
       parser = null
@@ -69,13 +79,13 @@ export function deactivate(): void {
 }
 
 function registerCompletionProvider(context: vsc.ExtensionContext) {
-  if (!parser) {
+  if (!parser || !documentTreeCache) {
     console.error('Cannot register completion provider: parser is not initialized')
     return
   }
 
   try {
-    const provider = new PostfixCompletionProvider(parser)
+    const provider = new PostfixCompletionProvider(parser, documentTreeCache)
 
     const TESTS_SELECTOR: vsc.DocumentSelector = ['postfix']
     const DOCUMENT_SELECTOR: vsc.DocumentSelector =

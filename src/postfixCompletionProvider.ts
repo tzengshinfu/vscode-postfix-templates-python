@@ -4,6 +4,7 @@ import { IndentInfo, IPostfixTemplate } from './template'
 import { AllTabs, AllSpaces } from './utils/multiline-expressions'
 import { loadBuiltinTemplates, loadCustomTemplates } from './templates'
 import { CustomTemplate } from './templates/customTemplate'
+import { DocumentTreeCache } from './utils/documentTreeCache'
 import { findNodeBeforeDot } from './utils/python'
 import * as tree from './web-tree-sitter'
 
@@ -14,8 +15,9 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
   private customTemplateNames: string[] = []
   private mergeMode: 'append' | 'override'
   private parser: tree.Parser
+  private documentTreeCache: DocumentTreeCache
 
-  constructor(parser: tree.Parser) {
+  constructor(parser: tree.Parser, documentTreeCache: DocumentTreeCache) {
     this.mergeMode = vsc.workspace.getConfiguration('pythonPostfixTemplates.customTemplate').get('mergeMode', 'append')
 
     const customTemplates = loadCustomTemplates()
@@ -27,6 +29,7 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
     ]
 
     this.parser = parser
+    this.documentTreeCache = documentTreeCache
   }
 
   provideCompletionItems(document: vsc.TextDocument, position: vsc.Position, _token: vsc.CancellationToken): vsc.CompletionItem[] | vsc.CompletionList | Thenable<vsc.CompletionItem[] | vsc.CompletionList> {
@@ -46,13 +49,13 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
         return []
       }
 
-      const fullCurrentNode = this.getNodeBeforeTheDot(document, position, dotIndex)
+      const { node: fullCurrentNode, cleanup } = this.getNodeBeforeTheDot(document, position, dotIndex, afterDot)
 
       if (!fullCurrentNode) {
+        cleanup?.()
         return []
       }
 
-      const treeToCleanup = fullCurrentNode.tree
       const replacementNode = this.getNodeForReplacement(fullCurrentNode)
       const indentInfo = this.getIndentInfo(document, fullCurrentNode)
 
@@ -127,7 +130,7 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
         }
         return items
       } finally {
-        treeToCleanup?.delete()
+        cleanup?.()
       }
     } catch (err) {
       console.error('Error in provideCompletionItems:', err)
@@ -141,15 +144,18 @@ export class PostfixCompletionProvider implements vsc.CompletionItemProvider {
     return item
   }
 
-  private getNodeBeforeTheDot(document: vsc.TextDocument, position: vsc.Position, dotIndex: number) {
+  private getNodeBeforeTheDot(document: vsc.TextDocument, position: vsc.Position, dotIndex: number, afterDot: string) {
     try {
       const dotOffset = document.offsetAt(position.with({ character: dotIndex }))
-      const fullText = document.getText()
+      const snapshot = this.documentTreeCache.getTreeForCompletion(document, dotOffset, afterDot)
+      if (!snapshot) {
+        return { node: null, cleanup: undefined }
+      }
 
-      return findNodeBeforeDot(this.parser, fullText, dotOffset)
+      return { node: findNodeBeforeDot(snapshot.tree, dotOffset), cleanup: snapshot.dispose }
     } catch (err) {
       console.error('Error in getNodeBeforeTheDot:', err)
-      return null
+      return { node: null, cleanup: undefined }
     }
   }
 
