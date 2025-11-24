@@ -29,16 +29,6 @@
     "configuration": {
       "title": "Python Postfix Templates",
       "properties": {
-        "pythonPostfixTemplates.languages": {
-          "type": "array",
-          "enum": [
-            "python"
-          ],
-          "description": "A list of languages in which the completion will be available",
-          "default": [
-            "python"
-          ]
-        },
         "pythonPostfixTemplates.snippetPreviewMode": {
           "type": "string",
           "enum": [
