@@ -10,6 +10,15 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"type": "process",
+			"label": "watch: maybe clean",
+			"command": "node",
+			"args": [
+				"-e",
+				"const fs=require('fs');const cp=require('child_process');(function kill(){if(process.platform==='win32'){const script=\"$pattern='*build.mjs*--watch*';$procs=Get-CimInstance Win32_Process;foreach($proc in $procs){if(($proc.Name -eq 'node.exe' -or $proc.Name -eq 'node') -and $proc.CommandLine -and $proc.CommandLine -notlike '*const script*' -and $proc.CommandLine -like $pattern){Stop-Process -Id $proc.ProcessId -Force}}\";const ps=cp.spawnSync('powershell.exe',['-NoProfile','-Command',script],{stdio:'inherit'});if(ps.error)throw ps.error;if(typeof ps.status==='number'&&ps.status!==0){process.exit(ps.status);}}else{const res=cp.spawnSync('pkill',['-f','build.mjs --watch'],{stdio:'ignore'});if(res.error&&res.error.code!=='ENOENT')throw res.error;if(typeof res.status==='number'&&res.status>1){process.exit(res.status);}}})();if(fs.existsSync('out/out')){const result=cp.spawnSync('npm',['run','clean'],{stdio:'inherit',shell:process.platform==='win32'});if(result.error)throw result.error;if(typeof result.status==='number'&&result.status!==0){process.exit(result.status);}}"
+			]
+		},
+		{
 			"type": "shell",
 			"label": "npm: watch",
 			"command": "npm",
@@ -28,13 +37,59 @@
 			"isBackground": true
 		},
 		{
+			"label": "npm: watch-clean",
+			"dependsOrder": "sequence",
+			"dependsOn": [
+				"watch: maybe clean",
+				"npm: watch"
+			]
+		},
+		{
 			"type": "shell",
 			"label": "npm: pretest",
 			"command": "npm",
 			"args": [
 				"run",
 				"pretest"
-			],
+			]
+		}
+,
+		{
+			"type": "shell",
+			"label": "node: tasks clean",
+			"command": "C:\\Program Files\\nodejs\\node.exe",
+			"args": [
+				"tasks.mjs",
+				"clean"
+			]
+		},
+		{
+			"type": "shell",
+			"label": "node: tasks pretest",
+			"command": "C:\\Program Files\\nodejs\\node.exe",
+			"args": [
+				"tasks.mjs",
+				"pretest"
+			]
+		},
+		{
+			"type": "shell",
+			"label": "node: tsc",
+			"command": "C:\\Program Files\\nodejs\\node.exe",
+			"args": [
+				"node_modules/typescript/bin/tsc",
+				"-p",
+				"./"
+			]
+		},
+		{
+			"label": "pretest-clean (node)",
+			"dependsOrder": "sequence",
+			"dependsOn": [
+				"node: tasks clean",
+				"node: tasks pretest",
+				"node: tsc"
+			]
 		}
 	]
 }

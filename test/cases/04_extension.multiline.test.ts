@@ -1,0 +1,123 @@
+import { runTestMultiline as Test, runTestMultilineQuickPick as QuickPick } from '../runner'
+import { runWithCustomTemplate, TabSize } from '../utils/test-helpers'
+import { describe, before, after } from 'mocha'
+import * as vsc from 'vscode'
+
+const config = vsc.workspace.getConfiguration('pythonPostfixTemplates')
+
+const indent = (size: number) => ' '.repeat(size * TabSize)
+
+describe('04. Multiline template tests', () => {
+  before(setDisabledTemplates(config, []))  /* Enable all templates for specific template tests */
+  after(setDisabledTemplates(config, []))
+  Test(`var template - method call
+      | object.call() \\    >> last_one = object.call() \\
+      | \t.anotherCall() \\ >> \t.anotherCall() \\
+      | \t.lastOne(){var}   >> \t.lastOne()`)
+
+  Test(`var template - method call (equal indentation)
+      | \tobject.call() \\  >> \tlast_one = object.call() \\
+      | .anotherCall() \\   >> \t.anotherCall() \\
+      | .lastOne(){var}     >> \t.lastOne()`)
+
+  Test(`var template - method call (indentation - tabs)
+      | \t\tobject.call() \\    >> \t\tlast_one = object.call() \\
+      | \t\t\t.anotherCall() \\ >> \t\t\t.anotherCall() \\
+      | \t\t\t.lastOne(){var}   >> \t\t\t.lastOne()`)
+
+  /* first line gets to keep original indentation in VSCode */
+  Test(`var template - method call (indentation - spaces)
+      | ${indent(2)}object.call() \\  >> ${indent(2)}last_one = object.call() \\
+      | ${indent(3)}.anotherCall() \\ >> \t\t\t.anotherCall() \\
+      | ${indent(3)}.lastOne(){var}   >> \t\t\t.lastOne()`)
+
+  Test(`var template - method call (indentation - mixed)
+      | \t\tobject.call() \\          >> \t\tlast_one = object.call() \\
+      | ${indent(3)}.anotherCall() \\ >> \t\t\t.anotherCall() \\
+      | \t\t\t.lastOne(){var}         >> \t\t\t.lastOne()`)
+
+  Test(`var template - method call (indentation - completely mixed)
+      | \tobject.call() \\    >> \tlast_one = object.call() \\
+      | \t  .anotherCall() \\ >> \t\t  .anotherCall() \\
+      | \t  .lastOne(){var}   >> \t\t  .lastOne()`)
+
+  Test(`return template - method call (indentation - tabs)
+      | \t\tobject.call() \\     >> \t\treturn object.call() \\
+      | \t\t\t.anotherCall() \\  >> \t\t\t.anotherCall() \\
+      | \t\t\t.lastOne(){return} >> \t\t\t.lastOne()`)
+
+  /* first line gets to keep original indentation in VSCode */
+  Test(`return template - method call (indentation - spaces)
+      | ${indent(2)}object.call() \\   >> ${indent(2)}return object.call() \\
+      | ${indent(3)}.anotherCall() \\  >> \t\t\t.anotherCall() \\
+      | ${indent(3)}.lastOne(){return} >> \t\t\t.lastOne()`)
+
+  Test(`return template - method call (indentation - mixed)
+      | \t\tobject.call() \\          >> \t\treturn object.call() \\
+      | ${indent(3)}.anotherCall() \\ >> \t\t\t.anotherCall() \\
+      | \t\t\t.lastOne(){return}      >> \t\t\t.lastOne()`)
+
+  Test(`return template - method call (indentation - completely mixed)
+      | \tobject.call() \\     >> \treturn object.call() \\
+      | \t  .anotherCall() \\  >> \t\t  .anotherCall() \\
+      | \t  .lastOne(){return} >> \t\t  .lastOne()`)
+
+  Test(`var template - property access expression
+      | object. \\ >> c = object. \\
+      | \t.a \\    >> \t.a \\
+      | \t.b \\    >> \t.b \\
+      | \t.c{var}  >> \t.c`)
+
+  Test(`var template - increment expression
+      | object. \\  >> c = object. \\
+      | \t.a \\     >> \t.a \\
+      | \t.b \\     >> \t.b \\
+      | \t.c{var}   >> \t.c`)
+
+  Test(`return template - method call (equal indentation)
+      | \tobject.call() \\ >> \treturn object.call() \\
+      | .anotherCall() \\  >> \t.anotherCall() \\
+      | .lastOne(){return} >> \t.lastOne()`)
+
+  describe('Without {{expr}}', () => {
+    const run = runWithCustomTemplate('1 \\\n\t1 \\\n1')
+
+    run('expression', `indentation - completely mixed
+      | \tobject.call() \\    >> \t1 \\
+      | \t  .anotherCall() \\ >> \t\t1 \\
+      | \t  .lastOne{custom}  >> \t1`)
+  })
+
+  QuickPick(`not template - whitespaces - first expression
+      | if ( \\             >> if ( \\
+      |     a and (b and \\ >>     a and (not b or \\
+      |     a \\            >>     not a \\
+      |     .a \\           >>     .a \\
+      |     .b){not} \\     >>     .b) \\
+      | ): \\               >> ): \\
+      | pass                >> pass`, false, 0)
+
+  QuickPick(`not template - whitespaces - second expression
+      | if ( \\             >> if ( \\
+      |     a and (b and \\ >>     not a or (not b or \\
+      |     a \\            >>     not a \\
+      |     .a \\           >>     .a \\
+      |     .b){not} \\     >>     .b) \\
+      | ): \\               >> ): \\
+      | pass                >> pass`, false, 1)
+
+  QuickPick(`not template - whitespaces - third expression
+      | if ( \\             >> if ( \\
+      |     a and (b and \\ >>     not a and (b and \\
+      |     a \\            >>     a \\
+      |     .a \\           >>     .a \\
+      |     .b){not} \\     >>     .b) \\
+      | ): \\               >> ): \\
+      | pass                >> pass`, false, 2)
+})
+
+function setDisabledTemplates(config: vsc.WorkspaceConfiguration, value: string[]) {
+  return (done: Mocha.Done) => {
+    config.update('disabledBuiltinTemplates', value, true).then(done, done)
+  }
+}

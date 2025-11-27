@@ -1,25 +1,27 @@
 import esbuild from 'esbuild'
-import * as process from "node:process";
-import * as console from "node:console";
+import * as process from 'node:process'
+import * as console from 'node:console'
+import { createCopyWasmPlugin } from './utils.mjs'
 
-const production = process.argv.includes("--production")
-const watch = process.argv.includes("--watch")
+const production = process.argv.includes('--production')
+const watch = process.argv.includes('--watch')
 
 /** @type {esbuild.BuildOptions} */
 const options = {
-  entryPoints: ["./src/extension.ts"],
+  entryPoints: ['./src/extension.ts'],
   bundle: true,
-  outdir: "out",
-  external: ["vscode"],
-  format: "cjs",
+  outdir: 'out',
+  external: ['vscode'],
+  format: 'cjs',
   sourcemap: !production,
   minify: production,
-  platform: "node",
+  platform: 'node',
   logLevel: 'info',
-  // needed for debugger
+  /* needed for debugger */
   keepNames: true,
-  // needed for vscode-* deps
-  mainFields: ['module', 'main']
+  /* needed for vscode-* deps */
+  mainFields: ['module', 'main'],
+  plugins: [createCopyWasmPlugin('out')]
 };
 
 (async function () {
@@ -28,7 +30,7 @@ const options = {
       const ctx = await esbuild.context(options)
       await ctx.watch()
     } else {
-      await esbuild.build(options);
+      await esbuild.build(options)
     }
   } catch (error) {
     console.error(error)

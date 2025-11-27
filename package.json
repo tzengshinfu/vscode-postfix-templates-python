@@ -1,10 +1,10 @@
 {
-  "name": "vscode-postfix-ts",
-  "displayName": "TS/JS postfix completion",
-  "description": "Postfix templates for TypeScript/Javascript",
-  "version": "1.13.2",
+  "name": "vscode-postfix-templates-python",
+  "displayName": "Python Postfix Templates",
+  "description": "Postfix Templates for Python - extension for VS Code",
+  "version": "1.0.0",
   "license": "MIT",
-  "publisher": "ipatalas",
+  "publisher": "tzengshinfu",
   "engines": {
     "vscode": "^1.60.0"
   },
@@ -15,53 +15,21 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/ipatalas/vscode-postfix-ts"
+    "url": "https://github.com/tzengshinfu/vscode-postfix-templates-python"
   },
   "bugs": {
-    "url": "https://github.com/ipatalas/vscode-postfix-ts/issues"
+    "url": "https://github.com/tzengshinfu/vscode-postfix-templates-python/issues"
   },
   "activationEvents": [
-    "onLanguage:javascript",
-    "onLanguage:typescript",
-    "onLanguage:javascriptreact",
-    "onLanguage:typescriptreact",
-    "onLanguage:vue",
-    "onLanguage:html",
-    "onLanguage:svelte",
-    "workspaceContains:.enable-postfix"
+    "onLanguage:python",
+    "onLanguage:postfix"
   ],
   "main": "./out/extension",
   "contributes": {
     "configuration": {
-      "title": "Postfix completion",
+      "title": "Python Postfix Templates",
       "properties": {
-        "postfix.languages": {
-          "type": "array",
-          "description": "A list of languages in which the completion will be available",
-          "default": [
-            "javascript",
-            "typescript",
-            "javascriptreact",
-            "typescriptreact",
-            "vue",
-            "svelte",
-            "html"
-          ]
-        },
-        "postfix.undefinedMode": {
-          "type": "string",
-          "markdownDescription": "Determines how the `.undefined` and `.notundefined` templates work",
-          "default": "Equal",
-          "enum": [
-            "Equal",
-            "Typeof"
-          ],
-          "enumDescriptions": [
-            "if (expr === undefined)",
-            "if (typeof expr === \"undefined\")"
-          ]
-        },
-        "postfix.snippetPreviewMode": {
+        "pythonPostfixTemplates.snippetPreviewMode": {
           "type": "string",
           "enum": [
             "raw",
@@ -73,7 +41,7 @@
             "The inserted text variant"
           ]
         },
-        "postfix.customTemplates": {
+        "pythonPostfixTemplates.customTemplates": {
           "type": "array",
           "items": {
             "type": "object",
@@ -129,7 +97,6 @@
                     "binary-expression",
                     "unary-expression",
                     "function-call",
-                    "new-expression",
                     "string-literal",
                     "type"
                   ]
@@ -138,7 +105,7 @@
             }
           }
         },
-        "postfix.customTemplate.mergeMode": {
+        "pythonPostfixTemplates.customTemplate.mergeMode": {
           "type": "string",
           "markdownDescription": "Determines how custom templates are shown if they share a name with built-in template:\n`append` - both built-in and custom template will be shown\n`override` - only custom template will be shown (it overrides built-in one)",
           "default": "append",
@@ -147,19 +114,99 @@
             "override"
           ]
         },
-        "postfix.inferVariableName": {
+        "pythonPostfixTemplates.inferVariableName": {
           "type": "boolean",
-          "markdownDescription": "Try to guess variable names for `var`, `let`, `const`, `forEach` and `forof` templates.",
+          "markdownDescription": "Try to guess variable names for `var`, `for` and `forrange` templates.",
           "default": true
         },
-        "postfix.disabledBuiltinTemplates": {
+        "pythonPostfixTemplates.disabledBuiltinTemplates": {
           "type": "array",
-          "markdownDescription": "Name all built-in templates that you want to disable, eg. `forof`",
+          "markdownDescription": "Name all built-in templates that you want to disable, eg. `forrange`",
           "items": {
             "type": "string"
           },
           "uniqueItems": true,
           "default": []
+        },
+        "pythonPostfixTemplates.builtinFunctions": {
+          "type": "array",
+          "description": "A list of Python built-in functions",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "abs",
+            "aiter",
+            "all",
+            "anext",
+            "any",
+            "ascii",
+            "bin",
+            "bool",
+            "breakpoint",
+            "bytearray",
+            "bytes",
+            "callable",
+            "chr",
+            "classmethod",
+            "compile",
+            "complex",
+            "delattr",
+            "dict",
+            "dir",
+            "divmod",
+            "enumerate",
+            "eval",
+            "exec",
+            "filter",
+            "float",
+            "format",
+            "frozenset",
+            "getattr",
+            "globals",
+            "hasattr",
+            "hash",
+            "help",
+            "hex",
+            "id",
+            "input",
+            "int",
+            "isinstance",
+            "issubclass",
+            "iter",
+            "len",
+            "list",
+            "locals",
+            "map",
+            "max",
+            "memoryview",
+            "min",
+            "next",
+            "object",
+            "oct",
+            "open",
+            "ord",
+            "pow",
+            "print",
+            "property",
+            "range",
+            "repr",
+            "reversed",
+            "round",
+            "set",
+            "setattr",
+            "slice",
+            "sorted",
+            "staticmethod",
+            "str",
+            "sum",
+            "super",
+            "tuple",
+            "type",
+            "vars",
+            "zip",
+            "__import__"
+          ]
         }
       }
     }
@@ -168,16 +215,20 @@
     "vscode:prepublish": "node build.mjs --production",
     "compile": "node build.mjs",
     "pretest": "node tasks.mjs pretest && tsc -p ./",
+    "pretest-clean": "node tasks.mjs clean && node tasks.mjs pretest && tsc -p ./",
     "test": "cross-env NODE_ENV=test node ./out/test/runTests.js",
+    "test:min": "cross-env POSTFIX_MOCHA_REPORTER=min npm run test",
+    "test:json": "cross-env POSTFIX_MOCHA_REPORTER=json npm run test",
     "test-with-coverage": "c8 npm test",
     "lint": "eslint .",
     "package": "vsce package --no-dependencies",
-    "deploy": "vsce publish"
+    "deploy": "vsce publish",
+    "clean": "node tasks.mjs clean"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.192",
-    "@types/mocha": "^10.0.1",
-    "@types/node": "^16.11.7",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^16.18.126",
     "@types/pluralize": "^0.0.29",
     "@types/vscode": "^1.60.0",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
@@ -186,7 +237,7 @@
     "@vscode/vsce": "^2.18.0",
     "c8": "^7.13.0",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.17.4",
+    "esbuild": "^0.25.6",
     "eslint": "^8.37.0",
     "glob": "^8.1.0",
     "mocha": "^10.2.0",
@@ -195,8 +246,10 @@
   "dependencies": {
     "lodash": "^4.17.21",
     "pluralize": "github:plurals/pluralize#36f03cd2d573fa6d23e12e1529fa4627e2af74b4",
+    "tree-sitter-python": "^0.25.0",
     "typescript": "^5.0.4",
-    "vscode-html-languageservice": "^5.0.4",
-    "vscode-snippet-parser": "^0.0.5"
+    "verb-corpus": "^3.5.0",
+    "vscode-snippet-parser": "^0.0.5",
+    "web-tree-sitter": "^0.25.10"
   }
 }

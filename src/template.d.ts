@@ -1,12 +1,12 @@
 import * as vsc from 'vscode'
-import * as ts from 'typescript'
+import * as tree from './web-tree-sitter'
 
 export interface IPostfixTemplate {
   readonly templateName: string
 
-  buildCompletionItem(node: ts.Node, indentInfo?: IndentInfo): vsc.CompletionItem
+  buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo): vsc.CompletionItem
 
-  canUse(node: ts.Node): boolean
+  canUse(node: tree.Node): boolean
 }
 
 export interface IndentInfo {

@@ -1,24 +1,38 @@
 import * as vsc from 'vscode'
 import * as assert from 'assert'
 import { describe, before, after, TestFunction, it } from 'mocha'
-import { getCurrentSuggestion } from '../src/postfixCompletionProvider'
-import { parseDSL, ITestDSL } from './dsl'
-import { runTest } from './runner'
+import { getCurrentSuggestion } from '../../src/postfixCompletionProvider'
+import { parseDSL, ITestDSL } from '../dsl'
+import { runTest } from '../runner'
 import { EOL } from 'node:os'
-import { CustomTemplateBodyType } from '../src/utils/templates'
+import { CustomTemplateBodyType } from '../../src/templates'
+import { createPythonParser } from '../../src/utils/python'
+import * as tree from '../../src/web-tree-sitter'
+
+
 
 const LANGUAGE = 'postfix'
 
 const config = vsc.workspace.getConfiguration('editor', null)
 export const TabSize = config.get<number>('tabSize') ?? 4
 
+let parser: tree.Parser | null = null
+
 export function delay(timeout: number) {
   return new Promise<void>(resolve => setTimeout(resolve, timeout))
 }
 
-// for some reason editor.action.triggerSuggest needs more delay at the beginning when the process is not yet "warmed up"
-// let's start from high delays and then slowly go to lower delays
-const delaySteps = [2000, 1200, 700, 400, 300, 250]
+/* for some reason editor.action.triggerSuggest needs more delay at the beginning when the process is not yet "warmed up" */
+/* let's start from high delays and then slowly go to lower delays */
+/* Increase initial delay time to ensure configuration system is fully loaded */
+/* Allow scaling via env var when environment is unstable */
+const delayScale = Number(process.env.POSTFIX_DELAY_SCALE || '1')
+const customFirstDelay = Number(process.env.POSTFIX_FIRST_DELAY || '0')
+const defaultSteps = [3000, 2000, 1500, 1000, 800, 600, 400, 300, 250]
+const delaySteps = (
+  (customFirstDelay > 0 ? [customFirstDelay] : [])
+    .concat(defaultSteps)
+).map(d => Math.max(100, Math.floor(d * delayScale)))
 
 export const getCurrentDelay = () => (delaySteps.length > 1) ? <number>delaySteps.shift() : delaySteps[0]
 
@@ -31,13 +45,14 @@ export type TestTemplateOptions = Partial<{
 }>
 
 export function testTemplate(dslString: string, options: TestTemplateOptions = {}) {
+  const globalExtraDelay = Number(process.env.POSTFIX_EXTRA_DELAY || '0')
   const dsl = parseDSL(dslString)
 
   return (done: Mocha.Done) => {
     vsc.workspace.openTextDocument({ language: options.fileLanguage || LANGUAGE }).then(async (doc) => {
       try {
         await selectAndAcceptSuggestion(doc, dsl, options.fileContext)
-        await delay(options.extraDelay || 0)
+        await delay((options.extraDelay ?? 0) + globalExtraDelay)
         await options.preAssertAction?.()
 
         const expected = options.fileContext
@@ -95,13 +110,32 @@ async function selectAndAcceptSuggestion(doc: vsc.TextDocument, dsl: ITestDSL, f
     editor.selection = new vsc.Selection(pos, pos)
 
     await vsc.commands.executeCommand('editor.action.triggerSuggest')
-    await delay(getCurrentDelay())
+
+    const delayMs = getCurrentDelay()
+
+    await delay(delayMs)
 
     let current = getCurrentSuggestion()
+
+    // Ensure we focus one of our provider items before template navigation
+    if (!current) {
+
+      for (let i = 0; i < 50; i++) {
+        await vsc.commands.executeCommand('selectNextSuggestion')
+        await delay(10)
+        current = getCurrentSuggestion()
+
+        if (current) {
+          break
+        }
+      }
+    }
+
     const first = current
 
-    while (current !== dsl.template) {
+    for (let i = 0; i < 200 && current !== dsl.template; i++) {
       await vsc.commands.executeCommand('selectNextSuggestion')
+      await delay(5)
       current = getCurrentSuggestion()
 
       if (current === first) {
@@ -109,7 +143,9 @@ async function selectAndAcceptSuggestion(doc: vsc.TextDocument, dsl: ITestDSL, f
       }
     }
 
-    return vsc.commands.executeCommand('acceptSelectedSuggestion')
+    const acceptResult = await vsc.commands.executeCommand('acceptSelectedSuggestion')
+
+    return acceptResult
   }
 }
 
@@ -132,7 +168,7 @@ function normalizeWhitespaces(text: string) {
 }
 
 export function runWithCustomTemplate(template: CustomTemplateBodyType) {
-  const postfixConfig = vsc.workspace.getConfiguration('postfix')
+  const postfixConfig = vsc.workspace.getConfiguration('pythonPostfixTemplates')
   return (when: string, ...tests: string[]) =>
     describe(when, () => {
       before(setCustomTemplate(postfixConfig, 'custom', template, [when]))
@@ -172,4 +208,80 @@ export function makeTestFunction<T extends (first: TestFunction, ...args: unknow
   result.skip = testFn.bind(null, it.skip.bind(it)) as RunTestFn<T>
 
   return result
+}
+
+/* Tree-sitter utilities */
+
+/**
+ * Initialize the tree-sitter parser for Python
+ */
+export async function initializeParser(): Promise<void> {
+  if (parser) {
+    return
+  }
+  const wasmPath = require.resolve('../../out/tree-sitter-python.wasm')
+  parser = await createPythonParser(wasmPath)
+}
+
+/**
+ * Clean up the parser resources
+ */
+export function cleanupParser(): void {
+  if (parser) {
+    parser.delete()
+    parser = null
+  }
+}
+
+/**
+ * Parse Python code and return the syntax tree
+ */
+export function parsePython(code: string): tree.Tree {
+  if (!parser) {
+    throw new Error('Parser not initialized. Call initializeParser() first.')
+  }
+  return parser.parse(code)
+}
+
+/**
+ * Find a binary operator node in the syntax tree
+ */
+export function findBinaryOperatorNode(node: tree.Node): tree.Node | null {
+  if (node.type === 'binary_operator' || node.type === 'comparison_operator' || node.type === 'boolean_operator') {
+    return node
+  }
+
+  for (let i = 0; i < node.childCount; i++) {
+    const child = node.child(i)
+    if (child) {
+      const found = findBinaryOperatorNode(child)
+      if (found) {
+        return found
+      }
+    }
+  }
+
+  return null
+}
+
+/**
+ * Find an expression node in the syntax tree
+ */
+export function findExpressionNode(node: tree.Node): tree.Node | null {
+  /* Look for binary operators, boolean operators, comparison operators, or simple expressions */
+  if (['binary_operator', 'comparison_operator', 'boolean_operator', 'identifier', 'parenthesized_expression'].includes(node.type)) {
+    return node
+  }
+
+  for (let i = 0; i < node.childCount; i++) {
+    const child = node.child(i)
+    if (child) {
+      const found = findExpressionNode(child)
+      if (found) {
+        return found
+      }
+    }
+  }
+
+  return null
 }

@@ -1,29 +1,28 @@
-import * as ts from 'typescript'
 import { BaseTemplate } from './baseTemplates'
 import { CompletionItemBuilder } from '../completionItemBuilder'
 import { IndentInfo } from '../template'
-import { isStringLiteral } from '../utils/typescript'
-import { CustomTemplateBodyType } from '../utils/templates'
+import { CustomTemplateBodyType } from '../templates'
+import * as tree from '../web-tree-sitter'
+import * as py from '../utils/python'
 
 export class CustomTemplate extends BaseTemplate {
-  private conditionsMap = new Map<string, (node: ts.Node) => boolean>([
-    ['type', node => this.isTypeNode(node)],
-    ['identifier', node => this.isIdentifier(node)],
-    ['string-literal', node => isStringLiteral(node)],
-    ['expression', node => this.isExpression(node)],
-    ['binary-expression', node => this.isBinaryExpression(node)],
-    ['unary-expression', node => this.isUnaryExpression(node.parent)],
-    ['new-expression', node => this.isNewExpression(node)],
-    ['function-call', node => this.isCallExpression(node)]
+  private conditionsMap = new Map<string, (node: tree.Node) => boolean>([
+    ['identifier', node => py.isIdentifier(node)],
+    ['expression', node => py.isExpression(node)],
+    ['binary-expression', node => py.inBinaryExpression(node)],
+    ['unary-expression', node => py.inPrefixUnaryExpression(node)],
+    ['function-call', node => py.isCallExpression(node)],
+    ['string-literal', node => py.isStringLiteral(node)],
+    ['type', node => py.inTypeNode(node)]
   ])
 
   constructor(name: string, private description: string, private body: CustomTemplateBodyType, private when: string[]) {
     super(name)
   }
 
-  buildCompletionItem(node: ts.Node, indentInfo?: IndentInfo) {
+  buildCompletionItem(node: tree.Node, indentInfo?: IndentInfo) {
     if (this.when.includes('binary-expression')) {
-      node = this.unwindBinaryExpression(node)
+      node = py.unwindBinaryExpression(node)
     }
 
     const body = Array.isArray(this.body) ? this.body.join('\n') : this.body
@@ -35,12 +34,13 @@ export class CustomTemplate extends BaseTemplate {
       .build()
   }
 
-  canUse(node: ts.Node): boolean {
+  canUse(node: tree.Node): boolean {
     return node.parent && (this.when.length === 0 || this.when.some(w => this.condition(node, w)))
   }
 
-  condition = (node: ts.Node, when: string) => {
+  condition = (node: tree.Node, when: string) => {
     const callback = this.conditionsMap.get(when)
+
     return callback && callback(node)
   }
 }

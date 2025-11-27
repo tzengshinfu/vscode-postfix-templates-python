@@ -14,26 +14,30 @@
       "outFiles": [
         "${workspaceRoot}/out/**/*.js"
       ],
-      "preLaunchTask": "npm: watch",
+      "preLaunchTask": "npm: watch-clean"
     },
     {
       "name": "Launch Tests",
-      "type": "extensionHost",
+      "type": "node",
       "request": "launch",
-      "runtimeExecutable": "${execPath}",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--silent"],
       "args": [
-        "--disable-extensions",
-        "--extensionDevelopmentPath=${workspaceRoot}/out",
-        "--extensionTestsPath=${workspaceRoot}/out/test"
+        "run",
+        "test"
       ],
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "internalConsoleOptions": "openOnSessionStart",
+      "outputCapture" : "std",
       "env": {
-        "NODE_ENV": "test"
+        "VSCODE_EXECUTABLE_PATH": "${execPath}",
+        "POSTFIX_MOCHA_REPORTER": "min",
+        "POSTFIX_MOCHA_GREP": ".*",
+        "VSCODE_LOG_LEVEL": "off",
+        "ELECTRON_NO_ATTACH_CONSOLE": "1"
       },
-      "sourceMaps": true,
-      "outFiles": [
-        "${workspaceRoot}/out/test/**/*.js"
-      ],
-      "preLaunchTask": "npm: pretest"
+      "preLaunchTask": "npm: pretest-clean"
     }
   ]
 }
