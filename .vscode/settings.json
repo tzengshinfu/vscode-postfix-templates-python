@@ -1,12 +1,22 @@
 // Place your settings in this file to overwrite default and user settings.
 {
   "files.exclude": {
-    "out": false, // set this to true to hide the "out" folder with the compiled JS files
-    "node_modules": true
+    "**/.vscode/**": true,
+    "**/.vscode-test/**": true,
+    "**/node_modules/**": true,
+    "**/out/**": true
   },
   "search.exclude": {
-    "out": true // set this to false to include "out" folder in search results
+    "**/.vscode-test/**": true,
+    "**/node_modules/**": true,
+    "**/out/**": true
   },
+  "files.watcherExclude": {
+    "**/.vscode-test/**": true,
+    "**/node_modules/**": true,
+    "**/out/**": true
+  },
+  "explorer.excludeGitIgnore": true,
   "tslint.autoFixOnSave": true,
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,

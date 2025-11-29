@@ -1,15 +1,18 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "moduleResolution": "node",
     "target": "ES2021",
     "outDir": "out",
     "lib": [
       "ES2021"
     ],
+    "types": ["node", "vscode", "mocha"],
     "sourceMap": true,
     "rootDir": ".",
     "noImplicitOverride": true,
-    "strictBindCallApply": true
+    "strictBindCallApply": true,
+    "skipLibCheck": true
   },
   "exclude": [
     "node_modules",

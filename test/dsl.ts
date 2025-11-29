@@ -18,13 +18,17 @@ export function parseDSL(input: string) {
       input = input.replace(leadingMark[0], '')
     }
 
-    const match = /(?<!\$)\{(\w+)\}/.exec(input)
-    if (match !== null) {
+    const matches = [...input.matchAll(/(?<!\$)\{(\w+)\}/g)]
+    if (matches.length > 0) {
+      const match = matches[matches.length - 1]
+      const before = input.slice(0, match.index)
+      const after = input.slice(match.index + match[0].length)
+
       template = match[1]
-      input = input.replace(match[0], `.${template}`)
+      input = `${before}.${template}${after}`
 
       cursorLine = i
-      cursorCharacter = match.index + template.length + 1
+      cursorCharacter = before.length + template.length + 1
     }
 
     input && inputLines.push(input)
